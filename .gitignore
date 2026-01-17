@@ -3,7 +3,9 @@ node_modules/
 .pnp
 .pnp.js
 
-# Build output
+# Next.js build output
+.next/
+out/
 dist/
 build/
 
@@ -35,9 +37,20 @@ coverage/
 # Misc
 *.local
 
-# Legacy project folders (superseded by unified src/)
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Legacy project folders
 HOME PAGE/
 BOOK A PHOTOSHOOT/
 TOUR/
 RENT THE SPACE/
 EQUIPMENT AND AMENITIES/
+about-us/
+book-a-photoshoot/
+contact/
+gallery/
+policies/
+policies (1)/
+rates/
