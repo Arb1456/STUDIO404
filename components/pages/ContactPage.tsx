@@ -46,7 +46,6 @@ const INQUIRY_TEMPLATES: InquiryTemplate[] = [
 
 const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
     const [subject, setSubject] = useState('');
-    const [isVoiceAgentOpen, setIsVoiceAgentOpen] = useState(false);
     const [formState, setFormState] = useState({
         name: '',
         email: '',
@@ -87,7 +86,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
             </section>
 
             {/* Voice Agent CTA Block */}
-            <VoiceAgentBlock onStart={() => setIsVoiceAgentOpen(true)} />
+            <VoiceAgentBlock />
 
             {/* S2: Inquiry Templates */}
             <section className="mb-24 sm:mb-32">
@@ -232,20 +231,6 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
                     </p>
                 </Reveal>
             </section>
-
-            {/* Voice Agent Modal Placeholder - Would need @google/genai dependency */}
-            {isVoiceAgentOpen && (
-                <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-charcoal/90 backdrop-blur-md" onClick={() => setIsVoiceAgentOpen(false)} />
-                    <div className="relative bg-charcoal border border-white/10 rounded-2xl p-12 text-center text-cream">
-                        <h3 className="font-serif text-2xl mb-4">Voice Agent</h3>
-                        <p className="text-cream/60 mb-6">Voice agent integration coming soon.</p>
-                        <Button onClick={() => setIsVoiceAgentOpen(false)} variant="outline" className="border-cream text-cream">
-                            Close
-                        </Button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
