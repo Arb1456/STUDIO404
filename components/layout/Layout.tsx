@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Navigation from './Navigation';
+import VoiceWidget from './VoiceWidget';
 import BookingSheet from '@/components/booking/BookingSheet';
 import { BookingType } from '@/types';
 
@@ -36,6 +37,9 @@ const Layout: React.FC<LayoutProps> = ({
                 onClose={onCloseBooking}
                 type={bookingType}
             />
+
+            {/* Global ElevenLabs Voice Widget - Top Right */}
+            <VoiceWidget />
         </div>
     );
 };
