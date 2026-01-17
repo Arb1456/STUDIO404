@@ -15,83 +15,20 @@ interface SessionType {
     photoCount: number;
 }
 
-// Mock Data
+// Mock Data - 10 Session Types
 const SESSIONS: SessionType[] = [
-    {
-        id: 'portrait',
-        title: 'Portrait',
-        price: 225,
-        description: 'Capture your essence with professional lighting and direction.',
-        image: 'https://picsum.photos/seed/portrait/800/800',
-        duration: '1-2+ Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'family',
-        title: 'Family',
-        price: 250,
-        description: 'Timeless memories for the whole family in our spacious studio.',
-        image: 'https://picsum.photos/seed/family/800/800',
-        duration: '1.5-3 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'couple',
-        title: 'Couple',
-        price: 250,
-        description: 'Intimate and creative sessions for you and your partner.',
-        image: 'https://picsum.photos/seed/couple/800/800',
-        duration: '1.5-3 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'birthday',
-        title: 'Birthday',
-        price: 275,
-        description: 'Celebrate another year with a fun, styled photoshoot.',
-        image: 'https://picsum.photos/seed/birthday/800/800',
-        duration: '1-2.5 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'headshots',
-        title: 'Headshots',
-        price: 150,
-        description: 'Professional branding and corporate headshots.',
-        image: 'https://picsum.photos/seed/headshots/800/800',
-        duration: '1-2.5 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'maternity',
-        title: 'Maternity',
-        price: 250,
-        description: 'Documenting the beauty of motherhood.',
-        image: 'https://picsum.photos/seed/maternity/800/800',
-        duration: '1.5-3.5 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'group',
-        title: 'Group',
-        price: 325,
-        description: 'Large group sessions for bands, teams, or friends.',
-        image: 'https://picsum.photos/seed/group/800/800',
-        duration: '1.5-3.5 Hours',
-        photoCount: 8,
-    },
-    {
-        id: 'newborn',
-        title: 'Newborn',
-        price: 250,
-        description: 'Safe, warm, and gentle sessions for the newest additions.',
-        image: 'https://picsum.photos/seed/newborn/800/800',
-        duration: '1.5-3.5 Hours',
-        photoCount: 8,
-    },
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: 'https://picsum.photos/seed/portrait/800/800', duration: '1-2+ Hours', photoCount: 8 },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: 'https://picsum.photos/seed/family/800/800', duration: '1.5-3 Hours', photoCount: 8 },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: 'https://picsum.photos/seed/couple/800/800', duration: '1.5-3 Hours', photoCount: 8 },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: 'https://picsum.photos/seed/birthday/800/800', duration: '1-2.5 Hours', photoCount: 8 },
+    { id: 'headshots', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: 'https://picsum.photos/seed/headshots/800/800', duration: '1-2.5 Hours', photoCount: 8 },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: 'https://picsum.photos/seed/maternity/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: 'https://picsum.photos/seed/group/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: 'https://picsum.photos/seed/newborn/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: 'https://picsum.photos/seed/boudoir/800/800', duration: '1.5-3+ Hours', photoCount: 8 },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: 'https://picsum.photos/seed/product/800/800', duration: '1.5-2.5 Hours', photoCount: 8 },
 ];
 
-// Extended catalog images for horizontal scroll
 const CATALOG_IMAGES = [
     'https://picsum.photos/seed/art1/600/800',
     'https://picsum.photos/seed/art2/600/800',
@@ -102,33 +39,14 @@ const CATALOG_IMAGES = [
 ];
 
 const PROCESS_STEPS = [
-    {
-        title: "Booking & Planning",
-        description: "Book your session online. We'll help you create a mood board and select the perfect outfits."
-    },
-    {
-        title: "The Session",
-        description: "Arrive at the studio for your shoot. Enjoy guided posing and professional lighting direction."
-    },
-    {
-        title: "Selection",
-        description: "Receive a digital proofing album to review all shots and make your final selections."
-    },
-    {
-        title: "Retouching",
-        description: "Your selected photos are meticulously edited, retouched, and reviewed for quality."
-    },
-    {
-        title: "Delivery",
-        description: "Receive your final, polished images via a private digital album, ready to download."
-    }
+    { title: "Booking & Planning", description: "Book your session online. We'll help you create a mood board and select the perfect outfits." },
+    { title: "The Session", description: "Arrive at the studio for your shoot. Enjoy guided posing and professional lighting direction." },
+    { title: "Selection", description: "Receive a digital proofing album to review all shots and make your final selections." },
+    { title: "Retouching", description: "Your selected photos are meticulously edited, retouched, and reviewed for quality." },
+    { title: "Delivery", description: "Receive your final, polished images via a private digital album, ready to download." }
 ];
 
-interface PhotoshootPageProps {
-    onBook: (type?: BookingType) => void;
-}
-
-// Helper component for the scroll-focus effect
+// Scroll-focus helper
 const FocusGridItem: React.FC<{ children: React.ReactNode; className?: string; onClick?: () => void }> = ({ children, className, onClick }) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(false);
@@ -158,6 +76,10 @@ const FocusGridItem: React.FC<{ children: React.ReactNode; className?: string; o
         </motion.div>
     );
 };
+
+interface PhotoshootPageProps {
+    onBook: (type?: BookingType) => void;
+}
 
 const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
     const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
@@ -215,7 +137,7 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                 </div>
             </section>
 
-            {/* Main Content Area - Swaps between Grid and Detail */}
+            {/* Main Content Area */}
             <div className="px-4 md:px-8 max-w-[1920px] mx-auto min-h-[80vh]">
                 <AnimatePresence mode="wait">
                     {!selectedSession ? (
@@ -269,27 +191,19 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                                     {PROCESS_STEPS.map((step, i) => (
                                         <Reveal key={i} delay={0.2 + (i * 0.1)} className="h-full" width="100%">
                                             <div className="flex flex-col items-center text-center relative h-full group">
-
-                                                {/* Number Circle */}
                                                 <div className="w-12 h-12 rounded-full bg-charcoal text-cream flex items-center justify-center font-serif text-xl italic mb-6 shadow-lg ring-4 ring-cream z-10">
                                                     {i + 1}
                                                 </div>
-
-                                                {/* Arrows connecting steps */}
                                                 {i < PROCESS_STEPS.length - 1 && (
                                                     <>
-                                                        {/* Desktop Arrow: Points Right */}
                                                         <div className="hidden md:flex absolute top-4 -right-1/2 w-full justify-center items-center z-0 text-charcoal/20">
                                                             <ArrowRight size={24} strokeWidth={1} />
                                                         </div>
-
-                                                        {/* Mobile Arrow: Points Down */}
                                                         <div className="md:hidden absolute -bottom-10 left-1/2 -translate-x-1/2 text-charcoal/20">
                                                             <ArrowDown size={24} strokeWidth={1} />
                                                         </div>
                                                     </>
                                                 )}
-
                                                 <h3 className="uppercase tracking-widest font-bold text-xs mb-3 text-charcoal min-h-[20px]">{step.title}</h3>
                                                 <p className="text-sm text-charcoal/70 leading-relaxed max-w-[200px]">{step.description}</p>
                                             </div>
@@ -408,7 +322,7 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                                                     <p className="font-serif text-3xl">${selectedSession.price}<span className="text-sm font-sans font-normal text-charcoal/50">+</span></p>
                                                 </div>
                                             </div>
-                                            <Button fullWidth onClick={() => onBook('photoshoot')}>
+                                            <Button className="w-full" onClick={() => onBook('photoshoot')}>
                                                 Book {selectedSession.title} Session
                                             </Button>
                                             <p className="text-xs text-center mt-3 text-charcoal/50">
@@ -417,7 +331,7 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                                         </div>
                                     </Reveal>
 
-                                    {/* Embedded GHL Calendar Placeholder */}
+                                    {/* GHL Calendar Placeholder */}
                                     <Reveal delay={0.4}>
                                         <div className="border border-dashed border-charcoal/30 p-8 rounded-lg bg-charcoal/5 text-center">
                                             <p className="font-serif italic text-xl mb-2">Live Availability</p>

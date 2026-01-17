@@ -8,6 +8,10 @@ import PhotoshootPage from '@/pages/PhotoshootPage';
 import RentalPage from '@/pages/RentalPage';
 import EquipmentPage from '@/pages/EquipmentPage';
 import PoliciesPage from '@/pages/PoliciesPage';
+import AboutPage from '@/pages/AboutPage';
+import GalleryPage from '@/pages/GalleryPage';
+import RatesPage from '@/pages/RatesPage';
+import ContactPage from '@/pages/ContactPage';
 import { BookingType } from '@/types';
 
 const App: React.FC = () => {
@@ -38,6 +42,10 @@ const App: React.FC = () => {
                     <Route path="/rental" element={<RentalPage onBook={handleBook} />} />
                     <Route path="/equipment" element={<EquipmentPage onBook={handleBook} />} />
                     <Route path="/policies" element={<PoliciesPage onBook={handleBook} />} />
+                    <Route path="/about" element={<AboutPage onBook={handleBook} />} />
+                    <Route path="/gallery" element={<GalleryPage onBook={handleBook} />} />
+                    <Route path="/rates" element={<RatesPage onBook={handleBook} />} />
+                    <Route path="/contact" element={<ContactPage onBook={handleBook} />} />
                 </Routes>
             </Layout>
 

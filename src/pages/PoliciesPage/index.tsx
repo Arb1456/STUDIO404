@@ -28,7 +28,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                         </Reveal>
                     </div>
                     <div className="lg:col-span-4 flex flex-col gap-4 items-start lg:items-end">
-                        {/* Optional buttons can go here */}
+                        {/* Buttons removed as requested */}
                     </div>
                 </div>
             </section>
@@ -106,6 +106,18 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <strong>Right of Entry:</strong> Staff may enter the space without notice unless a "Closed Set" protocol has been explicitly agreed upon in writing prior to the booking start time.
                                 </p>
                             </AccordionItem>
+
+                            <AccordionItem
+                                number="06"
+                                title="Liability & Documentation"
+                                warning="Policy: 100% Renter Responsibility"
+                            >
+                                <p>
+                                    The individual named on the booking confirmation serves as the primary point of contact and assumes <strong>full financial liability</strong> for all damages, theft, or excessive mess caused by any member of their party.
+                                    <br /><br />
+                                    <strong>Evidence Protocol:</strong> To ensure transparency, the studio is photographed immediately before your arrival and after your departure. These timestamped images, alongside security camera footage, constitute the definitive record used to determine liability for any condition disputes.
+                                </p>
+                            </AccordionItem>
                         </div>
                     </Reveal>
                 </div>
@@ -164,7 +176,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 </div>
                                 <div className="mt-8 pt-4 border-t border-charcoal/10">
                                     <p className="text-xs opacity-60 font-mono mb-2">Need a Grip or Gaffer?</p>
-                                    <a href="#contact" className="text-xs font-bold uppercase tracking-wider border-b border-charcoal pb-1 hover:opacity-50 transition-opacity">
+                                    <a href="/contact" className="text-xs font-bold uppercase tracking-wider border-b border-charcoal pb-1 hover:opacity-50 transition-opacity">
                                         Inquire via Contact Form
                                     </a>
                                 </div>

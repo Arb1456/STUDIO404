@@ -2,14 +2,15 @@ import { MenuItem, FAQItem, FeatureItem } from '@/types';
 
 export const MENU_ITEMS: MenuItem[] = [
     { label: 'Home', href: '/' },
+    { label: 'About Us', href: '/about' },
     { label: 'Studio Rental', href: '/rental' },
     { label: 'Photoshoots', href: '/photoshoot' },
     { label: 'Studio Tour', href: '/tour' },
-    { label: 'Equipment + Amenities', href: '/equipment' },
-    { label: 'Gallery', href: '/#gallery' },
-    { label: 'Rates', href: '/#availability' },
-    { label: 'Policies + FAQ', href: '/policies' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Equipment', href: '/equipment' },
+    { label: 'Gallery', href: '/gallery' },
+    { label: 'Rates', href: '/rates' },
+    { label: 'Policies', href: '/policies' },
+    { label: 'Contact', href: '/contact' },
 ];
 
 export const FAQ_ITEMS: FAQItem[] = [
