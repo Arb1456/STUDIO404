@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
 import { FAQ_ITEMS } from '@/lib/constants';
@@ -56,11 +57,12 @@ const FAQ: React.FC = () => {
 
                 <Reveal delay={0.5}>
                     <div className="mt-8 flex justify-center text-center">
-                        <button
+                        <Link
+                            href="/policies"
                             className="px-6 py-3 border border-charcoal/30 text-charcoal font-sans text-xs uppercase tracking-widest hover:bg-charcoal hover:text-cream transition-all duration-300"
                         >
                             View all FAQs
-                        </button>
+                        </Link>
                     </div>
                 </Reveal>
             </div>
