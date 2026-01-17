@@ -1,6 +1,6 @@
 import React from 'react';
 import { Reveal } from '@/components/ui/Reveal';
-import { ArrowRight, Mail, MapPin, Instagram, ChevronDown } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Instagram, ChevronDown, Phone } from 'lucide-react';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 const ContactInfoContent = () => (
@@ -28,6 +28,15 @@ const ContactInfoContent = () => (
                         <Mail size={16} />
                     </div>
                     <span className="font-sans text-xs tracking-widest uppercase opacity-80 group-hover:opacity-100 transition-opacity">Andre@thestudio404.ca</span>
+                </a>
+            </Reveal>
+
+            <Reveal delay={0.25}>
+                <a href="tel:2504073530" className="flex items-center gap-4 group w-fit">
+                    <div className="p-2.5 rounded-full border border-charcoal/20 group-hover:bg-charcoal group-hover:text-cream transition-colors">
+                        <Phone size={16} />
+                    </div>
+                    <span className="font-sans text-xs tracking-widest uppercase opacity-80 group-hover:opacity-100 transition-opacity">250-407-3530</span>
                 </a>
             </Reveal>
 
