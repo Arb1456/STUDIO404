@@ -4,11 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 
-const CLOUD_NAME = 'du5ixrlhz';
-
 // Cloudinary optimized URLs
-const heroDesktop = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto/studio404/home/hero-desktop.jpg`;
-const heroMobile = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto/studio404/home/hero-mobile.jpg`;
+const heroDesktop = 'https://res.cloudinary.com/du5ixrlhz/image/upload/v1768672405/V1_vayy91.jpg';
+const heroMobile = 'https://res.cloudinary.com/du5ixrlhz/image/upload/v1768672533/V1-2_m8ltsl.jpg';
 
 const Hero: React.FC = () => {
     return (

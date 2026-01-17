@@ -95,16 +95,14 @@ export const VoiceAgentBlock: React.FC = () => {
                                 <h3 className="font-serif text-2xl md:text-3xl text-cream mb-2">
                                     Studio 404 Booking Agent
                                 </h3>
-                                <p className="text-cream/60 text-sm">
+                                <p className="text-cream/60 text-sm mb-6">
                                     Speak naturally to check availability and book your session.
+                                </p>
+                                <p className="text-cream text-base font-medium">
+                                    Click the start a call button on the widget on the right of the screen.
                                 </p>
                             </div>
 
-                            {/* ElevenLabs Widget Container */}
-                            <div className="flex justify-center items-center min-h-[200px]">
-                                {/* @ts-expect-error - ElevenLabs custom element loaded at runtime */}
-                                <elevenlabs-convai agent-id="agent_5801kf1z46zkfp9rcgrp96kpyeja"></elevenlabs-convai>
-                            </div>
 
                             {/* Footer */}
                             <div className="mt-8 pt-6 border-t border-white/10 text-center">
