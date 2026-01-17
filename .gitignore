@@ -41,16 +41,16 @@ coverage/
 *.tsbuildinfo
 next-env.d.ts
 
-# Legacy project folders
-HOME PAGE/
-BOOK A PHOTOSHOOT/
-TOUR/
-RENT THE SPACE/
-EQUIPMENT AND AMENITIES/
-about-us/
-book-a-photoshoot/
-contact/
-gallery/
-policies/
-policies (1)/
-rates/
+# Legacy project folders (root level only)
+/HOME PAGE/
+/BOOK A PHOTOSHOOT/
+/TOUR/
+/RENT THE SPACE/
+/EQUIPMENT AND AMENITIES/
+/about-us/
+/book-a-photoshoot/
+/contact/
+/gallery/
+/policies/
+/policies (1)/
+/rates/
