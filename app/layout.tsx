@@ -37,6 +37,7 @@ export default function RootLayout({
                 <Script
                     src="https://elevenlabs.io/convai-widget/index.js"
                     strategy="afterInteractive"
+                    key="elevenlabs-widget"
                 />
             </head>
             <body className="bg-cream text-charcoal font-sans antialiased">
