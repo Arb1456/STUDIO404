@@ -16,7 +16,7 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = () => {
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-cream">
+        <div className="relative w-full h-screen overflow-hidden">
             {/* Main Scroll Container */}
             <main className="w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar relative z-10">
                 <SectionWrapper id="home">

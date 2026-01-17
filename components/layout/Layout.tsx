@@ -3,6 +3,7 @@
 import React from 'react';
 import Navigation from './Navigation';
 import VoiceWidget from './VoiceWidget';
+import ParallaxBackground from './ParallaxBackground';
 import BookingHub from '@/components/booking/BookingHub';
 
 interface LayoutProps {
@@ -19,9 +20,12 @@ const Layout: React.FC<LayoutProps> = ({
     onCloseBooking,
 }) => {
     return (
-        <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-charcoal selection:text-cream">
-            {/* Main Content */}
-            <main>
+        <div className="min-h-screen text-charcoal font-sans selection:bg-charcoal selection:text-cream">
+            {/* Anti-Gravity Stone Texture Background */}
+            <ParallaxBackground speed={0.3} />
+
+            {/* Main Content - floats above texture */}
+            <main className="floating-content">
                 {children}
             </main>
 
