@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
-import CalendarModal from '@/components/ui/CalendarModal';
-import { BookingType } from '@/types';
+import Link from 'next/link';
 import {
     Box,
     Lightbulb,
@@ -18,30 +17,12 @@ import {
     Shirt
 } from 'lucide-react';
 
-// GHL Calendar URLs
-const CALENDAR_URLS = {
-    oneHour: 'https://links.neovate.ca/widget/booking/3abPFtm86r4XNJBQ7IDU',
-};
-
 interface RentalPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: () => void;
 }
 
 const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
     const [activeReview, setActiveReview] = useState(0);
-    const [calendarModal, setCalendarModal] = useState<{ isOpen: boolean; url: string; title: string }>({
-        isOpen: false,
-        url: '',
-        title: ''
-    });
-
-    const openCalendarModal = (url: string, title: string) => {
-        setCalendarModal({ isOpen: true, url, title });
-    };
-
-    const closeCalendarModal = () => {
-        setCalendarModal({ isOpen: false, url: '', title: '' });
-    };
 
     const durationOptions = [
         { hours: 1, price: 70 },
@@ -111,7 +92,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                     <Reveal delay={0.4}>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button onClick={() => onBook('rental')}>
+                            <Button onClick={onBook}>
                                 Book Studio
                             </Button>
                         </div>
@@ -133,13 +114,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                 {durationOptions.map((opt) => (
                                     <button
                                         key={opt.hours}
-                                        onClick={() => {
-                                            if (opt.hours === 1) {
-                                                openCalendarModal(CALENDAR_URLS.oneHour, '1 Hour Studio Rental');
-                                            } else {
-                                                onBook('rental');
-                                            }
-                                        }}
+                                        onClick={onBook}
                                         className="group flex flex-col items-center gap-3"
                                     >
                                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-charcoal/20 bg-cream group-hover:bg-charcoal group-hover:border-charcoal transition-all duration-300 flex flex-col items-center justify-center shadow-sm">
@@ -161,10 +136,10 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-charcoal/10">
                         {[
-                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates.", calendarUrl: CALENDAR_URLS.oneHour },
-                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions.", calendarUrl: null },
-                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots.", calendarUrl: null },
-                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions.", calendarUrl: null },
+                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates." },
+                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions." },
+                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots." },
+                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions." },
                         ].map((card, i) => (
                             <Reveal key={i} delay={0.1 * i} className="h-full">
                                 <div className="flex flex-col justify-between h-full p-8 border border-charcoal/10 bg-cream hover:bg-white hover:border-charcoal/30 transition-all duration-300 group">
@@ -176,13 +151,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                     <Button
                                         variant="outline"
                                         className="w-full text-xs py-3"
-                                        onClick={() => {
-                                            if (card.calendarUrl) {
-                                                openCalendarModal(card.calendarUrl, `${card.title} Studio Rental`);
-                                            } else {
-                                                onBook('rental');
-                                            }
-                                        }}
+                                        onClick={onBook}
                                     >
                                         Book This Option
                                     </Button>
@@ -301,9 +270,11 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                         </ul>
                     </Reveal>
                     <Reveal delay={0.2}>
-                        <Button variant="text" onClick={() => alert("Policies modal placeholder")}>
-                            View Full Policies <ArrowRight size={16} className="ml-2" />
-                        </Button>
+                        <Link href="/policies">
+                            <Button variant="text">
+                                View Full Policies <ArrowRight size={16} className="ml-2" />
+                            </Button>
+                        </Link>
                     </Reveal>
                 </div>
             </section>
@@ -352,19 +323,17 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     <div className="max-w-5xl mx-auto">
                         <div className="mb-10 text-center">
                             <h2 className="font-serif text-4xl mb-4">Ready to Book?</h2>
-                            <p className="text-charcoal/60">Live availability shown below.</p>
+                            <p className="text-charcoal/60">Click below to see live availability and book your session.</p>
                         </div>
 
-                        {/* Iframe Placeholder */}
-                        <div className="w-full h-[600px] md:h-[800px] bg-cream border border-charcoal/10 rounded-lg flex flex-col items-center justify-center relative overflow-hidden group">
-                            <CalendarIcon size={64} className="text-charcoal/10 mb-6" />
-                            <p className="font-serif text-2xl text-charcoal/30 italic">GoHighLevel Booking Widget</p>
-                            <p className="text-xs text-charcoal/20 uppercase tracking-widest mt-2">Iframe Area</p>
-
-                            {/* Hover Effect */}
-                            <div className="absolute inset-0 bg-charcoal/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <Button onClick={() => onBook('rental')}>Open Booking Modal</Button>
-                            </div>
+                        {/* CTA Card */}
+                        <div
+                            onClick={onBook}
+                            className="w-full h-[300px] bg-cream border border-charcoal/10 rounded-lg flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-charcoal/30 transition-all"
+                        >
+                            <CalendarIcon size={64} className="text-charcoal/20 mb-6 group-hover:text-charcoal/40 transition-colors" />
+                            <p className="font-serif text-2xl text-charcoal/60 group-hover:text-charcoal transition-colors">View Calendar & Book</p>
+                            <p className="text-xs text-charcoal/40 uppercase tracking-widest mt-2">Click to open booking</p>
                         </div>
                     </div>
                 </Reveal>
@@ -375,7 +344,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                 <Reveal>
                     <h2 className="font-serif text-4xl md:text-6xl mb-8">Still exploring?</h2>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={() => onBook('rental')}>
+                        <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={onBook}>
                             Book Studio
                         </Button>
                         <Button
@@ -388,14 +357,6 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     </div>
                 </Reveal>
             </section>
-
-            {/* Calendar Modal */}
-            <CalendarModal
-                isOpen={calendarModal.isOpen}
-                onClose={closeCalendarModal}
-                calendarUrl={calendarModal.url}
-                title={calendarModal.title}
-            />
         </div>
     );
 };

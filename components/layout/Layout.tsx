@@ -3,15 +3,13 @@
 import React from 'react';
 import Navigation from './Navigation';
 import VoiceWidget from './VoiceWidget';
-import BookingSheet from '@/components/booking/BookingSheet';
-import { BookingType } from '@/types';
+import BookingHub from '@/components/booking/BookingHub';
 
 interface LayoutProps {
     children: React.ReactNode;
-    onBook: (type?: BookingType) => void;
+    onBook: () => void;
     isBookingOpen: boolean;
     onCloseBooking: () => void;
-    bookingType: BookingType;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -19,7 +17,6 @@ const Layout: React.FC<LayoutProps> = ({
     onBook,
     isBookingOpen,
     onCloseBooking,
-    bookingType
 }) => {
     return (
         <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-charcoal selection:text-cream">
@@ -29,13 +26,12 @@ const Layout: React.FC<LayoutProps> = ({
             </main>
 
             {/* Persistent Navigation */}
-            <Navigation onBook={() => onBook('rental')} />
+            <Navigation onBook={onBook} />
 
-            {/* Booking Sheet Modal */}
-            <BookingSheet
+            {/* Booking Hub Modal */}
+            <BookingHub
                 isOpen={isBookingOpen}
                 onClose={onCloseBooking}
-                type={bookingType}
             />
 
             {/* Global ElevenLabs Voice Widget */}

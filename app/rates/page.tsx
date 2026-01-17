@@ -3,14 +3,11 @@
 import { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import RatesPage from '@/components/pages/RatesPage';
-import { BookingType } from '@/types';
 
 export default function Rates() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingType, setBookingType] = useState<BookingType>(null);
 
-    const handleBook = (type: BookingType = 'rental') => {
-        setBookingType(type);
+    const handleBook = () => {
         setIsBookingOpen(true);
     };
 
@@ -23,7 +20,6 @@ export default function Rates() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
-            bookingType={bookingType}
         >
             <RatesPage onBook={handleBook} />
         </Layout>
