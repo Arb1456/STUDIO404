@@ -28,7 +28,7 @@ export const Reveal: React.FC<RevealProps> = ({
                 }}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
-                transition={{ duration: 1.4, delay: delay, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, delay: delay, ease: [0.22, 1, 0.36, 1] }}
             >
                 {children}
             </motion.div>
