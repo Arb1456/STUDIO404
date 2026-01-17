@@ -23,7 +23,7 @@ const SnapSection: React.FC<{ children: React.ReactNode; className?: string; id?
                 className={`h-full w-full flex flex-col justify-center ${className}`}
                 initial={{ scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }}
                 animate={isInView ? { scale: 1, opacity: 1, filter: "brightness(1)" } : { scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }}
-                transition={{ duration: 1.6, ease: "easeOut" }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
             >
                 {children}
             </motion.div>

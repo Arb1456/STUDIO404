@@ -18,6 +18,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Smoother scroll snap - more gradual snapping */
+.snap-y {
+  scroll-snap-type: y proximity;
+}
+
 /* Selection styling */
 ::selection {
   background-color: #262626;
