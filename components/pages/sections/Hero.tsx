@@ -1,18 +1,45 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
+
+const CLOUD_NAME = 'du5ixrlhz';
+
+// Cloudinary optimized URLs
+const heroDesktop = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto/studio404/home/hero-desktop.jpg`;
+const heroMobile = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto/studio404/home/hero-mobile.jpg`;
 
 const Hero: React.FC = () => {
     return (
         <section className="relative h-screen w-full snap-start overflow-hidden bg-cream text-charcoal flex flex-col justify-end pb-32 md:pb-24">
-            {/* Video Background Simulation */}
+            {/* Hero Background Images - Responsive */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="https://images.unsplash.com/photo-1590845947698-8924d7409b56?q=80&w=2787&auto=format&fit=crop"
-                    alt="Studio Background"
-                    className="w-full h-full object-cover opacity-40"
-                />
+                {/* Mobile Image (hidden on md+) */}
+                <div className="block md:hidden absolute inset-0">
+                    <Image
+                        src={heroMobile}
+                        alt="Studio 404 - Mobile"
+                        fill
+                        priority
+                        className="object-cover opacity-40"
+                        sizes="100vw"
+                    />
+                </div>
+
+                {/* Desktop Image (hidden below md) */}
+                <div className="hidden md:block absolute inset-0">
+                    <Image
+                        src={heroDesktop}
+                        alt="Studio 404 - Desktop"
+                        fill
+                        priority
+                        className="object-cover opacity-40"
+                        sizes="100vw"
+                    />
+                </div>
+
+                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-cream via-cream/20 to-transparent" />
             </div>
 
