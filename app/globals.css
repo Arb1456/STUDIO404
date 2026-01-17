@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar - hide completely */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom selection color */
+::selection {
+    background-color: #262626;
+    color: #F2EFE9;
+}
+
+/* Snap scroll container */
+.snap-y {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+.snap-start {
+    scroll-snap-align: start;
+}

@@ -1,0 +1,51 @@
+{
+  "app": {
+    "[project]/app/_not-found/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/about/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/contact/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/equipment/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/gallery/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/photoshoot/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/policies/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/rates/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/rental/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ],
+    "[project]/app/tour/page": [
+      "static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2",
+      "static/media/2a65768255d6b625-s.p.d19752fb.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

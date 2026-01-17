@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
-        "./index.html",
-        "./src/**/*.{js,ts,jsx,tsx}",
+        "./app/**/*.{js,ts,jsx,tsx,mdx}",
+        "./components/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
         extend: {
@@ -12,8 +12,8 @@ export default {
                 'charcoal-light': '#333333',
             },
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                serif: ['Playfair Display', 'serif'],
+                sans: ['var(--font-outfit)', 'Inter', 'sans-serif'],
+                serif: ['var(--font-playfair)', 'Playfair Display', 'serif'],
             },
             height: {
                 screen: '100dvh',
