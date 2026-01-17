@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Outfit, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import Script from 'next/script';
 
 const outfit = Outfit({
     subsets: ['latin'],
@@ -34,11 +33,6 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
             <head>
-                <Script
-                    src="https://elevenlabs.io/convai-widget/index.js"
-                    strategy="afterInteractive"
-                    key="elevenlabs-widget"
-                />
             </head>
             <body className="bg-cream text-charcoal font-sans antialiased">
                 {children}
