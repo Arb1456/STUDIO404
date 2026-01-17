@@ -7,6 +7,7 @@ import TourPage from '@/pages/TourPage';
 import PhotoshootPage from '@/pages/PhotoshootPage';
 import RentalPage from '@/pages/RentalPage';
 import EquipmentPage from '@/pages/EquipmentPage';
+import PoliciesPage from '@/pages/PoliciesPage';
 import { BookingType } from '@/types';
 
 const App: React.FC = () => {
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                     <Route path="/photoshoot" element={<PhotoshootPage onBook={handleBook} />} />
                     <Route path="/rental" element={<RentalPage onBook={handleBook} />} />
                     <Route path="/equipment" element={<EquipmentPage onBook={handleBook} />} />
+                    <Route path="/policies" element={<PoliciesPage onBook={handleBook} />} />
                 </Routes>
             </Layout>
 

@@ -8,7 +8,7 @@ export const MENU_ITEMS: MenuItem[] = [
     { label: 'Equipment + Amenities', href: '/equipment' },
     { label: 'Gallery', href: '/#gallery' },
     { label: 'Rates', href: '/#availability' },
-    { label: 'Policies + FAQ', href: '/#faq' },
+    { label: 'Policies + FAQ', href: '/policies' },
     { label: 'Contact', href: '/#contact' },
 ];
 
