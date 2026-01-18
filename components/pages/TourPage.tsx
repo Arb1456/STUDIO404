@@ -279,13 +279,13 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <p className="text-xs uppercase tracking-[0.3em] mb-4 text-charcoal/60 text-center">This Season</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-4xl md:text-5xl mb-10 text-center text-charcoal">Winter Collection</h3>
+                            <h3 className="font-serif text-2xl md:text-5xl mb-4 md:mb-10 text-center text-charcoal">Winter Collection</h3>
                         </Reveal>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-3 gap-2 md:gap-4">
                             {[51, 52, 53, 54, 55, 56].map((id, index) => (
                                 <motion.div
                                     key={id}
-                                    className="aspect-[4/3] bg-gray-100 overflow-hidden relative group"
+                                    className="aspect-square md:aspect-[4/3] bg-gray-100 overflow-hidden relative group"
                                     initial={{ opacity: 0, filter: "blur(10px)" }}
                                     whileInView={{ opacity: 1, filter: "blur(0px)" }}
                                     viewport={{ once: true, margin: "-50px" }}
@@ -322,10 +322,10 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </div>
                 </TourSlide>
 
-                {/* Slide 2: Full Grid */}
+                {/* Slide 2: Full Grid - smaller on mobile */}
                 <TourSlide theme="light" className="bg-cream">
-                    <div className="w-full h-full grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 content-center max-w-7xl mx-auto px-6">
-                        {[71, 72, 73, 74, 75, 76, 77, 78].map((id, index) => (
+                    <div className="w-full grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 content-center max-w-5xl mx-auto px-4 md:px-6">
+                        {[71, 72, 73, 74, 75, 76].slice(0, 6).map((id, index) => (
                             <motion.div
                                 key={id}
                                 className="aspect-square bg-gray-100 overflow-hidden relative group"

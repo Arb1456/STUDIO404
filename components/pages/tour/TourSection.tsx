@@ -27,7 +27,7 @@ export const TourSection: React.FC<TourSectionProps> = ({
                 className="snap-start snap-always h-screen-safe w-full relative overflow-hidden bg-black"
             >
                 <motion.div
-                    className={`h-full w-full flex flex-col justify-center pb-24 md:pb-20 px-4 md:px-6 ${className}`}
+                    className={`h-full w-full flex flex-col justify-center pt-12 pb-[120px] md:pt-16 md:pb-20 px-4 md:px-6 ${className}`}
                     initial={{ scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }}
                     animate={isInView
                         ? { scale: 1, opacity: 1, filter: "brightness(1)" }
