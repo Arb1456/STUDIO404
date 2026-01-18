@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 interface RentalPageProps {
-    onBook: () => void;
+    onBook: (duration?: number) => void;
 }
 
 const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
@@ -92,7 +92,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                     <Reveal delay={0.4}>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button onClick={onBook}>
+                            <Button onClick={() => onBook()}>
                                 Book Studio
                             </Button>
                         </div>
@@ -114,7 +114,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                 {durationOptions.map((opt) => (
                                     <button
                                         key={opt.hours}
-                                        onClick={onBook}
+                                        onClick={() => onBook(opt.hours)}
                                         className="group flex flex-col items-center gap-3"
                                     >
                                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-charcoal/20 bg-cream group-hover:bg-charcoal group-hover:border-charcoal transition-all duration-300 flex flex-col items-center justify-center shadow-sm">
@@ -136,10 +136,10 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-charcoal/10">
                         {[
-                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates." },
-                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions." },
-                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots." },
-                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions." },
+                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates.", hours: 1 },
+                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions.", hours: 2 },
+                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots.", hours: 4 },
+                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions.", hours: 8 },
                         ].map((card, i) => (
                             <Reveal key={i} delay={0.1 * i} className="h-full">
                                 <div className="flex flex-col justify-between h-full p-8 border border-charcoal/10 bg-cream hover:bg-white hover:border-charcoal/30 transition-all duration-300 group">
@@ -151,7 +151,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                     <Button
                                         variant="outline"
                                         className="w-full text-xs py-3"
-                                        onClick={onBook}
+                                        onClick={() => onBook(card.hours)}
                                     >
                                         Book This Option
                                     </Button>
@@ -234,8 +234,15 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             </button>
                         </div>
 
-                        <div className="mt-8 flex items-center justify-center gap-2 text-xs text-white/30 uppercase tracking-widest">
-                            <span>Verified Google Reviews</span>
+                        <div className="mt-8 flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
+                            <a
+                                href="https://g.page/r/CVxRplCBj3hvEBM/review"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/50 hover:text-white transition-colors border-b border-white/30 hover:border-white pb-0.5"
+                            >
+                                Verified Google Reviews →
+                            </a>
                         </div>
                     </Reveal>
                 </div>
@@ -328,7 +335,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                         {/* CTA Card */}
                         <div
-                            onClick={onBook}
+                            onClick={() => onBook()}
                             className="w-full h-[300px] bg-cream border border-charcoal/10 rounded-lg flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-charcoal/30 transition-all"
                         >
                             <CalendarIcon size={64} className="text-charcoal/20 mb-6 group-hover:text-charcoal/40 transition-colors" />
@@ -344,7 +351,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                 <Reveal>
                     <h2 className="font-serif text-4xl md:text-6xl mb-8">Still exploring?</h2>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={onBook}>
+                        <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={() => onBook()}>
                             Book Studio
                         </Button>
                         <Button

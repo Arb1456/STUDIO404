@@ -3,14 +3,14 @@
 import React from 'react';
 import Navigation from './Navigation';
 import VoiceWidget from './VoiceWidget';
-import ParallaxBackground from './ParallaxBackground';
 import BookingHub from '@/components/booking/BookingHub';
 
 interface LayoutProps {
     children: React.ReactNode;
-    onBook: () => void;
+    onBook: (duration?: number) => void;
     isBookingOpen: boolean;
     onCloseBooking: () => void;
+    bookingDuration?: number;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -18,24 +18,23 @@ const Layout: React.FC<LayoutProps> = ({
     onBook,
     isBookingOpen,
     onCloseBooking,
+    bookingDuration,
 }) => {
     return (
-        <div className="min-h-screen text-charcoal font-sans selection:bg-charcoal selection:text-cream">
-            {/* Anti-Gravity Stone Texture Background */}
-            <ParallaxBackground speed={0.3} />
-
-            {/* Main Content - floats above texture */}
-            <main className="floating-content">
+        <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-charcoal selection:text-cream">
+            {/* Main Content */}
+            <main>
                 {children}
             </main>
 
             {/* Persistent Navigation */}
-            <Navigation onBook={onBook} />
+            <Navigation onBook={() => onBook()} />
 
             {/* Booking Hub Modal */}
             <BookingHub
                 isOpen={isBookingOpen}
                 onClose={onCloseBooking}
+                initialDuration={bookingDuration}
             />
 
             {/* Global ElevenLabs Voice Widget */}

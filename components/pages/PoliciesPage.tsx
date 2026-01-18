@@ -4,10 +4,9 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
 import { Volume2, Dog, HelpCircle, AlertTriangle } from 'lucide-react';
-import { BookingType } from '@/types';
 
 interface PoliciesPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
@@ -244,7 +243,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
             <section className="py-24 px-6 md:px-12 text-center bg-charcoal/5">
                 <Reveal>
                     <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-8">Ready to create?</h2>
-                    <Button onClick={() => onBook('rental')}>
+                    <Button onClick={() => onBook()}>
                         Lock In Your Date
                     </Button>
                 </Reveal>

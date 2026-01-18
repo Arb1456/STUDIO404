@@ -2,11 +2,10 @@
 import React from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
-import { BookingType } from '@/types';
 import { ArrowRight, Star, Heart, Zap } from 'lucide-react';
 
 interface AboutPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
@@ -225,7 +224,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                                 <Button
                                     variant="primary"
                                     className="bg-cream text-charcoal hover:bg-white border-transparent rounded-full px-12"
-                                    onClick={() => onBook('rental')}
+                                    onClick={() => onBook()}
                                 >
                                     Book the Studio
                                 </Button>

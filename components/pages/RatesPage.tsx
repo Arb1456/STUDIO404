@@ -5,10 +5,10 @@ import { Check, Calendar, Clock, Lock, Sparkles, Wifi, Car, Zap, Camera, Apertur
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
-import { BookingType } from '@/types';
+import Link from 'next/link';
 
 interface RatesPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
@@ -116,7 +116,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                                 <p className="text-sm text-charcoal/70 leading-relaxed mb-8 flex-grow">
                                     {tier.description}
                                 </p>
-                                <Button onClick={() => onBook('rental')} variant="primary" className="w-full">
+                                <Button onClick={() => onBook()} variant="primary" className="w-full">
                                     Book This Rate
                                 </Button>
                             </div>
@@ -145,12 +145,12 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                                             <span className="font-sans text-lg opacity-60">From ${pkg.price}</span>
                                         </div>
                                         <p className="text-sm text-charcoal/70 mb-4">{pkg.description}</p>
-                                        <button
-                                            onClick={() => onBook('photoshoot')}
+                                        <Link
+                                            href="/photoshoot"
                                             className="text-xs uppercase tracking-widest border-b border-transparent hover:border-charcoal transition-all pb-0.5"
                                         >
                                             Inquire Now
-                                        </button>
+                                        </Link>
                                     </div>
                                 </Reveal>
                             ))}

@@ -6,8 +6,10 @@ import RentalPage from '@/components/pages/RentalPage';
 
 export default function Rental() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [bookingDuration, setBookingDuration] = useState(2);
 
-    const handleBook = () => {
+    const handleBook = (duration?: number) => {
+        setBookingDuration(duration ?? 2);
         setIsBookingOpen(true);
     };
 
@@ -20,6 +22,7 @@ export default function Rental() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
+            bookingDuration={bookingDuration}
         >
             <RentalPage onBook={handleBook} />
         </Layout>

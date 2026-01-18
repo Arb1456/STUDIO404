@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { BookingType } from '@/types';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { Accordion } from '@/components/ui/Accordion';
@@ -8,7 +7,7 @@ import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface EquipmentPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
@@ -230,7 +229,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                         </p>
                     </Reveal>
                     <Reveal delay={0.4}>
-                        <Button onClick={() => onBook('rental')}>Book Your Time</Button>
+                        <Button onClick={() => onBook()}>Book Your Time</Button>
                     </Reveal>
                 </div>
             </section>
@@ -474,7 +473,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                         Pro Gear. Pro Space.<br />
                         <span className="italic">Ready to Book?</span>
                     </h2>
-                    <Button onClick={() => onBook('rental')}>Book Your Time</Button>
+                    <Button onClick={() => onBook()}>Book Your Time</Button>
                 </Reveal>
             </section>
         </div>

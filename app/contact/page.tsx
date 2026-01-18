@@ -6,8 +6,10 @@ import ContactPage from '@/components/pages/ContactPage';
 
 export default function Contact() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [bookingDuration, setBookingDuration] = useState(2);
 
-    const handleBook = () => {
+    const handleBook = (duration?: number) => {
+        setBookingDuration(duration ?? 2);
         setIsBookingOpen(true);
     };
 
@@ -20,6 +22,7 @@ export default function Contact() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
+            bookingDuration={bookingDuration}
         >
             <ContactPage onBook={handleBook} />
         </Layout>

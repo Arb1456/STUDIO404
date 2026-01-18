@@ -6,8 +6,10 @@ import PoliciesPage from '@/components/pages/PoliciesPage';
 
 export default function Policies() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [bookingDuration, setBookingDuration] = useState(2);
 
-    const handleBook = () => {
+    const handleBook = (duration?: number) => {
+        setBookingDuration(duration ?? 2);
         setIsBookingOpen(true);
     };
 
@@ -20,6 +22,7 @@ export default function Policies() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
+            bookingDuration={bookingDuration}
         >
             <PoliciesPage onBook={handleBook} />
         </Layout>

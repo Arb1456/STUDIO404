@@ -24,17 +24,18 @@ export const RENTAL_CALENDARS: Record<number, { url: string; price: number }> = 
 interface BookingHubProps {
     isOpen: boolean;
     onClose: () => void;
+    initialDuration?: number;
 }
 
-const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose }) => {
-    const [selectedDuration, setSelectedDuration] = useState(1);
+const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuration = 2 }) => {
+    const [selectedDuration, setSelectedDuration] = useState(initialDuration);
     const [isLoading, setIsLoading] = useState(true);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Reset to 1 hour and loading state when modal opens
+    // Set initial duration and loading state when modal opens
     useEffect(() => {
         if (isOpen) {
-            setSelectedDuration(1);
+            setSelectedDuration(initialDuration);
             setIsLoading(true);
             document.body.style.overflow = 'hidden';
         } else {
@@ -43,7 +44,7 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose }) => {
         return () => {
             document.body.style.overflow = '';
         };
-    }, [isOpen]);
+    }, [isOpen, initialDuration]);
 
     // Handle escape key
     useEffect(() => {

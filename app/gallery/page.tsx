@@ -6,8 +6,10 @@ import GalleryPage from '@/components/pages/GalleryPage';
 
 export default function Gallery() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [bookingDuration, setBookingDuration] = useState(2);
 
-    const handleBook = () => {
+    const handleBook = (duration?: number) => {
+        setBookingDuration(duration ?? 2);
         setIsBookingOpen(true);
     };
 
@@ -20,6 +22,7 @@ export default function Gallery() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
+            bookingDuration={bookingDuration}
         >
             <GalleryPage onBook={handleBook} />
         </Layout>

@@ -6,8 +6,10 @@ import AboutPage from '@/components/pages/AboutPage';
 
 export default function About() {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [bookingDuration, setBookingDuration] = useState(2);
 
-    const handleBook = () => {
+    const handleBook = (duration?: number) => {
+        setBookingDuration(duration ?? 2);
         setIsBookingOpen(true);
     };
 
@@ -20,6 +22,7 @@ export default function About() {
             onBook={handleBook}
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
+            bookingDuration={bookingDuration}
         >
             <AboutPage onBook={handleBook} />
         </Layout>

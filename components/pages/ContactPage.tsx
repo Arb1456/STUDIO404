@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { VoiceAgentBlock } from '@/components/ui/VoiceAgentBlock';
-import { BookingType } from '@/types';
 import { MapPin, Instagram, Mail, ArrowRight } from 'lucide-react';
 
 interface ContactPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 interface InquiryTemplate {

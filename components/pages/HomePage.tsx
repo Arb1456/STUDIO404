@@ -8,13 +8,8 @@ import Features from './sections/Features';
 import Gallery from './sections/Gallery';
 import FAQ from './sections/FAQ';
 import Contact from './sections/Contact';
-import { BookingType } from '@/types';
 
-interface HomePageProps {
-    onBook: (type?: BookingType) => void;
-}
-
-const HomePage: React.FC<HomePageProps> = () => {
+const HomePage: React.FC = () => {
     return (
         <div className="relative w-full h-screen overflow-hidden">
             {/* Main Scroll Container */}

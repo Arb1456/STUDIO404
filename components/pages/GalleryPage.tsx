@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, ArrowDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
-import { BookingType } from '@/types';
+import Link from 'next/link';
 
 interface GalleryItem {
     id: number;
@@ -35,7 +35,7 @@ const GALLERY_ITEMS: GalleryItem[] = Array.from({ length: 45 }).map((_, i) => {
 });
 
 interface GalleryPageProps {
-    onBook: (type?: BookingType) => void;
+    onBook: (duration?: number) => void;
 }
 
 const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
@@ -225,12 +225,14 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
                             Inspired to Create?
                         </h2>
                         <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full md:w-auto">
-                            <Button onClick={() => onBook('rental')} className="w-full md:w-auto">
+                            <Button onClick={() => onBook()} className="w-full md:w-auto">
                                 Rent the Studio
                             </Button>
-                            <Button variant="outline" onClick={() => onBook('photoshoot')} className="w-full md:w-auto">
-                                Book a Photoshoot
-                            </Button>
+                            <Link href="/photoshoot" className="w-full md:w-auto">
+                                <Button variant="outline" className="w-full">
+                                    Book a Photoshoot
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </Reveal>
