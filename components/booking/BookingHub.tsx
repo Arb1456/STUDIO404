@@ -158,7 +158,7 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
                         </div>
 
                         {/* Iframe Container */}
-                        <div className="flex-1 relative overflow-hidden">
+                        <div className="flex-1 relative overflow-y-auto">
                             {/* Loading Spinner */}
                             <AnimatePresence>
                                 {isLoading && (
@@ -181,11 +181,12 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
                                 key={selectedDuration}
                                 src={currentCalendar.url}
                                 onLoad={handleIframeLoad}
-                                className="w-full h-full"
+                                className="w-full"
                                 style={{
                                     border: 'none',
-                                    minHeight: '700px',
-                                    height: '100%',
+                                    minHeight: '600px',
+                                    height: 'calc(100% + 100px)',
+                                    paddingBottom: '80px',
                                 }}
                                 allow="payment"
                                 title={`Book ${selectedDuration} Hour${selectedDuration > 1 ? 's' : ''} Studio Rental`}

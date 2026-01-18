@@ -22,7 +22,7 @@ export const TourNavigation: React.FC = () => {
     const slideCount = getSectionSlideCount(currentSection);
 
     return (
-        <div className="fixed bottom-8 md:bottom-12 left-0 right-0 z-40 px-4 md:px-6 pointer-events-none">
+        <div className="fixed bottom-[120px] md:bottom-12 left-0 right-0 z-40 px-4 md:px-6 pointer-events-none">
             <div className="max-w-7xl mx-auto flex justify-between items-end">
 
                 {/* Left Side: Slide Progress (only when multiple slides) */}
@@ -109,8 +109,8 @@ export const TourNavigation: React.FC = () => {
                                 <Button
                                     onClick={scrollToNextSection}
                                     className={`flex items-center gap-2 text-sm shadow-lg ${hasMultipleSlides && !isLastSlide
-                                            ? 'bg-charcoal/60 backdrop-blur-md border border-cream/40 text-cream/90 hover:bg-charcoal/80 hover:border-cream hover:text-cream'
-                                            : 'bg-charcoal text-cream hover:bg-charcoal/90 shadow-xl'
+                                        ? 'bg-charcoal/60 backdrop-blur-md border border-cream/40 text-cream/90 hover:bg-charcoal/80 hover:border-cream hover:text-cream'
+                                        : 'bg-charcoal text-cream hover:bg-charcoal/90 shadow-xl'
                                         }`}
                                 >
                                     Next Section
