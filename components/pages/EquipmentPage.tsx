@@ -22,7 +22,7 @@ const NavigationGrid: React.FC<{
     const buttonClass = "group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4";
 
     // Staggered delays: top row (0, 1, 2) then bottom row (3, 4)
-    const delays = [0, 0.15, 0.3, 0.45, 0.6];
+    const delays = [0.2, 0.5, 0.8, 1.1, 1.4];
 
     return (
         <section className="py-20 px-6 max-w-5xl mx-auto" ref={ref}>
@@ -34,7 +34,7 @@ const NavigationGrid: React.FC<{
                             key={gridItems[index].id}
                             initial={{ opacity: 0 }}
                             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                            transition={{ duration: 0.5, ease: "easeOut", delay: delays[index] }}
+                            transition={{ duration: 2.2, ease: [0.12, 0.8, 0.2, 1], delay: delays[index] }}
                             onClick={() => scrollToSection(gridItems[index].id)}
                             className={buttonClass}
                         >
@@ -52,7 +52,7 @@ const NavigationGrid: React.FC<{
                             key={gridItems[index].id}
                             initial={{ opacity: 0 }}
                             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                            transition={{ duration: 0.5, ease: "easeOut", delay: delays[index] }}
+                            transition={{ duration: 2.2, ease: [0.12, 0.8, 0.2, 1], delay: delays[index] }}
                             onClick={() => scrollToSection(gridItems[index].id)}
                             className={buttonClass}
                         >
@@ -64,6 +64,34 @@ const NavigationGrid: React.FC<{
                 </div>
             </div>
         </section>
+    );
+};
+
+// Separate component for paper colors grid with staggered fade animation
+const PaperColorsGrid: React.FC<{
+    papers: { color: string; name: string }[];
+}> = ({ papers }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+    // Staggered delays for 12 items in a 3-column grid (row by row, left to right)
+    const getDelay = (index: number) => 0.15 + index * 0.2;
+
+    return (
+        <div className="grid grid-cols-3 gap-x-4 gap-y-8 mb-10" ref={ref}>
+            {papers.map((paper, i) => (
+                <motion.div
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: 2.2, ease: [0.12, 0.8, 0.2, 1], delay: getDelay(i) }}
+                    className="flex flex-col items-center gap-3 text-center"
+                >
+                    <div className={`w-12 h-12 rounded-full border border-gray-300/50 shadow-sm ${paper.color}`}></div>
+                    <span className="text-xs uppercase tracking-wide opacity-80">{paper.name}</span>
+                </motion.div>
+            ))}
+        </div>
     );
 };
 
@@ -393,16 +421,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                             </p>
                         </Reveal>
 
-                        <Reveal delay={0.2}>
-                            <div className="grid grid-cols-3 gap-x-4 gap-y-8 mb-10">
-                                {seamlessPapers.map((paper, i) => (
-                                    <div key={i} className="flex flex-col items-center gap-3 text-center">
-                                        <div className={`w-12 h-12 rounded-full border border-gray-300/50 shadow-sm ${paper.color}`}></div>
-                                        <span className="text-xs uppercase tracking-wide opacity-80">{paper.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </Reveal>
+                        <PaperColorsGrid papers={seamlessPapers} />
                     </div>
                 </div>
             </section>

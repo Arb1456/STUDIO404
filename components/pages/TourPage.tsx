@@ -164,29 +164,35 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         <Reveal delay={0.1}>
                             <h3 className="font-serif text-2xl md:text-5xl mb-6 md:mb-12 text-center">Choose Your Canvas</h3>
                         </Reveal>
-                        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-6">
+                        <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-6">
                             {[
-                                { name: 'Super White', color: '#FFFFFF' },
-                                { name: 'Thunder Gray', color: '#4A4A4A' },
+                                { name: 'White', color: '#FFFFFF' },
                                 { name: 'Black', color: '#1A1A1A' },
-                                { name: 'Coral', color: '#FF6B6B' },
-                                { name: 'Ocean Blue', color: '#4A90A4' },
-                                { name: 'Sage', color: '#9CAF88' },
+                                { name: 'Dark Brown', color: '#4B3621' },
+                                { name: 'Red', color: '#DC2626' },
+                                { name: 'Grey', color: '#9CA3AF' },
+                                { name: 'Pink', color: '#F9A8D4' },
+                                { name: 'Navy Blue', color: '#1E3A8A' },
+                                { name: 'Light Blue', color: '#93C5FD' },
+                                { name: 'Dark Green', color: '#14532D' },
+                                { name: 'Chroma Green', color: '#22C55E' },
+                                { name: 'Beige', color: '#E1C699' },
+                                { name: 'Newspaper', color: '#D1D5DB' },
                             ].map((backdrop, i) => (
-                                <Reveal key={backdrop.name} delay={0.1 + i * 0.05}>
+                                <Reveal key={backdrop.name} delay={0.05 + i * 0.03}>
                                     <div className="flex flex-col items-center">
                                         <div
-                                            className="w-12 h-12 md:w-20 md:h-20 rounded-full mb-2 md:mb-3 shadow-lg border border-charcoal/10"
+                                            className="w-10 h-10 md:w-16 md:h-16 rounded-full mb-2 shadow-lg border border-charcoal/10"
                                             style={{ backgroundColor: backdrop.color }}
                                         />
-                                        <p className="text-[10px] md:text-xs text-charcoal/70 text-center leading-tight">{backdrop.name}</p>
+                                        <p className="text-[9px] md:text-xs text-charcoal/70 text-center leading-tight">{backdrop.name}</p>
                                     </div>
                                 </Reveal>
                             ))}
                         </div>
                         <Reveal delay={0.5}>
-                            <p className="text-center text-charcoal/50 text-xs md:text-sm mt-6 md:mt-8">
-                                Additional colors available upon request
+                            <p className="text-center text-charcoal/50 text-xs md:text-sm mt-4 md:mt-8">
+                                Availability may vary • Additional colors upon request
                             </p>
                         </Reveal>
                     </div>
