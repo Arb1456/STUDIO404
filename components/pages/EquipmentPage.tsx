@@ -235,7 +235,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
             </section>
 
             {/* 2. Navigation Grid */}
-            <section className="py-20 px-6 max-w-5xl mx-auto">
+            <section className="py-20 px-6 max-w-5xl mx-auto overflow-hidden">
                 <div className="flex flex-col items-center gap-6 md:gap-10">
                     {/* Top Row: 3 Items - Left slides from left, Center fades, Right slides from right */}
                     <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
