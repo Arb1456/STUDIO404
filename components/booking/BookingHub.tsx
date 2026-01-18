@@ -9,7 +9,7 @@ import Link from 'next/link';
 // RENTAL CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
 // ============================================
 export const RENTAL_CALENDARS: Record<number, { url: string; price: number }> = {
-    1: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_1]', price: 70 },
+    1: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-1-hour', price: 70 },
     2: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_2]', price: 120 },
     3: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_3]', price: 180 },
     4: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_4]', price: 225 },

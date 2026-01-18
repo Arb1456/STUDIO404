@@ -297,8 +297,8 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                         {[
                             { title: "Check Availability", desc: "Use the calendar below to find your slot." },
                             { title: "Select Duration", desc: "Choose the time block that fits your project." },
-                            { title: "Receive Confirmation Email", desc: "Your unique door code will be inside." },
-                            { title: "Create", desc: "The space is yours. Bluetooth sound system is ready." }
+                            { title: "Receive Confirmation Email", desc: "Your booking details will be inside." },
+                            { title: "Create", desc: "The space is yours. Equipment and amenities are at your disposal." }
                         ].map((step, i) => (
                             <Reveal key={i} delay={0.1 * i} width="100%">
                                 <div className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-0 ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
