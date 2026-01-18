@@ -236,35 +236,73 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
 
             {/* 2. Navigation Grid */}
             <section className="py-20 px-6 max-w-5xl mx-auto">
-                <Reveal>
-                    <div className="flex flex-col items-center gap-6 md:gap-10">
-                        {/* Top Row: 3 Items */}
-                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
-                            {gridItems.slice(0, 3).map((item, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => scrollToSection(item.id)}
-                                    className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                                >
-                                    <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{item.label}</span>
-                                </button>
-                            ))}
-                        </div>
+                <div className="flex flex-col items-center gap-6 md:gap-10">
+                    {/* Top Row: 3 Items - Left slides from left, Center fades, Right slides from right */}
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
+                        {/* Left Button - Slides from Left */}
+                        <motion.button
+                            initial={{ opacity: 0, x: -100 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-20%" }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                            onClick={() => scrollToSection(gridItems[0].id)}
+                            className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[0].label}</span>
+                        </motion.button>
 
-                        {/* Bottom Row: 2 Items */}
-                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
-                            {gridItems.slice(3, 5).map((item, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => scrollToSection(item.id)}
-                                    className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                                >
-                                    <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{item.label}</span>
-                                </button>
-                            ))}
-                        </div>
+                        {/* Center Button - Fades In */}
+                        <motion.button
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-20%" }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                            onClick={() => scrollToSection(gridItems[1].id)}
+                            className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[1].label}</span>
+                        </motion.button>
+
+                        {/* Right Button - Slides from Right */}
+                        <motion.button
+                            initial={{ opacity: 0, x: 100 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-20%" }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                            onClick={() => scrollToSection(gridItems[2].id)}
+                            className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[2].label}</span>
+                        </motion.button>
                     </div>
-                </Reveal>
+
+                    {/* Bottom Row: 2 Items - Left slides from left, Right slides from right */}
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
+                        {/* Left Button - Slides from Left */}
+                        <motion.button
+                            initial={{ opacity: 0, x: -100 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-20%" }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+                            onClick={() => scrollToSection(gridItems[3].id)}
+                            className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[3].label}</span>
+                        </motion.button>
+
+                        {/* Right Button - Slides from Right */}
+                        <motion.button
+                            initial={{ opacity: 0, x: 100 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-20%" }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+                            onClick={() => scrollToSection(gridItems[4].id)}
+                            className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[4].label}</span>
+                        </motion.button>
+                    </div>
+                </div>
             </section>
 
             {/* 3. Lighting Grid */}
