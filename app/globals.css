@@ -4,7 +4,8 @@
 
 /* Mobile-safe viewport height - JS sets --vh to actual inner height */
 :root {
-    --vh: 1vh; /* Fallback, JS will override with actual pixel value */
+    --vh: 1vh;
+    /* Fallback, JS will override with actual pixel value */
 }
 
 /* Custom scrollbar - hide completely */
@@ -25,12 +26,14 @@
 
 /* Mobile-safe full height class - uses JS-calculated --vh for Safari iOS */
 .h-screen-safe {
-    height: 100vh; /* Fallback */
+    height: 100vh;
+    /* Fallback */
     height: calc(var(--vh, 1vh) * 100);
 }
 
 .min-h-screen-safe {
-    min-height: 100vh; /* Fallback */
+    min-height: 100vh;
+    /* Fallback */
     min-height: calc(var(--vh, 1vh) * 100);
 }
 
@@ -73,5 +76,5 @@
 
 /* Safe area bottom padding for content above nav bar */
 .pb-nav-safe {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
 }

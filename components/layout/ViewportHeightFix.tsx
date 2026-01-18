@@ -11,9 +11,8 @@ export default function ViewportHeightFix() {
     useEffect(() => {
         const setVh = () => {
             // Use visualViewport if available (more accurate on iOS)
-            // Subtract extra space for the nav bar (80px)
             const height = window.visualViewport?.height ?? window.innerHeight;
-            const vh = (height - 80) * 0.01; // Subtract nav bar height
+            const vh = height * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         };
 
