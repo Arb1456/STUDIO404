@@ -89,35 +89,35 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                 {/* Slide 2: Dimensions & Specs */}
                 <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=20" bgOverlay="dark">
-                    <div className="max-w-4xl mx-auto px-6 text-center">
+                    <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.3em] mb-6 text-cream/60">Specifications</p>
+                            <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6 text-cream/60">Specifications</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-4xl md:text-6xl mb-12">Built for Scale</h3>
+                            <h3 className="font-serif text-3xl md:text-6xl mb-8 md:mb-12">Built for Scale</h3>
                         </Reveal>
-                        <div className="grid grid-cols-3 gap-8 md:gap-16 mb-12">
+                        <div className="grid grid-cols-3 gap-4 md:gap-16 mb-8 md:mb-12">
                             <Reveal delay={0.2}>
                                 <div>
-                                    <p className="font-serif text-5xl md:text-7xl mb-2">12</p>
-                                    <p className="text-sm uppercase tracking-widest text-cream/60">Feet Wide</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">12</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Wide</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.3}>
                                 <div>
-                                    <p className="font-serif text-5xl md:text-7xl mb-2">10</p>
-                                    <p className="text-sm uppercase tracking-widest text-cream/60">Feet Deep</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">10</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Deep</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.4}>
                                 <div>
-                                    <p className="font-serif text-5xl md:text-7xl mb-2">10</p>
-                                    <p className="text-sm uppercase tracking-widest text-cream/60">Feet Tall</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">10</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Tall</p>
                                 </div>
                             </Reveal>
                         </div>
                         <Reveal delay={0.5}>
-                            <p className="text-cream/70 max-w-lg mx-auto">
+                            <p className="text-cream/70 max-w-lg mx-auto text-sm md:text-base">
                                 Seamless curved corners eliminate harsh shadows, creating the perfect infinity backdrop for photography and video production.
                             </p>
                         </Reveal>
@@ -157,14 +157,14 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                 {/* Slide 2: Color Selection */}
                 <TourSlide theme="light">
-                    <div className="max-w-5xl mx-auto px-6">
+                    <div className="max-w-5xl mx-auto px-4 md:px-6">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.3em] mb-4 text-charcoal/60 text-center">Available Colors</p>
+                            <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-3 md:mb-4 text-charcoal/60 text-center">Available Colors</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-4xl md:text-5xl mb-12 text-center">Choose Your Canvas</h3>
+                            <h3 className="font-serif text-2xl md:text-5xl mb-6 md:mb-12 text-center">Choose Your Canvas</h3>
                         </Reveal>
-                        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
+                        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-6">
                             {[
                                 { name: 'Super White', color: '#FFFFFF' },
                                 { name: 'Thunder Gray', color: '#4A4A4A' },
@@ -176,16 +176,16 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                 <Reveal key={backdrop.name} delay={0.1 + i * 0.05}>
                                     <div className="flex flex-col items-center">
                                         <div
-                                            className="w-16 h-16 md:w-20 md:h-20 rounded-full mb-3 shadow-lg border border-charcoal/10"
+                                            className="w-12 h-12 md:w-20 md:h-20 rounded-full mb-2 md:mb-3 shadow-lg border border-charcoal/10"
                                             style={{ backgroundColor: backdrop.color }}
                                         />
-                                        <p className="text-xs text-charcoal/70 text-center">{backdrop.name}</p>
+                                        <p className="text-[10px] md:text-xs text-charcoal/70 text-center leading-tight">{backdrop.name}</p>
                                     </div>
                                 </Reveal>
                             ))}
                         </div>
                         <Reveal delay={0.5}>
-                            <p className="text-center text-charcoal/50 text-sm mt-8">
+                            <p className="text-center text-charcoal/50 text-xs md:text-sm mt-6 md:mt-8">
                                 Additional colors available upon request
                             </p>
                         </Reveal>

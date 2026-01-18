@@ -18,18 +18,23 @@ export const Reveal: React.FC<RevealProps> = ({
     repeat = false
 }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: !repeat, margin: "-20px" });
+    const isInView = useInView(ref, { once: !repeat, margin: "-50px" });
 
     return (
         <div ref={ref} style={{ width }} className={className}>
             <motion.div
                 variants={{
-                    hidden: { opacity: 0, y: 40 },
+                    hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 },
                 }}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
-                transition={{ duration: 1.2, delay: delay, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                    duration: 0.6,
+                    delay: delay,
+                    ease: [0.25, 0.1, 0.25, 1] // Smooth ease-out
+                }}
+                style={{ willChange: 'opacity, transform' }}
             >
                 {children}
             </motion.div>

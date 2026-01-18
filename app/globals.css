@@ -37,10 +37,11 @@
     min-height: calc(var(--vh, 1vh) * 100);
 }
 
-/* Snap scroll container */
+/* Snap scroll container - NO scroll-smooth to avoid jank on mobile */
 .snap-y {
     scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth momentum scrolling on iOS */
 }
 
 .snap-start {
@@ -51,7 +52,7 @@
 /* Horizontal snap scroll container */
 .snap-x {
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Force snap to stop at each item (prevents overshooting) */

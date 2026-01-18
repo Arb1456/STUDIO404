@@ -26,10 +26,10 @@ const Availability: React.FC = () => {
                 {/* Card A: Rental - Slides from Left */}
                 <motion.div
                     className="h-full min-h-0"
-                    initial={{ opacity: 0, x: -100 }}
+                    initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                    viewport={{ once: true, margin: "-15%" }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                 >
                     <Link
                         href="/rental"
@@ -55,10 +55,10 @@ const Availability: React.FC = () => {
                 {/* Card B: Photoshoots - Slides from Right */}
                 <motion.div
                     className="h-full min-h-0"
-                    initial={{ opacity: 0, x: 100 }}
+                    initial={{ opacity: 0, x: 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                    viewport={{ once: true, margin: "-15%" }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
                 >
                     <Link
                         href="/photoshoot"

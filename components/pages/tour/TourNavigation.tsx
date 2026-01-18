@@ -22,7 +22,7 @@ export const TourNavigation: React.FC = () => {
     const slideCount = getSectionSlideCount(currentSection);
 
     return (
-        <div className="fixed bottom-28 left-0 right-0 z-40 px-6 pointer-events-none">
+        <div className="fixed bottom-8 md:bottom-12 left-0 right-0 z-40 px-4 md:px-6 pointer-events-none">
             <div className="max-w-7xl mx-auto flex justify-between items-end">
 
                 {/* Left Side: Slide Progress (only when multiple slides) */}
@@ -33,10 +33,10 @@ export const TourNavigation: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="pointer-events-auto"
+                            className="pointer-events-auto bg-charcoal/80 backdrop-blur-md rounded-full px-4 py-3 shadow-lg"
                         >
                             {/* Dot indicators */}
-                            <div className="flex gap-2 mb-3">
+                            <div className="flex gap-2 mb-2">
                                 {Array.from({ length: slideCount }).map((_, i) => (
                                     <motion.div
                                         key={i}
@@ -57,9 +57,9 @@ export const TourNavigation: React.FC = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -10 }}
                                         onClick={scrollToPrevSlide}
-                                        className="flex items-center gap-2 text-cream/80 hover:text-cream text-sm uppercase tracking-widest transition-colors"
+                                        className="flex items-center gap-2 text-cream/90 hover:text-cream text-xs uppercase tracking-widest transition-colors"
                                     >
-                                        <ChevronLeft size={16} />
+                                        <ChevronLeft size={14} />
                                         <span>Back</span>
                                     </motion.button>
                                 )}
@@ -72,7 +72,7 @@ export const TourNavigation: React.FC = () => {
                 {!hasMultipleSlides && <div />}
 
                 {/* Right Side: Navigation Buttons */}
-                <div className="flex flex-col items-end gap-3 pointer-events-auto">
+                <div className="flex flex-col items-end gap-2 md:gap-3 pointer-events-auto">
 
                     {/* Learn More Button (when more slides available) */}
                     <AnimatePresence mode="wait">
@@ -87,7 +87,7 @@ export const TourNavigation: React.FC = () => {
                                 <Button
                                     onClick={scrollToNextSlide}
                                     variant="outline"
-                                    className="border-cream text-cream hover:bg-cream hover:text-charcoal flex items-center gap-2"
+                                    className="border-cream bg-charcoal/80 backdrop-blur-md text-cream hover:bg-cream hover:text-charcoal flex items-center gap-2 text-sm shadow-lg"
                                 >
                                     Learn More
                                     <ChevronRight size={16} />
@@ -108,11 +108,10 @@ export const TourNavigation: React.FC = () => {
                             >
                                 <Button
                                     onClick={scrollToNextSection}
-                                    className={`flex items-center gap-2 ${
-                                        hasMultipleSlides && !isLastSlide
-                                            ? 'bg-transparent border border-cream/40 text-cream/70 hover:border-cream hover:text-cream'
-                                            : 'bg-cream text-charcoal hover:bg-white'
-                                    }`}
+                                    className={`flex items-center gap-2 text-sm shadow-lg ${hasMultipleSlides && !isLastSlide
+                                            ? 'bg-charcoal/60 backdrop-blur-md border border-cream/40 text-cream/90 hover:bg-charcoal/80 hover:border-cream hover:text-cream'
+                                            : 'bg-charcoal text-cream hover:bg-charcoal/90 shadow-xl'
+                                        }`}
                                 >
                                     Next Section
                                     <ChevronDown size={16} />

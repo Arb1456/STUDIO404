@@ -50,8 +50,8 @@ export const TourSlide: React.FC<TourSlideProps> = ({
                 </>
             )}
 
-            {/* Content Layer */}
-            <div className="relative z-10 h-full w-full flex flex-col justify-center pb-nav-safe">
+            {/* Content Layer - with responsive padding for mobile */}
+            <div className="relative z-10 h-full w-full flex flex-col justify-center pb-24 md:pb-20">
                 {children}
             </div>
         </div>

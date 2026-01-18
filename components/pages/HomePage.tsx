@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
     return (
         <div className="relative w-full h-screen-safe overflow-hidden">
             {/* Main Scroll Container */}
-            <main className="w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar relative z-10">
+            <main className="w-full h-full overflow-y-scroll snap-y snap-mandatory no-scrollbar relative z-10">
                 <SectionWrapper id="home">
                     <Hero />
                 </SectionWrapper>
