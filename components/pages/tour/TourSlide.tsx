@@ -50,8 +50,8 @@ export const TourSlide: React.FC<TourSlideProps> = ({
                 </>
             )}
 
-            {/* Content Layer - with responsive padding for mobile (150px bottom for nav bar) */}
-            <div className="relative z-10 h-full w-full flex flex-col justify-center items-center pt-16 pb-[150px] px-4 md:pt-16 md:pb-20 md:px-6 overflow-y-auto">
+            {/* Content Layer - no bottom padding, buttons are fixed positioned */}
+            <div className="relative z-10 h-full w-full flex flex-col justify-center items-center px-4 md:px-6">
                 {children}
             </div>
         </div>
