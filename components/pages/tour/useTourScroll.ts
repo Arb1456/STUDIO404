@@ -87,32 +87,45 @@ export const useTourScroll = (
         return () => horizontalContainer.removeEventListener('scroll', handleScroll);
     }, [currentSection, currentSlide, horizontalRefs, sectionConfig]);
 
-    // Programmatic scroll to section (vertical)
+    // Programmatic scroll to section (vertical) with smooth animation
     const scrollToSection = useCallback((index: number) => {
         const targetId = sectionConfig[index]?.id;
         const target = document.getElementById(targetId);
+        const container = containerRef.current;
 
-        if (target && containerRef.current) {
+        if (target && container) {
+            // Temporarily disable snap to allow smooth animation
+            container.style.scrollSnapType = 'none';
+
             const targetY = target.offsetTop;
 
-            animate(containerRef.current.scrollTop, targetY, {
+            animate(container.scrollTop, targetY, {
                 duration: 0.8,
                 ease: [0.22, 1, 0.36, 1],
                 onUpdate: (v) => {
-                    if (containerRef.current) {
-                        containerRef.current.scrollTop = v;
+                    if (container) {
+                        container.scrollTop = v;
+                    }
+                },
+                onComplete: () => {
+                    // Re-enable snap after animation
+                    if (container) {
+                        container.style.scrollSnapType = 'y mandatory';
                     }
                 }
             });
         }
     }, [containerRef, sectionConfig]);
 
-    // Programmatic scroll to slide (horizontal)
+    // Programmatic scroll to slide (horizontal) with smooth animation
     const scrollToSlide = useCallback((index: number) => {
         const sectionId = sectionConfig[currentSection]?.id;
         const horizontalContainer = horizontalRefs.get(sectionId);
 
         if (horizontalContainer) {
+            // Temporarily disable snap to allow smooth animation
+            horizontalContainer.style.scrollSnapType = 'none';
+
             const targetX = index * horizontalContainer.clientWidth;
 
             animate(horizontalContainer.scrollLeft, targetX, {
@@ -120,6 +133,10 @@ export const useTourScroll = (
                 ease: [0.22, 1, 0.36, 1],
                 onUpdate: (v) => {
                     horizontalContainer.scrollLeft = v;
+                },
+                onComplete: () => {
+                    // Re-enable snap after animation
+                    horizontalContainer.style.scrollSnapType = 'x mandatory';
                 }
             });
         }
