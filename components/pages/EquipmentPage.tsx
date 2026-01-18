@@ -17,70 +17,50 @@ const NavigationGrid: React.FC<{
     scrollToSection: (id: string) => void;
 }> = ({ gridItems, scrollToSection }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.2 });
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+    const buttonClass = "group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4";
+
+    // Staggered delays: top row (0, 1, 2) then bottom row (3, 4)
+    const delays = [0, 0.15, 0.3, 0.45, 0.6];
 
     return (
         <section className="py-20 px-6 max-w-5xl mx-auto" ref={ref}>
             <div className="flex flex-col items-center gap-6 md:gap-10">
                 {/* Top Row: 3 Items */}
                 <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
-                    {/* Left Button - Lighting */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                        onClick={() => scrollToSection(gridItems[0].id)}
-                        className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                    >
-                        <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[0].label}</span>
-                    </motion.button>
-
-                    {/* Center Button - Grip */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                        onClick={() => scrollToSection(gridItems[1].id)}
-                        className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                    >
-                        <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[1].label}</span>
-                    </motion.button>
-
-                    {/* Right Button - Backdrops */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-                        onClick={() => scrollToSection(gridItems[2].id)}
-                        className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                    >
-                        <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[2].label}</span>
-                    </motion.button>
+                    {[0, 1, 2].map((index) => (
+                        <motion.button
+                            key={gridItems[index].id}
+                            initial={{ opacity: 0 }}
+                            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                            transition={{ duration: 0.5, ease: "easeOut", delay: delays[index] }}
+                            onClick={() => scrollToSection(gridItems[index].id)}
+                            className={buttonClass}
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">
+                                {gridItems[index].label}
+                            </span>
+                        </motion.button>
+                    ))}
                 </div>
 
                 {/* Bottom Row: 2 Items */}
                 <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
-                    {/* Left Button - Amenities */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-                        onClick={() => scrollToSection(gridItems[3].id)}
-                        className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                    >
-                        <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[3].label}</span>
-                    </motion.button>
-
-                    {/* Right Button - Props */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-                        onClick={() => scrollToSection(gridItems[4].id)}
-                        className="group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4"
-                    >
-                        <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">{gridItems[4].label}</span>
-                    </motion.button>
+                    {[3, 4].map((index) => (
+                        <motion.button
+                            key={gridItems[index].id}
+                            initial={{ opacity: 0 }}
+                            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                            transition={{ duration: 0.5, ease: "easeOut", delay: delays[index] }}
+                            onClick={() => scrollToSection(gridItems[index].id)}
+                            className={buttonClass}
+                        >
+                            <span className="text-[10px] md:text-xs uppercase tracking-widest text-center font-medium opacity-100 transition-opacity duration-500 leading-relaxed">
+                                {gridItems[index].label}
+                            </span>
+                        </motion.button>
+                    ))}
                 </div>
             </div>
         </section>

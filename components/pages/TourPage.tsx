@@ -70,7 +70,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             <TourSection id="cyc-wall">
                 {/* Slide 1: Overview */}
                 <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=2" bgOverlay="gradient-up">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-end pb-24 md:pb-0 md:items-center h-full">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full">
                         <div className="md:col-start-1">
                             <Reveal>
                                 <h2 className="font-serif text-5xl md:text-7xl mb-6">The Cyc Wall</h2>
