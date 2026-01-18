@@ -8,9 +8,14 @@ import { motion } from 'framer-motion';
 const Availability: React.FC = () => {
     return (
         <section className="h-screen w-full snap-start bg-cream flex flex-col justify-center px-6 md:px-12 py-24 relative overflow-hidden">
-            <div className="absolute top-12 left-6 md:left-12">
+            <div className="absolute top-12 left-6 md:left-12 max-w-2xl">
                 <Reveal>
-                    <h2 className="font-serif text-4xl text-charcoal">Availability</h2>
+                    <h2 className="font-serif text-4xl text-charcoal mb-4">Availability</h2>
+                </Reveal>
+                <Reveal delay={0.1}>
+                    <p className="text-charcoal/70 text-sm md:text-base leading-relaxed">
+                        Rent the space and create without constraints, or let us guide you through an unforgettable photo session, custom tailored to you. The choice is yours.
+                    </p>
                 </Reveal>
             </div>
 
