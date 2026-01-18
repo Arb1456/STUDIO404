@@ -3,6 +3,7 @@
 import React from 'react';
 import Navigation from './Navigation';
 import VoiceWidget from './VoiceWidget';
+import Footer from './Footer';
 import BookingHub from '@/components/booking/BookingHub';
 
 interface LayoutProps {
@@ -26,6 +27,9 @@ const Layout: React.FC<LayoutProps> = ({
             <main>
                 {children}
             </main>
+
+            {/* Footer */}
+            <Footer />
 
             {/* Persistent Navigation */}
             <Navigation onBook={() => onBook()} />
