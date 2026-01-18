@@ -31,7 +31,7 @@ const VoiceWidget: React.FC = () => {
                     flex items-center justify-center
                     shadow-lg hover:bg-charcoal/90
                     transition-all duration-300
-                    left-1/2 ${isVisible ? 'translate-x-8' : '-translate-x-1/2'}
+                    left-1/2 ${isVisible ? 'translate-x-16' : '-translate-x-1/2'}
                 `}
                 aria-label={isVisible ? 'Hide voice assistant' : 'Show voice assistant'}
             >
