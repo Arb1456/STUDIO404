@@ -21,7 +21,7 @@ export default function Photoshoot() {
             isBookingOpen={isBookingOpen}
             onCloseBooking={handleCloseBooking}
         >
-            <PhotoshootPage onBook={handleBook} />
+            <PhotoshootPage />
         </Layout>
     );
 }

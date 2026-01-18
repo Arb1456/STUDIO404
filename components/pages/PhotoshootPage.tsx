@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
-import { BookingType } from '@/types';
 
 interface SessionType {
     id: string;
@@ -14,20 +13,23 @@ interface SessionType {
     image: string;
     duration: string;
     photoCount: number;
+    calendarUrl: string;
 }
 
-// Mock Data - 10 Session Types
+// ============================================
+// PHOTOSHOOT CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
+// ============================================
 const SESSIONS: SessionType[] = [
-    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: 'https://picsum.photos/seed/portrait/800/800', duration: '1-2+ Hours', photoCount: 8 },
-    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: 'https://picsum.photos/seed/family/800/800', duration: '1.5-3 Hours', photoCount: 8 },
-    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: 'https://picsum.photos/seed/couple/800/800', duration: '1.5-3 Hours', photoCount: 8 },
-    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: 'https://picsum.photos/seed/birthday/800/800', duration: '1-2.5 Hours', photoCount: 8 },
-    { id: 'headshots', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: 'https://picsum.photos/seed/headshots/800/800', duration: '1-2.5 Hours', photoCount: 8 },
-    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: 'https://picsum.photos/seed/maternity/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
-    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: 'https://picsum.photos/seed/group/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
-    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: 'https://picsum.photos/seed/newborn/800/800', duration: '1.5-3.5 Hours', photoCount: 8 },
-    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: 'https://picsum.photos/seed/boudoir/800/800', duration: '1.5-3+ Hours', photoCount: 8 },
-    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: 'https://picsum.photos/seed/product/800/800', duration: '1.5-2.5 Hours', photoCount: 8 },
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: 'https://picsum.photos/seed/portrait/800/800', duration: '1-2+ Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PORTRAIT]' },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: 'https://picsum.photos/seed/family/800/800', duration: '1.5-3 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_FAMILY]' },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: 'https://picsum.photos/seed/couple/800/800', duration: '1.5-3 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_COUPLE]' },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: 'https://picsum.photos/seed/birthday/800/800', duration: '1-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BIRTHDAY]' },
+    { id: 'headshots', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: 'https://picsum.photos/seed/headshots/800/800', duration: '1-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_HEADSHOTS]' },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: 'https://picsum.photos/seed/maternity/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_MATERNITY]' },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: 'https://picsum.photos/seed/group/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_GROUP]' },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: 'https://picsum.photos/seed/newborn/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_NEWBORN]' },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: 'https://picsum.photos/seed/boudoir/800/800', duration: '1.5-3+ Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BOUDOIR]' },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: 'https://picsum.photos/seed/product/800/800', duration: '1.5-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PRODUCT]' },
 ];
 
 const CATALOG_IMAGES = [
@@ -78,11 +80,7 @@ const FocusGridItem: React.FC<{ children: React.ReactNode; className?: string; o
     );
 };
 
-interface PhotoshootPageProps {
-    onBook: (type?: BookingType) => void;
-}
-
-const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
+const PhotoshootPage: React.FC = () => {
     const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
     const detailRef = useRef<HTMLDivElement>(null);
 
@@ -129,7 +127,7 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                             <Button
                                 variant="outline"
                                 className="rounded-full"
-                                onClick={() => onBook('photoshoot')}
+                                onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
                             >
                                 Discuss Your Project
                             </Button>
@@ -323,7 +321,10 @@ const PhotoshootPage: React.FC<PhotoshootPageProps> = ({ onBook }) => {
                                                     <p className="font-serif text-3xl">${selectedSession.price}<span className="text-sm font-sans font-normal text-charcoal/50">+</span></p>
                                                 </div>
                                             </div>
-                                            <Button className="w-full" onClick={() => onBook('photoshoot')}>
+                                            <Button
+                                                className="w-full"
+                                                onClick={() => window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer')}
+                                            >
                                                 Book {selectedSession.title} Session
                                             </Button>
                                             <p className="text-xs text-center mt-3 text-charcoal/50">
