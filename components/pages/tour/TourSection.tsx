@@ -57,10 +57,10 @@ export const TourSection: React.FC<TourSectionProps> = ({
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="h-full w-full"
             >
-                {/* Horizontal scroll container */}
+                {/* Horizontal scroll container - use w-screen for proper viewport sizing */}
                 <div
                     data-section-id={id}
-                    className={`h-full w-full flex overflow-x-scroll snap-x snap-mandatory scroll-smooth no-scrollbar overscroll-contain ${className}`}
+                    className={`h-full w-screen flex overflow-x-scroll snap-x snap-mandatory no-scrollbar overscroll-contain ${className}`}
                 >
                     {children}
                 </div>

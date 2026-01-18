@@ -24,14 +24,15 @@ const VoiceWidget: React.FC = () => {
             {/* Hide/Show Toggle Button */}
             <button
                 onClick={() => setIsVisible(!isVisible)}
-                className="
-                    fixed top-4 right-4 z-[60]
+                className={`
+                    fixed top-4 z-[60]
                     w-10 h-10 rounded-full
                     bg-charcoal text-cream
                     flex items-center justify-center
                     shadow-lg hover:bg-charcoal/90
                     transition-all duration-300
-                "
+                    left-1/2 ${isVisible ? 'translate-x-2' : '-translate-x-1/2'}
+                `}
                 aria-label={isVisible ? 'Hide voice assistant' : 'Show voice assistant'}
             >
                 {isVisible ? <X size={18} /> : <MessageCircle size={18} />}
