@@ -1,7 +1,7 @@
 'use client';
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { ArrowRight, X, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ const bgImage = (url: string) => ({
 const SECTION_CONFIG: SectionConfig[] = [
     { id: 'intro', slides: 1 },
     { id: 'cyc-wall', slides: 2 },
-    { id: 'backdrops', slides: 2 },
+    { id: 'backdrops', slides: 3 },  // Updated: 3 slides (overview, colors, pulley system)
     { id: 'lighting', slides: 2 },
     { id: 'current-sets', slides: 2 },
     { id: 'props', slides: 2 },
@@ -33,11 +33,58 @@ const SECTION_CONFIG: SectionConfig[] = [
     { id: 'cta', slides: 1 },
 ];
 
+// Equipment data for Pro Lighting modals
+const EQUIPMENT_DATA = {
+    strobes: {
+        title: 'Strobes & Flash',
+        items: [
+            'Profoto B10 Plus',
+            'Profoto B1X 500',
+            'Godox AD600 Pro',
+            'Godox AD400 Pro',
+            'Godox AD200 Pro',
+            'Various softboxes (2ft-5ft)',
+            'Beauty dishes',
+            'Strip boxes',
+            'Optical snoots'
+        ]
+    },
+    continuous: {
+        title: 'Continuous Lighting',
+        items: [
+            'Aputure 600d Pro',
+            'Aputure 300d II',
+            'Aputure MC RGB panels',
+            'Godox VL300',
+            'LED tube lights',
+            'Tungsten Fresnel',
+            'Various LED panels'
+        ]
+    },
+    grip: {
+        title: 'Grip & Rigging',
+        items: [
+            '10+ C-Stands (various sizes)',
+            'Boom arms',
+            'Sandbags',
+            'Flags & scrims',
+            'Diffusion frames',
+            'V-flats',
+            'Autopoles',
+            'Apple boxes',
+            'Clamps & adapters'
+        ]
+    }
+};
+
 interface TourPageProps {
     onBook: (duration?: number) => void;
 }
 
+type EquipmentCategory = 'strobes' | 'continuous' | 'grip' | null;
+
 const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
+    const [activeEquipment, setActiveEquipment] = useState<EquipmentCategory>(null);
     return (
         <TourContainer sectionConfig={SECTION_CONFIG}>
 
@@ -197,6 +244,38 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         </Reveal>
                     </div>
                 </TourSlide>
+
+                {/* Slide 3: Pulley System */}
+                <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=30" bgOverlay="dark">
+                    <div className="max-w-4xl mx-auto px-6 text-center">
+                        <Reveal>
+                            <p className="text-xs uppercase tracking-[0.3em] mb-4 text-cream/60">How It Works</p>
+                        </Reveal>
+                        <Reveal delay={0.1}>
+                            <h3 className="font-serif text-3xl md:text-5xl mb-6 text-cream">The Pulley System</h3>
+                        </Reveal>
+                        <Reveal delay={0.2}>
+                            <p className="text-cream/80 max-w-lg mx-auto mb-8 text-sm md:text-base">
+                                Our integrated pulley system allows quick backdrop changes without ladders or hassle. Simply pull to swap colors in seconds.
+                            </p>
+                        </Reveal>
+
+                        {/* YouTube Video Placeholder */}
+                        <Reveal delay={0.3}>
+                            <a
+                                href="https://youtube.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-4 px-8 py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group"
+                            >
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                                    <Play size={24} className="text-cream ml-1" />
+                                </div>
+                                <span className="text-cream font-serif text-lg md:text-xl">Watch Demo Video</span>
+                            </a>
+                        </Reveal>
+                    </div>
+                </TourSlide>
             </TourSection>
 
             {/* 4. Lighting Grid (2 slides) */}
@@ -215,42 +294,56 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </div>
                 </TourSlide>
 
-                {/* Slide 2: Equipment Details */}
+                {/* Slide 2: Equipment Details - Clickable Categories */}
                 <TourSlide theme="dark" className="bg-[#1a1a1a]">
                     <div className="max-w-4xl mx-auto w-full">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.2em] mb-2 md:mb-4 text-cream/60 text-center">Included Equipment</p>
+                            <p className="text-xs uppercase tracking-[0.2em] mb-2 md:mb-4 text-cream/60 text-center">Tap to View Equipment</p>
                         </Reveal>
                         <Reveal delay={0.1}>
                             <h3 className="font-serif text-2xl md:text-5xl mb-6 md:mb-12 text-center text-cream">Professional Grade</h3>
                         </Reveal>
                         <div className="grid grid-cols-3 gap-4 md:gap-8">
+                            {/* Strobes Button */}
                             <Reveal delay={0.2}>
-                                <div className="text-center">
-                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-lg md:text-2xl">💡</span>
+                                <button
+                                    onClick={() => setActiveEquipment('strobes')}
+                                    className="text-center w-full group cursor-pointer"
+                                >
+                                    <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
+                                        <span className="text-3xl md:text-4xl">💡</span>
                                     </div>
-                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Strobes</h4>
-                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Profoto & Godox professional flash units with modifiers</p>
-                                </div>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Strobes</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
+                                </button>
                             </Reveal>
+
+                            {/* Continuous Button */}
                             <Reveal delay={0.3}>
-                                <div className="text-center">
-                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-lg md:text-2xl">🎬</span>
+                                <button
+                                    onClick={() => setActiveEquipment('continuous')}
+                                    className="text-center w-full group cursor-pointer"
+                                >
+                                    <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
+                                        <span className="text-3xl md:text-4xl">🎬</span>
                                     </div>
-                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Continuous</h4>
-                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">LED panels and tungsten options for video production</p>
-                                </div>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Continuous</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
+                                </button>
                             </Reveal>
+
+                            {/* Grip Button */}
                             <Reveal delay={0.4}>
-                                <div className="text-center">
-                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-lg md:text-2xl">🔧</span>
+                                <button
+                                    onClick={() => setActiveEquipment('grip')}
+                                    className="text-center w-full group cursor-pointer"
+                                >
+                                    <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
+                                        <span className="text-3xl md:text-4xl">🔧</span>
                                     </div>
-                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Grip</h4>
-                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">C-stands, booms, flags, and diffusion materials</p>
-                                </div>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Grip</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
+                                </button>
                             </Reveal>
                         </div>
                     </div>
@@ -419,6 +512,59 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
             {/* Floating Navigation */}
             <TourNavigation />
+
+            {/* Equipment Modal */}
+            <AnimatePresence>
+                {activeEquipment && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal/80 backdrop-blur-sm"
+                        onClick={() => setActiveEquipment(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 50 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="bg-cream rounded-lg p-6 md:p-8 max-w-md w-full max-h-[80vh] overflow-y-auto shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Close Button */}
+                            <button
+                                onClick={() => setActiveEquipment(null)}
+                                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-charcoal/10 hover:bg-charcoal/20 flex items-center justify-center transition-colors"
+                            >
+                                <X size={18} className="text-charcoal" />
+                            </button>
+
+                            {/* Modal Content */}
+                            <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-6">
+                                {EQUIPMENT_DATA[activeEquipment].title}
+                            </h3>
+                            <ul className="space-y-3">
+                                {EQUIPMENT_DATA[activeEquipment].items.map((item, i) => (
+                                    <li
+                                        key={i}
+                                        className="flex items-center gap-3 text-charcoal/80"
+                                    >
+                                        <span className="w-2 h-2 rounded-full bg-charcoal/40 flex-shrink-0" />
+                                        <span className="text-sm md:text-base">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <button
+                                onClick={() => setActiveEquipment(null)}
+                                className="mt-8 w-full py-3 bg-charcoal text-cream rounded-lg hover:bg-charcoal/90 transition-colors font-medium"
+                            >
+                                Close
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
         </TourContainer>
     );

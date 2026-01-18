@@ -21,8 +21,8 @@ const NavigationGrid: React.FC<{
 
     const buttonClass = "group relative w-28 h-28 md:w-40 md:h-40 rounded-full bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-500 ease-out flex flex-col items-center justify-center gap-3 hover:scale-105 z-10 p-4";
 
-    // Staggered delays: top row (0, 1, 2) then bottom row (3, 4)
-    const delays = [0.2, 0.5, 0.8, 1.1, 1.4];
+    // Staggered delays: overlapping so each starts before previous finishes
+    const delays = [0, 0.3, 0.6, 0.9, 1.2];
 
     return (
         <section className="py-20 px-6 max-w-5xl mx-auto" ref={ref}>
@@ -74,8 +74,8 @@ const PaperColorsGrid: React.FC<{
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-    // Staggered delays for 12 items in a 3-column grid (row by row, left to right)
-    const getDelay = (index: number) => 0.15 + index * 0.2;
+    // Staggered delays for 12 items - overlapping so each starts before previous finishes
+    const getDelay = (index: number) => index * 0.15;
 
     return (
         <div className="grid grid-cols-3 gap-x-4 gap-y-8 mb-10" ref={ref}>
