@@ -14,7 +14,7 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <section className="h-screen w-full snap-start bg-cream flex flex-col justify-center items-center px-6 md:px-12 pb-24 pt-[12vh]">
+        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col justify-center items-center px-6 md:px-12 pb-nav-safe pt-[12vh]">
             <div className="max-w-xl mx-auto w-full">
                 <Reveal>
                     <h2 className="font-serif text-3xl md:text-4xl text-charcoal mb-8 text-center">Common Questions</h2>

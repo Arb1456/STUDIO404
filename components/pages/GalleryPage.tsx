@@ -4,6 +4,7 @@ import { X, ChevronLeft, ChevronRight, ArrowDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import Footer from '@/components/layout/Footer';
 
 interface GalleryItem {
     id: number;
@@ -282,6 +283,9 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
                     </div>
                 </div>
             )}
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

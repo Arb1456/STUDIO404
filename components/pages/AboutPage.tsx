@@ -3,6 +3,7 @@ import React from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight, Star, Heart, Zap } from 'lucide-react';
+import Footer from '@/components/layout/Footer';
 
 interface AboutPageProps {
     onBook: (duration?: number) => void;
@@ -234,6 +235,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                 </div>
             </section>
 
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

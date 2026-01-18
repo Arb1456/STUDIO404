@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const Availability: React.FC = () => {
     return (
-        <section className="h-screen w-full snap-start bg-cream flex flex-col justify-center px-6 md:px-12 py-24 relative overflow-hidden">
+        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col justify-center px-6 md:px-12 pt-24 pb-nav-safe relative overflow-hidden">
             <div className="absolute top-12 left-6 md:left-12 max-w-2xl">
                 <Reveal>
                     <h2 className="font-serif text-4xl text-charcoal mb-4">Availability</h2>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import Footer from '@/components/layout/Footer';
 import {
     Box,
     Lightbulb,
@@ -364,6 +365,9 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     </div>
                 </Reveal>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

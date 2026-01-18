@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Outfit, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
+import ViewportHeightFix from '@/components/layout/ViewportHeightFix';
 
 const outfit = Outfit({
     subsets: ['latin'],
@@ -41,6 +42,7 @@ export default function RootLayout({
                 />
             </head>
             <body className="bg-cream text-charcoal font-sans antialiased">
+                <ViewportHeightFix />
                 {children}
             </body>
         </html>

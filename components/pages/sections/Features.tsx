@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 
 const Features: React.FC = () => {
     return (
-        <section className="h-screen w-full snap-start bg-cream text-charcoal flex flex-col justify-center items-center px-6 md:px-12 relative pb-12 pt-[12vh]">
+        <section className="h-screen-safe w-full snap-start bg-cream text-charcoal flex flex-col justify-center items-center px-6 md:px-12 relative pb-nav-safe pt-[12vh]">
             <div className="max-w-2xl text-center mb-6 md:mb-8">
                 <Reveal>
                     <h2 className="font-serif text-3xl md:text-4xl mb-2">What's Included?</h2>

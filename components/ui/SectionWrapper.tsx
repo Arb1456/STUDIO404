@@ -11,7 +11,7 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({ id, children, cl
     return (
         <section
             id={id}
-            className={`min-h-screen w-full snap-start snap-always flex items-center justify-center ${className}`}
+            className={`min-h-screen-safe w-full snap-start snap-always flex items-center justify-center ${className}`}
         >
             {children}
         </section>

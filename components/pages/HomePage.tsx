@@ -9,12 +9,13 @@ import Features from './sections/Features';
 import Gallery from './sections/Gallery';
 import FAQ from './sections/FAQ';
 import Contact from './sections/Contact';
+import Footer from '@/components/layout/Footer';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
     return (
-        <div className="relative w-full h-screen overflow-hidden">
+        <div className="relative w-full h-screen-safe overflow-hidden">
             {/* Main Scroll Container */}
             <main className="w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar relative z-10">
                 <SectionWrapper id="home">
@@ -43,7 +44,7 @@ const HomePage: React.FC = () => {
 
                 {/* Tour CTA Section */}
                 <SectionWrapper id="tour-cta">
-                    <section className="h-screen w-full snap-start bg-charcoal flex flex-col items-center justify-center px-6 text-center">
+                    <section className="h-screen-safe w-full snap-start bg-charcoal flex flex-col items-center justify-center px-6 text-center pb-nav-safe">
                         <Reveal>
                             <h2 className="font-serif text-4xl md:text-6xl text-cream mb-6">
                                 Ready to tour the studio?
@@ -65,6 +66,11 @@ const HomePage: React.FC = () => {
                         </Reveal>
                     </section>
                 </SectionWrapper>
+
+                {/* Footer Section */}
+                <div className="snap-start">
+                    <Footer />
+                </div>
             </main>
         </div>
     );

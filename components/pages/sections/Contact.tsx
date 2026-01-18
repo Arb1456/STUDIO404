@@ -111,7 +111,7 @@ const Contact: React.FC = () => {
         <>
             {/* Mobile: Info Section */}
             <SectionWrapper id="contact-info" className="md:hidden">
-                <section className="md:hidden h-screen w-full snap-start bg-cream text-charcoal flex flex-col justify-center px-6 relative pb-12 pt-[12vh]">
+                <section className="md:hidden h-screen-safe w-full snap-start bg-cream text-charcoal flex flex-col justify-center px-6 relative pb-nav-safe pt-[12vh]">
                     <ContactInfoContent />
                     <div className="absolute bottom-24 left-0 right-0 flex justify-center animate-bounce opacity-30 text-charcoal">
                         <ChevronDown />
@@ -121,7 +121,7 @@ const Contact: React.FC = () => {
 
             {/* Mobile: Form Section */}
             <SectionWrapper id="contact-form" className="md:hidden">
-                <section className="md:hidden h-screen w-full snap-start bg-cream text-charcoal flex flex-col justify-center px-6 relative pb-24 pt-[12vh] border-t border-charcoal/5">
+                <section className="md:hidden h-screen-safe w-full snap-start bg-cream text-charcoal flex flex-col justify-center px-6 relative pb-nav-safe pt-[12vh] border-t border-charcoal/5">
                     <Reveal>
                         <h3 className="font-serif text-3xl mb-4">Start a Conversation</h3>
                     </Reveal>
@@ -133,7 +133,7 @@ const Contact: React.FC = () => {
 
             {/* Desktop: Combined Section */}
             <SectionWrapper id="contact-desktop" className="hidden md:block">
-                <section className="hidden md:flex h-screen w-full snap-start bg-cream text-charcoal flex-col justify-center px-12 pb-12 pt-[12vh] relative">
+                <section className="hidden md:flex h-screen-safe w-full snap-start bg-cream text-charcoal flex-col justify-center px-12 pb-nav-safe pt-[12vh] relative">
                     <div className="max-w-6xl mx-auto w-full grid grid-cols-2 gap-16 items-center">
                         <div className="order-1">
                             <ContactInfoContent />

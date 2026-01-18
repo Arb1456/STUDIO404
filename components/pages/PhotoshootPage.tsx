@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, Loader2 } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
+import Footer from '@/components/layout/Footer';
 
 interface SessionType {
     id: string;
@@ -517,6 +518,9 @@ const PhotoshootPage: React.FC = () => {
                 isOpen={isCalendarOpen}
                 onClose={handleCloseCalendar}
             />
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

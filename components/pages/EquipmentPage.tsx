@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Accordion } from '@/components/ui/Accordion';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '@/components/layout/Footer';
 
 interface EquipmentPageProps {
     onBook: (duration?: number) => void;
@@ -514,6 +515,9 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                     <Button onClick={() => onBook()}>Book Your Time</Button>
                 </Reveal>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

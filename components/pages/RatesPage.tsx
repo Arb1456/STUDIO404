@@ -6,6 +6,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Link from 'next/link';
+import Footer from '@/components/layout/Footer';
 
 interface RatesPageProps {
     onBook: (duration?: number) => void;
@@ -287,6 +288,9 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                     </div>
                 </Reveal>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

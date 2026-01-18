@@ -4,6 +4,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { VoiceAgentBlock } from '@/components/ui/VoiceAgentBlock';
 import { MapPin, Instagram, Mail, ArrowRight } from 'lucide-react';
+import Footer from '@/components/layout/Footer';
 
 interface ContactPageProps {
     onBook: (duration?: number) => void;
@@ -230,6 +231,9 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
                     </p>
                 </Reveal>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

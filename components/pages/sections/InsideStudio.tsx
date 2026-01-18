@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 
 const InsideStudio: React.FC = () => {
     return (
-        <section className="h-screen w-full snap-start bg-cream text-charcoal flex flex-col md:flex-row relative overflow-hidden">
+        <section className="h-screen-safe w-full snap-start bg-cream text-charcoal flex flex-col md:flex-row relative overflow-hidden pb-nav-safe md:pb-0">
             {/* Text Half */}
             <div className="w-full md:w-1/2 h-[60vh] md:h-full flex flex-col justify-start md:justify-center px-6 md:px-20 order-2 md:order-1 relative z-20 bg-cream pt-6 md:pt-0">
                 <div className="max-w-xl mx-auto md:mx-0">

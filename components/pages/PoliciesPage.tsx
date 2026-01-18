@@ -4,6 +4,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
 import { Volume2, Dog, HelpCircle, AlertTriangle } from 'lucide-react';
+import Footer from '@/components/layout/Footer';
 
 interface PoliciesPageProps {
     onBook: (duration?: number) => void;
@@ -248,6 +249,9 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                     </Button>
                 </Reveal>
             </section>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 };

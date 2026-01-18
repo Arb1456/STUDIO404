@@ -10,7 +10,7 @@ const heroMobile = 'https://res.cloudinary.com/du5ixrlhz/image/upload/v176867253
 
 const Hero: React.FC = () => {
     return (
-        <section className="relative h-screen w-full snap-start overflow-hidden bg-cream text-charcoal flex flex-col justify-end pb-32 md:pb-24">
+        <section className="relative h-screen-safe w-full snap-start overflow-hidden bg-cream text-charcoal flex flex-col justify-end pb-nav-safe">
             {/* Hero Background Images - Responsive */}
             <div className="absolute inset-0 z-0">
                 {/* Mobile Image (hidden on md+) */}

@@ -17,7 +17,7 @@ const CAROUSEL_IMAGES = [...GALLERY_IMAGES, ...GALLERY_IMAGES, ...GALLERY_IMAGES
 
 const Gallery: React.FC = () => {
     return (
-        <section className="h-screen w-full snap-start bg-cream flex flex-col justify-center py-24 overflow-hidden relative">
+        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col justify-center pt-24 pb-nav-safe overflow-hidden relative">
             <div className="px-6 md:px-12 mb-10 text-center md:text-left">
                 <Reveal>
                     <h2 className="font-serif text-4xl text-charcoal mb-2">Shot in Our Space</h2>
