@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Hero from './sections/Hero';
 import Availability from './sections/Availability';
@@ -8,6 +9,8 @@ import Features from './sections/Features';
 import Gallery from './sections/Gallery';
 import FAQ from './sections/FAQ';
 import Contact from './sections/Contact';
+import { Reveal } from '@/components/ui/Reveal';
+import { ArrowRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
     return (
@@ -32,6 +35,32 @@ const HomePage: React.FC = () => {
                 <SectionWrapper id="faq">
                     <FAQ />
                 </SectionWrapper>
+
+                {/* Tour CTA Section */}
+                <SectionWrapper id="tour-cta">
+                    <section className="h-screen w-full snap-start bg-charcoal flex flex-col items-center justify-center px-6 text-center">
+                        <Reveal>
+                            <h2 className="font-serif text-4xl md:text-6xl text-cream mb-6">
+                                Ready to tour the studio?
+                            </h2>
+                        </Reveal>
+                        <Reveal delay={0.1}>
+                            <p className="text-cream/60 text-lg mb-10 max-w-xl">
+                                Take a virtual walkthrough and see what awaits you.
+                            </p>
+                        </Reveal>
+                        <Reveal delay={0.2}>
+                            <Link
+                                href="/tour"
+                                className="group flex items-center gap-3 bg-cream text-charcoal px-8 py-4 text-sm uppercase tracking-widest hover:bg-white transition-colors"
+                            >
+                                <span>Take the Tour</span>
+                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </Reveal>
+                    </section>
+                </SectionWrapper>
+
                 {/* Contact handles its own SectionWrappers internally due to multi-section mobile layout */}
                 <div id="contact">
                     <Contact />
