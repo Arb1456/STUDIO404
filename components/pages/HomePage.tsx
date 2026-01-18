@@ -36,6 +36,11 @@ const HomePage: React.FC = () => {
                     <FAQ />
                 </SectionWrapper>
 
+                {/* Contact handles its own SectionWrappers internally due to multi-section mobile layout */}
+                <div id="contact">
+                    <Contact />
+                </div>
+
                 {/* Tour CTA Section */}
                 <SectionWrapper id="tour-cta">
                     <section className="h-screen w-full snap-start bg-charcoal flex flex-col items-center justify-center px-6 text-center">
@@ -60,11 +65,6 @@ const HomePage: React.FC = () => {
                         </Reveal>
                     </section>
                 </SectionWrapper>
-
-                {/* Contact handles its own SectionWrappers internally due to multi-section mobile layout */}
-                <div id="contact">
-                    <Contact />
-                </div>
             </main>
         </div>
     );
