@@ -211,39 +211,39 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                 {/* Slide 2: Equipment Details */}
                 <TourSlide theme="dark" className="bg-[#1a1a1a]">
-                    <div className="max-w-5xl mx-auto px-6">
+                    <div className="max-w-4xl mx-auto w-full">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.3em] mb-4 text-cream/60 text-center">Included Equipment</p>
+                            <p className="text-xs uppercase tracking-[0.2em] mb-2 md:mb-4 text-cream/60 text-center">Included Equipment</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-4xl md:text-5xl mb-12 text-center text-cream">Professional Grade</h3>
+                            <h3 className="font-serif text-2xl md:text-5xl mb-6 md:mb-12 text-center text-cream">Professional Grade</h3>
                         </Reveal>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-3 gap-4 md:gap-8">
                             <Reveal delay={0.2}>
                                 <div className="text-center">
-                                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-2xl">💡</span>
+                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
+                                        <span className="text-lg md:text-2xl">💡</span>
                                     </div>
-                                    <h4 className="font-serif text-xl mb-2 text-cream">Strobes</h4>
-                                    <p className="text-cream/60 text-sm">Profoto & Godox professional flash units with modifiers</p>
+                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Strobes</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Profoto & Godox professional flash units with modifiers</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.3}>
                                 <div className="text-center">
-                                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-2xl">🎬</span>
+                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
+                                        <span className="text-lg md:text-2xl">🎬</span>
                                     </div>
-                                    <h4 className="font-serif text-xl mb-2 text-cream">Continuous</h4>
-                                    <p className="text-cream/60 text-sm">LED panels and tungsten options for video production</p>
+                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Continuous</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">LED panels and tungsten options for video production</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.4}>
                                 <div className="text-center">
-                                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream/10 flex items-center justify-center">
-                                        <span className="text-2xl">🔧</span>
+                                    <div className="w-10 h-10 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 flex items-center justify-center">
+                                        <span className="text-lg md:text-2xl">🔧</span>
                                     </div>
-                                    <h4 className="font-serif text-xl mb-2 text-cream">Grip & Rigging</h4>
-                                    <p className="text-cream/60 text-sm">C-stands, booms, flags, and diffusion materials</p>
+                                    <h4 className="font-serif text-sm md:text-xl mb-1 md:mb-2 text-cream">Grip</h4>
+                                    <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">C-stands, booms, flags, and diffusion materials</p>
                                 </div>
                             </Reveal>
                         </div>

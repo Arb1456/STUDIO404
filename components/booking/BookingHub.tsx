@@ -10,15 +10,15 @@ import Link from 'next/link';
 // ============================================
 export const RENTAL_CALENDARS: Record<number, { url: string; price: number }> = {
     1: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-1-hour', price: 70 },
-    2: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_2]', price: 120 },
-    3: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_3]', price: 180 },
-    4: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_4]', price: 225 },
-    5: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_5]', price: 270 },
-    6: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_6]', price: 315 },
-    7: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_7]', price: 360 },
-    8: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_8]', price: 400 },
-    9: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_9]', price: 430 },
-    10: { url: 'https://link.msgsndr.com/widget/booking/[SLUG_10]', price: 450 },
+    2: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-2-hour', price: 120 },
+    3: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-3-hour', price: 180 },
+    4: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-4-hour', price: 225 },
+    5: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-5-hour', price: 270 },
+    6: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-6-hour', price: 315 },
+    7: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-7-hour', price: 360 },
+    8: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-8-hour', price: 400 },
+    9: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-9-hour', price: 430 },
+    10: { url: 'https://links.neovate.ca/widget/bookings/studio-rental-10-hour', price: 450 },
 };
 
 interface BookingHubProps {
