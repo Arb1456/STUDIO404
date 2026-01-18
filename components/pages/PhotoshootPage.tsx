@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, Loader2 } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 
@@ -80,8 +80,132 @@ const FocusGridItem: React.FC<{ children: React.ReactNode; className?: string; o
     );
 };
 
+// Session Calendar Modal Component
+const SessionCalendarModal: React.FC<{
+    session: SessionType | null;
+    isOpen: boolean;
+    onClose: () => void;
+}> = ({ session, isOpen, onClose }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsLoading(true);
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isOpen) {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [isOpen, onClose]);
+
+    if (!session) return null;
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] flex flex-col"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={`Book ${session.title} Session`}
+                >
+                    {/* Backdrop */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 bg-charcoal/90 backdrop-blur-md"
+                        onClick={onClose}
+                    />
+
+                    {/* Modal Content */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 40 }}
+                        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                        className="relative z-10 flex flex-col h-full max-h-screen bg-cream"
+                    >
+                        {/* Header */}
+                        <div className="flex-shrink-0 border-b border-charcoal/10">
+                            <div className="flex items-center justify-between px-4 md:px-8 py-4">
+                                <div>
+                                    <h2 className="font-serif text-2xl md:text-3xl">
+                                        Book {session.title} Session
+                                    </h2>
+                                    <p className="text-xs text-charcoal/50 uppercase tracking-widest mt-1">
+                                        Starting at ${session.price}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={onClose}
+                                    className="p-3 hover:bg-charcoal/5 rounded-full transition-colors"
+                                    aria-label="Close booking modal"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Iframe Container */}
+                        <div className="flex-1 relative overflow-hidden">
+                            {/* Loading Spinner */}
+                            <AnimatePresence>
+                                {isLoading && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 flex flex-col items-center justify-center bg-cream z-10"
+                                    >
+                                        <Loader2 size={40} className="animate-spin text-charcoal/30" />
+                                        <p className="mt-4 text-sm text-charcoal/50 uppercase tracking-widest">
+                                            Loading Calendar...
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* GHL Iframe */}
+                            <iframe
+                                src={session.calendarUrl}
+                                onLoad={() => setIsLoading(false)}
+                                className="w-full h-full"
+                                style={{
+                                    border: 'none',
+                                    minHeight: '700px',
+                                    height: '100%',
+                                }}
+                                allow="payment"
+                                title={`Book ${session.title} Session`}
+                            />
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+};
+
 const PhotoshootPage: React.FC = () => {
     const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
+    const [calendarSession, setCalendarSession] = useState<SessionType | null>(null);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const detailRef = useRef<HTMLDivElement>(null);
 
     const handleSessionClick = (session: SessionType) => {
@@ -93,6 +217,15 @@ const PhotoshootPage: React.FC = () => {
 
     const handleBack = () => {
         setSelectedSession(null);
+    };
+
+    const handleOpenCalendar = (session: SessionType) => {
+        setCalendarSession(session);
+        setIsCalendarOpen(true);
+    };
+
+    const handleCloseCalendar = () => {
+        setIsCalendarOpen(false);
     };
 
     return (
@@ -323,7 +456,7 @@ const PhotoshootPage: React.FC = () => {
                                             </div>
                                             <Button
                                                 className="w-full"
-                                                onClick={() => window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer')}
+                                                onClick={() => handleOpenCalendar(selectedSession)}
                                             >
                                                 Book {selectedSession.title} Session
                                             </Button>
@@ -377,6 +510,13 @@ const PhotoshootPage: React.FC = () => {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Session Calendar Modal */}
+            <SessionCalendarModal
+                session={calendarSession}
+                isOpen={isCalendarOpen}
+                onClose={handleCloseCalendar}
+            />
         </div>
     );
 };
