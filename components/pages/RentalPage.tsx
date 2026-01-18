@@ -39,19 +39,19 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
     const reviews = [
         {
-            text: "A space where beginners feel safe to learn and professionals feel free to master. The lighting equipment included is top tier.",
-            author: "Sarah Jenkins",
-            role: "Fashion Photographer"
+            text: "I'd give 6 stars if I could. I'm a photographer and I was extremely happy with this studio, and the experience of working with the staff. The space is great, with lots of equipment and options at your disposal, and the price is amazing for what you're getting. But more significant to me: Andre is absolutely the best studio owner I've ever worked with.",
+            author: "Verified Photographer",
+            role: "Google Review"
         },
         {
-            text: "Absolutely flawless experience. The cyclorama wall was freshly painted and the booking process was seamless.",
-            author: "Marcus Chen",
-            role: "Commercial Director"
+            text: "At first, I wasn't really comfortable getting my pictures taken since I've never been that type of guy. But when I got my photos from Andre, he completely captured what I wanted from the shoot. He was super understanding and easy to work with. For anyone who's camera-shy, I definitely recommend Studio 404.",
+            author: "Satisfied Client",
+            role: "Google Review"
         },
         {
-            text: "Best studio value in Ottawa. Having the tether station and fiber internet made our client review process instant.",
-            author: "Jessica Alverez",
-            role: "Creative Agency Owner"
+            text: "We rented Studio 404 for a TV production and could not have been more pleased with our experience. Andre and Andy were extremely professional, responsive and accommodating from beginning to end. Their space is also super versatile and fit our needs beautifully. Thanks for the great experience!",
+            author: "Production Company",
+            role: "Google Review"
         }
     ];
 
