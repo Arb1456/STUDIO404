@@ -28,11 +28,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                             Designed to bridge the gap between accessibility and professional quality.
                         </p>
                     </Reveal>
-                    <Reveal delay={0.4}>
-                        <Button onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
-                            Explore the Studio
-                        </Button>
-                    </Reveal>
                 </div>
             </section>
 

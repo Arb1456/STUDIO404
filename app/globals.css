@@ -37,18 +37,11 @@
     min-height: calc(var(--vh, 1vh) * 100);
 }
 
-/* Snap scroll container - only on mobile for natural scroll on desktop */
+/* Snap scroll container - snaps to sections on all devices */
 .snap-y {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     /* Smooth momentum scrolling on iOS */
-}
-
-/* Disable snap on desktop for free scrolling */
-@media (min-width: 768px) {
-    .snap-y {
-        scroll-snap-type: none;
-    }
 }
 
 .snap-start {
