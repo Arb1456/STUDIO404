@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, Loader2 } from 'lucide-react';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Footer from '@/components/layout/Footer';
@@ -14,32 +15,33 @@ interface SessionType {
     image: string;
     duration: string;
     photoCount: number;
+    galleryCount: number;
     calendarUrl: string;
 }
+
+// Helper to generate session image URL
+const getSessionImg = (folderName: string, index: number = 1) => {
+    const paddedIndex = index.toString().padStart(2, '0');
+    const folder = `${folderName.toUpperCase()}-SESSION`;
+    const filename = `${folder}-${paddedIndex}`;
+    // Public ID is just the filename, e.g. MATERNITY-SESSION-01
+    return cloudinaryUrl(filename);
+};
 
 // ============================================
 // PHOTOSHOOT CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
 // ============================================
 const SESSIONS: SessionType[] = [
-    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: 'https://picsum.photos/seed/portrait/800/800', duration: '1-2+ Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PORTRAIT]' },
-    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: 'https://picsum.photos/seed/family/800/800', duration: '1.5-3 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_FAMILY]' },
-    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: 'https://picsum.photos/seed/couple/800/800', duration: '1.5-3 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_COUPLE]' },
-    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: 'https://picsum.photos/seed/birthday/800/800', duration: '1-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BIRTHDAY]' },
-    { id: 'headshots', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: 'https://picsum.photos/seed/headshots/800/800', duration: '1-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_HEADSHOTS]' },
-    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: 'https://picsum.photos/seed/maternity/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_MATERNITY]' },
-    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: 'https://picsum.photos/seed/group/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_GROUP]' },
-    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: 'https://picsum.photos/seed/newborn/800/800', duration: '1.5-3.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_NEWBORN]' },
-    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: 'https://picsum.photos/seed/boudoir/800/800', duration: '1.5-3+ Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BOUDOIR]' },
-    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: 'https://picsum.photos/seed/product/800/800', duration: '1.5-2.5 Hours', photoCount: 8, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PRODUCT]' },
-];
-
-const CATALOG_IMAGES = [
-    'https://picsum.photos/seed/art1/600/800',
-    'https://picsum.photos/seed/art2/600/800',
-    'https://picsum.photos/seed/art3/600/800',
-    'https://picsum.photos/seed/art4/600/800',
-    'https://picsum.photos/seed/art5/600/800',
-    'https://picsum.photos/seed/art6/600/800',
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PORTRAIT]' },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_FAMILY]' },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_COUPLE]' },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BIRTHDAY]' },
+    { id: 'headshots', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshots'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_HEADSHOTS]' },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_MATERNITY]' },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_GROUP]' },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_NEWBORN]' },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BOUDOIR]' },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PRODUCT]' },
 ];
 
 const PROCESS_STEPS = [
@@ -282,6 +284,7 @@ const PhotoshootPage: React.FC = () => {
                             transition={{ duration: 0.5 }}
                             className="flex flex-col gap-24 lg:gap-32 pb-24"
                         >
+
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-1">
                                 {SESSIONS.map((session, index) => (
                                     <FocusGridItem
@@ -489,9 +492,18 @@ const PhotoshootPage: React.FC = () => {
                                             </div>
 
                                             <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mr-4 md:-mr-0 pr-4 md:pr-0">
-                                                {CATALOG_IMAGES.map((img, i) => (
+                                                {/* Dynamic Gallery for selected session */}
+                                                {Array.from({ length: selectedSession.galleryCount }).map((_, i) => (
                                                     <div key={i} className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center bg-gray-200 overflow-hidden">
-                                                        <img src={`${img}?${i}`} alt={`Portfolio ${i}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                                                        <img
+                                                            src={getSessionImg(selectedSession.id, i + 1)}
+                                                            alt={`${selectedSession.title} Example ${i + 1}`}
+                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                                            onError={(e) => {
+                                                                // Simple fallback if image doesn't exist to hide 
+                                                                (e.target as HTMLImageElement).style.opacity = "0.5";
+                                                            }}
+                                                        />
                                                     </div>
                                                 ))}
                                                 <div className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center bg-charcoal text-cream p-8 flex flex-col justify-between">

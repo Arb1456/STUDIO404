@@ -55,7 +55,10 @@ export function cloudinaryUrl(publicId: string, options: CloudinaryOptions = {})
 
     const transformString = transforms.join(',');
 
-    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transformString}/${publicId}`;
+    // Encode URI components but preserve slashes
+    const encodedPublicId = publicId.split('/').map(part => encodeURIComponent(part)).join('/');
+
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transformString}/${encodedPublicId}`;
 }
 
 /**
