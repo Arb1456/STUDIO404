@@ -6,6 +6,7 @@ import { Accordion } from '@/components/ui/Accordion';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 interface EquipmentPageProps {
     onBook: (duration?: number) => void;
@@ -404,7 +405,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                     <Reveal>
                         <div className="sticky top-24">
                             <img
-                                src="https://picsum.photos/seed/paper_rolls/800/1000?grayscale"
+                                src={cloudinaryUrl('ThePaper_Library_hzpslw')}
                                 alt="Seamless Paper Rolls"
                                 className="w-full h-[600px] object-cover"
                             />
