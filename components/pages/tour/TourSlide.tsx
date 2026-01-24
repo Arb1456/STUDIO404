@@ -32,7 +32,7 @@ export const TourSlide: React.FC<TourSlideProps> = ({
     return (
         <div
             className={`
-                w-screen h-full snap-start snap-always flex-shrink-0 relative overflow-hidden
+                w-screen h-full snap-start flex-shrink-0 relative overflow-hidden
                 ${themeStyles[theme]}
                 ${className}
             `}
