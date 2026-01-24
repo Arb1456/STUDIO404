@@ -4,6 +4,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 import {
     Box,
     Lightbulb,
@@ -254,7 +255,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                 <div className="w-full md:w-1/2">
                     <Reveal>
                         <div className="relative aspect-[4/5] bg-gray-200 overflow-hidden">
-                            <img src="https://picsum.photos/seed/studio99/800/1000" alt="Studio Rules" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" />
+                            <img src={cloudinaryUrl('HOUSE-RULES_r5rr22')} alt="Studio Rules" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" />
                         </div>
                     </Reveal>
                 </div>

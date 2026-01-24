@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const Availability: React.FC = () => {
     return (
@@ -36,7 +37,7 @@ const Availability: React.FC = () => {
                         className="group block relative w-full h-full bg-charcoal-light overflow-hidden cursor-pointer shadow-xl"
                     >
                         <img
-                            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2670&auto=format&fit=crop"
+                            src={cloudinaryUrl('RENTAL-BUTTON_xou09n')}
                             alt="Studio Rental"
                             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
                         />

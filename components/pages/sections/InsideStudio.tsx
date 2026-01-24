@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const InsideStudio: React.FC = () => {
     return (
@@ -49,7 +50,7 @@ const InsideStudio: React.FC = () => {
             <div className="w-full md:w-1/2 h-[40vh] md:h-full relative overflow-hidden order-1 md:order-2">
                 <div className="absolute inset-0 bg-charcoal/10 z-10" />
                 <img
-                    src="https://images.unsplash.com/photo-1590845947698-8924d7409b56?q=80&w=2787&auto=format&fit=crop"
+                    src={cloudinaryUrl('INSIDE-STUDIO404_k4wynn')}
                     alt="Studio Interior"
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100"
                 />
