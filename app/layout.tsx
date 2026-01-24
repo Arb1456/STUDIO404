@@ -3,6 +3,7 @@ import { Outfit, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
 import ViewportHeightFix from '@/components/layout/ViewportHeightFix';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const outfit = Outfit({
     subsets: ['latin'],
@@ -44,6 +45,7 @@ export default function RootLayout({
             <body className="bg-cream text-charcoal font-sans antialiased">
                 <ViewportHeightFix />
                 {children}
+                <SpeedInsights />
             </body>
         </html>
     );

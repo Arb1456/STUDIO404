@@ -261,7 +261,7 @@ const PhotoshootPage: React.FC = () => {
                             <Button
                                 variant="outline"
                                 className="rounded-full"
-                                onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                                onClick={() => window.location.href = '/contact'}
                             >
                                 Discuss Your Project
                             </Button>

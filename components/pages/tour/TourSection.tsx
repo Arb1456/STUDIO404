@@ -24,7 +24,7 @@ export const TourSection: React.FC<TourSectionProps> = ({
             <section
                 ref={sectionRef}
                 id={id}
-                className="snap-start snap-always h-screen-safe w-full relative overflow-hidden bg-black"
+                className="snap-start h-screen-safe w-full relative overflow-hidden bg-black"
             >
                 <motion.div
                     className={`h-full w-full flex flex-col justify-center items-center px-4 md:px-6 ${className}`}
@@ -46,7 +46,7 @@ export const TourSection: React.FC<TourSectionProps> = ({
         <section
             ref={sectionRef}
             id={id}
-            className="snap-start snap-always h-screen-safe w-full relative overflow-hidden bg-black"
+            className="snap-start h-screen-safe w-full relative overflow-hidden bg-black"
         >
             <motion.div
                 initial={{ scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }}

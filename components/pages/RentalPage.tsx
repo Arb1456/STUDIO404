@@ -355,13 +355,14 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                         <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={() => onBook()}>
                             Book Studio
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="text-cream border-cream hover:bg-cream hover:text-charcoal"
-                            onClick={() => document.getElementById('tour')?.scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            Tour The Studio
-                        </Button>
+                        <Link href="/tour">
+                            <Button
+                                variant="outline"
+                                className="text-cream border-cream hover:bg-cream hover:text-charcoal"
+                            >
+                                Tour The Studio
+                            </Button>
+                        </Link>
                     </div>
                 </Reveal>
             </section>

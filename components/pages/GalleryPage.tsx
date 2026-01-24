@@ -118,14 +118,25 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
         <div className="w-full min-h-screen bg-cream text-charcoal pb-32 relative overflow-hidden">
 
             {/* S1: Intro Section */}
-            <section className="relative z-10 pt-32 pb-12 px-6 md:px-12 lg:px-24">
+            <section className="relative z-10 pt-32 pb-8 px-6 md:px-12 lg:px-24">
                 <Reveal>
                     <div className="max-w-4xl mx-auto text-center space-y-6">
                         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter">
-                            Client Gallery
+                            Community Gallery
                         </h1>
-                        <p className="font-sans text-lg md:text-xl font-light tracking-wide opacity-80 max-w-2xl mx-auto">
-                            A curated selection of work created inside Studio 404.
+                    </div>
+                </Reveal>
+            </section>
+
+            {/* Description Section */}
+            <section className="relative z-10 pb-12 px-6 md:px-12 lg:px-24">
+                <Reveal delay={0.1}>
+                    <div className="max-w-3xl mx-auto text-center">
+                        <p className="font-sans text-base md:text-lg text-charcoal/80 leading-relaxed">
+                            The Studio 404 Community Gallery is a living testament to the unlimited potential of our creative community, built to prove that editorial-grade results are within reach for every creator who steps into our space. By showcasing real work captured within our creator-oriented environment, we provide a visual roadmap of what is possible when professional lighting and our signature cyclorama, backdrops and props meet a unique vision.
+                        </p>
+                        <p className="font-sans text-base md:text-lg text-charcoal/80 leading-relaxed mt-4">
+                            If a specific aesthetic in this collection resonates with you, we encourage you to reach out directly to the credited photographer to book your session—they are masters of this environment and the ideal partners to help you create without limits.
                         </p>
                     </div>
                 </Reveal>
@@ -133,7 +144,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
 
             {/* Subheading */}
             <section className="relative z-20 px-6 md:px-12 lg:px-24 mb-8 py-4 bg-gradient-to-b from-cream via-cream/95 to-transparent sticky top-0 transition-all text-center">
-                <Reveal delay={0.1}>
+                <Reveal delay={0.2}>
                     <div className="border-b border-charcoal/10 pb-4">
                         <span className="text-xs md:text-sm uppercase tracking-widest text-charcoal/60">
                             Photos from our community

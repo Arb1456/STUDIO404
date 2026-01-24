@@ -23,56 +23,58 @@ const bgImage = (url: string) => ({
 // Section configuration - defines slides per section
 const SECTION_CONFIG: SectionConfig[] = [
     { id: 'intro', slides: 1 },
-    { id: 'cyc-wall', slides: 2 },
+    { id: 'cyc-wall', slides: 3 },  // Updated: 3 slides (overview, specs, video showcase)
     { id: 'backdrops', slides: 3 },  // Updated: 3 slides (overview, colors, pulley system)
     { id: 'lighting', slides: 2 },
-    { id: 'current-sets', slides: 2 },
-    { id: 'props', slides: 2 },
+    // { id: 'current-sets', slides: 2 },  // Hidden for now - will bring back later
+    { id: 'props', slides: 3 },  // Updated: 3 slides (overview, props gallery, furniture gallery)
     { id: 'kitchenette', slides: 1 },
     { id: 'changeroom', slides: 1 },
     { id: 'cta', slides: 1 },
 ];
 
-// Equipment data for Pro Lighting modals
+// Equipment data for Pro Lighting modals - synced with EquipmentPage
 const EQUIPMENT_DATA = {
     strobes: {
-        title: 'Strobes & Flash',
+        title: 'Strobes & Modifiers',
         items: [
-            'Profoto B10 Plus',
-            'Profoto B1X 500',
-            'Godox AD600 Pro',
-            'Godox AD400 Pro',
-            'Godox AD200 Pro',
-            'Various softboxes (2ft-5ft)',
-            'Beauty dishes',
-            'Strip boxes',
-            'Optical snoots'
+            '3x Godox SK400ii',
+            '2x Godox MS300',
+            '1x Godox XT-16 Universal Trigger',
+            '2x 60cm x 90cm Softboxes + Grids',
+            '2x 30cm x 160cm Strip Boxes + Grids',
+            '2x 20cm x 90cm Strip Boxes + Grids',
+            '1x 95cm Octabox + Grid',
+            '1x 55cm x 55cm Softbox + Grid',
+            '2x Optical Projector Snoots',
+            '12+ Umbrellas in Varying Sizes'
         ]
     },
     continuous: {
         title: 'Continuous Lighting',
         items: [
-            'Aputure 600d Pro',
-            'Aputure 300d II',
-            'Aputure MC RGB panels',
-            'Godox VL300',
-            'LED tube lights',
-            'Tungsten Fresnel',
-            'Various LED panels'
+            '1x Amaran 200d',
+            '2x Godox SL100d',
+            '1x Neewer 70bi',
+            '1x Godox SL60bi',
+            '4x Neewer 660 RGB Panel',
+            '2x KinoFlo FIX-4804'
         ]
     },
     grip: {
-        title: 'Grip & Rigging',
+        title: 'Grip & Support',
         items: [
-            '10+ C-Stands (various sizes)',
-            'Boom arms',
-            'Sandbags',
-            'Flags & scrims',
-            'Diffusion frames',
-            'V-flats',
-            'Autopoles',
-            'Apple boxes',
-            'Clamps & adapters'
+            '4x 12ft C-Stands',
+            '3x 10ft Light Tripods',
+            '1x Wall Mounted Overhead Boom Arm',
+            '1x Rolling 10ft C-Stand',
+            '2x V-Flats (Black/White)',
+            '1x 5-in-1 Reflector Kit',
+            'Assortment of Colored Gels',
+            '10x Sandbags (20lbs)',
+            '10x A-Clamps (Assorted)',
+            '4x Super Clamps',
+            'Tapes (Gaffing, Electrical)'
         ]
     }
 };
@@ -85,6 +87,7 @@ type EquipmentCategory = 'strobes' | 'continuous' | 'grip' | null;
 
 const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
     const [activeEquipment, setActiveEquipment] = useState<EquipmentCategory>(null);
+    const [expandedImage, setExpandedImage] = useState<string | null>(null);
     return (
         <TourContainer sectionConfig={SECTION_CONFIG}>
 
@@ -170,6 +173,55 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         </Reveal>
                     </div>
                 </TourSlide>
+
+                {/* Slide 3: Video Showcase */}
+                <TourSlide theme="dark" bgOverlay="dark" className="bg-[#0a0a0a]">
+                    <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
+                        <Reveal>
+                            <p className="text-xs uppercase tracking-[0.3em] mb-4 text-cream/60">See It In Action</p>
+                        </Reveal>
+                        <Reveal delay={0.1}>
+                            <h3 className="font-serif text-3xl md:text-5xl mb-6 text-cream">The Cyc Wall Experience</h3>
+                        </Reveal>
+                        <Reveal delay={0.2}>
+                            <p className="text-cream/70 max-w-lg mx-auto mb-8 text-sm md:text-base">
+                                Watch how our cyclorama wall transforms any shoot into a professional production with seamless backgrounds and infinite possibilities.
+                            </p>
+                        </Reveal>
+
+                        {/* YouTube Video Placeholder */}
+                        <Reveal delay={0.3}>
+                            <a
+                                href="https://youtube.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-4 px-8 py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group mb-10"
+                            >
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                                    <Play size={24} className="text-cream ml-1" />
+                                </div>
+                                <span className="text-cream font-serif text-lg md:text-xl">Watch Video Tour</span>
+                            </a>
+                        </Reveal>
+
+                        {/* Use Cases & Features */}
+                        <Reveal delay={0.4}>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-4">
+                                {[
+                                    { label: 'Portraits', icon: '📸' },
+                                    { label: 'Product Shots', icon: '🛍️' },
+                                    { label: 'Video Production', icon: '🎬' },
+                                    { label: 'Fashion', icon: '👗' },
+                                ].map((item, i) => (
+                                    <div key={i} className="bg-cream/5 border border-cream/10 rounded-lg p-4 md:p-6">
+                                        <span className="text-2xl md:text-3xl mb-2 block">{item.icon}</span>
+                                        <p className="text-cream/80 text-xs md:text-sm uppercase tracking-wider">{item.label}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </Reveal>
+                    </div>
+                </TourSlide>
             </TourSection>
 
             {/* 3. Backdrops (2 slides) */}
@@ -186,18 +238,20 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <div className="absolute inset-0" style={bgImage('https://picsum.photos/1000/1200?random=3')} />
                         </div>
 
-                        <div className="h-full w-full flex flex-col justify-center items-center text-center px-8 md:px-24 order-1 md:order-2">
-                            <Reveal>
-                                <span className="text-xs font-bold tracking-widest uppercase text-charcoal/60 mb-4 block">Equipment</span>
-                            </Reveal>
-                            <Reveal delay={0.1}>
-                                <h2 className="font-serif text-5xl md:text-6xl mb-6 text-charcoal">Seamless <br /><span className="italic text-charcoal/50">Backdrops</span></h2>
-                            </Reveal>
-                            <Reveal delay={0.2}>
-                                <p className="font-sans text-charcoal/70 mb-8 leading-relaxed max-w-sm">
-                                    Collection of 9-foot-wide seamless backdrops available for use with our integrated cyclorama wall pulley system.
-                                </p>
-                            </Reveal>
+                        <div className="h-full w-full flex flex-col justify-center items-center text-center px-8 md:px-12 order-1 md:order-2">
+                            <div className="flex flex-col items-center">
+                                <Reveal>
+                                    <span className="text-xs font-bold tracking-widest uppercase text-charcoal/60 mb-4 block">Equipment</span>
+                                </Reveal>
+                                <Reveal delay={0.1}>
+                                    <h2 className="font-serif text-5xl md:text-6xl mb-6 text-charcoal">Seamless <br /><span className="italic text-charcoal/50">Backdrops</span></h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <p className="font-sans text-charcoal/70 mb-8 leading-relaxed max-w-sm mx-auto">
+                                        Collection of 9-foot-wide seamless backdrops available for use with our integrated cyclorama wall pulley system.
+                                    </p>
+                                </Reveal>
+                            </div>
                         </div>
                     </div>
                 </TourSlide>
@@ -350,9 +404,8 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
             </TourSection>
 
-            {/* 5. Current Sets (2 slides) */}
+            {/* 5. Current Sets - HIDDEN FOR NOW
             <TourSection id="current-sets">
-                {/* Slide 1: Overview */}
                 <TourSlide theme="light" className="bg-[#F5F5F0]">
                     <div className="absolute top-0 right-0 w-full md:w-2/3 h-full opacity-20 md:opacity-100">
                         <div className="w-full h-full" style={bgImage('https://picsum.photos/1200/1000?random=5')} />
@@ -371,7 +424,6 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </div>
                 </TourSlide>
 
-                {/* Slide 2: Set Gallery */}
                 <TourSlide theme="light" className="bg-[#F5F5F0]">
                     <div className="max-w-6xl mx-auto px-6">
                         <Reveal>
@@ -404,8 +456,9 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </div>
                 </TourSlide>
             </TourSection>
+            */}
 
-            {/* 6. Props Gallery (2 slides) */}
+            {/* 6. Props Gallery (3 slides) */}
             <TourSection id="props">
                 {/* Slide 1: Overview */}
                 <TourSlide theme="light" className="bg-cream">
@@ -421,21 +474,73 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </div>
                 </TourSlide>
 
-                {/* Slide 2: Full Grid - smaller on mobile */}
+                {/* Slide 2: Props Gallery */}
                 <TourSlide theme="light" className="bg-cream">
-                    <div className="w-full grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 content-center max-w-5xl mx-auto px-4 md:px-6">
-                        {[71, 72, 73, 74, 75, 76].slice(0, 6).map((id, index) => (
-                            <motion.div
-                                key={id}
-                                className="aspect-square bg-gray-100 overflow-hidden relative group"
-                                initial={{ opacity: 0, filter: "blur(10px)" }}
-                                whileInView={{ opacity: 1, filter: "blur(0px)" }}
-                                viewport={{ once: true, margin: "-50px" }}
-                                transition={{ duration: 0.8, delay: 0.1 + (index * 0.05), ease: "easeOut" }}
-                            >
-                                <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style={bgImage(`https://picsum.photos/500/500?random=${id}`)} />
-                            </motion.div>
-                        ))}
+                    <div className="max-w-5xl mx-auto px-4 md:px-6 w-full">
+                        <Reveal>
+                            <p className="text-xs uppercase tracking-[0.3em] mb-3 text-charcoal/60 text-center">Tap to Expand</p>
+                        </Reveal>
+                        <Reveal delay={0.1}>
+                            <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center">Props <span className="italic text-charcoal/50">Collection</span></h3>
+                        </Reveal>
+                        <div className="grid grid-cols-3 gap-2 md:gap-3">
+                            {[101, 102, 103, 104, 105, 106, 107, 108, 109].map((id, index) => (
+                                <motion.div
+                                    key={id}
+                                    className="aspect-square bg-gray-100 overflow-hidden relative group cursor-pointer"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.05 * index }}
+                                    onClick={() => setExpandedImage(`https://picsum.photos/800/800?random=${id}`)}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <div
+                                        className="absolute inset-0 transition-transform duration-500 group-hover:scale-110"
+                                        style={bgImage(`https://picsum.photos/400/400?random=${id}`)}
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">View</span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </TourSlide>
+
+                {/* Slide 3: Furniture Gallery */}
+                <TourSlide theme="dark" className="bg-charcoal">
+                    <div className="max-w-5xl mx-auto px-4 md:px-6 w-full">
+                        <Reveal>
+                            <p className="text-xs uppercase tracking-[0.3em] mb-3 text-cream/60 text-center">Tap to Expand</p>
+                        </Reveal>
+                        <Reveal delay={0.1}>
+                            <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center text-cream">Furniture <span className="italic text-cream/50">Selection</span></h3>
+                        </Reveal>
+                        <div className="grid grid-cols-3 gap-2 md:gap-3">
+                            {[201, 202, 203, 204, 205, 206, 207, 208, 209].map((id, index) => (
+                                <motion.div
+                                    key={id}
+                                    className="aspect-square bg-gray-800 overflow-hidden relative group cursor-pointer"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: 0.05 * index }}
+                                    onClick={() => setExpandedImage(`https://picsum.photos/800/800?random=${id}`)}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <div
+                                        className="absolute inset-0 transition-transform duration-500 group-hover:scale-110"
+                                        style={bgImage(`https://picsum.photos/400/400?random=${id}`)}
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">View</span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </TourSlide>
             </TourSection>
@@ -453,10 +558,10 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             </Reveal>
                             <Reveal delay={0.2}>
                                 <ul className="space-y-4 font-sans text-charcoal/80">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Fridge stocked with water</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Large Kitchen Sink</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Clean and Accessible Washroom</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Client Lounge</li>
+                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Kitchenette with large sink and plenty of storage</li>
+                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Plenty of places for clients to lounge</li>
+                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Clean and accessible washroom</li>
+                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Large fridge stocked with water</li>
                                 </ul>
                             </Reveal>
                         </div>
@@ -502,7 +607,8 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     <Reveal delay={0.5}>
                         <Button
                             onClick={() => onBook()}
-                            className="bg-cream text-charcoal border-cream hover:bg-transparent hover:text-cream px-12 py-5 text-lg"
+                            variant="outline"
+                            className="border-cream text-cream hover:bg-cream hover:text-charcoal px-12 py-5 text-lg"
                         >
                             Book Your Time
                         </Button>
@@ -560,6 +666,40 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                 className="mt-8 w-full py-3 bg-charcoal text-cream rounded-lg hover:bg-charcoal/90 transition-colors font-medium"
                             >
                                 Close
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Expanded Image Modal */}
+            <AnimatePresence>
+                {expandedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md cursor-pointer"
+                        onClick={() => setExpandedImage(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="relative max-w-4xl max-h-[85vh] w-full"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img
+                                src={expandedImage}
+                                alt="Expanded view"
+                                className="w-full h-full object-contain rounded-lg"
+                            />
+                            <button
+                                onClick={() => setExpandedImage(null)}
+                                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors backdrop-blur-sm"
+                            >
+                                <X size={24} className="text-white" />
                             </button>
                         </motion.div>
                     </motion.div>

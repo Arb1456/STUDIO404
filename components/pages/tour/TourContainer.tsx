@@ -45,7 +45,7 @@ export const TourContainer: React.FC<TourContainerProps> = ({
         <TourContext.Provider value={{ containerRef, ...scrollState }}>
             <div
                 ref={containerRef}
-                className="h-screen w-screen fixed inset-0 overflow-y-scroll snap-y snap-mandatory no-scrollbar overscroll-none"
+                className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory no-scrollbar overscroll-contain"
             >
                 {children}
             </div>
