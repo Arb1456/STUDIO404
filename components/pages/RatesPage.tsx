@@ -261,12 +261,25 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
             <section className="px-6 md:px-12 py-20 max-w-6xl mx-auto">
                 <Reveal width="100%">
                     <div className="bg-white p-8 md:p-12 border border-charcoal/20 text-center">
-                        <h2 className="font-serif text-3xl mb-8">Live Availability</h2>
-                        <div className="w-full h-[600px] bg-charcoal/5 flex flex-col items-center justify-center border border-dashed border-charcoal/30">
-                            <Calendar size={48} className="text-charcoal/20 mb-4" />
-                            <p className="text-charcoal/50 font-sans uppercase tracking-widest text-sm">Booking Widget Loads Here</p>
-                            <p className="text-charcoal/40 text-xs mt-2">(Integrated via GoHighLevel)</p>
+                        <h2 className="font-serif text-3xl mb-4">Live Availability</h2>
+                        <p className="text-charcoal/60 text-sm mb-8 max-w-md mx-auto">
+                            Select your preferred time slot below. This calendar shows our 2-hour rental availability.
+                        </p>
+                        <div className="w-full overflow-hidden rounded-lg border border-charcoal/10">
+                            <iframe
+                                src="https://links.neovate.ca/widget/bookings/studio-rental-2-hour"
+                                className="w-full"
+                                style={{
+                                    border: 'none',
+                                    minHeight: '650px',
+                                }}
+                                allow="payment"
+                                title="Studio Rental Booking Calendar"
+                            />
                         </div>
+                        <p className="text-charcoal/50 text-xs mt-4">
+                            Need a different duration? <button onClick={() => onBook()} className="underline hover:text-charcoal transition-colors">Open full booking options</button>
+                        </p>
                     </div>
                 </Reveal>
             </section>
@@ -282,7 +295,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                         <Button onClick={() => router.push('/tour')} variant="outline" className="border-cream text-cream hover:bg-cream hover:text-charcoal">
                             View Studio Tour
                         </Button>
-                        <Button onClick={() => router.push('/gallery')} variant="primary" className="bg-cream text-charcoal border-cream hover:bg-transparent hover:text-cream">
+                        <Button onClick={() => router.push('/gallery')} variant="outline" className="border-cream text-cream hover:bg-cream hover:text-charcoal">
                             Explore Client Work
                         </Button>
                     </div>

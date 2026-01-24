@@ -85,8 +85,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                                 </p>
                                 <div className="grid grid-cols-2 gap-y-2 gap-x-4 border-t border-charcoal/10 pt-6">
                                     {['Framing', 'Cutting', 'Drywall', 'Mudding', 'Taping', 'Sanding', 'Priming', 'Painting'].map((step) => (
-                                        <div key={step} className="flex items-center text-xs md:text-sm font-medium tracking-widest uppercase opacity-60">
-                                            <span className="w-1.5 h-1.5 bg-charcoal/40 rounded-full mr-3"></span>
+                                        <div key={step} className="text-xs md:text-sm font-medium tracking-widest uppercase opacity-60">
                                             {step}
                                         </div>
                                     ))}
@@ -218,8 +217,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                         <Reveal delay={0.2}>
                             <div className="flex justify-center">
                                 <Button
-                                    variant="primary"
-                                    className="bg-cream text-charcoal hover:bg-white border-transparent rounded-full px-12"
+                                    variant="outline"
+                                    className="bg-cream text-charcoal border-cream hover:bg-transparent hover:text-cream rounded-full px-12"
                                     onClick={() => onBook()}
                                 >
                                     Book the Studio
