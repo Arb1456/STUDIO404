@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 import {
     TourContainer,
     TourSection,
@@ -119,7 +120,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             {/* 2. The Cyc Wall (2 slides) */}
             <TourSection id="cyc-wall">
                 {/* Slide 1: Overview */}
-                <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=2" bgOverlay="gradient-up">
+                <TourSlide theme="dark" bgImage={cloudinaryUrl('The_Cyc_Wall_aohgwv')} bgOverlay="gradient-up">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full">
                         <div className="md:col-start-1">
                             <Reveal>
@@ -138,7 +139,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
 
                 {/* Slide 2: Dimensions & Specs */}
-                <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=20" bgOverlay="dark">
+                <TourSlide theme="dark" bgImage={cloudinaryUrl('12x10x10_xa9g45')} bgOverlay="dark">
                     <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
                         <Reveal>
                             <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6 text-cream/60">Specifications</p>
@@ -229,13 +230,13 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 {/* Slide 1: Overview */}
                 <TourSlide theme="light" className="relative">
                     <div className="absolute inset-0 md:hidden block">
-                        <div className="absolute inset-0" style={bgImage('https://picsum.photos/1000/1200?random=3')} />
+                        <div className="absolute inset-0" style={bgImage(cloudinaryUrl('Seamless_Backdrops_oug1lx'))} />
                         <div className="absolute inset-0 bg-cream/80" />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 h-full w-full relative z-10">
                         <div className="hidden md:block h-full w-full bg-gray-200 relative order-2 md:order-1">
-                            <div className="absolute inset-0" style={bgImage('https://picsum.photos/1000/1200?random=3')} />
+                            <div className="absolute inset-0" style={bgImage(cloudinaryUrl('Seamless_Backdrops_oug1lx'))} />
                         </div>
 
                         <div className="h-full w-full flex flex-col justify-center items-center text-center px-8 md:px-12 order-1 md:order-2">
@@ -300,7 +301,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
 
                 {/* Slide 3: Pulley System */}
-                <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=30" bgOverlay="dark">
+                <TourSlide theme="dark" bgImage={cloudinaryUrl('The_Pulley_System_zlxcxa')} bgOverlay="dark">
                     <div className="max-w-4xl mx-auto px-6 text-center">
                         <Reveal>
                             <p className="text-xs uppercase tracking-[0.3em] mb-4 text-cream/60">How It Works</p>
@@ -335,7 +336,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             {/* 4. Lighting Grid (2 slides) */}
             <TourSection id="lighting">
                 {/* Slide 1: Overview */}
-                <TourSlide theme="dark" bgImage="https://picsum.photos/1920/1080?random=4" bgOverlay="dark">
+                <TourSlide theme="dark" bgImage={cloudinaryUrl('Pro_Lighting_Grid_q90xds')} bgOverlay="dark">
                     <div className="text-center max-w-3xl px-6 mx-auto">
                         <Reveal>
                             <h2 className="font-serif text-5xl md:text-7xl mb-8">Pro Lighting Grid</h2>
