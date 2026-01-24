@@ -119,6 +119,20 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <strong>Evidence Protocol:</strong> To ensure transparency, the studio is photographed immediately before your arrival and after your departure. These timestamped images, alongside security camera footage, constitute the definitive record used to determine liability for any condition disputes.
                                 </p>
                             </AccordionItem>
+
+                            <AccordionItem
+                                number="07"
+                                title="Equipment & Space Availability"
+                                warning="Note: Subject to current condition"
+                            >
+                                <p>
+                                    While we strive to maintain all equipment and spaces in excellent condition, <strong>we cannot guarantee that every item will be available or in perfect working order</strong> at the time of your booking.
+                                    <br /><br />
+                                    <strong>Why?</strong> In rare instances, equipment may be temporarily unavailable due to damage from a prior session—for example, a light may have been dropped, a backdrop roll may have run out, or the cyclorama wall may require touch-ups between bookings.
+                                    <br /><br />
+                                    <strong>Specific Requests:</strong> If your production depends on a particular piece of equipment or feature, please notify us <strong>in advance</strong> so we can confirm availability and make arrangements. We're happy to accommodate special requests whenever possible.
+                                </p>
+                            </AccordionItem>
                         </div>
                     </Reveal>
                 </div>
