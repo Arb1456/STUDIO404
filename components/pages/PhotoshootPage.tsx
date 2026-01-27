@@ -29,19 +29,19 @@ const getSessionImg = (folderName: string, index: number = 1) => {
 };
 
 // ============================================
-// PHOTOSHOOT CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
+// PHOTOSHOOT CALENDAR URLs
 // ============================================
 const SESSIONS: SessionType[] = [
-    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PORTRAIT]' },
-    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_FAMILY]' },
-    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_COUPLE]' },
-    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BIRTHDAY]' },
-    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_HEADSHOTS]' },
-    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_MATERNITY]' },
-    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_GROUP]' },
-    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_NEWBORN]' },
-    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_BOUDOIR]' },
-    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/[SLUG_PRODUCT]' },
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404portrait-session' },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404family-session' },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404couple-session' },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404birthday-session' },
+    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404headshots-session' },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404maternity-session' },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404group-session' },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404newborn-session' },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404boudoir-session' },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404product-session' },
 ];
 
 const PROCESS_STEPS = [

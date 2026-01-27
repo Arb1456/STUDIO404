@@ -124,7 +124,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full">
                         <div className="md:col-start-1">
                             <Reveal>
-                                <h2 className="font-serif text-5xl md:text-7xl mb-6">The Cyc Wall</h2>
+                                <h2 className="font-serif text-5xl md:text-7xl mb-6 text-black">The Cyc Wall</h2>
                             </Reveal>
                             <Reveal delay={0.2}>
                                 <div className="w-24 h-[1px] bg-cream/50 mb-6"></div>
