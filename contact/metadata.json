@@ -1,7 +1,0 @@
-{
-  "name": "CONTACT ",
-  "description": "A premium production space booking and inquiry platform featuring a contact conversation hub.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
-}
