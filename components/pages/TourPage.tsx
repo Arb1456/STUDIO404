@@ -117,11 +117,15 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </div>
             </TourSection>
 
-            {/* 2. The Cyc Wall (2 slides) */}
+            {/* 2. The Cyc Wall (3 slides) */}
             <TourSection id="cyc-wall">
                 {/* Slide 1: Overview */}
-                <TourSlide theme="dark" bgImage={cloudinaryUrl('The_Cyc_Wall_aohgwv')} bgOverlay="gradient-up">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full">
+                <TourSlide theme="dark" bgOverlay="gradient-up" className="relative">
+                    {/* Mobile: Use left portion of cyc wall image for continuous scroll effect */}
+                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'left center')} />
+                    {/* Desktop: Use center */}
+                    <div className="absolute inset-0 hidden md:block" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'center')} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full relative z-10">
                         <div className="md:col-start-1">
                             <Reveal>
                                 <h2 className="font-serif text-5xl md:text-7xl mb-6 text-black">The Cyc Wall</h2>
