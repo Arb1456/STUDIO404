@@ -143,40 +143,43 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
 
                 {/* Slide 2: Dimensions & Specs */}
-                <TourSlide theme="dark" bgOverlay="dark" className="relative">
-                    {/* Mobile: Use right portion of cyc wall image for continuous scroll effect */}
-                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'right center')} />
-                    {/* Desktop: Use specs image */}
+                <TourSlide theme="dark" bgOverlay="none" className="relative">
+                    {/* Mobile: Use right portion of cyc wall image, positioned higher */}
+                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'right top')} />
+                    {/* Mobile overlay - lighter for black text */}
+                    <div className="absolute inset-0 md:hidden bg-gradient-to-t from-white/40 via-transparent to-transparent" />
+                    {/* Desktop: Use specs image with dark overlay */}
                     <div className="absolute inset-0 hidden md:block" style={bgImage(cloudinaryUrl('12x10x10_xa9g45'))} />
+                    <div className="absolute inset-0 hidden md:block bg-black/60" />
                     <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6 text-cream/60">Specifications</p>
+                            <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6 text-black/60 md:text-cream/60">Specifications</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-3xl md:text-6xl mb-8 md:mb-12">Built for Scale</h3>
+                            <h3 className="font-serif text-3xl md:text-6xl mb-8 md:mb-12 text-black md:text-cream">Built for Scale</h3>
                         </Reveal>
                         <div className="grid grid-cols-3 gap-4 md:gap-16 mb-8 md:mb-12">
                             <Reveal delay={0.2}>
                                 <div>
-                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">12</p>
-                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Wide</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2 text-black md:text-cream">12</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-black/60 md:text-cream/60">Feet Wide</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.3}>
                                 <div>
-                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">10</p>
-                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Deep</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2 text-black md:text-cream">10</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-black/60 md:text-cream/60">Feet Deep</p>
                                 </div>
                             </Reveal>
                             <Reveal delay={0.4}>
                                 <div>
-                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2">10</p>
-                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-cream/60">Feet Tall</p>
+                                    <p className="font-serif text-3xl md:text-7xl mb-1 md:mb-2 text-black md:text-cream">10</p>
+                                    <p className="text-[10px] md:text-sm uppercase tracking-wider md:tracking-widest text-black/60 md:text-cream/60">Feet Tall</p>
                                 </div>
                             </Reveal>
                         </div>
                         <Reveal delay={0.5}>
-                            <p className="text-cream/70 max-w-lg mx-auto text-sm md:text-base">
+                            <p className="text-black/70 md:text-cream/70 max-w-lg mx-auto text-sm md:text-base">
                                 Seamless curved corners eliminate harsh shadows, creating the perfect infinity backdrop for photography and video production.
                             </p>
                         </Reveal>
