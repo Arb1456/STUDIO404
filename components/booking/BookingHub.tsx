@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Camera, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { sendGAEvent } from '@next/third-parties/google';
 
 // ============================================
 // RENTAL CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
@@ -38,6 +39,11 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
             setSelectedDuration(initialDuration);
             setIsLoading(true);
             document.body.style.overflow = 'hidden';
+
+            // Track booking intent
+            sendGAEvent('event', 'begin_checkout', {
+                items: [{ item_name: `${initialDuration} Hour Studio Rental` }]
+            });
         } else {
             document.body.style.overflow = '';
         }

@@ -4,6 +4,7 @@ import './globals.css';
 import Script from 'next/script';
 import ViewportHeightFix from '@/components/layout/ViewportHeightFix';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const outfit = Outfit({
     subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({
                 <ViewportHeightFix />
                 {children}
                 <SpeedInsights />
+                <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
             </body>
         </html>
     );

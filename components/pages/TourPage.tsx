@@ -139,8 +139,12 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
 
                 {/* Slide 2: Dimensions & Specs */}
-                <TourSlide theme="dark" bgImage={cloudinaryUrl('12x10x10_xa9g45')} bgOverlay="dark">
-                    <div className="max-w-4xl mx-auto px-4 md:px-6 text-center">
+                <TourSlide theme="dark" bgOverlay="dark" className="relative">
+                    {/* Mobile: Use same cyc wall image for continuous scroll effect */}
+                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'))} />
+                    {/* Desktop: Use specs image */}
+                    <div className="absolute inset-0 hidden md:block" style={bgImage(cloudinaryUrl('12x10x10_xa9g45'))} />
+                    <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
                         <Reveal>
                             <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-4 md:mb-6 text-cream/60">Specifications</p>
                         </Reveal>
