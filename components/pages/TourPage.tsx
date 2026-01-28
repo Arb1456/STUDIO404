@@ -127,10 +127,10 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                 <h2 className="font-serif text-5xl md:text-7xl mb-6 text-black">The Cyc Wall</h2>
                             </Reveal>
                             <Reveal delay={0.2}>
-                                <div className="w-24 h-[1px] bg-cream/50 mb-6"></div>
+                                <div className="w-24 h-[1px] bg-black/50 mb-6"></div>
                             </Reveal>
                             <Reveal delay={0.3}>
-                                <p className="font-sans font-light text-lg opacity-90 max-w-md mb-8">
+                                <p className="font-sans font-light text-lg max-w-md mb-8 text-black">
                                     Our 12 ft x 10 ft x 10 ft corner cyclorama wall offers an infinite horizon for your productions. Pristine white, perfectly curved.
                                 </p>
                             </Reveal>
@@ -177,15 +177,15 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                 {/* Slide 3: Video Showcase */}
                 <TourSlide theme="dark" bgOverlay="dark" className="bg-[#0a0a0a]">
-                    <div className="max-w-5xl mx-auto px-4 md:px-6 text-center">
+                    <div className="max-w-5xl mx-auto px-4 md:px-6 text-center flex flex-col justify-center items-center h-full pb-32 md:pb-0">
                         <Reveal>
                             <p className="text-xs uppercase tracking-[0.3em] mb-4 text-cream/60">See It In Action</p>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <h3 className="font-serif text-3xl md:text-5xl mb-6 text-cream">The Cyc Wall Experience</h3>
+                            <h3 className="font-serif text-3xl md:text-5xl mb-4 md:mb-6 text-cream">The Cyc Wall Experience</h3>
                         </Reveal>
                         <Reveal delay={0.2}>
-                            <p className="text-cream/70 max-w-lg mx-auto mb-8 text-sm md:text-base">
+                            <p className="text-cream/70 max-w-lg mx-auto mb-6 md:mb-8 text-sm md:text-base">
                                 Watch how our cyclorama wall transforms any shoot into a professional production with seamless backgrounds and infinite possibilities.
                             </p>
                         </Reveal>
@@ -196,27 +196,27 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                 href="https://youtube.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-4 px-8 py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group mb-10"
+                                className="inline-flex items-center gap-4 px-6 md:px-8 py-3 md:py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group mb-6 md:mb-10"
                             >
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
-                                    <Play size={24} className="text-cream ml-1" />
+                                <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                                    <Play size={20} className="text-cream ml-1" />
                                 </div>
-                                <span className="text-cream font-serif text-lg md:text-xl">Watch Video Tour</span>
+                                <span className="text-cream font-serif text-base md:text-xl">Watch Video Tour</span>
                             </a>
                         </Reveal>
 
                         {/* Use Cases & Features */}
                         <Reveal delay={0.4}>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-4">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                                 {[
                                     { label: 'Portraits', icon: '📸' },
                                     { label: 'Product Shots', icon: '🛍️' },
                                     { label: 'Video Production', icon: '🎬' },
                                     { label: 'Fashion', icon: '👗' },
                                 ].map((item, i) => (
-                                    <div key={i} className="bg-cream/5 border border-cream/10 rounded-lg p-4 md:p-6">
-                                        <span className="text-2xl md:text-3xl mb-2 block">{item.icon}</span>
-                                        <p className="text-cream/80 text-xs md:text-sm uppercase tracking-wider">{item.label}</p>
+                                    <div key={i} className="bg-cream/5 border border-cream/10 rounded-lg p-3 md:p-6">
+                                        <span className="text-xl md:text-3xl mb-2 block">{item.icon}</span>
+                                        <p className="text-cream/80 text-[10px] md:text-sm uppercase tracking-wider">{item.label}</p>
                                     </div>
                                 ))}
                             </div>
@@ -479,34 +479,14 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 <TourSlide theme="light" className="bg-cream">
                     <div className="max-w-5xl mx-auto px-4 md:px-6 w-full">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.3em] mb-3 text-charcoal/60 text-center">Tap to Expand</p>
-                        </Reveal>
-                        <Reveal delay={0.1}>
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center">Props <span className="italic text-charcoal/50">Collection</span></h3>
                         </Reveal>
-                        <div className="grid grid-cols-3 gap-2 md:gap-3">
-                            {[101, 102, 103, 104, 105, 106, 107, 108, 109].map((id, index) => (
-                                <motion.div
-                                    key={id}
-                                    className="aspect-square bg-gray-100 overflow-hidden relative group cursor-pointer"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.05 * index }}
-                                    onClick={() => setExpandedImage(`https://picsum.photos/800/800?random=${id}`)}
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <div
-                                        className="absolute inset-0 transition-transform duration-500 group-hover:scale-110"
-                                        style={bgImage(`https://picsum.photos/400/400?random=${id}`)}
-                                    />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">View</span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                        <Reveal delay={0.1}>
+                            <div className="aspect-video md:aspect-[21/9] bg-charcoal/5 border-2 border-dashed border-charcoal/20 rounded-xl flex flex-col items-center justify-center">
+                                <p className="font-serif text-4xl md:text-6xl italic text-charcoal/30 mb-4">Coming Soon</p>
+                                <p className="text-sm md:text-base text-charcoal/50 uppercase tracking-widest">Props Collection Photos</p>
+                            </div>
+                        </Reveal>
                     </div>
                 </TourSlide>
 
@@ -514,34 +494,14 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 <TourSlide theme="dark" className="bg-charcoal">
                     <div className="max-w-5xl mx-auto px-4 md:px-6 w-full">
                         <Reveal>
-                            <p className="text-xs uppercase tracking-[0.3em] mb-3 text-cream/60 text-center">Tap to Expand</p>
-                        </Reveal>
-                        <Reveal delay={0.1}>
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center text-cream">Furniture <span className="italic text-cream/50">Selection</span></h3>
                         </Reveal>
-                        <div className="grid grid-cols-3 gap-2 md:gap-3">
-                            {[201, 202, 203, 204, 205, 206, 207, 208, 209].map((id, index) => (
-                                <motion.div
-                                    key={id}
-                                    className="aspect-square bg-gray-800 overflow-hidden relative group cursor-pointer"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.05 * index }}
-                                    onClick={() => setExpandedImage(`https://picsum.photos/800/800?random=${id}`)}
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <div
-                                        className="absolute inset-0 transition-transform duration-500 group-hover:scale-110"
-                                        style={bgImage(`https://picsum.photos/400/400?random=${id}`)}
-                                    />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">View</span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                        <Reveal delay={0.1}>
+                            <div className="aspect-video md:aspect-[21/9] bg-cream/5 border-2 border-dashed border-cream/20 rounded-xl flex flex-col items-center justify-center">
+                                <p className="font-serif text-4xl md:text-6xl italic text-cream/30 mb-4">Coming Soon</p>
+                                <p className="text-sm md:text-base text-cream/50 uppercase tracking-widest">Furniture Selection Photos</p>
+                            </div>
+                        </Reveal>
                     </div>
                 </TourSlide>
             </TourSection>
