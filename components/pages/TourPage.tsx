@@ -15,10 +15,10 @@ import {
 } from './tour';
 
 // Helper for background images
-const bgImage = (url: string) => ({
+const bgImage = (url: string, position: string = 'center') => ({
     backgroundImage: `url(${url})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: position,
 });
 
 // Section configuration - defines slides per section
@@ -140,8 +140,8 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                 {/* Slide 2: Dimensions & Specs */}
                 <TourSlide theme="dark" bgOverlay="dark" className="relative">
-                    {/* Mobile: Use same cyc wall image for continuous scroll effect */}
-                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'))} />
+                    {/* Mobile: Use right portion of cyc wall image for continuous scroll effect */}
+                    <div className="absolute inset-0 md:hidden" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'right center')} />
                     {/* Desktop: Use specs image */}
                     <div className="absolute inset-0 hidden md:block" style={bgImage(cloudinaryUrl('12x10x10_xa9g45'))} />
                     <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">

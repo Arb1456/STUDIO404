@@ -1,7 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
-import { ArrowRight, Mail, MapPin, Instagram, ChevronDown, Phone } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Instagram, ChevronDown, Phone, Check, AlertCircle } from 'lucide-react';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 const ContactInfoContent = () => (
@@ -62,49 +62,137 @@ const ContactInfoContent = () => (
     </div>
 );
 
-const ContactFormContent = () => (
-    <form className="space-y-3 w-full">
-        <Reveal delay={0.2}>
-            <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Name</label>
-                <input
-                    type="text"
-                    className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal placeholder:text-charcoal/30"
-                    placeholder="Jane Doe"
-                />
-            </div>
-        </Reveal>
+const ContactFormContent = () => {
+    const [formState, setFormState] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
 
-        <Reveal delay={0.3}>
-            <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Email</label>
-                <input
-                    type="email"
-                    className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal placeholder:text-charcoal/30"
-                    placeholder="jane@example.com"
-                />
-            </div>
-        </Reveal>
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+        setErrorMessage('');
 
-        <Reveal delay={0.4}>
-            <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Message</label>
-                <textarea
-                    rows={2}
-                    className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal resize-none placeholder:text-charcoal/30"
-                    placeholder="Tell us about your project..."
-                />
-            </div>
-        </Reveal>
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formState.name,
+                    email: formState.email,
+                    message: formState.message,
+                    source: 'Homepage Contact Section',
+                }),
+            });
 
-        <Reveal delay={0.5} repeat={true}>
-            <button type="button" className="w-full bg-charcoal text-cream py-3 font-serif italic text-base md:text-lg hover:bg-charcoal-light transition-colors flex justify-center items-center gap-2 group mt-2 animate-button-glow">
-                <span>Send Message</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-        </Reveal>
-    </form>
-);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to submit form');
+            }
+
+            setSubmitStatus('success');
+            setFormState({ name: '', email: '', message: '' });
+        } catch (error) {
+            setSubmitStatus('error');
+            setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    if (submitStatus === 'success') {
+        return (
+            <div className="flex flex-col items-center justify-center py-8 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                    <Check size={24} className="text-green-600" />
+                </div>
+                <div>
+                    <h3 className="font-serif text-xl text-charcoal mb-2">Message Sent!</h3>
+                    <p className="text-sm text-charcoal/60">We'll get back to you within 24 hours.</p>
+                </div>
+                <button
+                    type="button"
+                    onClick={() => setSubmitStatus('idle')}
+                    className="text-sm text-charcoal/60 underline hover:text-charcoal"
+                >
+                    Send another message
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-3 w-full">
+            <Reveal delay={0.2}>
+                <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Name</label>
+                    <input
+                        type="text"
+                        required
+                        value={formState.name}
+                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal placeholder:text-charcoal/30"
+                        placeholder="Jane Doe"
+                    />
+                </div>
+            </Reveal>
+
+            <Reveal delay={0.3}>
+                <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Email</label>
+                    <input
+                        type="email"
+                        required
+                        value={formState.email}
+                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal placeholder:text-charcoal/30"
+                        placeholder="jane@example.com"
+                    />
+                </div>
+            </Reveal>
+
+            <Reveal delay={0.4}>
+                <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest opacity-60 ml-1 text-charcoal">Message</label>
+                    <textarea
+                        rows={2}
+                        required
+                        value={formState.message}
+                        onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                        className="w-full bg-transparent border-b border-charcoal/20 py-2 px-1 focus:border-charcoal focus:outline-none transition-colors text-base text-charcoal resize-none placeholder:text-charcoal/30"
+                        placeholder="Tell us about your project..."
+                    />
+                </div>
+            </Reveal>
+
+            {submitStatus === 'error' && (
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded">
+                    <AlertCircle size={16} />
+                    {errorMessage}
+                </div>
+            )}
+
+            <Reveal delay={0.5} repeat={true}>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-charcoal text-cream py-3 font-serif italic text-base md:text-lg hover:bg-charcoal-light transition-colors flex justify-center items-center gap-2 group mt-2 animate-button-glow disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                    {!isSubmitting && <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />}
+                </button>
+            </Reveal>
+        </form>
+    );
+};
 
 const Contact: React.FC = () => {
     return (

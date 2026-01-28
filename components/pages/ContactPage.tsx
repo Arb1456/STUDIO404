@@ -51,20 +51,55 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
         email: '',
         details: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleTemplateClick = (templateSubject: string) => {
         setSubject(templateSubject);
+        setSubmitStatus('idle');
         const formElement = document.getElementById('contact-form');
         if (formElement) {
             formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        alert(`Message sent for ${subject || 'General Inquiry'}! We'll respond shortly.`);
-        setFormState({ name: '', email: '', details: '' });
-        setSubject('');
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formState.name,
+                    email: formState.email,
+                    subject: subject || 'General Inquiry',
+                    message: formState.details,
+                    source: 'Contact Page',
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to submit form');
+            }
+
+            setSubmitStatus('success');
+            setFormState({ name: '', email: '', details: '' });
+            setSubject('');
+        } catch (error) {
+            setSubmitStatus('error');
+            setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -177,9 +212,23 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
                             />
                         </div>
 
-                        <div className="pt-8">
-                            <Button type="submit" className="w-full sm:w-auto">
-                                Send Message
+                        <div className="pt-8 space-y-4">
+                            {submitStatus === 'success' && (
+                                <div className="p-4 bg-green-50 border border-green-200 text-green-800 rounded">
+                                    Thank you! Your message has been sent. We'll respond within 24 hours.
+                                </div>
+                            )}
+                            {submitStatus === 'error' && (
+                                <div className="p-4 bg-red-50 border border-red-200 text-red-800 rounded">
+                                    {errorMessage}
+                                </div>
+                            )}
+                            <Button
+                                type="submit"
+                                className="w-full sm:w-auto"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Sending...' : 'Send Message'}
                             </Button>
                         </div>
                     </form>
