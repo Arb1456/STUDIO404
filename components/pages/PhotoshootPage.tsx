@@ -32,16 +32,16 @@ const getSessionImg = (folderName: string, index: number = 1) => {
 // PHOTOSHOOT CALENDAR URLs
 // ============================================
 const SESSIONS: SessionType[] = [
-    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404portrait-session' },
-    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404family-session' },
-    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404couple-session' },
-    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404birthday-session' },
-    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404headshots-session' },
-    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404maternity-session' },
-    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404group-session' },
-    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404newborn-session' },
-    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404boudoir-session' },
-    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://link.msgsndr.com/widget/booking/404product-session' },
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404portrait-session' },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404family-session' },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404couples-session' },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404birthday-session' },
+    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404headshots-session' },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404maternity-session' },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404group-session' },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404newborn-session' },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404boudoir-session' },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://links.neovate.ca/widget/bookings/404product-session' },
 ];
 
 const PROCESS_STEPS = [
@@ -470,16 +470,29 @@ const PhotoshootPage: React.FC = () => {
                                         </div>
                                     </Reveal>
 
-                                    {/* GHL Calendar Placeholder */}
+                                    {/* Live Availability Calendar */}
                                     <Reveal delay={0.4}>
-                                        <div className="border border-dashed border-charcoal/30 p-8 rounded-lg bg-charcoal/5 text-center">
-                                            <p className="font-serif italic text-xl mb-2">Live Availability</p>
-                                            <p className="text-sm opacity-60 mb-4">Select a date above to check specific times.</p>
-                                            <div className="h-64 bg-white/50 w-full rounded flex items-center justify-center">
-                                                <span className="text-charcoal/40 font-medium">[ GHL Calendar Widget Integration ]</span>
+                                        <div className="mt-8 border border-charcoal/10 rounded-lg overflow-hidden bg-white">
+                                            <div className="p-4 border-b border-charcoal/10 bg-cream/50">
+                                                <p className="font-serif italic text-lg text-center">Live Availability</p>
+                                                <p className="text-xs text-center text-charcoal/50 mt-1">Select a date and time below</p>
+                                            </div>
+                                            <div className="relative" style={{ minHeight: '500px' }}>
+                                                <iframe
+                                                    src={selectedSession.calendarUrl}
+                                                    className="w-full"
+                                                    style={{
+                                                        border: 'none',
+                                                        minHeight: '500px',
+                                                        height: '100%',
+                                                    }}
+                                                    allow="payment"
+                                                    title={`${selectedSession.title} Session Availability`}
+                                                />
                                             </div>
                                         </div>
                                     </Reveal>
+
                                 </div>
 
                                 {/* Right Column: Horizontal Scroll Catalog */}
