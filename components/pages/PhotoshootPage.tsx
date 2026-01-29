@@ -194,9 +194,9 @@ const SessionCalendarModal: React.FC<{
                                     minHeight: '700px',
                                     height: '100%',
                                 }}
-                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
                                 title={`Book ${session.title} Session`}
                             />
                         </div>
@@ -488,9 +488,9 @@ const PhotoshootPage: React.FC = () => {
                                                         minHeight: '500px',
                                                         height: '100%',
                                                     }}
-                                                    allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
                                                     referrerPolicy="no-referrer-when-downgrade"
-                                                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+                                                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
                                                     title={`${selectedSession.title} Session Availability`}
                                                 />
                                             </div>
