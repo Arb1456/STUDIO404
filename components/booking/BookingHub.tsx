@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Camera, Loader2 } from 'lucide-react';
+import { X, Camera, ExternalLink, Clock, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
 
 // ============================================
-// RENTAL CALENDAR URLs - Replace [SLUG_X] with your GHL slugs
+// RENTAL CALENDAR URLs
 // ============================================
 export const RENTAL_CALENDARS: Record<number, { url: string; price: number }> = {
     1: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-1-hour', price: 70 },
@@ -30,14 +30,12 @@ interface BookingHubProps {
 
 const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuration = 2 }) => {
     const [selectedDuration, setSelectedDuration] = useState(initialDuration);
-    const [isLoading, setIsLoading] = useState(true);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Set initial duration and loading state when modal opens
+    // Set initial duration when modal opens
     useEffect(() => {
         if (isOpen) {
             setSelectedDuration(initialDuration);
-            setIsLoading(true);
             document.body.style.overflow = 'hidden';
 
             // Track booking intent
@@ -64,17 +62,21 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
     }, [isOpen, onClose]);
 
     const handleDurationSelect = (hours: number) => {
-        if (hours !== selectedDuration) {
-            setIsLoading(true);
-            setSelectedDuration(hours);
-        }
+        setSelectedDuration(hours);
     };
 
-    const handleIframeLoad = () => {
-        setIsLoading(false);
+    const handleContinueToBooking = () => {
+        const calendar = RENTAL_CALENDARS[selectedDuration];
+        // Track the booking click
+        sendGAEvent('event', 'select_item', {
+            items: [{ item_name: `${selectedDuration} Hour Studio Rental`, price: calendar.price }]
+        });
+        // Open in new tab
+        window.open(calendar.url, '_blank', 'noopener,noreferrer');
     };
 
     const currentCalendar = RENTAL_CALENDARS[selectedDuration];
+    const deposit = Math.round(currentCalendar.price * 0.3);
 
     return (
         <AnimatePresence>
@@ -83,7 +85,7 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[100] flex flex-col"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
                     role="dialog"
                     aria-modal="true"
                     aria-label="Studio Booking"
@@ -99,126 +101,132 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
 
                     {/* Modal Content */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 40, scale: 0.95 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="relative z-10 flex flex-col h-full max-h-screen bg-cream"
+                        className="relative z-10 bg-cream rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl"
                     >
                         {/* Header */}
-                        <div className="flex-shrink-0 border-b border-charcoal/10">
-                            {/* Title Bar */}
-                            <div className="flex items-center justify-between px-4 md:px-8 py-4">
+                        <div className="border-b border-charcoal/10 px-6 py-5">
+                            <div className="flex items-center justify-between">
                                 <div>
                                     <h2 className="font-serif text-2xl md:text-3xl">Book the Studio</h2>
-                                    <p className="text-xs text-charcoal/50 uppercase tracking-widest mt-1">
-                                        Select your duration below
+                                    <p className="text-sm text-charcoal/60 mt-1">
+                                        Select your duration and continue to booking
                                     </p>
                                 </div>
                                 <button
                                     onClick={onClose}
-                                    className="p-3 hover:bg-charcoal/5 rounded-full transition-colors"
+                                    className="p-2 hover:bg-charcoal/5 rounded-full transition-colors"
                                     aria-label="Close booking modal"
                                 >
                                     <X size={24} />
                                 </button>
                             </div>
+                        </div>
 
-                            {/* Duration Selector */}
-                            <div className="px-4 md:px-8 pb-4">
-                                <p className="text-xs font-medium uppercase tracking-widest text-charcoal/60 mb-3">
-                                    Select Duration
-                                </p>
-                                <div
-                                    ref={scrollContainerRef}
-                                    className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
-                                    style={{
-                                        scrollbarWidth: 'none',
-                                        msOverflowStyle: 'none',
-                                    }}
-                                >
-                                    {Object.entries(RENTAL_CALENDARS).map(([hours, data]) => {
-                                        const hourNum = parseInt(hours);
-                                        const isActive = selectedDuration === hourNum;
-                                        return (
-                                            <button
-                                                key={hours}
-                                                onClick={() => handleDurationSelect(hourNum)}
-                                                className={`
-                                                    flex-shrink-0 px-4 py-3 rounded-full text-sm font-medium
-                                                    transition-all duration-300 whitespace-nowrap
-                                                    ${isActive
-                                                        ? 'bg-charcoal text-cream shadow-lg scale-105'
-                                                        : 'bg-charcoal/5 text-charcoal hover:bg-charcoal/10'
-                                                    }
-                                                `}
-                                            >
-                                                <span className="font-serif">{hourNum}</span>
-                                                <span className="ml-1">{hourNum === 1 ? 'Hour' : 'Hours'}</span>
-                                                <span className="ml-2 opacity-60">${data.price}</span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
+                        {/* Duration Selector */}
+                        <div className="px-6 py-5 border-b border-charcoal/10">
+                            <p className="text-xs font-medium uppercase tracking-widest text-charcoal/60 mb-3">
+                                Select Duration
+                            </p>
+                            <div
+                                ref={scrollContainerRef}
+                                className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+                                style={{
+                                    scrollbarWidth: 'none',
+                                    msOverflowStyle: 'none',
+                                }}
+                            >
+                                {Object.entries(RENTAL_CALENDARS).map(([hours, data]) => {
+                                    const hourNum = parseInt(hours);
+                                    const isActive = selectedDuration === hourNum;
+                                    return (
+                                        <button
+                                            key={hours}
+                                            onClick={() => handleDurationSelect(hourNum)}
+                                            className={`
+                                                flex-shrink-0 px-4 py-3 rounded-full text-sm font-medium
+                                                transition-all duration-300 whitespace-nowrap
+                                                ${isActive
+                                                    ? 'bg-charcoal text-cream shadow-lg scale-105'
+                                                    : 'bg-charcoal/5 text-charcoal hover:bg-charcoal/10'
+                                                }
+                                            `}
+                                        >
+                                            <span className="font-serif">{hourNum}</span>
+                                            <span className="ml-1">{hourNum === 1 ? 'Hour' : 'Hours'}</span>
+                                            <span className="ml-2 opacity-60">${data.price}</span>
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
 
-                        {/* Iframe Container */}
-                        <div className="flex-1 relative overflow-y-auto">
-                            {/* Loading Spinner */}
-                            <AnimatePresence>
-                                {isLoading && (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="absolute inset-0 flex flex-col items-center justify-center bg-cream z-10"
-                                    >
-                                        <Loader2 size={40} className="animate-spin text-charcoal/30" />
-                                        <p className="mt-4 text-sm text-charcoal/50 uppercase tracking-widest">
-                                            Loading Calendar...
-                                        </p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                        {/* Selected Summary */}
+                        <div className="px-6 py-6 bg-charcoal/[0.02]">
+                            <div className="bg-white rounded-xl p-5 border border-charcoal/10">
+                                <h3 className="font-serif text-xl mb-4">
+                                    {selectedDuration} Hour{selectedDuration > 1 ? 's' : ''} Studio Rental
+                                </h3>
 
-                            {/* GHL Iframe */}
-                            <iframe
-                                key={selectedDuration}
-                                src={currentCalendar.url}
-                                onLoad={handleIframeLoad}
-                                className="w-full"
-                                style={{
-                                    border: 'none',
-                                    minHeight: '600px',
-                                    height: 'calc(100% + 100px)',
-                                    paddingBottom: '80px',
-                                }}
-                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
-                                title={`Book ${selectedDuration} Hour${selectedDuration > 1 ? 's' : ''} Studio Rental`}
-                            />
-                        </div>
+                                <div className="space-y-3 mb-5">
+                                    <div className="flex items-center gap-3 text-charcoal/70">
+                                        <Clock size={18} />
+                                        <span>{selectedDuration} hour{selectedDuration > 1 ? 's' : ''} of studio access</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-charcoal/70">
+                                        <DollarSign size={18} />
+                                        <span>Total: <strong className="text-charcoal">${currentCalendar.price} CAD</strong></span>
+                                    </div>
+                                </div>
 
-                        {/* Footer CTA */}
-                        <div className="flex-shrink-0 border-t border-charcoal/10 bg-white/50 backdrop-blur-sm">
-                            <div className="px-4 md:px-8 py-4">
-                                <Link
-                                    href="/photoshoot"
-                                    onClick={onClose}
+                                <div className="bg-cream/50 rounded-lg p-3 mb-5">
+                                    <p className="text-sm text-charcoal/70">
+                                        <strong className="text-charcoal">30% deposit required:</strong> ${deposit} CAD
+                                    </p>
+                                    <p className="text-xs text-charcoal/50 mt-1">
+                                        Remaining balance due before your session
+                                    </p>
+                                </div>
+
+                                <button
+                                    onClick={handleContinueToBooking}
                                     className="
-                                        flex items-center justify-center gap-3 w-full
+                                        w-full flex items-center justify-center gap-3
                                         bg-charcoal text-cream py-4 px-6 rounded-full
                                         font-sans text-sm uppercase tracking-widest
                                         hover:bg-charcoal/90 transition-colors
                                         group
                                     "
                                 >
-                                    <Camera size={18} className="group-hover:scale-110 transition-transform" />
-                                    <span>Looking for a Photo Shoot? Book a Session Here</span>
-                                </Link>
+                                    <span>Continue to Booking</span>
+                                    <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+
+                                <p className="text-xs text-center text-charcoal/40 mt-3">
+                                    Opens booking calendar in a new tab
+                                </p>
                             </div>
+                        </div>
+
+                        {/* Footer CTA */}
+                        <div className="border-t border-charcoal/10 px-6 py-4">
+                            <Link
+                                href="/photoshoot"
+                                onClick={onClose}
+                                className="
+                                    flex items-center justify-center gap-2 w-full
+                                    text-charcoal/70 py-2
+                                    font-sans text-sm
+                                    hover:text-charcoal transition-colors
+                                    group
+                                "
+                            >
+                                <Camera size={16} className="group-hover:scale-110 transition-transform" />
+                                <span>Looking for a Photo Shoot? Book a Session Here</span>
+                            </Link>
                         </div>
                     </motion.div>
                 </motion.div>
