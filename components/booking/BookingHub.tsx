@@ -194,7 +194,9 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
                                     height: 'calc(100% + 100px)',
                                     paddingBottom: '80px',
                                 }}
-                                allow="payment"
+                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
                                 title={`Book ${selectedDuration} Hour${selectedDuration > 1 ? 's' : ''} Studio Rental`}
                             />
                         </div>

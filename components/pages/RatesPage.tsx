@@ -273,7 +273,9 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                                     border: 'none',
                                     minHeight: '650px',
                                 }}
-                                allow="payment"
+                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
                                 title="Studio Rental Booking Calendar"
                             />
                         </div>
