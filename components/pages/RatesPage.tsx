@@ -267,7 +267,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                         </p>
                         <div className="w-full overflow-hidden rounded-lg border border-charcoal/10">
                             <iframe
-                                src="https://links.neovate.ca/widget/bookings/studio-rental-2-hour"
+                                src="https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour"
                                 className="w-full"
                                 style={{
                                     border: 'none',
