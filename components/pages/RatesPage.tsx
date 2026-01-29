@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, Calendar, Clock, Lock, Sparkles, Wifi, Car, Zap, Camera, Aperture, Armchair, Layers } from 'lucide-react';
+import { Check, Calendar, Clock, Lock, Sparkles, Wifi, Car, Zap, Camera, Aperture, Armchair, Layers, ExternalLink } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
@@ -261,25 +261,27 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
             <section className="px-6 md:px-12 py-20 max-w-6xl mx-auto">
                 <Reveal width="100%">
                     <div className="bg-white p-8 md:p-12 border border-charcoal/20 text-center">
-                        <h2 className="font-serif text-3xl mb-4">Live Availability</h2>
+                        <h2 className="font-serif text-3xl mb-4">Ready to Book?</h2>
                         <p className="text-charcoal/60 text-sm mb-8 max-w-md mx-auto">
-                            Select your preferred time slot below. This calendar shows our 2-hour rental availability.
+                            View our live availability and secure your studio time in just a few clicks.
                         </p>
-                        <div className="w-full overflow-hidden rounded-lg border border-charcoal/10">
-                            <iframe
-                                src="https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour"
-                                className="w-full"
-                                style={{
-                                    border: 'none',
-                                    minHeight: '650px',
-                                }}
-                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
-                                title="Studio Rental Booking Calendar"
-                            />
-                        </div>
-                        <p className="text-charcoal/50 text-xs mt-4">
+                        <button
+                            onClick={() => window.open('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour', '_blank', 'noopener,noreferrer')}
+                            className="
+                                inline-flex items-center justify-center gap-3
+                                bg-charcoal text-cream py-4 px-8 rounded-full
+                                font-sans text-sm uppercase tracking-widest
+                                hover:bg-charcoal/90 transition-colors
+                                group
+                            "
+                        >
+                            <span>View Availability & Book</span>
+                            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <p className="text-charcoal/40 text-xs mt-4">
+                            Opens booking calendar in a new tab
+                        </p>
+                        <p className="text-charcoal/50 text-xs mt-2">
                             Need a different duration? <button onClick={() => onBook()} className="underline hover:text-charcoal transition-colors">Open full booking options</button>
                         </p>
                     </div>

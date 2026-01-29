@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, ExternalLink, Clock, DollarSign } from 'lucide-react';
 import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
@@ -89,11 +89,9 @@ const SessionCalendarModal: React.FC<{
     isOpen: boolean;
     onClose: () => void;
 }> = ({ session, isOpen, onClose }) => {
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (isOpen) {
-            setIsLoading(true);
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
@@ -115,6 +113,10 @@ const SessionCalendarModal: React.FC<{
 
     if (!session) return null;
 
+    const handleContinueToBooking = () => {
+        window.open(session.calendarUrl, '_blank', 'noopener,noreferrer');
+    };
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -122,7 +124,7 @@ const SessionCalendarModal: React.FC<{
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[100] flex flex-col"
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
                     role="dialog"
                     aria-modal="true"
                     aria-label={`Book ${session.title} Session`}
@@ -138,26 +140,26 @@ const SessionCalendarModal: React.FC<{
 
                     {/* Modal Content */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 40, scale: 0.95 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="relative z-10 flex flex-col h-full max-h-screen bg-cream"
+                        className="relative z-10 bg-cream rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl"
                     >
                         {/* Header */}
-                        <div className="flex-shrink-0 border-b border-charcoal/10">
-                            <div className="flex items-center justify-between px-4 md:px-8 py-4">
+                        <div className="border-b border-charcoal/10 px-6 py-5">
+                            <div className="flex items-center justify-between">
                                 <div>
                                     <h2 className="font-serif text-2xl md:text-3xl">
                                         Book {session.title} Session
                                     </h2>
-                                    <p className="text-xs text-charcoal/50 uppercase tracking-widest mt-1">
-                                        Starting at ${session.price}
+                                    <p className="text-sm text-charcoal/60 mt-1">
+                                        Professional photography session
                                     </p>
                                 </div>
                                 <button
                                     onClick={onClose}
-                                    className="p-3 hover:bg-charcoal/5 rounded-full transition-colors"
+                                    className="p-2 hover:bg-charcoal/5 rounded-full transition-colors"
                                     aria-label="Close booking modal"
                                 >
                                     <X size={24} />
@@ -165,40 +167,55 @@ const SessionCalendarModal: React.FC<{
                             </div>
                         </div>
 
-                        {/* Iframe Container */}
-                        <div className="flex-1 relative overflow-hidden">
-                            {/* Loading Spinner */}
-                            <AnimatePresence>
-                                {isLoading && (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="absolute inset-0 flex flex-col items-center justify-center bg-cream z-10"
-                                    >
-                                        <Loader2 size={40} className="animate-spin text-charcoal/30" />
-                                        <p className="mt-4 text-sm text-charcoal/50 uppercase tracking-widest">
-                                            Loading Calendar...
-                                        </p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                        {/* Session Summary */}
+                        <div className="px-6 py-6 bg-charcoal/[0.02]">
+                            <div className="bg-white rounded-xl p-5 border border-charcoal/10">
+                                <h3 className="font-serif text-xl mb-4">
+                                    {session.title} Session
+                                </h3>
 
-                            {/* GHL Iframe */}
-                            <iframe
-                                src={session.calendarUrl}
-                                onLoad={() => setIsLoading(false)}
-                                className="w-full h-full"
-                                style={{
-                                    border: 'none',
-                                    minHeight: '700px',
-                                    height: '100%',
-                                }}
-                                allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
-                                title={`Book ${session.title} Session`}
-                            />
+                                <div className="space-y-3 mb-5">
+                                    <div className="flex items-center gap-3 text-charcoal/70">
+                                        <Clock size={18} />
+                                        <span>{session.duration}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-charcoal/70">
+                                        <Camera size={18} />
+                                        <span>{session.photoCount} retouched images included</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-charcoal/70">
+                                        <DollarSign size={18} />
+                                        <span>Starting at <strong className="text-charcoal">${session.price} CAD</strong></span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-cream/50 rounded-lg p-3 mb-5">
+                                    <p className="text-sm text-charcoal/70">
+                                        <strong className="text-charcoal">$50 deposit required</strong> to secure your booking
+                                    </p>
+                                    <p className="text-xs text-charcoal/50 mt-1">
+                                        Final price determined after consultation
+                                    </p>
+                                </div>
+
+                                <button
+                                    onClick={handleContinueToBooking}
+                                    className="
+                                        w-full flex items-center justify-center gap-3
+                                        bg-charcoal text-cream py-4 px-6 rounded-full
+                                        font-sans text-sm uppercase tracking-widest
+                                        hover:bg-charcoal/90 transition-colors
+                                        group
+                                    "
+                                >
+                                    <span>Continue to Booking</span>
+                                    <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+
+                                <p className="text-xs text-center text-charcoal/40 mt-3">
+                                    Opens booking calendar in a new tab
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -472,28 +489,29 @@ const PhotoshootPage: React.FC = () => {
                                         </div>
                                     </Reveal>
 
-                                    {/* Live Availability Calendar */}
+                                    {/* Book Now CTA */}
                                     <Reveal delay={0.4}>
-                                        <div className="mt-8 border border-charcoal/10 rounded-lg overflow-hidden bg-white">
-                                            <div className="p-4 border-b border-charcoal/10 bg-cream/50">
-                                                <p className="font-serif italic text-lg text-center">Live Availability</p>
-                                                <p className="text-xs text-center text-charcoal/50 mt-1">Select a date and time below</p>
+                                        <div className="mt-8 border border-charcoal/10 rounded-lg overflow-hidden bg-white p-6">
+                                            <div className="text-center mb-4">
+                                                <p className="font-serif italic text-lg">Ready to Book?</p>
+                                                <p className="text-xs text-charcoal/50 mt-1">View live availability and secure your session</p>
                                             </div>
-                                            <div className="relative" style={{ minHeight: '500px' }}>
-                                                <iframe
-                                                    src={selectedSession.calendarUrl}
-                                                    className="w-full"
-                                                    style={{
-                                                        border: 'none',
-                                                        minHeight: '500px',
-                                                        height: '100%',
-                                                    }}
-                                                    allow="payment; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; presentation; orientation-lock"
-                                                    referrerPolicy="no-referrer-when-downgrade"
-                                                    sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation allow-modals allow-presentation allow-orientation-lock"
-                                                    title={`${selectedSession.title} Session Availability`}
-                                                />
-                                            </div>
+                                            <button
+                                                onClick={() => window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer')}
+                                                className="
+                                                    w-full flex items-center justify-center gap-3
+                                                    bg-charcoal text-cream py-4 px-6 rounded-full
+                                                    font-sans text-sm uppercase tracking-widest
+                                                    hover:bg-charcoal/90 transition-colors
+                                                    group
+                                                "
+                                            >
+                                                <span>View Availability & Book</span>
+                                                <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                            </button>
+                                            <p className="text-xs text-center text-charcoal/40 mt-3">
+                                                Opens booking calendar in a new tab
+                                            </p>
                                         </div>
                                     </Reveal>
 
