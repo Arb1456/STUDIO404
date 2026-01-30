@@ -3,7 +3,7 @@ import React from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
-import { Volume2, Dog, HelpCircle, AlertTriangle } from 'lucide-react';
+import { Volume2, Dog, HelpCircle, AlertTriangle, CheckSquare } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 
 interface PoliciesPageProps {
@@ -98,6 +98,20 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
 
                             <AccordionItem
                                 number="05"
+                                title="Payment & Security Deposits"
+                                warning="Policy: Card on file required"
+                            >
+                                <p>
+                                    <strong>Remaining Balance:</strong> The outstanding 70% balance must be settled at least three (3) days prior to the rental. If booked within that window, payment is due one (1) day (24 hours) prior to the session. Unpaid balances will be automatically charged to the card on file to secure the time slot.
+                                    <br /><br />
+                                    <strong>Security Deposit:</strong> At the studio&apos;s discretion (generally for new clients or large groups), a $1.00 validation hold may be requested via a separate invoice. This acts as a pre-authorization for a conditional $100 security deposit.
+                                    <br /><br />
+                                    <strong>Refund Policy:</strong> The $1.00 hold is refunded within 24 hours post-shoot if no damages or cleaning fees occur.
+                                </p>
+                            </AccordionItem>
+
+                            <AccordionItem
+                                number="06"
                                 title="Studio Access & Monitoring"
                                 warning="Standard: Manager Right of Entry"
                             >
@@ -109,7 +123,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             </AccordionItem>
 
                             <AccordionItem
-                                number="06"
+                                number="07"
                                 title="Liability & Documentation"
                                 warning="Policy: 100% Renter Responsibility"
                             >
@@ -117,11 +131,23 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     The individual named on the booking confirmation serves as the primary point of contact and assumes <strong>full financial liability</strong> for all damages, theft, or excessive mess caused by any member of their party.
                                     <br /><br />
                                     <strong>Evidence Protocol:</strong> To ensure transparency, the studio is photographed immediately before your arrival and after your departure. These timestamped images, alongside security camera footage, constitute the definitive record used to determine liability for any condition disputes.
+                                    <br /><br />
+                                    <strong>Liability Beyond Deposit:</strong> The $100 security deposit serves as a baseline. Should damages occur that exceed this amount (e.g., equipment breakage or structural Cyc wall cracks), the Renter will be invoiced for the full repair or replacement cost, and the card on file will be billed accordingly.
                                 </p>
                             </AccordionItem>
 
                             <AccordionItem
-                                number="07"
+                                number="08"
+                                title="Studio Restoration"
+                                warning="Restoration Fee: Starting at $100.00"
+                            >
+                                <p>
+                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned to its original layout with all equipment, modifiers, and cords returned to their designated storage locations. If the space is left in disarray or requires resetting, a restoration fee starting at $100.00 will be applied.
+                                </p>
+                            </AccordionItem>
+
+                            <AccordionItem
+                                number="09"
                                 title="Equipment & Space Availability"
                                 warning="Note: Subject to current condition"
                             >
@@ -198,6 +224,77 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             </div>
                         </Reveal>
                     </div>
+                </div>
+            </section>
+
+            {/* Teardown Checklist */}
+            <section className="py-24 px-6 md:px-12 lg:px-24">
+                <div className="max-w-3xl mx-auto">
+                    <Reveal>
+                        <div className="border-2 border-charcoal p-8 md:p-12">
+                            <div className="flex items-center gap-4 mb-8">
+                                <CheckSquare size={28} />
+                                <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Teardown Checklist</h2>
+                            </div>
+                            <p className="text-sm opacity-70 mb-8">Before you leave, ensure the following is completed:</p>
+
+                            <div className="space-y-6">
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Equipment</h4>
+                                        <p className="text-sm opacity-70">All strobes and constant lights returned to their starting positions.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Modifiers</h4>
+                                        <p className="text-sm opacity-70">Softboxes, grids, and umbrellas returned to designated storage.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Cables</h4>
+                                        <p className="text-sm opacity-70">Power cords and triggers neatly coiled and put away.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Cyc Wall</h4>
+                                        <p className="text-sm opacity-70">All tape removed from the floor; any large debris cleared.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Paper</h4>
+                                        <p className="text-sm opacity-70">Rolled up if used during rental.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Furniture</h4>
+                                        <p className="text-sm opacity-70">Mirrors, stools, and wardrobe racks returned to their designated corners.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 pt-6 border-t border-charcoal/20">
+                                <p className="text-xs font-mono uppercase tracking-wide opacity-60">
+                                    Note: Failure to complete this checklist may result in a minimum $50.00 restoration fee.
+                                </p>
+                            </div>
+                        </div>
+                    </Reveal>
                 </div>
             </section>
 
