@@ -8,14 +8,14 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const Availability: React.FC = () => {
     return (
-        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col px-6 md:px-12 py-16 md:py-20 overflow-hidden">
+        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col px-6 md:px-12 py-10 md:py-20 overflow-hidden">
             {/* Title Section - in normal flow */}
-            <div className="text-center mb-8 md:mb-10 flex-shrink-0">
+            <div className="text-center mb-4 md:mb-10 flex-shrink-0">
                 <Reveal>
-                    <h2 className="font-serif text-4xl text-charcoal mb-4">Availability</h2>
+                    <h2 className="font-serif text-3xl md:text-4xl text-charcoal mb-2 md:mb-4">Availability</h2>
                 </Reveal>
                 <Reveal delay={0.1}>
-                    <p className="text-charcoal/70 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+                    <p className="text-charcoal/70 text-xs md:text-base leading-relaxed max-w-2xl mx-auto">
                         Rent the space and create without constraints, or let us guide you through an unforgettable photo session, custom tailored to you. The choice is yours.
                     </p>
                 </Reveal>
@@ -65,11 +65,10 @@ const Availability: React.FC = () => {
                         href="/photoshoot"
                         className="group block relative w-full h-full bg-charcoal-light overflow-hidden cursor-pointer shadow-xl"
                     >
-                        <img
-                            src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2670&auto=format&fit=crop"
-                            alt="Creative Photoshoots"
-                            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
-                        />
+                        {/* Placeholder background */}
+                        <div className="absolute inset-0 w-full h-full bg-charcoal/80 flex items-center justify-center">
+                            <span className="text-cream/40 font-serif text-2xl md:text-3xl italic">Placeholder</span>
+                        </div>
                         <div className="absolute inset-0 bg-black/20" />
                         <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 text-cream">
                             <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Creative Photoshoots</h3>

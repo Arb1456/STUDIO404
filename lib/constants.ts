@@ -20,7 +20,7 @@ export const FAQ_ITEMS: FAQItem[] = [
     },
     {
         question: "What are the booking options?",
-        answer: "We offer hourly bookings, half-day (4 hours), and full-day (8+ hours) rates. Memberships are available for frequent creators, removing the 2-hour minimum."
+        answer: "We offer hourly bookings, half-day, and full-day rates. We also have a number of guided sessions available for those who don't have a designated photographer."
     },
     {
         question: "Can I bring my own equipment?",

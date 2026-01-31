@@ -36,12 +36,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
                     <div className="order-2 md:order-1">
                         <Reveal>
-                            <div className="aspect-[4/5] w-full bg-gray-200 overflow-hidden relative">
-                                <img
-                                    src="https://picsum.photos/800/1000?grayscale"
-                                    alt="Founder working in studio"
-                                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
-                                />
+                            <div className="aspect-[4/5] w-full overflow-hidden relative bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
+                                <span className="text-charcoal/40 text-sm font-medium tracking-widest uppercase">Image Coming Soon</span>
                             </div>
                         </Reveal>
                     </div>
@@ -54,7 +50,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                                 <p>
                                     It started with a frustration common to many creatives in Ottawa: the lack of a "middle ground."
                                     You either had to rent a massive, expensive commercial soundstage or try to make do with a cramped,
-                                    dimly lit basement.
+                                    dimly lit basement. And sometimes, shooting outside just isn't an option.
                                 </p>
                                 <p>
                                     I wanted to build something different. A space that felt premium but approachable.
@@ -80,8 +76,11 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                                 <span className="italic text-gray-400">Sweat Equity.</span>
                             </h2>
                             <div className="flex-1 max-w-md">
-                                <p className="text-lg opacity-80 mb-8 leading-relaxed">
+                                <p className="text-lg opacity-80 mb-4 leading-relaxed">
                                     Every curve of the cyclorama wall was sanded by hand. Over 200 hours of craftsmanship went into creating our signature infinity background from the ground up.
+                                </p>
+                                <p className="text-lg opacity-80 mb-8 leading-relaxed">
+                                    We spent so much time hand-crafting, designing, and planning everything because, as creators, we wanted something specific. And the only option to get our desired results was to do everything ourselves.
                                 </p>
                                 <div className="grid grid-cols-2 gap-y-2 gap-x-4 border-t border-charcoal/10 pt-6">
                                     {['Framing', 'Cutting', 'Drywall', 'Mudding', 'Taping', 'Sanding', 'Priming', 'Painting'].map((step) => (
@@ -95,12 +94,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-full aspect-video md:aspect-[2.35/1] bg-gray-100 overflow-hidden">
-                            <img
-                                src="https://picsum.photos/1600/900?blur=2"
-                                alt="Cyclorama wall construction detail"
-                                className="object-cover w-full h-full opacity-90"
-                            />
+                        <div className="w-full aspect-video md:aspect-[2.35/1] overflow-hidden bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
+                            <span className="text-charcoal/40 text-sm font-medium tracking-widest uppercase">Image Coming Soon</span>
                         </div>
                     </Reveal>
                 </div>
@@ -133,10 +128,14 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                     </Reveal>
                     <div className="grid grid-cols-2 gap-4">
                         <Reveal delay={0.2}>
-                            <img src="https://picsum.photos/400/600?random=1" className="w-full h-64 object-cover opacity-80" alt="Studio lighting" />
+                            <div className="w-full h-64 bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
+                                <span className="text-cream/60 text-xs font-medium tracking-widest uppercase">Image Coming Soon</span>
+                            </div>
                         </Reveal>
                         <Reveal delay={0.3}>
-                            <img src="https://picsum.photos/400/600?random=2" className="w-full h-64 object-cover opacity-80 mt-12" alt="Camera gear" />
+                            <div className="w-full h-64 mt-12 bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
+                                <span className="text-cream/60 text-xs font-medium tracking-widest uppercase">Image Coming Soon</span>
+                            </div>
                         </Reveal>
                     </div>
                 </div>

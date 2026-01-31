@@ -99,7 +99,7 @@ export const VoiceAgentBlock: React.FC = () => {
                                     Speak naturally to check availability and book your session.
                                 </p>
                                 <p className="text-cream text-base font-medium">
-                                    Click the start a call button on the widget on the right of the screen.
+                                    Click the widget at the top of the screen to start a chat!
                                 </p>
                             </div>
 

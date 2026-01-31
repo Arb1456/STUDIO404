@@ -94,7 +94,19 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
             {/* 1. Intro Hero (single slide) */}
             <TourSection id="intro" singleSlide className="items-center bg-cream">
-                <div className="absolute inset-0 opacity-10" style={bgImage('https://picsum.photos/1920/1080?random=1')} />
+                {/* Cream textured placeholder background */}
+                <div className="absolute inset-0" style={{
+                    background: `
+                        radial-gradient(ellipse at 20% 30%, rgba(245, 235, 220, 0.8) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(240, 230, 210, 0.6) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(250, 245, 235, 0.4) 0%, transparent 70%),
+                        linear-gradient(135deg, #F5F0E6 0%, #EDE6DA 25%, #F0EBE0 50%, #E8E2D6 75%, #F2EDE4 100%)
+                    `,
+                }} />
+                {/* Subtle noise texture overlay */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                }} />
                 <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
                     <Reveal>
                         <p className="text-xs uppercase tracking-[0.3em] mb-6 text-charcoal/60">The Tour</p>
@@ -127,17 +139,20 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     <div className="absolute inset-0 hidden md:block" style={bgImage(cloudinaryUrl('The_Cyc_Wall_aohgwv'), 'center')} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mx-auto px-6 items-center h-full relative z-10">
                         <div className="md:col-start-1">
-                            <Reveal>
-                                <h2 className="font-serif text-5xl md:text-7xl mb-6 text-black">The Cyc Wall</h2>
-                            </Reveal>
-                            <Reveal delay={0.2}>
-                                <div className="w-24 h-[1px] bg-black/50 mb-6"></div>
-                            </Reveal>
-                            <Reveal delay={0.3}>
-                                <p className="font-sans font-light text-lg max-w-md mb-8 text-black">
-                                    Our 12 ft x 10 ft x 10 ft corner cyclorama wall offers an infinite horizon for your productions. Pristine white, perfectly curved.
-                                </p>
-                            </Reveal>
+                            {/* Frosted glass background block for readability */}
+                            <div className="bg-white/70 backdrop-blur-md rounded-xl p-6 md:p-8 shadow-lg border border-white/50">
+                                <Reveal>
+                                    <h2 className="font-serif text-5xl md:text-7xl mb-6 text-black">The Cyc Wall</h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <div className="w-24 h-[1px] bg-black/50 mb-6"></div>
+                                </Reveal>
+                                <Reveal delay={0.3}>
+                                    <p className="font-sans font-light text-lg max-w-md mb-8 text-black">
+                                        Our 12 ft x 10 ft x 10 ft corner cyclorama wall offers an infinite horizon for your productions. Pristine white, perfectly curved.
+                                    </p>
+                                </Reveal>
+                            </div>
                         </div>
                     </div>
                 </TourSlide>
@@ -203,27 +218,30 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                         {/* YouTube Video Placeholder */}
                         <Reveal delay={0.3}>
-                            <a
-                                href="https://youtube.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-4 px-6 md:px-8 py-3 md:py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group mb-6 md:mb-10"
-                            >
-                                <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
-                                    <Play size={20} className="text-cream ml-1" />
-                                </div>
-                                <span className="text-cream font-serif text-base md:text-xl">Watch Video Tour</span>
-                            </a>
+                            <div className="flex flex-col items-center mb-6 md:mb-10">
+                                <a
+                                    href="https://youtube.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-4 px-6 md:px-8 py-3 md:py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group"
+                                >
+                                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                                        <Play size={20} className="text-cream ml-1" />
+                                    </div>
+                                    <span className="text-cream font-serif text-base md:text-xl">Watch Video Tour</span>
+                                </a>
+                                <p className="text-cream/50 text-xs mt-2">(Coming soon)</p>
+                            </div>
                         </Reveal>
 
                         {/* Use Cases & Features */}
                         <Reveal delay={0.4}>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                                 {[
-                                    { label: 'Portraits', icon: '📸' },
-                                    { label: 'Product Shots', icon: '🛍️' },
-                                    { label: 'Video Production', icon: '🎬' },
-                                    { label: 'Fashion', icon: '👗' },
+                                    { label: 'Facilitates Pro Portraiture', icon: '📸' },
+                                    { label: 'Accommodates Larger Groups', icon: '👥' },
+                                    { label: 'Exceptional Video Production', icon: '🎬' },
+                                    { label: 'Perfect for Branding', icon: '✨' },
                                 ].map((item, i) => (
                                     <div key={i} className="bg-cream/5 border border-cream/10 rounded-lg p-3 md:p-6">
                                         <span className="text-xl md:text-3xl mb-2 block">{item.icon}</span>
@@ -379,7 +397,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
                                         <span className="text-3xl md:text-4xl">💡</span>
                                     </div>
-                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Strobes</h4>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Strobes & Modifiers</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
                                 </button>
                             </Reveal>
@@ -393,7 +411,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
                                         <span className="text-3xl md:text-4xl">🎬</span>
                                     </div>
-                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Continuous</h4>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Continuous for Video</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
                                 </button>
                             </Reveal>
@@ -407,7 +425,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
                                         <span className="text-3xl md:text-4xl">🔧</span>
                                     </div>
-                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Grip</h4>
+                                    <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Grip & Rigging</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
                                 </button>
                             </Reveal>
@@ -521,7 +539,19 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             <TourSection id="kitchenette" singleSlide className="bg-cream">
                 <div className="flex flex-col md:flex-row h-full">
                     <div className="w-full md:w-1/2 h-1/2 md:h-full relative">
-                        <div className="absolute inset-0" style={bgImage('https://picsum.photos/1000/1200?random=8')} />
+                        {/* Neutral textured placeholder */}
+                        <div className="absolute inset-0" style={{
+                            background: `
+                                radial-gradient(ellipse at 30% 20%, rgba(200, 190, 175, 0.6) 0%, transparent 50%),
+                                radial-gradient(ellipse at 70% 80%, rgba(180, 170, 155, 0.5) 0%, transparent 50%),
+                                radial-gradient(ellipse at 50% 50%, rgba(210, 200, 185, 0.4) 0%, transparent 60%),
+                                linear-gradient(145deg, #C8C0B4 0%, #B8B0A4 25%, #D0C8BC 50%, #C0B8AC 75%, #C8C0B4 100%)
+                            `,
+                        }} />
+                        {/* Subtle noise texture */}
+                        <div className="absolute inset-0 opacity-[0.04]" style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                        }} />
                     </div>
                     <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 pb-32 md:p-8 bg-cream">
                         <div className="max-w-md">
@@ -546,7 +576,19 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 <div className="relative container mx-auto px-6 h-full flex flex-col md:flex-row items-center gap-12">
                     <div className="w-full md:w-1/2">
                         <div className="aspect-[4/5] bg-gray-800 relative overflow-hidden">
-                            <div className="absolute inset-0 opacity-80" style={bgImage('https://picsum.photos/800/1000?random=9')} />
+                            {/* Neutral dark textured placeholder */}
+                            <div className="absolute inset-0" style={{
+                                background: `
+                                    radial-gradient(ellipse at 25% 30%, rgba(80, 75, 70, 0.7) 0%, transparent 50%),
+                                    radial-gradient(ellipse at 75% 70%, rgba(60, 55, 50, 0.6) 0%, transparent 50%),
+                                    radial-gradient(ellipse at 50% 50%, rgba(70, 65, 60, 0.5) 0%, transparent 60%),
+                                    linear-gradient(135deg, #4A4540 0%, #3E3A35 25%, #524D48 50%, #46423D 75%, #4A4540 100%)
+                                `,
+                            }} />
+                            {/* Subtle noise texture */}
+                            <div className="absolute inset-0 opacity-[0.05]" style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                            }} />
                         </div>
                     </div>
                     <div className="w-full md:w-1/2 text-left">
@@ -564,7 +606,19 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
             {/* 9. Final CTA (single slide) */}
             <TourSection id="cta" singleSlide className="bg-charcoal text-cream text-center">
-                <div className="absolute inset-0 opacity-20 mix-blend-soft-light" style={bgImage('https://picsum.photos/1920/1080?random=11')} />
+                {/* Subtle textured background overlay */}
+                <div className="absolute inset-0 opacity-20 mix-blend-soft-light" style={{
+                    background: `
+                        radial-gradient(ellipse at 20% 40%, rgba(120, 115, 110, 0.5) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 60%, rgba(100, 95, 90, 0.4) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(110, 105, 100, 0.3) 0%, transparent 70%),
+                        linear-gradient(160deg, #6A655F 0%, #5A5550 30%, #7A756F 60%, #605B55 100%)
+                    `,
+                }} />
+                {/* Subtle noise texture */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                }} />
                 <div className="relative z-10 px-6">
                     <Reveal>
                         <h2 className="font-serif text-6xl md:text-9xl mb-8 leading-none">

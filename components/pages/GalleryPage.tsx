@@ -10,9 +10,29 @@ interface GalleryItem {
     id: number;
     category: string;
     src: string;
+    aspectRatio: number;
     title: string;
     client: string;
 }
+
+// Placeholder colors for the gallery - sophisticated muted tones
+const PLACEHOLDER_COLORS = [
+    '#8B7355', // Warm taupe
+    '#6B8E7D', // Sage green
+    '#9B8B7A', // Warm gray
+    '#7D8B98', // Steel blue
+    '#A39178', // Sand
+    '#8E9B8B', // Olive mist
+    '#9A8A9B', // Dusty mauve
+    '#7B8C8B', // Teal gray
+    '#B5A18C', // Camel
+    '#8A9A8D', // Eucalyptus
+    '#9E8E7E', // Driftwood
+    '#7E8C9A', // Slate blue
+    '#A8998A', // Mushroom
+    '#8B9B8E', // Moss
+    '#988B9A', // Lavender gray
+];
 
 // Generate 45 items for pagination demo
 const GALLERY_ITEMS: GalleryItem[] = Array.from({ length: 45 }).map((_, i) => {
@@ -23,7 +43,8 @@ const GALLERY_ITEMS: GalleryItem[] = Array.from({ length: 45 }).map((_, i) => {
     return {
         id: i + 1,
         category: type,
-        src: `https://picsum.photos/seed/studio404_${i + 15}/800/${aspect}`,
+        src: PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length],
+        aspectRatio: aspect / 800,
         title: [
             'The Modernist', 'Aesop Concept', 'Vogue September', 'Ceramic Series', 'Noir Etude',
             'Coffee Culture', 'Urban Flow', 'Tech Minimal', 'Golden Hour', 'Fall Collection'
@@ -166,18 +187,17 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
                                 className="break-inside-avoid relative group cursor-pointer overflow-hidden bg-charcoal/5"
                                 onClick={() => setLightboxIndex(index)}
                             >
-                                <img
-                                    src={item.src}
-                                    alt={item.title}
-                                    className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                                    loading="lazy"
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="bg-cream/90 backdrop-blur-sm px-3 py-1 md:px-4 md:py-2 rounded-full">
-                                        <span className="text-[8px] md:text-xs uppercase tracking-widest text-charcoal">View</span>
-                                    </div>
+                                <div
+                                    className="w-full flex items-center justify-center p-4 transition-transform duration-700 ease-out group-hover:scale-105"
+                                    style={{
+                                        backgroundColor: item.src,
+                                        aspectRatio: `1 / ${item.aspectRatio}`,
+                                        minHeight: '120px'
+                                    }}
+                                >
+                                    <span className="text-white/90 text-[10px] md:text-xs font-medium uppercase tracking-wider text-center leading-relaxed drop-shadow-sm">
+                                        Community image<br />coming soon
+                                    </span>
                                 </div>
                             </div>
                         </Reveal>
@@ -278,11 +298,18 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
                     </button>
 
                     <div className="relative max-w-[95vw] max-h-[90vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
-                        <img
-                            src={displayedItems[lightboxIndex].src}
-                            alt={displayedItems[lightboxIndex].title}
-                            className="max-w-full max-h-[80vh] object-contain shadow-2xl"
-                        />
+                        <div
+                            className="w-full max-w-lg flex items-center justify-center rounded-lg shadow-2xl"
+                            style={{
+                                backgroundColor: displayedItems[lightboxIndex].src,
+                                aspectRatio: `1 / ${displayedItems[lightboxIndex].aspectRatio}`,
+                                minHeight: '300px'
+                            }}
+                        >
+                            <span className="text-white/90 text-lg md:text-xl font-medium uppercase tracking-wider text-center leading-relaxed drop-shadow-md">
+                                Community image<br />coming soon
+                            </span>
+                        </div>
                         <div className="mt-6 text-center">
                             <p className="font-serif text-2xl md:text-3xl italic text-charcoal mb-1">
                                 {displayedItems[lightboxIndex].title}

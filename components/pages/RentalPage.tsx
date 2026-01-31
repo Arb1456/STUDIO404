@@ -193,6 +193,16 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             </div>
                         </Reveal>
                     ))}
+                    {/* View All Link */}
+                    <Reveal delay={0.4}>
+                        <Link href="/tour" className="flex flex-col items-center text-center space-y-3 group">
+                            <div className="w-12 h-12 rounded-full bg-charcoal group-hover:bg-charcoal/80 flex items-center justify-center text-cream mb-2 transition-colors">
+                                <ArrowRight size={24} />
+                            </div>
+                            <h3 className="font-serif text-lg group-hover:italic transition-all">View All</h3>
+                            <p className="text-xs text-charcoal/60 uppercase tracking-wide">Take a full studio tour</p>
+                        </Link>
+                    </Reveal>
                 </div>
             </section>
 

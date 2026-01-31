@@ -235,16 +235,14 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
         }
     };
 
-    // Gallery photos
+    // Gallery photos - placeholder count
     const furniturePhotos = Array.from({ length: 6 }).map((_, i) => ({
         id: i + 1,
-        src: `https://picsum.photos/seed/furn_${i + 1}/400/400?grayscale`,
         alt: `Furniture Item ${i + 1}`
     }));
 
     const propsPhotos = Array.from({ length: 6 }).map((_, i) => ({
         id: i + 1,
-        src: `https://picsum.photos/seed/prop_${i + 1}/400/400?grayscale`,
         alt: `Prop Item ${i + 1}`
     }));
 
@@ -407,7 +405,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                             <img
                                 src={cloudinaryUrl('ThePaper_Library_hzpslw')}
                                 alt="Seamless Paper Rolls"
-                                className="w-full h-[600px] object-cover"
+                                className="w-full h-[250px] md:h-[600px] object-cover"
                             />
                         </div>
                     </Reveal>
@@ -441,7 +439,9 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         Clients have plenty of options. An assortment of furniture is laid out where they can lounge, collaborate, or chill.
                                     </p>
-                                    <img src="https://picsum.photos/seed/kitchen/400/300?grayscale" alt="Lounge" className="w-full h-48 object-cover" />
+                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
+                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    </div>
                                 </div>
                             </Accordion>
                         </Reveal>
@@ -451,7 +451,9 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         There is a private change room/hair and makeup area that's well lit and spacious.
                                     </p>
-                                    <img src="https://picsum.photos/seed/vanity/400/300?grayscale" alt="Styling" className="w-full h-48 object-cover" />
+                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
+                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    </div>
                                 </div>
                             </Accordion>
                         </Reveal>
@@ -461,7 +463,9 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         We have a full kitchenette area along with a fridge stocked with water.
                                     </p>
-                                    <img src="https://picsum.photos/seed/wifi/400/300?grayscale" alt="Tech" className="w-full h-48 object-cover" />
+                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
+                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    </div>
                                 </div>
                             </Accordion>
                         </Reveal>
@@ -487,8 +491,8 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                 </p>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                     {furniturePhotos.map(item => (
-                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-gray-100">
-                                            <img src={item.src} alt={item.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
+                                            <span className="text-[10px] uppercase tracking-widest opacity-50 text-center px-2">Image Coming Soon</span>
                                         </div>
                                     ))}
                                 </div>
@@ -502,8 +506,8 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                 </p>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                                     {propsPhotos.map(item => (
-                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-gray-100">
-                                            <img src={item.src} alt={item.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
+                                            <span className="text-[10px] uppercase tracking-widest opacity-50 text-center px-2">Image Coming Soon</span>
                                         </div>
                                     ))}
                                 </div>

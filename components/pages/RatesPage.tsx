@@ -71,7 +71,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
         },
         {
             question: "Do you require a deposit?",
-            answer: "To secure your slot on our calendar, we require full payment at the time of booking. Cancellations made 48 hours in advance are eligible for a full refund or rescheduling credit."
+            answer: "To secure your slot on our calendar, we require full payment at the time of booking. Cancellations made 72 hours in advance are eligible for a full refund or rescheduling credit."
         },
         {
             question: "Can I host an event here?",
@@ -231,6 +231,14 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                                 <Check size={16} className="opacity-50" />
                             </div>
                         </div>
+                    </div>
+                    <div className="mt-12 text-center">
+                        <p className="text-charcoal/70 mb-6">
+                            For any of these optional add-ons, fill out a contact form to request potential add-ons for your booking.
+                        </p>
+                        <Button onClick={() => router.push('/contact')} variant="outline">
+                            Contact Us
+                        </Button>
                     </div>
                 </Reveal>
             </section>
