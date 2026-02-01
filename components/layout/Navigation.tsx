@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,7 +13,44 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isNavVisible, setIsNavVisible] = useState(true);
     const pathname = usePathname();
+
+    // Scroll tracking
+    const lastScrollY = useRef(0);
+    const scrollDownDistance = useRef(0);
+    const SCROLL_THRESHOLD = 150; // pixels of downward scroll before hiding
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const scrollDelta = currentScrollY - lastScrollY.current;
+
+            if (scrollDelta > 0) {
+                // Scrolling down
+                scrollDownDistance.current += scrollDelta;
+                if (scrollDownDistance.current > SCROLL_THRESHOLD) {
+                    setIsNavVisible(false);
+                }
+            } else if (scrollDelta < 0) {
+                // Scrolling up - immediately show nav
+                scrollDownDistance.current = 0;
+                setIsNavVisible(true);
+            }
+
+            lastScrollY.current = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // When menu is open, always show the nav bar
+    useEffect(() => {
+        if (isMenuOpen) {
+            setIsNavVisible(true);
+        }
+    }, [isMenuOpen]);
 
     const handleNavClick = () => {
         setIsMenuOpen(false);
@@ -27,7 +64,10 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
     return (
         <>
             {/* Thumb-Zone Navigation Bar */}
-            <div className="fixed bottom-6 left-0 right-0 z-50 px-4 md:px-0 flex justify-center pointer-events-none">
+            <div
+                className={`fixed bottom-6 left-0 right-0 z-50 px-4 md:px-0 flex justify-center transition-opacity duration-300 ${isNavVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
+            >
                 <div className="bg-charcoal text-cream rounded-full px-1 py-1 flex items-center shadow-2xl pointer-events-auto min-w-[320px] max-w-sm w-full justify-between backdrop-blur-sm border border-white/10">
 
                     {/* Menu Trigger */}
