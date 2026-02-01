@@ -16,34 +16,85 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
     const [isNavVisible, setIsNavVisible] = useState(true);
     const pathname = usePathname();
 
-    // Scroll tracking
+    // Scroll tracking refs (supports both window and scroll-snap containers)
     const lastScrollY = useRef(0);
     const scrollDownDistance = useRef(0);
     const SCROLL_THRESHOLD = 150; // pixels of downward scroll before hiding
+    const scrollContainerRef = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            const scrollDelta = currentScrollY - lastScrollY.current;
+        // Reset scroll tracking on page change
+        lastScrollY.current = 0;
+        scrollDownDistance.current = 0;
+        setIsNavVisible(true);
 
-            if (scrollDelta > 0) {
-                // Scrolling down
-                scrollDownDistance.current += scrollDelta;
-                if (scrollDownDistance.current > SCROLL_THRESHOLD) {
-                    setIsNavVisible(false);
-                }
-            } else if (scrollDelta < 0) {
-                // Scrolling up - immediately show nav
-                scrollDownDistance.current = 0;
-                setIsNavVisible(true);
-            }
+        // Find scroll snap container (used on homepage, tour page, etc.)
+        // Look for elements with snap-y and overflow-y-scroll classes
+        const findScrollContainer = (): HTMLElement | null => {
+            // Check for TourContainer's scroll element
+            const tourContainer = document.querySelector('.snap-y.snap-mandatory.overflow-y-scroll');
+            if (tourContainer) return tourContainer as HTMLElement;
 
-            lastScrollY.current = currentScrollY;
+            // Check for HomePage's main scroll container
+            const mainScroller = document.querySelector('main.snap-y.snap-mandatory');
+            if (mainScroller) return mainScroller as HTMLElement;
+
+            return null;
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+        // Small delay to let the page render
+        const initTimer = setTimeout(() => {
+            scrollContainerRef.current = findScrollContainer();
+        }, 100);
+
+        const createScrollHandler = (getScrollTop: () => number) => {
+            return () => {
+                const currentScrollY = getScrollTop();
+                const scrollDelta = currentScrollY - lastScrollY.current;
+
+                if (scrollDelta > 0) {
+                    // Scrolling down
+                    scrollDownDistance.current += scrollDelta;
+                    if (scrollDownDistance.current > SCROLL_THRESHOLD) {
+                        setIsNavVisible(false);
+                    }
+                } else if (scrollDelta < 0) {
+                    // Scrolling up - immediately show nav
+                    scrollDownDistance.current = 0;
+                    setIsNavVisible(true);
+                }
+
+                lastScrollY.current = currentScrollY;
+            };
+        };
+
+        // Handler for window scroll (regular pages)
+        const windowScrollHandler = createScrollHandler(() => window.scrollY);
+
+        // Handler for container scroll (scroll-snap pages)
+        const containerScrollHandler = createScrollHandler(() =>
+            scrollContainerRef.current?.scrollTop ?? 0
+        );
+
+        // Attach window scroll listener
+        window.addEventListener('scroll', windowScrollHandler, { passive: true });
+
+        // Attach container scroll listener after finding it
+        const containerTimer = setTimeout(() => {
+            if (scrollContainerRef.current) {
+                scrollContainerRef.current.addEventListener('scroll', containerScrollHandler, { passive: true });
+            }
+        }, 150);
+
+        return () => {
+            clearTimeout(initTimer);
+            clearTimeout(containerTimer);
+            window.removeEventListener('scroll', windowScrollHandler);
+            if (scrollContainerRef.current) {
+                scrollContainerRef.current.removeEventListener('scroll', containerScrollHandler);
+            }
+        };
+    }, [pathname]); // Re-run when route changes
 
     // When menu is open, always show the nav bar
     useEffect(() => {
