@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useCallback, RefObject } from 'react';
-import { animate } from 'framer-motion';
 
 export interface SectionConfig {
     id: string;
@@ -87,57 +86,26 @@ export const useTourScroll = (
         return () => horizontalContainer.removeEventListener('scroll', handleScroll);
     }, [currentSection, currentSlide, horizontalRefs, sectionConfig]);
 
-    // Programmatic scroll to section (vertical) with smooth animation
+    // Programmatic scroll to section (vertical)
     const scrollToSection = useCallback((index: number) => {
         const targetId = sectionConfig[index]?.id;
         const target = document.getElementById(targetId);
         const container = containerRef.current;
 
         if (target && container) {
-            // Temporarily disable snap to allow smooth animation
-            container.style.scrollSnapType = 'none';
-
-            const targetY = target.offsetTop;
-
-            animate(container.scrollTop, targetY, {
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-                onUpdate: (v) => {
-                    if (container) {
-                        container.scrollTop = v;
-                    }
-                },
-                onComplete: () => {
-                    // Re-enable snap after animation
-                    if (container) {
-                        container.style.scrollSnapType = 'y mandatory';
-                    }
-                }
-            });
+            container.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
         }
     }, [containerRef, sectionConfig]);
 
-    // Programmatic scroll to slide (horizontal) with smooth animation
+    // Programmatic scroll to slide (horizontal)
     const scrollToSlide = useCallback((index: number) => {
         const sectionId = sectionConfig[currentSection]?.id;
         const horizontalContainer = horizontalRefs.get(sectionId);
 
         if (horizontalContainer) {
-            // Temporarily disable snap to allow smooth animation
-            horizontalContainer.style.scrollSnapType = 'none';
-
-            const targetX = index * horizontalContainer.clientWidth;
-
-            animate(horizontalContainer.scrollLeft, targetX, {
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-                onUpdate: (v) => {
-                    horizontalContainer.scrollLeft = v;
-                },
-                onComplete: () => {
-                    // Re-enable snap after animation
-                    horizontalContainer.style.scrollSnapType = 'x mandatory';
-                }
+            horizontalContainer.scrollTo({
+                left: index * horizontalContainer.clientWidth,
+                behavior: 'smooth'
             });
         }
     }, [currentSection, horizontalRefs, sectionConfig]);

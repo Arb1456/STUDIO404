@@ -37,22 +37,8 @@
     min-height: calc(var(--vh, 1vh) * 100);
 }
 
-/* Snap scroll container - snaps to sections on all devices */
-.snap-y {
-    scroll-snap-type: y mandatory;
-    -webkit-overflow-scrolling: touch;
-    /* Smooth momentum scrolling on iOS */
-}
-
 .snap-start {
     scroll-snap-align: start;
-}
-
-
-/* Horizontal snap scroll container */
-.snap-x {
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
 }
 
 /* Force snap to stop at each item (prevents overshooting) */

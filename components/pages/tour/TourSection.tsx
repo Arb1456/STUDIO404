@@ -28,10 +28,10 @@ export const TourSection: React.FC<TourSectionProps> = ({
             >
                 <motion.div
                     className={`h-full w-full flex flex-col justify-center items-center px-4 md:px-6 ${className}`}
-                    initial={{ scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }}
+                    initial={{ scale: 0.96, opacity: 0.6 }}
                     animate={isInView
-                        ? { scale: 1, opacity: 1, filter: "brightness(1)" }
-                        : { scale: 0.92, opacity: 0.6, filter: "brightness(0.7)" }
+                        ? { scale: 1, opacity: 1 }
+                        : { scale: 0.96, opacity: 0.6 }
                     }
                     transition={{ duration: 1.2, ease: "easeOut" }}
                 >
