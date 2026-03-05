@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile-safe viewport height - JS sets --vh to actual inner height */
+:root {
+    --vh: 1vh;
+    /* Fallback, JS will override with actual pixel value */
+}
+
+/* Custom scrollbar - hide completely */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom selection color */
+::selection {
+    background-color: #262626;
+    color: #F2EFE9;
+}
+
+/* Mobile-safe full height class - uses JS-calculated --vh for Safari iOS */
+.h-screen-safe {
+    height: 100vh;
+    /* Fallback */
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+.min-h-screen-safe {
+    min-height: 100vh;
+    /* Fallback */
+    min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Snap scroll container - snaps to sections on all devices */
+.snap-y {
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth momentum scrolling on iOS */
+}
+
+.snap-start {
+    scroll-snap-align: start;
+}
+
+
+/* Horizontal snap scroll container */
+.snap-x {
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Force snap to stop at each item (prevents overshooting) */
+.snap-always {
+    scroll-snap-stop: always;
+}
+
+/* Prevent overscroll bounce/pull-to-refresh conflicts */
+.overscroll-contain {
+    overscroll-behavior: contain;
+}
+
+/* No scrollbar utility */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Safe area bottom padding for content above nav bar */
+.pb-nav-safe {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Noise overlay — eliminates flat look, adds depth at 4% opacity */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
