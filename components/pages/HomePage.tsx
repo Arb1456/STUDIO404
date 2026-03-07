@@ -26,9 +26,16 @@ const HomePage: React.FC = () => {
             e.preventDefault();
             if (isScrollingRef.current) return;
 
-            const sections = Array.from(
-                container.querySelectorAll('.snap-start')
-            ) as HTMLElement[];
+            // Filter hidden elements (offsetParent=null) and deduplicate by offsetTop
+            // to avoid double-counting nested snap-start elements and md:hidden mobile sections
+            const seen = new Set<number>();
+            const sections = (Array.from(container.querySelectorAll('.snap-start')) as HTMLElement[])
+                .filter(el => {
+                    if (el.offsetParent === null) return false;
+                    if (seen.has(el.offsetTop)) return false;
+                    seen.add(el.offsetTop);
+                    return true;
+                });
             if (sections.length === 0) return;
 
             const currentScrollTop = container.scrollTop;
