@@ -15,33 +15,34 @@ import { ArrowRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
     const mainRef = useRef<HTMLElement>(null);
-    const isScrollingRef = useRef(false);
-    const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         const container = mainRef.current;
         if (!container) return;
 
+        let cooldownUntil = 0;
+
         const handleWheel = (e: WheelEvent) => {
             e.preventDefault();
-            if (isScrollingRef.current) return;
 
-            // Filter hidden elements (offsetParent=null) and deduplicate by offsetTop
-            // to avoid double-counting nested snap-start elements and md:hidden mobile sections
+            if (Date.now() < cooldownUntil) return;
+
+            // Exclude hidden elements and deduplicate by offsetTop to avoid
+            // counting md:hidden mobile sections and nested snap-start children
             const seen = new Set<number>();
             const sections = (Array.from(container.querySelectorAll('.snap-start')) as HTMLElement[])
                 .filter(el => {
-                    if (el.offsetParent === null) return false;
+                    if (!el.offsetParent) return false;
                     if (seen.has(el.offsetTop)) return false;
                     seen.add(el.offsetTop);
                     return true;
                 });
-            if (sections.length === 0) return;
+            if (!sections.length) return;
 
-            const currentScrollTop = container.scrollTop;
+            const scrollTop = container.scrollTop;
             let currentIndex = 0;
             for (let i = sections.length - 1; i >= 0; i--) {
-                if (sections[i].offsetTop <= currentScrollTop + 10) {
+                if (sections[i].offsetTop <= scrollTop + 10) {
                     currentIndex = i;
                     break;
                 }
@@ -51,20 +52,12 @@ const HomePage: React.FC = () => {
             const nextIndex = Math.max(0, Math.min(sections.length - 1, currentIndex + direction));
             if (nextIndex === currentIndex) return;
 
-            isScrollingRef.current = true;
+            cooldownUntil = Date.now() + 1000;
             container.scrollTo({ top: sections[nextIndex].offsetTop, behavior: 'smooth' });
-
-            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-            scrollTimeoutRef.current = setTimeout(() => {
-                isScrollingRef.current = false;
-            }, 900);
         };
 
         container.addEventListener('wheel', handleWheel, { passive: false });
-        return () => {
-            container.removeEventListener('wheel', handleWheel);
-            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-        };
+        return () => container.removeEventListener('wheel', handleWheel);
     }, []);
 
     return (
