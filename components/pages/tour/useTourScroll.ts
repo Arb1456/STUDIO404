@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, RefObject } from 'react';
+import { useState, useEffect, useCallback, useRef, RefObject } from 'react';
 
 export interface SectionConfig {
     id: string;
@@ -13,6 +13,14 @@ export const useTourScroll = (
     const [currentSection, setCurrentSection] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [horizontalRefs, setHorizontalRefs] = useState<Map<string, HTMLElement>>(new Map());
+
+    // Refs to access latest state inside event handlers without re-binding
+    const currentSectionRef = useRef(currentSection);
+    const currentSlideRef = useRef(currentSlide);
+    const horizontalRefsRef = useRef(horizontalRefs);
+    useEffect(() => { currentSectionRef.current = currentSection; }, [currentSection]);
+    useEffect(() => { currentSlideRef.current = currentSlide; }, [currentSlide]);
+    useEffect(() => { horizontalRefsRef.current = horizontalRefs; }, [horizontalRefs]);
 
     // Collect horizontal scroll container refs on mount
     useEffect(() => {
@@ -85,6 +93,55 @@ export const useTourScroll = (
         horizontalContainer.addEventListener('scroll', handleScroll, { passive: true });
         return () => horizontalContainer.removeEventListener('scroll', handleScroll);
     }, [currentSection, currentSlide, horizontalRefs, sectionConfig]);
+
+    // Wheel handler — drives section and slide navigation on desktop
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        let isScrolling = false;
+        let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+
+        const handleWheel = (e: WheelEvent) => {
+            e.preventDefault();
+            if (isScrolling) return;
+
+            const absDeltaX = Math.abs(e.deltaX);
+            const absDeltaY = Math.abs(e.deltaY);
+
+            isScrolling = true;
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => { isScrolling = false; }, 900);
+
+            if (absDeltaX > absDeltaY) {
+                // Horizontal → navigate slides
+                const section = currentSectionRef.current;
+                const sectionId = sectionConfig[section]?.id;
+                const hContainer = horizontalRefsRef.current.get(sectionId);
+                if (hContainer) {
+                    const maxSlides = sectionConfig[section]?.slides || 1;
+                    const direction = e.deltaX > 0 ? 1 : -1;
+                    const nextSlide = Math.max(0, Math.min(maxSlides - 1, currentSlideRef.current + direction));
+                    hContainer.scrollTo({ left: nextSlide * hContainer.clientWidth, behavior: 'smooth' });
+                }
+            } else {
+                // Vertical → navigate sections
+                const direction = e.deltaY > 0 ? 1 : -1;
+                const nextSection = Math.max(0, Math.min(sectionConfig.length - 1, currentSectionRef.current + direction));
+                if (nextSection !== currentSectionRef.current) {
+                    const targetId = sectionConfig[nextSection]?.id;
+                    const target = document.getElementById(targetId);
+                    if (target) container.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+                }
+            }
+        };
+
+        container.addEventListener('wheel', handleWheel, { passive: false });
+        return () => {
+            container.removeEventListener('wheel', handleWheel);
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+        };
+    }, [containerRef, sectionConfig]);
 
     // Programmatic scroll to section (vertical)
     const scrollToSection = useCallback((index: number) => {

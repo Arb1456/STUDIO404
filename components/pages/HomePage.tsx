@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Hero from './sections/Hero';
@@ -14,10 +14,56 @@ import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
+    const mainRef = useRef<HTMLElement>(null);
+    const isScrollingRef = useRef(false);
+    const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        const container = mainRef.current;
+        if (!container) return;
+
+        const handleWheel = (e: WheelEvent) => {
+            e.preventDefault();
+            if (isScrollingRef.current) return;
+
+            const sections = Array.from(
+                container.querySelectorAll('.snap-start')
+            ) as HTMLElement[];
+            if (sections.length === 0) return;
+
+            const currentScrollTop = container.scrollTop;
+            let currentIndex = 0;
+            for (let i = sections.length - 1; i >= 0; i--) {
+                if (sections[i].offsetTop <= currentScrollTop + 10) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+
+            const direction = e.deltaY > 0 ? 1 : -1;
+            const nextIndex = Math.max(0, Math.min(sections.length - 1, currentIndex + direction));
+            if (nextIndex === currentIndex) return;
+
+            isScrollingRef.current = true;
+            container.scrollTo({ top: sections[nextIndex].offsetTop, behavior: 'smooth' });
+
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+            scrollTimeoutRef.current = setTimeout(() => {
+                isScrollingRef.current = false;
+            }, 900);
+        };
+
+        container.addEventListener('wheel', handleWheel, { passive: false });
+        return () => {
+            container.removeEventListener('wheel', handleWheel);
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        };
+    }, []);
+
     return (
         <div className="relative w-full h-screen-safe overflow-hidden">
             {/* Main Scroll Container */}
-            <main className="w-full h-full overflow-y-scroll snap-y snap-mandatory no-scrollbar relative z-10">
+            <main ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory no-scrollbar relative z-10">
                 <SectionWrapper id="home">
                     <Hero />
                 </SectionWrapper>
