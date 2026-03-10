@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { ArrowRight, X, Play } from 'lucide-react';
+import { ArrowRight, X, Play, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
@@ -473,6 +473,19 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                 </button>
                             </Reveal>
                         </div>
+
+                        {/* Equipment Photos button */}
+                        <Reveal delay={0.5}>
+                            <div className="flex justify-center mt-8 md:mt-12">
+                                <button
+                                    onClick={() => openGallery('equipment')}
+                                    className="flex items-center gap-3 px-6 py-3 border border-cream/30 hover:border-cream/60 text-cream/70 hover:text-cream text-xs uppercase tracking-widest transition-all group"
+                                >
+                                    <span>View Equipment Photos</span>
+                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                                </button>
+                            </div>
+                        </Reveal>
                     </div>
                 </TourSlide>
             </TourSection>
@@ -554,9 +567,15 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center">Props <span className="italic text-charcoal/50">Collection</span></h3>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <div className="aspect-video md:aspect-[21/9] bg-charcoal/5 border-2 border-dashed border-charcoal/20 rounded-xl flex flex-col items-center justify-center">
-                                <p className="font-serif text-4xl md:text-6xl italic text-charcoal/30 mb-4">Coming Soon</p>
-                                <p className="text-sm md:text-base text-charcoal/50 uppercase tracking-widest">Props Collection Photos</p>
+                            <div className="aspect-video md:aspect-[21/9] bg-charcoal/5 border border-charcoal/10 rounded-xl flex flex-col items-center justify-center gap-6">
+                                <p className="font-serif text-2xl md:text-3xl text-charcoal/40 italic">Props Collection</p>
+                                <button
+                                    onClick={() => openGallery('props')}
+                                    className="flex items-center gap-3 px-6 py-3 border border-charcoal/30 hover:border-charcoal/60 text-charcoal/60 hover:text-charcoal text-xs uppercase tracking-widest transition-all group"
+                                >
+                                    <span>Browse Props Photos</span>
+                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                                </button>
                             </div>
                         </Reveal>
                     </div>
@@ -569,9 +588,15 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center text-cream">Furniture <span className="italic text-cream/50">Selection</span></h3>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <div className="aspect-video md:aspect-[21/9] bg-cream/5 border-2 border-dashed border-cream/20 rounded-xl flex flex-col items-center justify-center">
-                                <p className="font-serif text-4xl md:text-6xl italic text-cream/30 mb-4">Coming Soon</p>
-                                <p className="text-sm md:text-base text-cream/50 uppercase tracking-widest">Furniture Selection Photos</p>
+                            <div className="aspect-video md:aspect-[21/9] bg-cream/5 border border-cream/10 rounded-xl flex flex-col items-center justify-center gap-6">
+                                <p className="font-serif text-2xl md:text-3xl text-cream/40 italic">Furniture Selection</p>
+                                <button
+                                    onClick={() => openGallery('furniture')}
+                                    className="flex items-center gap-3 px-6 py-3 border border-cream/30 hover:border-cream/60 text-cream/60 hover:text-cream text-xs uppercase tracking-widest transition-all group"
+                                >
+                                    <span>Browse Furniture Photos</span>
+                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                                </button>
                             </div>
                         </Reveal>
                     </div>
