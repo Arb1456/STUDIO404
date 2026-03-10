@@ -13,6 +13,7 @@ import {
     TourNavigation,
     SectionConfig
 } from './tour';
+import { PhotoGalleryModal, GalleryImage } from './tour/PhotoGalleryModal';
 
 // Helper for background images
 const bgImage = (url: string, position: string = 'center') => ({
@@ -80,15 +81,57 @@ const EQUIPMENT_DATA = {
     }
 };
 
+// ---------------------------------------------------------------------------
+// Photo Gallery Image Arrays
+// Replace cloudinaryId values with real Cloudinary URLs when photos are ready.
+// Format: cloudinaryUrl('your_cloudinary_public_id') from @/lib/cloudinary
+// ---------------------------------------------------------------------------
+
+const PLACEHOLDER = 'https://placehold.co/1200x800/262626/F2EFE9?text=Photo+Coming+Soon';
+
+const EQUIPMENT_IMAGES: GalleryImage[] = [
+    { cloudinaryId: PLACEHOLDER, alt: 'Lighting equipment', caption: 'Strobes & Modifiers' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Softboxes and modifiers', caption: 'Softboxes' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Continuous lighting', caption: 'Continuous Lighting' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Grip and rigging', caption: 'Grip & Rigging' },
+    { cloudinaryId: PLACEHOLDER, alt: 'C-stands and booms', caption: 'C-Stands' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Reflectors and flags', caption: 'Reflectors' },
+];
+
+const PROPS_IMAGES: GalleryImage[] = [
+    { cloudinaryId: PLACEHOLDER, alt: 'Props collection', caption: 'Props Collection' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Vintage accents', caption: 'Vintage Accents' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Textural stools', caption: 'Stools & Seats' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Podiums and pedestals', caption: 'Podiums' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Decorative items', caption: 'Decor' },
+];
+
+const FURNITURE_IMAGES: GalleryImage[] = [
+    { cloudinaryId: PLACEHOLDER, alt: 'Designer furniture', caption: 'Designer Pieces' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Seating options', caption: 'Seating' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Tables and surfaces', caption: 'Tables' },
+    { cloudinaryId: PLACEHOLDER, alt: 'Lounge furniture', caption: 'Lounge' },
+];
+
 interface TourPageProps {
     onBook: (duration?: number) => void;
 }
 
 type EquipmentCategory = 'strobes' | 'continuous' | 'grip' | null;
+type GalleryModal = 'equipment' | 'props' | 'furniture' | null;
 
 const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
     const [activeEquipment, setActiveEquipment] = useState<EquipmentCategory>(null);
     const [expandedImage, setExpandedImage] = useState<string | null>(null);
+    const [activeGallery, setActiveGallery] = useState<GalleryModal>(null);
+    const [galleryIndex, setGalleryIndex] = useState(0);
+
+    const openGallery = (type: GalleryModal, index = 0) => {
+        setActiveGallery(type);
+        setGalleryIndex(index);
+    };
+    const closeGallery = () => setActiveGallery(null);
+
     return (
         <TourContainer sectionConfig={SECTION_CONFIG}>
 
@@ -535,37 +578,67 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 </TourSlide>
             </TourSection>
 
-            {/* 7. Kitchenette (single slide) */}
+            {/* 7. Kitchenette & Client Lounge (single slide) */}
             <TourSection id="kitchenette" singleSlide className="bg-cream">
-                <div className="flex flex-col md:flex-row h-full">
-                    <div className="w-full md:w-1/2 h-1/2 md:h-full relative">
-                        {/* Neutral textured placeholder */}
-                        <div className="absolute inset-0" style={{
-                            background: `
-                                radial-gradient(ellipse at 30% 20%, rgba(200, 190, 175, 0.6) 0%, transparent 50%),
-                                radial-gradient(ellipse at 70% 80%, rgba(180, 170, 155, 0.5) 0%, transparent 50%),
-                                radial-gradient(ellipse at 50% 50%, rgba(210, 200, 185, 0.4) 0%, transparent 60%),
-                                linear-gradient(145deg, #C8C0B4 0%, #B8B0A4 25%, #D0C8BC 50%, #C0B8AC 75%, #C8C0B4 100%)
-                            `,
-                        }} />
-                        {/* Subtle noise texture */}
-                        <div className="absolute inset-0 opacity-[0.04]" style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                        }} />
+                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                    {/* Left: Kitchenette */}
+                    <div className="flex flex-col h-1/2 md:h-full">
+                        {/* Image */}
+                        <div className="relative flex-1">
+                            <img
+                                src={cloudinaryUrl('KITCHENETTE', { width: 900, height: 700, crop: 'fill', quality: 'auto', format: 'auto' })}
+                                alt="Kitchenette"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                        </div>
+                        {/* Text */}
+                        <div className="flex items-center justify-center p-8 md:p-10 bg-cream">
+                            <div className="max-w-xs">
+                                <Reveal>
+                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                </Reveal>
+                                <Reveal delay={0.1}>
+                                    <h2 className="font-serif text-3xl md:text-4xl mb-4">Kitchenette</h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                        Kitchenette with a large sink and plenty of storage.
+                                    </p>
+                                </Reveal>
+                            </div>
+                        </div>
                     </div>
-                    <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center p-8 pb-32 md:p-8 bg-cream">
-                        <div className="max-w-md">
-                            <Reveal>
-                                <h2 className="font-serif text-4xl mb-6">Kitchenette & Amenities</h2>
-                            </Reveal>
-                            <Reveal delay={0.2}>
-                                <ul className="space-y-4 font-sans text-charcoal/80">
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Kitchenette with large sink and plenty of storage</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Plenty of places for clients to lounge</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Clean and accessible washroom</li>
-                                    <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 bg-charcoal rounded-full" /> Large fridge stocked with water</li>
-                                </ul>
-                            </Reveal>
+
+                    {/* Right: Client Lounge */}
+                    <div className="flex flex-col h-1/2 md:h-full border-t md:border-t-0 md:border-l border-charcoal/10">
+                        {/* Image */}
+                        <div className="relative flex-1">
+                            <div className="absolute inset-0" style={{
+                                background: `
+                                    radial-gradient(ellipse at 60% 30%, rgba(175, 170, 160, 0.6) 0%, transparent 50%),
+                                    radial-gradient(ellipse at 30% 70%, rgba(155, 150, 140, 0.5) 0%, transparent 50%),
+                                    linear-gradient(155deg, #AEA89E 0%, #9E9890 25%, #B8B2A8 50%, #A6A09A 75%, #AEA89E 100%)
+                                `,
+                            }} />
+                            <div className="absolute inset-0 opacity-[0.04]" style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                            }} />
+                        </div>
+                        {/* Text */}
+                        <div className="flex items-center justify-center p-8 pb-32 md:pb-10 md:p-10 bg-cream">
+                            <div className="max-w-xs">
+                                <Reveal>
+                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                </Reveal>
+                                <Reveal delay={0.1}>
+                                    <h2 className="font-serif text-3xl md:text-4xl mb-4">Client Lounge</h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                        Plenty of places for clients to lounge, plan, or relax during the session.
+                                    </p>
+                                </Reveal>
+                            </div>
                         </div>
                     </div>
                 </div>
