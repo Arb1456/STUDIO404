@@ -8,13 +8,14 @@ import InsideStudio from './sections/InsideStudio';
 import Features from './sections/Features';
 import Gallery from './sections/Gallery';
 import FAQ from './sections/FAQ';
+import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
 import Footer from '@/components/layout/Footer';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
 
 const HomePage: React.FC = () => {
-    const mainRef = useRef<HTMLElement>(null);
+    const mainRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const container = mainRef.current;
@@ -23,6 +24,9 @@ const HomePage: React.FC = () => {
         let cooldownUntil = 0;
 
         const handleWheel = (e: WheelEvent) => {
+            // On desktop, allow normal scrolling
+            if (window.matchMedia('(min-width: 768px)').matches) return;
+
             e.preventDefault();
 
             if (Date.now() < cooldownUntil) return;
@@ -63,7 +67,7 @@ const HomePage: React.FC = () => {
     return (
         <div className="relative w-full h-screen-safe overflow-hidden">
             {/* Main Scroll Container */}
-            <main ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory no-scrollbar relative z-10">
+            <div ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory md:snap-none no-scrollbar relative z-10">
                 <SectionWrapper id="home">
                     <Hero />
                 </SectionWrapper>
@@ -81,6 +85,10 @@ const HomePage: React.FC = () => {
                 </SectionWrapper>
                 <SectionWrapper id="faq">
                     <FAQ />
+                </SectionWrapper>
+
+                <SectionWrapper id="testimonials">
+                    <Testimonials />
                 </SectionWrapper>
 
                 {/* Contact handles its own SectionWrappers internally due to multi-section mobile layout */}
@@ -117,7 +125,7 @@ const HomePage: React.FC = () => {
                 <div className="snap-start">
                     <Footer />
                 </div>
-            </main>
+            </div>
         </div>
     );
 };

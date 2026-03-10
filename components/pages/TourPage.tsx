@@ -830,6 +830,27 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                 )}
             </AnimatePresence>
 
+            {/* Photo Gallery Modal */}
+            <AnimatePresence>
+                {activeGallery && (
+                    <PhotoGalleryModal
+                        images={
+                            activeGallery === 'equipment' ? EQUIPMENT_IMAGES :
+                            activeGallery === 'props'     ? PROPS_IMAGES :
+                                                           FURNITURE_IMAGES
+                        }
+                        currentIndex={galleryIndex}
+                        onIndexChange={setGalleryIndex}
+                        onClose={closeGallery}
+                        title={
+                            activeGallery === 'equipment' ? 'Equipment Photos' :
+                            activeGallery === 'props'     ? 'Props Collection' :
+                                                           'Furniture Selection'
+                        }
+                    />
+                )}
+            </AnimatePresence>
+
         </TourContainer>
     );
 };
