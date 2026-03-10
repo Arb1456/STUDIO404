@@ -294,8 +294,8 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
             <section className="relative h-screen flex items-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://picsum.photos/seed/studio_light/1920/1080?grayscale&blur=2"
-                        alt="Studio Lighting Grid"
+                        src={cloudinaryUrl('EQUIPMENT-HERO', { width: 1920, height: 1080, crop: 'fill', quality: 'auto', format: 'auto' })}
+                        alt="Studio Equipment"
                         className="w-full h-full object-cover opacity-60"
                     />
                     <div className="absolute inset-0 bg-cream/40 mix-blend-overlay"></div>

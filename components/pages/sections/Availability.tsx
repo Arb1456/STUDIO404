@@ -65,10 +65,12 @@ const Availability: React.FC = () => {
                         href="/photoshoot"
                         className="group block relative w-full h-full bg-charcoal-light overflow-hidden cursor-pointer shadow-xl"
                     >
-                        {/* Placeholder background */}
-                        <div className="absolute inset-0 w-full h-full bg-charcoal/80 flex items-center justify-center">
-                            <span className="text-cream/40 font-serif text-2xl md:text-3xl italic">Placeholder</span>
-                        </div>
+                        {/* Creative Photoshoots background */}
+                        <img
+                            src={cloudinaryUrl('CREATIVE-SESSION-01', { width: 1200, height: 800, crop: 'fill', quality: 'auto', format: 'auto' })}
+                            alt="Creative Photoshoots"
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
                         <div className="absolute inset-0 bg-black/20" />
                         <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 text-cream">
                             <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Creative Photoshoots</h3>

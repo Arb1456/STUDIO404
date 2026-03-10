@@ -139,13 +139,12 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                     </button>
 
                     {/* Contact Action */}
-                    <Link
-                        href="/contact"
-                        onClick={handleNavClick}
+                    <a
+                        href="tel:+12504073530"
                         className="px-6 py-4 hover:bg-white/10 rounded-full transition-colors"
                     >
                         <Phone size={18} />
-                    </Link>
+                    </a>
                 </div>
             </div>
 

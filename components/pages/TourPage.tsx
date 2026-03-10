@@ -90,26 +90,26 @@ const EQUIPMENT_DATA = {
 const PLACEHOLDER = 'https://placehold.co/1200x800/262626/F2EFE9?text=Photo+Coming+Soon';
 
 const EQUIPMENT_IMAGES: GalleryImage[] = [
-    { cloudinaryId: PLACEHOLDER, alt: 'Lighting equipment', caption: 'Strobes & Modifiers' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Softboxes and modifiers', caption: 'Softboxes' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Continuous lighting', caption: 'Continuous Lighting' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Grip and rigging', caption: 'Grip & Rigging' },
-    { cloudinaryId: PLACEHOLDER, alt: 'C-stands and booms', caption: 'C-Stands' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Reflectors and flags', caption: 'Reflectors' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/strobe'), alt: 'Godox SK400ii strobe on light stand', caption: 'Strobe' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/octobox'), alt: 'Godox octobox with honeycomb grid on stand', caption: 'Octobox' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/continuous_lighting'), alt: 'Amaran LED continuous light with barn doors and grid', caption: 'Continuous Lighting' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/snoot_projector'), alt: 'Amaran 200x with Godox snoot projector attachment', caption: 'Snoot Projector' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/strip_softbox'), alt: 'Godox strip softbox on light stand', caption: 'Strip Softbox' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/rect_softbox'), alt: 'Godox rectangular softbox on light stand', caption: 'Softbox' },
 ];
 
 const PROPS_IMAGES: GalleryImage[] = [
-    { cloudinaryId: PLACEHOLDER, alt: 'Props collection', caption: 'Props Collection' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Vintage accents', caption: 'Vintage Accents' },
+    { cloudinaryId: cloudinaryUrl('studio404/props/newborn_props'), alt: 'Newborn props including baskets, stuffed animals, and mini armchair', caption: 'Newborn Props' },
+    { cloudinaryId: cloudinaryUrl('studio404/props/vintage_styled'), alt: 'Vintage styled props including retro TVs, rotary phone, and microphone', caption: 'Vintage Styled' },
     { cloudinaryId: PLACEHOLDER, alt: 'Textural stools', caption: 'Stools & Seats' },
     { cloudinaryId: PLACEHOLDER, alt: 'Podiums and pedestals', caption: 'Podiums' },
     { cloudinaryId: PLACEHOLDER, alt: 'Decorative items', caption: 'Decor' },
 ];
 
 const FURNITURE_IMAGES: GalleryImage[] = [
-    { cloudinaryId: PLACEHOLDER, alt: 'Designer furniture', caption: 'Designer Pieces' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Seating options', caption: 'Seating' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Tables and surfaces', caption: 'Tables' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/directors_chair'), alt: 'Black director\'s chair with gold hardware', caption: 'Director\'s Chair' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/ottoman_stools'), alt: 'Velvet ottoman stools in grey, black and green with gold bases', caption: 'Ottoman Stools' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/wood_finish_stool'), alt: 'Wood finish stool with black metal legs', caption: 'Wood Finish Stool' },
     { cloudinaryId: PLACEHOLDER, alt: 'Lounge furniture', caption: 'Lounge' },
 ];
 
