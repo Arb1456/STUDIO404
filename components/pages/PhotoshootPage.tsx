@@ -279,6 +279,67 @@ const SessionCalendarModal: React.FC<{
     );
 };
 
+const PhotoshootContactForm: React.FC = () => {
+    const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setFormState('sending');
+        const data = new FormData(e.currentTarget);
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: data.get('name'),
+                    email: data.get('email'),
+                    message: data.get('message'),
+                    source: 'Photoshoot Page — Have Questions Form',
+                }),
+            });
+            setFormState(res.ok ? 'success' : 'error');
+        } catch {
+            setFormState('error');
+        }
+    };
+
+    if (formState === 'success') {
+        return (
+            <div className="text-center py-12">
+                <p className="font-serif text-2xl mb-2">Message sent.</p>
+                <p className="text-charcoal/50 text-sm">We&apos;ll be in touch shortly.</p>
+            </div>
+        );
+    }
+
+    return (
+        <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-charcoal/50">Full Name</label>
+                    <input name="name" type="text" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="Jane Doe" />
+                </div>
+                <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-charcoal/50">Email Address</label>
+                    <input name="email" type="email" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="jane@example.com" />
+                </div>
+            </div>
+            <div className="space-y-2">
+                <label className="text-xs uppercase tracking-widest text-charcoal/50">Message</label>
+                <textarea name="message" required className="w-full bg-cream border-b border-charcoal/10 p-3 h-32 focus:border-charcoal outline-none transition-colors resize-none" placeholder="Tell us about what you have in mind..." />
+            </div>
+            {formState === 'error' && (
+                <p className="text-sm text-red-600 text-center">Something went wrong — please try again or email us directly.</p>
+            )}
+            <div className="flex justify-center pt-4">
+                <Button className="min-w-[200px]" disabled={formState === 'sending'}>
+                    {formState === 'sending' ? 'Sending…' : 'Get In Touch'}
+                </Button>
+            </div>
+        </form>
+    );
+};
+
 const PhotoshootPage: React.FC = () => {
     const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
     const [calendarSession, setCalendarSession] = useState<SessionType | null>(null);
@@ -437,66 +498,7 @@ const PhotoshootPage: React.FC = () => {
                                     </Reveal>
 
                                     <Reveal delay={0.1}>
-                                        {(() => {
-                                            const [formState, setFormState] = React.useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-
-                                            const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-                                                e.preventDefault();
-                                                setFormState('sending');
-                                                const data = new FormData(e.currentTarget);
-                                                try {
-                                                    const res = await fetch('/api/contact', {
-                                                        method: 'POST',
-                                                        headers: { 'Content-Type': 'application/json' },
-                                                        body: JSON.stringify({
-                                                            name: data.get('name'),
-                                                            email: data.get('email'),
-                                                            message: data.get('message'),
-                                                            source: 'Photoshoot Page — Have Questions Form',
-                                                        }),
-                                                    });
-                                                    setFormState(res.ok ? 'success' : 'error');
-                                                } catch {
-                                                    setFormState('error');
-                                                }
-                                            };
-
-                                            if (formState === 'success') {
-                                                return (
-                                                    <div className="text-center py-12">
-                                                        <p className="font-serif text-2xl mb-2">Message sent.</p>
-                                                        <p className="text-charcoal/50 text-sm">We&apos;ll be in touch shortly.</p>
-                                                    </div>
-                                                );
-                                            }
-
-                                            return (
-                                                <form className="space-y-6" onSubmit={handleSubmit}>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                        <div className="space-y-2">
-                                                            <label className="text-xs uppercase tracking-widest text-charcoal/50">Full Name</label>
-                                                            <input name="name" type="text" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="Jane Doe" />
-                                                        </div>
-                                                        <div className="space-y-2">
-                                                            <label className="text-xs uppercase tracking-widest text-charcoal/50">Email Address</label>
-                                                            <input name="email" type="email" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="jane@example.com" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <label className="text-xs uppercase tracking-widest text-charcoal/50">Message</label>
-                                                        <textarea name="message" required className="w-full bg-cream border-b border-charcoal/10 p-3 h-32 focus:border-charcoal outline-none transition-colors resize-none" placeholder="Tell us about what you have in mind..." />
-                                                    </div>
-                                                    {formState === 'error' && (
-                                                        <p className="text-sm text-red-600 text-center">Something went wrong — please try again or email us directly.</p>
-                                                    )}
-                                                    <div className="flex justify-center pt-4">
-                                                        <Button className="min-w-[200px]" disabled={formState === 'sending'}>
-                                                            {formState === 'sending' ? 'Sending…' : 'Get In Touch'}
-                                                        </Button>
-                                                    </div>
-                                                </form>
-                                            );
-                                        })()}
+                                        <PhotoshootContactForm />
                                     </Reveal>
                                 </div>
                             </section>

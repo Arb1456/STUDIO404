@@ -21,6 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
     const scrollDownDistance = useRef(0);
     const SCROLL_THRESHOLD = 150; // pixels of downward scroll before hiding
     const scrollContainerRef = useRef<HTMLElement | null>(null);
+    const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         // Reset scroll tracking on page change
@@ -47,6 +48,13 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
             scrollContainerRef.current = findScrollContainer();
         }, 100);
 
+        const startIdleTimer = () => {
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+            idleTimerRef.current = setTimeout(() => {
+                setIsNavVisible(true);
+            }, 4000);
+        };
+
         const createScrollHandler = (getScrollTop: () => number) => {
             return () => {
                 const currentScrollY = getScrollTop();
@@ -57,11 +65,13 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                     scrollDownDistance.current += scrollDelta;
                     if (scrollDownDistance.current > SCROLL_THRESHOLD) {
                         setIsNavVisible(false);
+                        startIdleTimer();
                     }
                 } else if (scrollDelta < 0) {
                     // Scrolling up - immediately show nav
                     scrollDownDistance.current = 0;
                     setIsNavVisible(true);
+                    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
                 }
 
                 lastScrollY.current = currentScrollY;
@@ -89,6 +99,7 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
         return () => {
             clearTimeout(initTimer);
             clearTimeout(containerTimer);
+            if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
             window.removeEventListener('scroll', windowScrollHandler);
             if (scrollContainerRef.current) {
                 scrollContainerRef.current.removeEventListener('scroll', containerScrollHandler);

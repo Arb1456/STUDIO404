@@ -247,7 +247,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <HelpCircle className="mb-6 opacity-60" size={32} />
                                     <h3 className="font-bold uppercase tracking-widest text-xs mb-4">Studio Assistance</h3>
                                     <p className="text-sm opacity-80 leading-relaxed">
-                                        A site manager is always present to help with equipment orientation and basic needs.
+                                        A site manager will be present to introduce the space and answer basic questions. Fulfill basic needs. If dedicated support and assistance are required throughout the session, please contact us ahead of time.
                                     </p>
                                 </div>
                                 <div className="mt-8 pt-4 border-t border-charcoal/10">

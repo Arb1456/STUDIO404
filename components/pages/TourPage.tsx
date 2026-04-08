@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { ArrowRight, X, Play, ChevronRight } from 'lucide-react';
+import { ArrowRight, X, Play, ChevronRight, Camera, Users, Video, Sparkles, Lightbulb, Wrench } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
@@ -284,14 +284,14 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         <Reveal delay={0.4}>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                                 {[
-                                    { label: 'Facilitates Pro Portraiture', icon: '📸' },
-                                    { label: 'Accommodates Larger Groups', icon: '👥' },
-                                    { label: 'Exceptional Video Production', icon: '🎬' },
-                                    { label: 'Perfect for Branding', icon: '✨' },
+                                    { label: 'Pro Portraiture', icon: Camera },
+                                    { label: 'Larger Groups', icon: Users },
+                                    { label: 'Video Production', icon: Video },
+                                    { label: 'Branding', icon: Sparkles },
                                 ].map((item, i) => (
                                     <div key={i} className="bg-cream/5 border border-cream/10 rounded-lg p-3 md:p-6">
-                                        <span className="text-xl md:text-3xl mb-2 block">{item.icon}</span>
-                                        <p className="text-cream/80 text-[10px] md:text-sm uppercase tracking-wider">{item.label}</p>
+                                        <item.icon className="w-5 h-5 md:w-7 md:h-7 mb-2 text-cream/60" />
+                                        <p className="text-cream font-medium text-[10px] md:text-sm uppercase tracking-wider">{item.label}</p>
                                     </div>
                                 ))}
                             </div>
@@ -436,7 +436,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     className="text-center w-full group cursor-pointer"
                                 >
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
-                                        <span className="text-3xl md:text-4xl">💡</span>
+                                        <Lightbulb className="w-8 h-8 md:w-10 md:h-10 text-cream/60 group-hover:text-cream transition-colors" />
                                     </div>
                                     <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Strobes & Modifiers</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
@@ -450,7 +450,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     className="text-center w-full group cursor-pointer"
                                 >
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
-                                        <span className="text-3xl md:text-4xl">🎬</span>
+                                        <Video className="w-8 h-8 md:w-10 md:h-10 text-cream/60 group-hover:text-cream transition-colors" />
                                     </div>
                                     <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Continuous for Video</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>
@@ -464,7 +464,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     className="text-center w-full group cursor-pointer"
                                 >
                                     <div className="w-20 h-20 md:w-28 md:h-28 mx-auto mb-2 md:mb-4 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-all group-hover:scale-110 border border-cream/20 group-hover:border-cream/40">
-                                        <span className="text-3xl md:text-4xl">🔧</span>
+                                        <Wrench className="w-8 h-8 md:w-10 md:h-10 text-cream/60 group-hover:text-cream transition-colors" />
                                     </div>
                                     <h4 className="font-serif text-base md:text-xl mb-1 md:mb-2 text-cream group-hover:text-white transition-colors">Grip & Rigging</h4>
                                     <p className="text-cream/60 text-[10px] md:text-sm hidden md:block">Tap to see full list</p>

@@ -37,10 +37,10 @@ const InsideStudio: React.FC = () => {
                         <Reveal delay={0.2}>
                             <div className="space-y-2 font-sans font-light text-sm md:text-base leading-relaxed text-black/80 mb-6 max-w-md">
                                 <p>
-                                    Where industrial precision meets creative freedom. Our 850 sq ft facility is more than just a room—it's a canvas engineered for the modern creator.
+                                    We built this space from the ground up with one thing in mind — giving photographers and creators everything they need, nothing they don't.
                                 </p>
                                 <p>
-                                    Featuring a pristine 12x10x10 corner cyclorama wall and a private changing suite, every corner is curated to elevate your workflow and impress your clients.
+                                    850 square feet, a 12×10×10 corner cyc wall, professional lighting, a private change room, and a client lounge. Show up, plug in, and shoot.
                                 </p>
                             </div>
                         </Reveal>

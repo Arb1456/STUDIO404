@@ -358,19 +358,14 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
             <section className="w-full px-6 md:px-12 py-32 bg-charcoal text-cream text-center mb-12">
                 <Reveal>
                     <h2 className="font-serif text-4xl md:text-6xl mb-8">Still exploring?</h2>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <Button className="bg-cream text-charcoal hover:bg-white border-none" onClick={() => onBook()}>
-                            Book Studio
+                    <Link href="/tour">
+                        <Button
+                            variant="outline"
+                            className="text-cream border-cream hover:bg-cream hover:text-charcoal"
+                        >
+                            Tour The Studio
                         </Button>
-                        <Link href="/tour">
-                            <Button
-                                variant="outline"
-                                className="text-cream border-cream hover:bg-cream hover:text-charcoal"
-                            >
-                                Tour The Studio
-                            </Button>
-                        </Link>
-                    </div>
+                    </Link>
                 </Reveal>
             </section>
 

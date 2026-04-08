@@ -6,7 +6,6 @@ import Hero from './sections/Hero';
 import Availability from './sections/Availability';
 import InsideStudio from './sections/InsideStudio';
 import Features from './sections/Features';
-import Gallery from './sections/Gallery';
 import FAQ from './sections/FAQ';
 import Testimonials from './sections/Testimonials';
 import Contact from './sections/Contact';
@@ -84,9 +83,6 @@ const HomePage: React.FC = () => {
 
                 <SectionWrapper id="cyc">
                     <Features />
-                </SectionWrapper>
-                <SectionWrapper id="gallery">
-                    <Gallery />
                 </SectionWrapper>
                 <SectionWrapper id="faq">
                     <FAQ />
