@@ -24,11 +24,11 @@ const ContactInfoContent = () => (
 
         <div className="space-y-3">
             <Reveal delay={0.2}>
-                <a href="mailto:Andre@thestudio404.ca" className="flex items-center gap-4 group w-fit">
+                <a href="mailto:andre@thestudio404.ca" className="flex items-center gap-4 group w-fit">
                     <div className="p-2.5 rounded-full border border-charcoal/20 group-hover:bg-charcoal group-hover:text-cream transition-colors">
                         <Mail size={16} />
                     </div>
-                    <span className="font-sans text-xs tracking-widest uppercase opacity-80 group-hover:opacity-100 transition-opacity">Andre@thestudio404.ca</span>
+                    <span className="font-sans text-xs tracking-widest uppercase opacity-80 group-hover:opacity-100 transition-opacity">andre@thestudio404.ca</span>
                 </a>
             </Reveal>
 

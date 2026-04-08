@@ -84,7 +84,7 @@ export const VoiceAgentBlock: React.FC = () => {
                             </button>
 
                             {/* Header */}
-                            <div className="text-center mb-8">
+                            <div className="text-center mb-6">
                                 <div className="flex items-center justify-center gap-3 mb-4 text-cream/60">
                                     <span className="relative flex h-2 w-2">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -95,17 +95,18 @@ export const VoiceAgentBlock: React.FC = () => {
                                 <h3 className="font-serif text-2xl md:text-3xl text-cream mb-2">
                                     Studio 404 Booking Agent
                                 </h3>
-                                <p className="text-cream/60 text-sm mb-6">
+                                <p className="text-cream/60 text-sm">
                                     Speak naturally to check availability and book your session.
-                                </p>
-                                <p className="text-cream text-base font-medium">
-                                    Click the widget at the top of the screen to start a chat!
                                 </p>
                             </div>
 
+                            {/* Embedded ElevenLabs Voice Agent */}
+                            <div className="flex justify-center my-4">
+                                <elevenlabs-convai agent-id={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || ''} />
+                            </div>
 
                             {/* Footer */}
-                            <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                            <div className="mt-6 pt-6 border-t border-white/10 text-center">
                                 <p className="text-cream/40 text-xs">
                                     Powered by ElevenLabs • You can interrupt at any time
                                 </p>

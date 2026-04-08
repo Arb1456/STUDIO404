@@ -71,7 +71,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
         },
         {
             question: "Do you require a deposit?",
-            answer: "To secure your slot on our calendar, we require full payment at the time of booking. Cancellations made 72 hours in advance are eligible for a full refund or rescheduling credit."
+            answer: "Yes — a 30% deposit is required at the time of booking to secure your slot. The remaining balance is due three days prior to your session. Cancellations made 72 hours in advance are eligible for a full refund or rescheduling credit."
         },
         {
             question: "Can I host an event here?",

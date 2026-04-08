@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
@@ -11,6 +11,41 @@ interface PoliciesPageProps {
 }
 
 const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
+    const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+    const handleFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formState.name,
+                    email: formState.email,
+                    subject: 'Policy Question',
+                    message: formState.message,
+                    source: 'Policies Page',
+                }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to submit form');
+            }
+
+            setSubmitStatus('success');
+            setFormState({ name: '', email: '', message: '' });
+        } catch {
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     return (
         <div className="w-full pb-32">
             {/* Section 1: Hero */}
@@ -309,22 +344,28 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); }}>
+                        <form className="space-y-8" onSubmit={handleFormSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest opacity-50">Name</label>
+                                    <label htmlFor="policy-name" className="text-xs font-bold uppercase tracking-widest opacity-50">Name</label>
                                     <input
-                                        id="name"
+                                        id="policy-name"
                                         type="text"
+                                        required
+                                        value={formState.name}
+                                        onChange={(e) => setFormState(prev => ({ ...prev, name: e.target.value }))}
                                         className="w-full bg-transparent border-b border-charcoal/20 py-2 text-lg focus:outline-none focus:border-charcoal transition-colors rounded-none placeholder:text-charcoal/20"
                                         placeholder="Enter your name"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest opacity-50">Email</label>
+                                    <label htmlFor="policy-email" className="text-xs font-bold uppercase tracking-widest opacity-50">Email</label>
                                     <input
-                                        id="email"
+                                        id="policy-email"
                                         type="email"
+                                        required
+                                        value={formState.email}
+                                        onChange={(e) => setFormState(prev => ({ ...prev, email: e.target.value }))}
                                         className="w-full bg-transparent border-b border-charcoal/20 py-2 text-lg focus:outline-none focus:border-charcoal transition-colors rounded-none placeholder:text-charcoal/20"
                                         placeholder="Enter your email"
                                     />
@@ -332,18 +373,28 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             </div>
 
                             <div className="space-y-2">
-                                <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest opacity-50">Message</label>
+                                <label htmlFor="policy-message" className="text-xs font-bold uppercase tracking-widest opacity-50">Message</label>
                                 <textarea
-                                    id="message"
+                                    id="policy-message"
                                     rows={4}
+                                    required
+                                    value={formState.message}
+                                    onChange={(e) => setFormState(prev => ({ ...prev, message: e.target.value }))}
                                     className="w-full bg-transparent border-b border-charcoal/20 py-2 text-lg focus:outline-none focus:border-charcoal transition-colors resize-none rounded-none placeholder:text-charcoal/20"
                                     placeholder="How can we help?"
                                 ></textarea>
                             </div>
 
+                            {submitStatus === 'success' && (
+                                <p className="text-green-700 text-sm">Message sent! We&apos;ll get back to you within 24 hours.</p>
+                            )}
+                            {submitStatus === 'error' && (
+                                <p className="text-red-600 text-sm">Something went wrong. Please try again or email us directly.</p>
+                            )}
+
                             <div className="flex justify-end pt-4">
-                                <Button type="submit">
-                                    Get In Touch
+                                <Button type="submit" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Sending...' : 'Get In Touch'}
                                 </Button>
                             </div>
                         </form>

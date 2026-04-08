@@ -34,6 +34,14 @@ export const metadata: Metadata = {
         siteName: 'Studio 404',
         locale: 'en_CA',
         url: 'https://thestudio404.ca',
+        images: [
+            {
+                url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo'}/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_auto/The_Cyc_Wall_aohgwv`,
+                width: 1200,
+                height: 630,
+                alt: 'Studio 404 — Premium Photography Studio in Ottawa',
+            },
+        ],
     },
     twitter: {
         card: 'summary_large_image',

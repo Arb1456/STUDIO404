@@ -46,12 +46,12 @@ const GALLERY_ITEMS: GalleryItem[] = Array.from({ length: 45 }).map((_, i) => {
         src: PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length],
         aspectRatio: aspect / 800,
         title: [
-            'The Modernist', 'Aesop Concept', 'Vogue September', 'Ceramic Series', 'Noir Etude',
-            'Coffee Culture', 'Urban Flow', 'Tech Minimal', 'Golden Hour', 'Fall Collection'
+            'Portrait Session', 'Branding Shoot', 'Editorial Feature', 'Product Photography', 'Creative Portrait',
+            'Lifestyle Series', 'Studio Session', 'Professional Headshot', 'Golden Hour', 'Seasonal Collection'
         ][i % 10],
         client: [
-            'Sarah Jenkins', 'Aesop', 'Condé Nast', 'Clay & Co', 'Private Client',
-            'Little Victories', 'Hypebeast', 'Nothing', 'Model Mgmt', 'Zara'
+            'Community Photographer', 'Local Creator', 'Community Photographer', 'Ottawa Creative', 'Community Photographer',
+            'Local Creator', 'Ottawa Creative', 'Community Photographer', 'Local Creator', 'Ottawa Creative'
         ][i % 10]
     };
 });
@@ -231,8 +231,8 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBook }) => {
                         </h3>
                         <p className="font-sans text-base md:text-lg text-charcoal/70 font-light max-w-xl mx-auto">
                             Come shoot at Studio 404 and submit any work to{' '}
-                            <a href="mailto:andre@studio404.ca" className="text-charcoal border-b border-charcoal/30 hover:border-charcoal transition-all">
-                                andre@studio404.ca
+                            <a href="mailto:andre@thestudio404.ca" className="text-charcoal border-b border-charcoal/30 hover:border-charcoal transition-all">
+                                andre@thestudio404.ca
                             </a>.
                         </p>
                     </div>
