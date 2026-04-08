@@ -3,10 +3,12 @@ import React, { useState, useRef } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { Accordion } from '@/components/ui/Accordion';
-import { X } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import { cloudinaryUrl } from '@/lib/cloudinary';
+import { GalleryStripModal } from './tour/GalleryStripModal';
+import { PhotoGalleryModal, GalleryImage } from './tour/PhotoGalleryModal';
 
 interface EquipmentPageProps {
     onBook: (duration?: number) => void;
@@ -96,8 +98,87 @@ const PaperColorsGrid: React.FC<{
     );
 };
 
+// Image data for equipment, props & furniture galleries
+
+const EQUIPMENT_IMAGES: GalleryImage[] = [
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/all_lights'), alt: 'Full studio lighting rig', caption: 'Full Lighting Rig' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/studio_setup'), alt: 'Studio equipment setup overview', caption: 'Studio Setup' },
+    { cloudinaryId: cloudinaryUrl('sk400ii'), alt: 'Godox SK400ii strobe on light stand', caption: 'Godox SK400ii' },
+    { cloudinaryId: cloudinaryUrl('sk400ii_snoot'), alt: 'Godox SK400ii with snoot projector attachment', caption: 'SK400ii + Snoot Projector' },
+    { cloudinaryId: cloudinaryUrl('ms300'), alt: 'Godox MS300 strobe', caption: 'Godox MS300' },
+    { cloudinaryId: cloudinaryUrl('ms300v'), alt: 'Godox MS300 variant', caption: 'Godox MS300 (Variant)' },
+    { cloudinaryId: cloudinaryUrl('amaran_200d'), alt: 'Amaran 200D continuous light', caption: 'Amaran 200D' },
+    { cloudinaryId: cloudinaryUrl('sl100d'), alt: 'Godox SL100D continuous light', caption: 'Godox SL100D' },
+    { cloudinaryId: cloudinaryUrl('sl60bi'), alt: 'Godox SL60Bi continuous light', caption: 'Godox SL60Bi' },
+    { cloudinaryId: cloudinaryUrl('cb60bi'), alt: 'Godox CB60Bi continuous light', caption: 'Godox CB60Bi' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/strip_softbox_35'), alt: '35cm x 165cm strip softbox on stand', caption: 'Strip Softbox' },
+];
+
+const PROPS_IMAGES: GalleryImage[] = [
+    { cloudinaryId: cloudinaryUrl('studio404/props/newborn_props'), alt: 'Newborn props including baskets, stuffed animals, and mini armchair', caption: 'Newborn Props' },
+    { cloudinaryId: cloudinaryUrl('studio404/props/vintage_styled'), alt: 'Vintage styled props including retro TVs, rotary phone, and microphone', caption: 'Vintage Styled' },
+    { cloudinaryId: cloudinaryUrl('studio404/props/small_props'), alt: 'Varied small decorative props', caption: 'Small Props' },
+];
+
+const FURNITURE_IMAGES: GalleryImage[] = [
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/beige_couch'), alt: 'Beige lounge couch', caption: 'Beige Couch' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/directors_chair'), alt: "Black director's chair with gold hardware", caption: "Director's Chair" },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/ottoman_stools'), alt: 'Velvet ottoman stools in grey, black and green with gold bases', caption: 'Ottoman Stools' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/ottoman_stools_2'), alt: 'Three ottoman stools', caption: 'Ottoman Stools (2)' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/wood_finish_stool'), alt: 'Wood finish stool with black metal legs', caption: 'Wood Finish Stool' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/standard_stools'), alt: 'Three standard stools', caption: 'Standard Stools' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/black_couch'), alt: 'Black lounge couch', caption: 'Black Couch' },
+];
+
+// Horizontal carousel for equipment/grip category buttons
+const CategoryCarousel: React.FC<{
+    items: { label: string; onClick: () => void }[];
+    cardClass: string;
+}> = ({ items, cardClass }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const scroll = (dir: 'left' | 'right') => {
+        if (!scrollRef.current) return;
+        const amount = scrollRef.current.clientWidth * 0.75;
+        scrollRef.current.scrollBy({ left: dir === 'right' ? amount : -amount, behavior: 'smooth' });
+    };
+    return (
+        <div className="relative w-full">
+            <div
+                ref={scrollRef}
+                className="flex gap-2 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+                {items.map((item, i) => (
+                    <button
+                        key={i}
+                        onClick={item.onClick}
+                        className={`min-w-[72vw] md:min-w-0 md:flex-1 snap-start aspect-square flex items-center justify-center p-4 ${cardClass}`}
+                    >
+                        <span className="text-[10px] md:text-lg uppercase tracking-widest text-center leading-tight">{item.label}</span>
+                    </button>
+                ))}
+            </div>
+            <button
+                onClick={() => scroll('left')}
+                className="md:hidden absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/55 hover:bg-black/75 backdrop-blur-md text-white shadow-lg border border-white/15 z-10 transition-colors duration-200"
+                aria-label="Scroll left"
+            >
+                <ChevronLeft size={20} />
+            </button>
+            <button
+                onClick={() => scroll('right')}
+                className="md:hidden absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/55 hover:bg-black/75 backdrop-blur-md text-white shadow-lg border border-white/15 z-10 transition-colors duration-200"
+                aria-label="Scroll right"
+            >
+                <ChevronRight size={20} />
+            </button>
+        </div>
+    );
+};
+
 const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
     const [activeModal, setActiveModal] = useState<{ title: string, content: React.ReactNode } | null>(null);
+    const [activeGallery, setActiveGallery] = useState<'props' | 'furniture' | 'equipment' | null>(null);
+    const [galleryImageIndex, setGalleryImageIndex] = useState<number | null>(null);
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
@@ -235,17 +316,6 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
         }
     };
 
-    // Gallery photos - placeholder count
-    const furniturePhotos = Array.from({ length: 6 }).map((_, i) => ({
-        id: i + 1,
-        alt: `Furniture Item ${i + 1}`
-    }));
-
-    const propsPhotos = Array.from({ length: 6 }).map((_, i) => ({
-        id: i + 1,
-        alt: `Prop Item ${i + 1}`
-    }));
-
     // Seamless Paper Data
     const seamlessPapers = [
         { color: "bg-white border-gray-200", name: "White" },
@@ -290,11 +360,35 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                 )}
             </AnimatePresence>
 
+            {/* Gallery strip modal (thumbnail scroll) */}
+            <AnimatePresence>
+                {activeGallery && galleryImageIndex === null && (
+                    <GalleryStripModal
+                        images={activeGallery === 'props' ? PROPS_IMAGES : activeGallery === 'furniture' ? FURNITURE_IMAGES : EQUIPMENT_IMAGES}
+                        title={activeGallery === 'props' ? 'Props Collection' : activeGallery === 'furniture' ? 'Furniture Selection' : 'Equipment Photos'}
+                        onImageClick={(i) => setGalleryImageIndex(i)}
+                        onClose={() => setActiveGallery(null)}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Full-screen image viewer */}
+            <AnimatePresence>
+                {activeGallery && galleryImageIndex !== null && (
+                    <PhotoGalleryModal
+                        images={activeGallery === 'props' ? PROPS_IMAGES : activeGallery === 'furniture' ? FURNITURE_IMAGES : EQUIPMENT_IMAGES}
+                        currentIndex={galleryImageIndex}
+                        onIndexChange={(i) => setGalleryImageIndex(i)}
+                        onClose={() => setGalleryImageIndex(null)}
+                    />
+                )}
+            </AnimatePresence>
+
             {/* 1. Intro Hero */}
             <section className="relative h-screen flex items-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src={cloudinaryUrl('EQUIPMENT-HERO', { width: 1920, height: 1080, crop: 'fill', quality: 'auto', format: 'auto' })}
+                        src={cloudinaryUrl('Pro_Lighting_Grid_q90xds', { width: 1920, height: 1080, crop: 'fill', quality: 'auto', format: 'auto' })}
                         alt="Studio Equipment"
                         className="w-full h-full object-cover opacity-60"
                     />
@@ -334,26 +428,23 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="grid grid-cols-3 gap-2 md:gap-8">
+                        <CategoryCarousel
+                            items={[
+                                { label: 'Strobe Lighting', onClick: () => setActiveModal(lightingData.strobes) },
+                                { label: 'Continuous Lighting', onClick: () => setActiveModal(lightingData.continuous) },
+                                { label: 'Modifiers', onClick: () => setActiveModal(lightingData.modifiers) },
+                            ]}
+                            cardClass="bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-300"
+                        />
+                    </Reveal>
+                    <Reveal delay={0.3}>
+                        <div className="flex justify-center mt-8">
                             <button
-                                onClick={() => setActiveModal(lightingData.strobes)}
-                                className="group relative w-full aspect-square bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col items-center justify-center p-4"
+                                onClick={() => { setActiveGallery('equipment'); setGalleryImageIndex(null); }}
+                                className="flex items-center gap-3 px-6 py-3 border border-charcoal/30 hover:border-charcoal/60 text-charcoal/70 hover:text-charcoal text-xs uppercase tracking-widest transition-all group"
                             >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center">Strobe Lighting</span>
-                            </button>
-
-                            <button
-                                onClick={() => setActiveModal(lightingData.continuous)}
-                                className="group relative w-full aspect-square bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col items-center justify-center p-4"
-                            >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center">Continuous Lighting</span>
-                            </button>
-
-                            <button
-                                onClick={() => setActiveModal(lightingData.modifiers)}
-                                className="group relative w-full aspect-square bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col items-center justify-center p-4"
-                            >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center">Modifiers</span>
+                                <span>View Equipment Photos</span>
+                                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                             </button>
                         </div>
                     </Reveal>
@@ -371,28 +462,14 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="grid grid-cols-3 gap-2 md:gap-8">
-                            <button
-                                onClick={() => setActiveModal(gripData.stands)}
-                                className="group relative w-full aspect-square border border-charcoal/10 bg-charcoal text-cream hover:bg-white hover:text-charcoal transition-colors duration-300 flex flex-col items-center justify-center p-4"
-                            >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center">Stands</span>
-                            </button>
-
-                            <button
-                                onClick={() => setActiveModal(gripData.reflectors)}
-                                className="group relative w-full aspect-square border border-charcoal/10 bg-charcoal text-cream hover:bg-white hover:text-charcoal transition-colors duration-300 flex flex-col items-center justify-center p-4"
-                            >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center leading-tight">Reflectors &<br />Coloring</span>
-                            </button>
-
-                            <button
-                                onClick={() => setActiveModal(gripData.hardware)}
-                                className="group relative w-full aspect-square border border-charcoal/10 bg-charcoal text-cream hover:bg-white hover:text-charcoal transition-colors duration-300 flex flex-col items-center justify-center p-4"
-                            >
-                                <span className="text-[10px] md:text-lg uppercase tracking-widest text-center">Hardware</span>
-                            </button>
-                        </div>
+                        <CategoryCarousel
+                            items={[
+                                { label: 'Stands', onClick: () => setActiveModal(gripData.stands) },
+                                { label: 'Reflectors & Coloring', onClick: () => setActiveModal(gripData.reflectors) },
+                                { label: 'Hardware', onClick: () => setActiveModal(gripData.hardware) },
+                            ]}
+                            cardClass="border border-charcoal/10 bg-charcoal text-cream hover:bg-white hover:text-charcoal transition-colors duration-300"
+                        />
                     </Reveal>
                 </div>
             </section>
@@ -439,8 +516,12 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         Clients have plenty of options. An assortment of furniture is laid out where they can lounge, collaborate, or chill.
                                     </p>
-                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
-                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    <div className="w-full aspect-[16/9] relative overflow-hidden">
+                                        <img
+                                            src={cloudinaryUrl('studio404/space/client_lounge', { width: 900, height: 506, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                            alt="Client lounge area"
+                                            className="w-full h-full object-contain"
+                                        />
                                     </div>
                                 </div>
                             </Accordion>
@@ -451,8 +532,12 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         There is a private change room/hair and makeup area that's well lit and spacious.
                                     </p>
-                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
-                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    <div className="w-full aspect-[2/3] relative overflow-hidden">
+                                        <img
+                                            src={cloudinaryUrl('studio404/space/changeroom', { width: 600, height: 900, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                            alt="Private change room"
+                                            className="w-full h-full object-contain"
+                                        />
                                     </div>
                                 </div>
                             </Accordion>
@@ -463,8 +548,12 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                                     <p className="opacity-70 leading-relaxed text-sm">
                                         We have a full kitchenette area along with a fridge stocked with water.
                                     </p>
-                                    <div className="w-full h-48 bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
-                                        <span className="text-sm uppercase tracking-widest opacity-50">Image Coming Soon</span>
+                                    <div className="w-full aspect-[3/2] relative overflow-hidden">
+                                        <img
+                                            src={cloudinaryUrl('studio404/space/kitchenette', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                            alt="Kitchenette"
+                                            className="w-full h-full object-contain"
+                                        />
                                     </div>
                                 </div>
                             </Accordion>
@@ -482,38 +571,15 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                             Curated pieces to elevate your set design without the need for external rentals.
                         </p>
                     </div>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <Accordion title="Furniture Gallery">
-                            <div className="pt-4 space-y-4">
-                                <p className="opacity-70 leading-relaxed text-sm">
-                                    We have an assortment of premium, curated furniture designed to fit with any photo shoot or project style.
-                                </p>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                    {furniturePhotos.map(item => (
-                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
-                                            <span className="text-[10px] uppercase tracking-widest opacity-50 text-center px-2">Image Coming Soon</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </Accordion>
-
-                        <Accordion title="Props Gallery">
-                            <div className="pt-4 space-y-4">
-                                <p className="opacity-70 leading-relaxed text-sm">
-                                    We have an assortment of popular props that can elevate the mood of any shoot.
-                                </p>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                    {propsPhotos.map(item => (
-                                        <div key={item.id} className="group relative aspect-square overflow-hidden bg-charcoal/10 flex items-center justify-center border border-charcoal/20">
-                                            <span className="text-[10px] uppercase tracking-widest opacity-50 text-center px-2">Image Coming Soon</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </Accordion>
-                    </div>
+                </Reveal>
+                <Reveal delay={0.2}>
+                    <CategoryCarousel
+                        items={[
+                            { label: 'Browse Props Gallery', onClick: () => { setActiveGallery('props'); setGalleryImageIndex(null); } },
+                            { label: 'Browse Furniture Gallery', onClick: () => { setActiveGallery('furniture'); setGalleryImageIndex(null); } },
+                        ]}
+                        cardClass="bg-charcoal text-cream border border-white/40 shadow-[0_0_15px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(0,0,0,0.3)] transition-all duration-300"
+                    />
                 </Reveal>
             </section>
 

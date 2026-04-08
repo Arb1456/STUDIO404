@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, ExternalLink,
 import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 
 interface SessionType {
@@ -43,6 +44,60 @@ const SESSIONS: SessionType[] = [
     { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404boudoir-session' },
     { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404product-session' },
 ];
+
+// Best-fit review per session type shown in the gallery testimonial card
+const SESSION_REVIEWS: Record<string, { text: string; author: string; role: string }> = {
+    portrait: {
+        text: "I was never comfortable getting my picture taken — but Andre completely changed that. He captured exactly what I wanted from my portrait session. Super understanding, easy to work with, and the final photos blew me away. For anyone who's camera-shy, this is the place.",
+        author: "Satisfied Client",
+        role: "Portrait Session",
+    },
+    family: {
+        text: "The pictures are unreal — my whole family is so happy, we've never had anything like it. Andre had so many great ideas during the session and genuinely made everyone laugh and feel at ease. I would 100000% go here again and again. Absolutely worth every penny.",
+        author: "Happy Family",
+        role: "Family Session",
+    },
+    couple: {
+        text: "Andre reached out before our session to get all the details and even researched reference photos to understand what we were going for. During the shoot he was calm, patient, and incredibly professional. The whole experience felt personal and thoughtful from start to finish.",
+        author: "Happy Couple",
+        role: "Couples Session",
+    },
+    birthday: {
+        text: "I had my birthday shoot here and it was honestly such a great experience. The owner was friendly, welcoming, and even offered extra props for the shoot. The studio is clean, comfortable, and has amazing energy. I highly recommend Studio 404 for anyone wanting to celebrate in style.",
+        author: "Birthday Client",
+        role: "Birthday Session",
+    },
+    headshot: {
+        text: "The space was clean, professional, and perfectly set up for headshots. Andre was welcoming and provided excellent service from the moment I walked in. Everything ran smoothly and I felt confident the entire time. These are the best headshots I've ever had taken.",
+        author: "Working Professional",
+        role: "Headshot Session",
+    },
+    maternity: {
+        text: "André truly made our maternity session unforgettable. He was patient, warm, and knew exactly how to make us feel relaxed and comfortable. He has a great eye for capturing beautiful, natural moments — the kind you'll treasure forever. We couldn't be happier.",
+        author: "Expecting Mother",
+        role: "Maternity Session",
+    },
+    group: {
+        text: "Studio 404 handled our large group shoot seamlessly from booking to final delivery. Andre came prepared with planned poses and knew exactly how to direct and guide people of every age. Patient, kind, and incredibly organized. Highly recommend for any group.",
+        author: "Satisfied Group",
+        role: "Group Session",
+    },
+    newborn: {
+        text: "From the moment we arrived, André was professional, patient, and incredibly welcoming. The studio felt warm and safe, and he knew exactly how to keep everyone — including the little ones — calm and comfortable. The photos are more beautiful than we could have imagined.",
+        author: "New Parent",
+        role: "Newborn Session",
+    },
+    boudoir: {
+        text: "From start to finish, my experience was nothing short of amazing. The owners genuinely care about making your shoot a success. The space is spotless, stylish, and has an incredible energy that makes you feel confident. I'm already planning my next booking.",
+        author: "Empowered Client",
+        role: "Boudoir Session",
+    },
+    product: {
+        text: "The studio has everything you need — great equipment, lots of options, and a price that's hard to beat for what you get. Andre is the best studio owner I've ever worked with. Accommodating, kind, and truly invested in making your shoot a success. Studio 404 is the place.",
+        author: "Brand Photographer",
+        role: "Product Session",
+    },
+};
 
 const PROCESS_STEPS = [
     { title: "Booking & Planning", description: "Book your session online. We'll help you create a mood board and select the perfect outfits." },
@@ -317,6 +372,10 @@ const PhotoshootPage: React.FC = () => {
                                                     src={session.image}
                                                     alt={session.title}
                                                     className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0"
+                                                    onError={(e) => {
+                                                        const el = (e.target as HTMLImageElement).closest<HTMLElement>('.group');
+                                                        if (el) el.style.display = 'none';
+                                                    }}
                                                 />
                                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
 
@@ -378,27 +437,66 @@ const PhotoshootPage: React.FC = () => {
                                     </Reveal>
 
                                     <Reveal delay={0.1}>
-                                        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-xs uppercase tracking-widest text-charcoal/50">Full Name</label>
-                                                    <input type="text" className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="Jane Doe" />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-xs uppercase tracking-widest text-charcoal/50">Email Address</label>
-                                                    <input type="email" className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="jane@example.com" />
-                                                </div>
-                                            </div>
+                                        {(() => {
+                                            const [formState, setFormState] = React.useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-                                            <div className="space-y-2">
-                                                <label className="text-xs uppercase tracking-widest text-charcoal/50">Message</label>
-                                                <textarea className="w-full bg-cream border-b border-charcoal/10 p-3 h-32 focus:border-charcoal outline-none transition-colors resize-none" placeholder="Tell us about what you have in mind..." />
-                                            </div>
+                                            const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+                                                e.preventDefault();
+                                                setFormState('sending');
+                                                const data = new FormData(e.currentTarget);
+                                                try {
+                                                    const res = await fetch('/api/contact', {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({
+                                                            name: data.get('name'),
+                                                            email: data.get('email'),
+                                                            message: data.get('message'),
+                                                            source: 'Photoshoot Page — Have Questions Form',
+                                                        }),
+                                                    });
+                                                    setFormState(res.ok ? 'success' : 'error');
+                                                } catch {
+                                                    setFormState('error');
+                                                }
+                                            };
 
-                                            <div className="flex justify-center pt-4">
-                                                <Button className="min-w-[200px]">Get In Touch</Button>
-                                            </div>
-                                        </form>
+                                            if (formState === 'success') {
+                                                return (
+                                                    <div className="text-center py-12">
+                                                        <p className="font-serif text-2xl mb-2">Message sent.</p>
+                                                        <p className="text-charcoal/50 text-sm">We&apos;ll be in touch shortly.</p>
+                                                    </div>
+                                                );
+                                            }
+
+                                            return (
+                                                <form className="space-y-6" onSubmit={handleSubmit}>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <div className="space-y-2">
+                                                            <label className="text-xs uppercase tracking-widest text-charcoal/50">Full Name</label>
+                                                            <input name="name" type="text" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="Jane Doe" />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <label className="text-xs uppercase tracking-widest text-charcoal/50">Email Address</label>
+                                                            <input name="email" type="email" required className="w-full bg-cream border-b border-charcoal/10 p-3 focus:border-charcoal outline-none transition-colors" placeholder="jane@example.com" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-xs uppercase tracking-widest text-charcoal/50">Message</label>
+                                                        <textarea name="message" required className="w-full bg-cream border-b border-charcoal/10 p-3 h-32 focus:border-charcoal outline-none transition-colors resize-none" placeholder="Tell us about what you have in mind..." />
+                                                    </div>
+                                                    {formState === 'error' && (
+                                                        <p className="text-sm text-red-600 text-center">Something went wrong — please try again or email us directly.</p>
+                                                    )}
+                                                    <div className="flex justify-center pt-4">
+                                                        <Button className="min-w-[200px]" disabled={formState === 'sending'}>
+                                                            {formState === 'sending' ? 'Sending…' : 'Get In Touch'}
+                                                        </Button>
+                                                    </div>
+                                                </form>
+                                            );
+                                        })()}
                                     </Reveal>
                                 </div>
                             </section>
@@ -529,25 +627,37 @@ const PhotoshootPage: React.FC = () => {
                                             <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mr-4 md:-mr-0 pr-4 md:pr-0">
                                                 {/* Dynamic Gallery for selected session */}
                                                 {Array.from({ length: selectedSession.galleryCount }).map((_, i) => (
-                                                    <div key={i} className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center bg-gray-200 overflow-hidden">
+                                                    <div key={i} className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center overflow-hidden">
                                                         <img
                                                             src={getSessionImg(selectedSession.id, i + 1)}
                                                             alt={`${selectedSession.title} Example ${i + 1}`}
                                                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                                                             onError={(e) => {
-                                                                // Simple fallback if image doesn't exist to hide 
-                                                                (e.target as HTMLImageElement).style.opacity = "0.5";
+                                                                const el = (e.target as HTMLImageElement).parentElement;
+                                                                if (el) el.style.display = 'none';
                                                             }}
                                                         />
                                                     </div>
                                                 ))}
-                                                <div className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center bg-charcoal text-cream p-8 flex flex-col justify-between">
-                                                    <Star className="w-8 h-8" />
-                                                    <p className="font-serif text-2xl italic">
-                                                        "The most professional studio experience I've ever had. The lighting was impeccable."
-                                                    </p>
-                                                    <p className="text-xs uppercase tracking-widest opacity-60">— Sarah J., Model</p>
-                                                </div>
+                                                {(() => {
+                                                    const r = SESSION_REVIEWS[selectedSession.id];
+                                                    return r ? (
+                                                        <div className="shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center bg-charcoal text-cream p-8 flex flex-col justify-between">
+                                                            <div className="flex gap-0.5">
+                                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                                    <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                                                                ))}
+                                                            </div>
+                                                            <p className="font-serif text-lg italic leading-relaxed line-clamp-[8]">
+                                                                &ldquo;{r.text}&rdquo;
+                                                            </p>
+                                                            <div>
+                                                                <p className="text-xs font-bold uppercase tracking-widest">— {r.author}</p>
+                                                                <p className="text-[10px] uppercase tracking-widest opacity-50 mt-0.5">{r.role}</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : null;
+                                                })()}
                                             </div>
                                         </div>
                                     </Reveal>

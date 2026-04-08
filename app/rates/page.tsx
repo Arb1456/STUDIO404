@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import RatesPageClient from './RatesPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import RatesPage from '@/components/pages/RatesPage';
+export const metadata: Metadata = {
+    title: 'Rates & Pricing | Studio 404 — Ottawa Studio Rental',
+    description: 'Transparent pricing for Studio 404. Hourly, half-day, and full-day rates with all equipment and amenities included.',
+    openGraph: {
+        title: 'Rates & Pricing | Studio 404',
+        description: 'Transparent pricing with all equipment and amenities included.',
+    },
+    alternates: { canonical: '/rates' },
+};
+
+const jsonLd = breadcrumbJsonLd('Rates & Pricing', '/rates');
 
 export default function Rates() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <RatesPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <RatesPageClient />
+            </BookingProvider>
+        </>
     );
 }

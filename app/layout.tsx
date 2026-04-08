@@ -20,13 +20,30 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-    title: 'Studio 404 | Premium Creative Space in Ottawa',
+    metadataBase: new URL('https://thestudio404.ca'),
+    title: {
+        default: 'Studio 404 | Premium Photography Studio in Ottawa',
+        template: '%s',
+    },
     description: 'Professional photography studio with cyclorama wall, lighting equipment, and full amenities. Book hourly, half-day, or full-day sessions.',
-    keywords: 'photography studio, Ottawa, cyclorama, studio rental, photoshoot',
+    keywords: 'photography studio, Ottawa, cyclorama, studio rental, photoshoot, creative space',
     openGraph: {
         title: 'Studio 404 | Premium Creative Space',
         description: 'Professional photography studio in Ottawa',
         type: 'website',
+        siteName: 'Studio 404',
+        locale: 'en_CA',
+        url: 'https://thestudio404.ca',
+    },
+    twitter: {
+        card: 'summary_large_image',
+    },
+    alternates: {
+        canonical: '/',
+    },
+    robots: {
+        index: true,
+        follow: true,
     },
 };
 

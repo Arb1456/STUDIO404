@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import AboutPageClient from './AboutPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import AboutPage from '@/components/pages/AboutPage';
+export const metadata: Metadata = {
+    title: 'About | Studio 404 — Our Story',
+    description: "Studio 404 was built from the ground up to be Ottawa's most versatile creative space. Learn about our story, our space, and our mission.",
+    openGraph: {
+        title: 'About | Studio 404',
+        description: "Ottawa's most versatile creative space — our story, our space, and our mission.",
+    },
+    alternates: { canonical: '/about' },
+};
+
+const jsonLd = breadcrumbJsonLd('About', '/about');
 
 export default function About() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <AboutPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <AboutPageClient />
+            </BookingProvider>
+        </>
     );
 }

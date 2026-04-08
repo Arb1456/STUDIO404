@@ -14,6 +14,8 @@ import {
     SectionConfig
 } from './tour';
 import { PhotoGalleryModal, GalleryImage } from './tour/PhotoGalleryModal';
+import { HorizontalScrollGallery } from './tour/HorizontalScrollGallery';
+import { GalleryStripModal } from './tour/GalleryStripModal';
 
 // Helper for background images
 const bgImage = (url: string, position: string = 'center') => ({
@@ -87,30 +89,35 @@ const EQUIPMENT_DATA = {
 // Format: cloudinaryUrl('your_cloudinary_public_id') from @/lib/cloudinary
 // ---------------------------------------------------------------------------
 
-const PLACEHOLDER = 'https://placehold.co/1200x800/262626/F2EFE9?text=Photo+Coming+Soon';
 
 const EQUIPMENT_IMAGES: GalleryImage[] = [
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/strobe'), alt: 'Godox SK400ii strobe on light stand', caption: 'Strobe' },
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/octobox'), alt: 'Godox octobox with honeycomb grid on stand', caption: 'Octobox' },
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/continuous_lighting'), alt: 'Amaran LED continuous light with barn doors and grid', caption: 'Continuous Lighting' },
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/snoot_projector'), alt: 'Amaran 200x with Godox snoot projector attachment', caption: 'Snoot Projector' },
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/strip_softbox'), alt: 'Godox strip softbox on light stand', caption: 'Strip Softbox' },
-    { cloudinaryId: cloudinaryUrl('studio404/equipment/rect_softbox'), alt: 'Godox rectangular softbox on light stand', caption: 'Softbox' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/all_lights'), alt: 'Full studio lighting rig', caption: 'Full Lighting Rig' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/studio_setup'), alt: 'Studio equipment setup overview', caption: 'Studio Setup' },
+    { cloudinaryId: cloudinaryUrl('sk400ii'), alt: 'Godox SK400ii strobe on light stand', caption: 'Godox SK400ii' },
+    { cloudinaryId: cloudinaryUrl('sk400ii_snoot'), alt: 'Godox SK400ii with snoot projector attachment', caption: 'SK400ii + Snoot Projector' },
+    { cloudinaryId: cloudinaryUrl('ms300'), alt: 'Godox MS300 strobe', caption: 'Godox MS300' },
+    { cloudinaryId: cloudinaryUrl('ms300v'), alt: 'Godox MS300 variant', caption: 'Godox MS300 (Variant)' },
+    { cloudinaryId: cloudinaryUrl('amaran_200d'), alt: 'Amaran 200D continuous light', caption: 'Amaran 200D' },
+    { cloudinaryId: cloudinaryUrl('sl100d'), alt: 'Godox SL100D continuous light', caption: 'Godox SL100D' },
+    { cloudinaryId: cloudinaryUrl('sl60bi'), alt: 'Godox SL60Bi continuous light', caption: 'Godox SL60Bi' },
+    { cloudinaryId: cloudinaryUrl('cb60bi'), alt: 'Godox CB60Bi continuous light', caption: 'Godox CB60Bi' },
+    { cloudinaryId: cloudinaryUrl('studio404/equipment/strip_softbox_35'), alt: '35cm x 165cm strip softbox on stand', caption: 'Strip Softbox' },
 ];
 
 const PROPS_IMAGES: GalleryImage[] = [
     { cloudinaryId: cloudinaryUrl('studio404/props/newborn_props'), alt: 'Newborn props including baskets, stuffed animals, and mini armchair', caption: 'Newborn Props' },
     { cloudinaryId: cloudinaryUrl('studio404/props/vintage_styled'), alt: 'Vintage styled props including retro TVs, rotary phone, and microphone', caption: 'Vintage Styled' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Textural stools', caption: 'Stools & Seats' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Podiums and pedestals', caption: 'Podiums' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Decorative items', caption: 'Decor' },
+    { cloudinaryId: cloudinaryUrl('studio404/props/small_props'), alt: 'Varied small decorative props', caption: 'Small Props' },
 ];
 
 const FURNITURE_IMAGES: GalleryImage[] = [
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/beige_couch'), alt: 'Beige lounge couch', caption: 'Beige Couch' },
     { cloudinaryId: cloudinaryUrl('studio404/furniture/directors_chair'), alt: 'Black director\'s chair with gold hardware', caption: 'Director\'s Chair' },
     { cloudinaryId: cloudinaryUrl('studio404/furniture/ottoman_stools'), alt: 'Velvet ottoman stools in grey, black and green with gold bases', caption: 'Ottoman Stools' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/ottoman_stools_2'), alt: 'Three ottoman stools', caption: 'Ottoman Stools (2)' },
     { cloudinaryId: cloudinaryUrl('studio404/furniture/wood_finish_stool'), alt: 'Wood finish stool with black metal legs', caption: 'Wood Finish Stool' },
-    { cloudinaryId: PLACEHOLDER, alt: 'Lounge furniture', caption: 'Lounge' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/standard_stools'), alt: 'Three standard stools', caption: 'Standard Stools' },
+    { cloudinaryId: cloudinaryUrl('studio404/furniture/black_couch'), alt: 'Black lounge couch', caption: 'Black Couch' },
 ];
 
 interface TourPageProps {
@@ -125,6 +132,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
     const [expandedImage, setExpandedImage] = useState<string | null>(null);
     const [activeGallery, setActiveGallery] = useState<GalleryModal>(null);
     const [galleryIndex, setGalleryIndex] = useState(0);
+    const [equipmentStripOpen, setEquipmentStripOpen] = useState(false);
 
     const openGallery = (type: GalleryModal, index = 0) => {
         setActiveGallery(type);
@@ -262,17 +270,12 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         {/* YouTube Video Placeholder */}
                         <Reveal delay={0.3}>
                             <div className="flex flex-col items-center mb-6 md:mb-10">
-                                <a
-                                    href="https://youtube.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-4 px-6 md:px-8 py-3 md:py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group"
-                                >
-                                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                                <div className="inline-flex items-center gap-4 px-6 md:px-8 py-3 md:py-4 bg-cream/10 border border-cream/30 rounded-lg opacity-50 cursor-not-allowed">
+                                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center">
                                         <Play size={20} className="text-cream ml-1" />
                                     </div>
                                     <span className="text-cream font-serif text-base md:text-xl">Watch Video Tour</span>
-                                </a>
+                                </div>
                                 <p className="text-cream/50 text-xs mt-2">(Coming soon)</p>
                             </div>
                         </Reveal>
@@ -389,17 +392,12 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
                         {/* YouTube Video Placeholder */}
                         <Reveal delay={0.3}>
-                            <a
-                                href="https://youtube.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-4 px-8 py-4 bg-cream/10 hover:bg-cream/20 border border-cream/30 rounded-lg transition-all group"
-                            >
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center group-hover:bg-cream/30 transition-colors">
+                            <div className="inline-flex items-center gap-4 px-8 py-4 bg-cream/10 border border-cream/30 rounded-lg opacity-50 cursor-not-allowed">
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cream/20 flex items-center justify-center">
                                     <Play size={24} className="text-cream ml-1" />
                                 </div>
-                                <span className="text-cream font-serif text-lg md:text-xl">Watch Demo Video</span>
-                            </a>
+                                <span className="text-cream font-serif text-lg md:text-xl">Watch Demo Video (Coming Soon)</span>
+                            </div>
                         </Reveal>
                     </div>
                 </TourSlide>
@@ -478,7 +476,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         <Reveal delay={0.5}>
                             <div className="flex justify-center mt-8 md:mt-12">
                                 <button
-                                    onClick={() => openGallery('equipment')}
+                                    onClick={() => setEquipmentStripOpen(true)}
                                     className="flex items-center gap-3 px-6 py-3 border border-cream/30 hover:border-cream/60 text-cream/70 hover:text-cream text-xs uppercase tracking-widest transition-all group"
                                 >
                                     <span>View Equipment Photos</span>
@@ -494,7 +492,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             <TourSection id="current-sets">
                 <TourSlide theme="light" className="bg-[#F5F5F0]">
                     <div className="absolute top-0 right-0 w-full md:w-2/3 h-full opacity-20 md:opacity-100">
-                        <div className="w-full h-full" style={bgImage('https://picsum.photos/1200/1000?random=5')} />
+                        <div className="w-full h-full" style={bgImage('#placeholder-current-sets-bg')} />
                     </div>
                     <div className="relative z-10 container mx-auto px-6 h-full flex items-center">
                         <div className="max-w-lg bg-cream/90 md:bg-transparent p-8 md:p-0 backdrop-blur-md md:backdrop-blur-none rounded-sm">
@@ -528,7 +526,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                                     viewport={{ once: true, margin: "-50px" }}
                                     transition={{ duration: 0.8, delay: 0.1 + (index * 0.05), ease: "easeOut" }}
                                 >
-                                    <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style={bgImage(`https://picsum.photos/600/450?random=${id}`)} />
+                                    <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110" style={bgImage(`#placeholder-set-${id}`)} />
                                 </motion.div>
                             ))}
                         </div>
@@ -567,16 +565,11 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center">Props <span className="italic text-charcoal/50">Collection</span></h3>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <div className="aspect-video md:aspect-[21/9] bg-charcoal/5 border border-charcoal/10 rounded-xl flex flex-col items-center justify-center gap-6">
-                                <p className="font-serif text-2xl md:text-3xl text-charcoal/40 italic">Props Collection</p>
-                                <button
-                                    onClick={() => openGallery('props')}
-                                    className="flex items-center gap-3 px-6 py-3 border border-charcoal/30 hover:border-charcoal/60 text-charcoal/60 hover:text-charcoal text-xs uppercase tracking-widest transition-all group"
-                                >
-                                    <span>Browse Props Photos</span>
-                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                                </button>
-                            </div>
+                            <HorizontalScrollGallery
+                                images={PROPS_IMAGES}
+                                onImageClick={(i) => openGallery('props', i)}
+                                theme="light"
+                            />
                         </Reveal>
                     </div>
                 </TourSlide>
@@ -588,16 +581,11 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <h3 className="font-serif text-3xl md:text-5xl mb-6 md:mb-8 text-center text-cream">Furniture <span className="italic text-cream/50">Selection</span></h3>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <div className="aspect-video md:aspect-[21/9] bg-cream/5 border border-cream/10 rounded-xl flex flex-col items-center justify-center gap-6">
-                                <p className="font-serif text-2xl md:text-3xl text-cream/40 italic">Furniture Selection</p>
-                                <button
-                                    onClick={() => openGallery('furniture')}
-                                    className="flex items-center gap-3 px-6 py-3 border border-cream/30 hover:border-cream/60 text-cream/60 hover:text-cream text-xs uppercase tracking-widest transition-all group"
-                                >
-                                    <span>Browse Furniture Photos</span>
-                                    <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                                </button>
-                            </div>
+                            <HorizontalScrollGallery
+                                images={FURNITURE_IMAGES}
+                                onImageClick={(i) => openGallery('furniture', i)}
+                                theme="dark"
+                            />
                         </Reveal>
                     </div>
                 </TourSlide>
@@ -605,64 +593,57 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
             {/* 7. Kitchenette & Client Lounge (single slide) */}
             <TourSection id="kitchenette" singleSlide className="bg-cream">
-                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                    {/* Left: Kitchenette */}
-                    <div className="flex flex-col h-1/2 md:h-full">
-                        {/* Image */}
-                        <div className="relative flex-1">
-                            <img
-                                src={cloudinaryUrl('KITCHENETTE', { width: 900, height: 700, crop: 'fill', quality: 'auto', format: 'auto' })}
-                                alt="Kitchenette"
-                                className="absolute inset-0 w-full h-full object-cover"
-                            />
-                        </div>
-                        {/* Text */}
-                        <div className="flex items-center justify-center p-8 md:p-10 bg-cream">
-                            <div className="max-w-xs">
-                                <Reveal>
-                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
-                                </Reveal>
-                                <Reveal delay={0.1}>
-                                    <h2 className="font-serif text-3xl md:text-4xl mb-4">Kitchenette</h2>
-                                </Reveal>
-                                <Reveal delay={0.2}>
-                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
-                                        Kitchenette with a large sink and plenty of storage.
-                                    </p>
-                                </Reveal>
+                <div className="w-full overflow-y-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                        {/* Kitchenette */}
+                        <div className="flex flex-col">
+                            <div className="w-full aspect-[3/2] relative overflow-hidden">
+                                <img
+                                    src={cloudinaryUrl('studio404/space/kitchenette', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                    alt="Kitchenette"
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                />
+                            </div>
+                            <div className="flex items-center justify-center p-8 md:p-10 bg-cream">
+                                <div className="max-w-xs">
+                                    <Reveal>
+                                        <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                    </Reveal>
+                                    <Reveal delay={0.1}>
+                                        <h2 className="font-serif text-3xl md:text-4xl mb-4">Kitchenette</h2>
+                                    </Reveal>
+                                    <Reveal delay={0.2}>
+                                        <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                            Kitchenette with a large sink and plenty of storage.
+                                        </p>
+                                    </Reveal>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Right: Client Lounge */}
-                    <div className="flex flex-col h-1/2 md:h-full border-t md:border-t-0 md:border-l border-charcoal/10">
-                        {/* Image */}
-                        <div className="relative flex-1">
-                            <div className="absolute inset-0" style={{
-                                background: `
-                                    radial-gradient(ellipse at 60% 30%, rgba(175, 170, 160, 0.6) 0%, transparent 50%),
-                                    radial-gradient(ellipse at 30% 70%, rgba(155, 150, 140, 0.5) 0%, transparent 50%),
-                                    linear-gradient(155deg, #AEA89E 0%, #9E9890 25%, #B8B2A8 50%, #A6A09A 75%, #AEA89E 100%)
-                                `,
-                            }} />
-                            <div className="absolute inset-0 opacity-[0.04]" style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                            }} />
-                        </div>
-                        {/* Text */}
-                        <div className="flex items-center justify-center p-8 pb-32 md:pb-10 md:p-10 bg-cream">
-                            <div className="max-w-xs">
-                                <Reveal>
-                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
-                                </Reveal>
-                                <Reveal delay={0.1}>
-                                    <h2 className="font-serif text-3xl md:text-4xl mb-4">Client Lounge</h2>
-                                </Reveal>
-                                <Reveal delay={0.2}>
-                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
-                                        Plenty of places for clients to lounge, plan, or relax during the session.
-                                    </p>
-                                </Reveal>
+                        {/* Client Lounge */}
+                        <div className="flex flex-col border-t md:border-t-0 md:border-l border-charcoal/10">
+                            <div className="w-full aspect-[3/2] relative overflow-hidden">
+                                <img
+                                    src={cloudinaryUrl('studio404/space/client_lounge', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                    alt="Client lounge area"
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                />
+                            </div>
+                            <div className="flex items-center justify-center p-8 pb-32 md:pb-10 md:p-10 bg-cream">
+                                <div className="max-w-xs">
+                                    <Reveal>
+                                        <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                    </Reveal>
+                                    <Reveal delay={0.1}>
+                                        <h2 className="font-serif text-3xl md:text-4xl mb-4">Client Lounge</h2>
+                                    </Reveal>
+                                    <Reveal delay={0.2}>
+                                        <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                            Plenty of places for clients to lounge, plan, or relax during the session.
+                                        </p>
+                                    </Reveal>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -673,20 +654,12 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             <TourSection id="changeroom" singleSlide className="bg-charcoal text-cream">
                 <div className="relative container mx-auto px-6 h-full flex flex-col md:flex-row items-center gap-12">
                     <div className="w-full md:w-1/2">
-                        <div className="aspect-[4/5] bg-gray-800 relative overflow-hidden">
-                            {/* Neutral dark textured placeholder */}
-                            <div className="absolute inset-0" style={{
-                                background: `
-                                    radial-gradient(ellipse at 25% 30%, rgba(80, 75, 70, 0.7) 0%, transparent 50%),
-                                    radial-gradient(ellipse at 75% 70%, rgba(60, 55, 50, 0.6) 0%, transparent 50%),
-                                    radial-gradient(ellipse at 50% 50%, rgba(70, 65, 60, 0.5) 0%, transparent 60%),
-                                    linear-gradient(135deg, #4A4540 0%, #3E3A35 25%, #524D48 50%, #46423D 75%, #4A4540 100%)
-                                `,
-                            }} />
-                            {/* Subtle noise texture */}
-                            <div className="absolute inset-0 opacity-[0.05]" style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-                            }} />
+                        <div className="aspect-[2/3] relative overflow-hidden">
+                            <img
+                                src={cloudinaryUrl('studio404/space/changeroom', { width: 600, height: 900, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                alt="Private change room"
+                                className="w-full h-full object-contain"
+                            />
                         </div>
                     </div>
                     <div className="w-full md:w-1/2 text-left">
@@ -827,6 +800,21 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             </button>
                         </motion.div>
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Equipment Strip Modal */}
+            <AnimatePresence>
+                {equipmentStripOpen && (
+                    <GalleryStripModal
+                        images={EQUIPMENT_IMAGES}
+                        title="Equipment Photos"
+                        onImageClick={(i) => {
+                            setEquipmentStripOpen(false);
+                            openGallery('equipment', i);
+                        }}
+                        onClose={() => setEquipmentStripOpen(false)}
+                    />
                 )}
             </AnimatePresence>
 

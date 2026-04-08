@@ -4,7 +4,6 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
-import { cloudinaryUrl } from '@/lib/cloudinary';
 import {
     Box,
     Lightbulb,
@@ -41,20 +40,25 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
     const reviews = [
         {
-            text: "I'd give 6 stars if I could. I'm a photographer and I was extremely happy with this studio, and the experience of working with the staff. The space is great, with lots of equipment and options at your disposal, and the price is amazing for what you're getting. But more significant to me: Andre is absolutely the best studio owner I've ever worked with.",
-            author: "Verified Photographer",
-            role: "Google Review"
+            text: "I'd give 6 stars if I could. I'm a photographer and I was extremely happy with this studio, and the experience of working with the staff. The space is great, with lots of equipment and options at your disposal, and the price is amazing for what you're getting. Andre is absolutely the best studio owner I've ever worked with. Studio 404 did everything in their power to make sure I was comfortable and happy. I wouldn't even think of finding another studio the next time I'm working in Ottawa. Shoutout to Andre the homie.",
+            author: "Ramy Arida",
+            role: "Professional Photography Rental"
         },
         {
-            text: "At first, I wasn't really comfortable getting my pictures taken since I've never been that type of guy. But when I got my photos from Andre, he completely captured what I wanted from the shoot. He was super understanding and easy to work with. For anyone who's camera-shy, I definitely recommend Studio 404.",
-            author: "Satisfied Client",
-            role: "Google Review"
+            text: "We rented Studio 404 for a TV production and could not have been more pleased with our experience. Andre and Andy were extremely professional, responsive and accommodating from beginning to end. Their space is also super versatile and fit our needs beautifully. Thanks for the great experience ✌️",
+            author: "Cassandre M",
+            role: "TV Production"
         },
         {
-            text: "We rented Studio 404 for a TV production and could not have been more pleased with our experience. Andre and Andy were extremely professional, responsive and accommodating from beginning to end. Their space is also super versatile and fit our needs beautifully. Thanks for the great experience!",
-            author: "Production Company",
-            role: "Google Review"
-        }
+            text: "Stop searching and book this studio now — it's the place you've been looking for! From start to finish, my experience was nothing short of amazing. The owners are beyond welcoming, super helpful, and truly care about making your shoot a success. The space is spotless, stylish, and has an incredible vibe that sets the perfect tone for creativity. And let's talk value — it's priced perfectly for what you get!",
+            author: "Medley Marmontel",
+            role: "Creative Studio Rental"
+        },
+        {
+            text: "I had a great experience at this studio for my photoshoot. The space was clean, professional, and well set up. The owner was very welcoming and provided excellent service from start to finish. Everything went smoothly, and I felt comfortable the entire time. I would definitely recommend this studio to anyone looking for a reliable and professional place.",
+            author: "Nziza Kenny",
+            role: "Studio Rental"
+        },
     ];
 
     const nextReview = () => {
@@ -260,45 +264,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                 </div>
             </section>
 
-            {/* S5: Studio Rules */}
-            <section className="w-full px-6 md:px-12 lg:px-24 py-24 flex flex-col md:flex-row gap-16 items-center max-w-7xl mx-auto">
-                <div className="w-full md:w-1/2">
-                    <Reveal>
-                        <div className="relative aspect-[4/5] bg-gray-200 overflow-hidden">
-                            <img src={cloudinaryUrl('HOUSE-RULES_r5rr22')} alt="Studio Rules" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" />
-                        </div>
-                    </Reveal>
-                </div>
-                <div className="w-full md:w-1/2 space-y-8">
-                    <Reveal>
-                        <h2 className="font-serif text-4xl mb-6">House Rules</h2>
-                    </Reveal>
-                    <Reveal delay={0.1}>
-                        <ul className="space-y-6">
-                            {[
-                                "Please bring clean indoor shoes for the cyclorama wall.",
-                                "Setup and teardown time is included in your booking window.",
-                                "Leave the space as you found it to avoid cleaning fees.",
-                                "No glitter or confetti without prior approval."
-                            ].map((rule, i) => (
-                                <li key={i} className="flex items-start gap-4 text-charcoal/80">
-                                    <span className="mt-1 text-charcoal block min-w-[10px]">•</span>
-                                    <span>{rule}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </Reveal>
-                    <Reveal delay={0.2}>
-                        <Link href="/policies">
-                            <Button variant="text">
-                                View Full Policies <ArrowRight size={16} className="ml-2" />
-                            </Button>
-                        </Link>
-                    </Reveal>
-                </div>
-            </section>
-
-            {/* S6: Step-by-Step */}
+            {/* S5: Step-by-Step */}
             <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-cream/20">
                 <div className="max-w-4xl mx-auto">
                     <Reveal>
@@ -333,6 +299,36 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             </Reveal>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* S6: Studio Rules */}
+            <section className="w-full px-6 md:px-12 lg:px-24 py-24 max-w-7xl mx-auto">
+                <div className="space-y-8 text-center flex flex-col items-center">
+                    <Reveal>
+                        <h2 className="font-serif text-4xl mb-6">House Rules</h2>
+                    </Reveal>
+                    <Reveal delay={0.1}>
+                        <ul className="space-y-6">
+                            {[
+                                "Please bring clean indoor shoes for the cyclorama wall.",
+                                "Setup and teardown time is included in your booking window.",
+                                "Leave the space as you found it to avoid cleaning fees.",
+                                "No glitter or confetti without prior approval."
+                            ].map((rule, i) => (
+                                <li key={i} className="text-charcoal/80">
+                                    {rule}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                    <Reveal delay={0.2}>
+                        <Link href="/policies">
+                            <Button variant="text">
+                                View Full Policies <ArrowRight size={16} className="ml-2" />
+                            </Button>
+                        </Link>
+                    </Reveal>
                 </div>
             </section>
 

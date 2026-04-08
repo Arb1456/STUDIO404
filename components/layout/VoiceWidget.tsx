@@ -40,7 +40,7 @@ const VoiceWidget: React.FC = () => {
 
             {/* ElevenLabs Widget */}
             {isVisible && (
-                <elevenlabs-convai agent-id="agent_5801kf1z46zkfp9rcgrp96kpyeja" />
+                <elevenlabs-convai agent-id={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || ''} />
             )}
         </>
     );

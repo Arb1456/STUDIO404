@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import ContactPageClient from './ContactPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import ContactPage from '@/components/pages/ContactPage';
+export const metadata: Metadata = {
+    title: 'Contact | Studio 404 — Get in Touch',
+    description: 'Questions about Studio 404? Reach out to book a session, schedule a tour, or learn more about our Ottawa photography studio.',
+    openGraph: {
+        title: 'Contact | Studio 404',
+        description: 'Book a session, schedule a tour, or learn more about our Ottawa photography studio.',
+    },
+    alternates: { canonical: '/contact' },
+};
+
+const jsonLd = breadcrumbJsonLd('Contact', '/contact');
 
 export default function Contact() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <ContactPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <ContactPageClient />
+            </BookingProvider>
+        </>
     );
 }

@@ -26,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({
             {/* Top-Left Logo */}
             <Link
                 href="/"
-                className="fixed top-5 left-5 z-50 font-serif italic text-lg text-charcoal hover:opacity-60 transition-opacity duration-200 select-none"
+                className="fixed top-5 left-5 z-50 font-serif italic font-bold text-lg text-charcoal hover:opacity-60 transition-opacity duration-200 select-none px-3 py-1.5 rounded-xl backdrop-blur-md bg-white/40 border border-white/30 shadow-sm"
             >
                 Studio 404
             </Link>

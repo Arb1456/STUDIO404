@@ -42,12 +42,14 @@ const Availability: React.FC = () => {
                             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
                         />
                         <div className="absolute inset-0 bg-black/20" />
-                        <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 text-cream">
-                            <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Studio Rental</h3>
-                            <div className="w-full h-[1px] bg-cream/30 mb-3 md:mb-4" />
-                            <div className="flex justify-between items-center">
-                                <span className="font-sans text-xs tracking-widest uppercase">View Availability</span>
-                                <ArrowRight className="w-4 h-4" />
+                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-6">
+                            <div className="bg-black/40 backdrop-blur-md rounded-lg p-4 md:p-5 border border-white/10 text-cream">
+                                <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Studio Rental</h3>
+                                <div className="w-full h-[1px] bg-cream/30 mb-3 md:mb-4" />
+                                <div className="flex justify-between items-center">
+                                    <span className="font-sans text-xs tracking-widest uppercase">View Availability</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </div>
                             </div>
                         </div>
                     </Link>
@@ -72,12 +74,14 @@ const Availability: React.FC = () => {
                             className="absolute inset-0 w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-black/20" />
-                        <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 text-cream">
-                            <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Creative Photoshoots</h3>
-                            <div className="w-full h-[1px] bg-cream/30 mb-3 md:mb-4" />
-                            <div className="flex justify-between items-center">
-                                <span className="font-sans text-xs tracking-widest uppercase">Book Your Session</span>
-                                <ArrowRight className="w-4 h-4" />
+                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-6">
+                            <div className="bg-black/40 backdrop-blur-md rounded-lg p-4 md:p-5 border border-white/10 text-cream">
+                                <h3 className="font-serif text-2xl md:text-3xl italic mb-3 md:mb-4">Creative Photoshoots</h3>
+                                <div className="w-full h-[1px] bg-cream/30 mb-3 md:mb-4" />
+                                <div className="flex justify-between items-center">
+                                    <span className="font-sans text-xs tracking-widest uppercase">Book Your Session</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </div>
                             </div>
                         </div>
                     </Link>

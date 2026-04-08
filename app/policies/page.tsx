@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import PoliciesPageClient from './PoliciesPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import PoliciesPage from '@/components/pages/PoliciesPage';
+export const metadata: Metadata = {
+    title: 'Policies | Studio 404 — Booking & Studio Guidelines',
+    description: 'Studio 404 booking policies, cancellation terms, house rules, and studio guidelines for your session.',
+    openGraph: {
+        title: 'Policies | Studio 404',
+        description: 'Booking policies, cancellation terms, house rules, and studio guidelines.',
+    },
+    alternates: { canonical: '/policies' },
+};
+
+const jsonLd = breadcrumbJsonLd('Policies', '/policies');
 
 export default function Policies() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <PoliciesPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <PoliciesPageClient />
+            </BookingProvider>
+        </>
     );
 }

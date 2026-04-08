@@ -33,7 +33,7 @@ const ContactInfoContent = () => (
             </Reveal>
 
             <Reveal delay={0.25}>
-                <a href="tel:2504073530" className="flex items-center gap-4 group w-fit">
+                <a href="tel:+12504073530" className="flex items-center gap-4 group w-fit">
                     <div className="p-2.5 rounded-full border border-charcoal/20 group-hover:bg-charcoal group-hover:text-cream transition-colors">
                         <Phone size={16} />
                     </div>

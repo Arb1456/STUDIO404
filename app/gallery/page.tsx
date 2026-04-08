@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import GalleryPageClient from './GalleryPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import GalleryPage from '@/components/pages/GalleryPage';
+export const metadata: Metadata = {
+    title: 'Gallery | Studio 404 — Ottawa Photography Studio',
+    description: 'Browse work created at Studio 404. Portraits, branding, editorial, and product photography from our Ottawa studio.',
+    openGraph: {
+        title: 'Gallery | Studio 404',
+        description: 'Portraits, branding, editorial, and product photography from our Ottawa studio.',
+    },
+    alternates: { canonical: '/gallery' },
+};
+
+const jsonLd = breadcrumbJsonLd('Gallery', '/gallery');
 
 export default function Gallery() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <GalleryPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <GalleryPageClient />
+            </BookingProvider>
+        </>
     );
 }

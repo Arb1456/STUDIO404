@@ -65,9 +65,9 @@ const HomePage: React.FC = () => {
     }, []);
 
     return (
-        <div className="relative w-full h-screen-safe overflow-hidden">
+        <div className="relative w-full h-screen-safe overflow-hidden md:h-auto md:overflow-visible">
             {/* Main Scroll Container */}
-            <div ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory md:snap-none no-scrollbar relative z-10">
+            <div ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory md:snap-none md:h-auto md:overflow-y-visible no-scrollbar relative z-10">
                 <SectionWrapper id="home">
                     <Hero />
                 </SectionWrapper>
@@ -77,6 +77,11 @@ const HomePage: React.FC = () => {
                 <SectionWrapper id="inside">
                     <InsideStudio />
                 </SectionWrapper>
+
+                <SectionWrapper id="testimonials">
+                    <Testimonials />
+                </SectionWrapper>
+
                 <SectionWrapper id="cyc">
                     <Features />
                 </SectionWrapper>
@@ -85,10 +90,6 @@ const HomePage: React.FC = () => {
                 </SectionWrapper>
                 <SectionWrapper id="faq">
                     <FAQ />
-                </SectionWrapper>
-
-                <SectionWrapper id="testimonials">
-                    <Testimonials />
                 </SectionWrapper>
 
                 {/* Contact handles its own SectionWrappers internally due to multi-section mobile layout */}

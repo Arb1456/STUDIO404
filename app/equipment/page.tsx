@@ -1,30 +1,27 @@
-'use client';
+import type { Metadata } from 'next';
+import BookingProvider from '@/components/layout/BookingProvider';
+import EquipmentPageClient from './EquipmentPageClient';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
-import { useState } from 'react';
-import Layout from '@/components/layout/Layout';
-import EquipmentPage from '@/components/pages/EquipmentPage';
+export const metadata: Metadata = {
+    title: 'Equipment & Amenities | Studio 404 — Ottawa Photography Studio',
+    description: 'Professional lighting equipment, props, furniture, client lounge, kitchenette, and private change room. Everything you need for your shoot.',
+    openGraph: {
+        title: 'Equipment & Amenities | Studio 404',
+        description: 'Professional lighting, props, furniture, and full amenities included with every booking.',
+    },
+    alternates: { canonical: '/equipment' },
+};
+
+const jsonLd = breadcrumbJsonLd('Equipment & Amenities', '/equipment');
 
 export default function Equipment() {
-    const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [bookingDuration, setBookingDuration] = useState(2);
-
-    const handleBook = (duration?: number) => {
-        setBookingDuration(duration ?? 2);
-        setIsBookingOpen(true);
-    };
-
-    const handleCloseBooking = () => {
-        setIsBookingOpen(false);
-    };
-
     return (
-        <Layout
-            onBook={handleBook}
-            isBookingOpen={isBookingOpen}
-            onCloseBooking={handleCloseBooking}
-            bookingDuration={bookingDuration}
-        >
-            <EquipmentPage onBook={handleBook} />
-        </Layout>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <BookingProvider>
+                <EquipmentPageClient />
+            </BookingProvider>
+        </>
     );
 }

@@ -41,6 +41,14 @@ coverage/
 *.tsbuildinfo
 next-env.d.ts
 
+# Local assets and debug files
+firebase-debug.log
+"WEB PHOTOS/"
+WEB PHOTOS/
+docs/
+.serena/
+PHOTOS-NEEDED-WEBSITE404.html
+
 # Legacy project folders (root level only)
 /HOME PAGE/
 /BOOK A PHOTOSHOOT/

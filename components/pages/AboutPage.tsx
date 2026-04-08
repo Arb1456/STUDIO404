@@ -33,15 +33,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
 
             {/* S2: Origin Story */}
             <section className="px-6 py-16 md:py-24 max-w-7xl mx-auto border-t border-charcoal/10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
-                    <div className="order-2 md:order-1">
-                        <Reveal>
-                            <div className="aspect-[4/5] w-full overflow-hidden relative bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
-                                <span className="text-charcoal/40 text-sm font-medium tracking-widest uppercase">Image Coming Soon</span>
-                            </div>
-                        </Reveal>
-                    </div>
-                    <div className="order-1 md:order-2">
+                <div className="max-w-2xl">
+                    <div>
                         <Reveal>
                             <h2 className="font-serif text-3xl md:text-4xl mb-6">The Origin</h2>
                         </Reveal>
@@ -93,11 +86,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                         </div>
                     </Reveal>
 
-                    <Reveal delay={0.2}>
-                        <div className="w-full aspect-video md:aspect-[2.35/1] overflow-hidden bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
-                            <span className="text-charcoal/40 text-sm font-medium tracking-widest uppercase">Image Coming Soon</span>
-                        </div>
-                    </Reveal>
                 </div>
             </section>
 
@@ -118,7 +106,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
 
             {/* S5: The Mission */}
             <section className="px-6 py-20 bg-charcoal text-cream">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div className="max-w-4xl mx-auto">
                     <Reveal>
                         <h2 className="font-serif text-4xl md:text-6xl mb-6">The Mission</h2>
                         <p className="text-2xl font-light leading-relaxed text-cream/80">
@@ -126,18 +114,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBook }) => {
                             light, and space to the Ottawa creative community."
                         </p>
                     </Reveal>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Reveal delay={0.2}>
-                            <div className="w-full h-64 bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
-                                <span className="text-cream/60 text-xs font-medium tracking-widest uppercase">Image Coming Soon</span>
-                            </div>
-                        </Reveal>
-                        <Reveal delay={0.3}>
-                            <div className="w-full h-64 mt-12 bg-gradient-to-br from-[#f5f0e8] via-[#e8e0d5] to-[#d9d0c3] flex items-center justify-center" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
-                                <span className="text-cream/60 text-xs font-medium tracking-widest uppercase">Image Coming Soon</span>
-                            </div>
-                        </Reveal>
-                    </div>
                 </div>
             </section>
 
