@@ -2,6 +2,54 @@
 
 ---
 
+## 2026-04-09 — SEO Migration Prep & Fixes
+
+### LocalBusiness Structured Data
+- Filled in real business details in homepage JSON-LD: address (2285 St. Laurent Blvd Unit B8b, K1G 4Z7), phone (+1-250-407-3530), hours (9am–8pm daily)
+- Added Google Business Profile link via `sameAs`
+- Added Instagram (`@studio404inc`) to `sameAs` for entity recognition
+
+### Shopify → Next.js Migration Redirects
+- Added 36 permanent (301) redirect rules to `next.config.js`
+- Covers all old Shopify URLs: 23 `/pages/*`, 9 `/products/*`, 2 `/collections/*`, 1 `/blogs/*` + wildcard
+- Every indexed Shopify URL now maps to its closest Next.js equivalent
+
+### SEO Improvements
+- Added explicit `viewport` meta export to `layout.tsx`
+- Added `FAQPage` JSON-LD structured data to homepage (4 FAQ items → rich snippets)
+- Created web app manifest (`app/manifest.ts`) with brand colors
+- Added favicon (32×32) and Apple touch icon (180×180) from 404 logo
+
+### Migration Checklist
+- Created `docs/plans/shopify-migration-checklist.md` — 4-phase step-by-step guide
+  - Phase 1: GSC baseline export (before switch)
+  - Phase 2: Domain switch (Shopify → Vercel DNS)
+  - Phase 3: Post-switch verification (sitemap, redirects, GSC)
+  - Phase 4: 4-week monitoring cadence
+
+### Bug Fix — Voice Widget (Contact Page)
+- Removed broken modal approach in `VoiceAgentBlock` that embedded a second ElevenLabs widget
+- "Start Conversation" button now triggers the global ElevenLabs widget directly
+- Reduced contact page bundle size (5.31KB → 4.92KB)
+
+### Tour Page — Amenities Mobile Layout
+- Redesigned Kitchenette & Client Lounge section for mobile to fit one screen
+- Kitchenette card: image on top, compact text below, bordered container
+- Client Lounge card: text on top, image below, bordered container
+- Desktop layout unchanged (side-by-side panels)
+
+### Commits
+- `db0902c` — LocalBusiness details
+- `c27fbac` — Migration redirects, FAQ schema, favicon, manifest, checklist
+- `b988cf9` — Voice widget fix, tour amenities mobile layout
+
+### Still Open
+- [ ] GA4 Measurement ID — deferred, needs property ID
+- [ ] ElevenLabs env var on Vercel — André adding manually
+- [ ] Shopify domain switch — checklist ready at `docs/plans/shopify-migration-checklist.md`
+
+---
+
 ## 2026-04-08 (Session 2) — Website Review Fixes
 
 ### UX & Layout
