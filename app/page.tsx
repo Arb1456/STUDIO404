@@ -19,19 +19,24 @@ const jsonLd = {
     name: 'Studio 404',
     description: 'Professional photography studio in Ottawa featuring a cyclorama wall, full lighting grid, props, furniture, and client amenities.',
     url: 'https://thestudio404.ca',
-    // TODO: Uncomment and fill with real business data for local SEO
-    // address: {
-    //     '@type': 'PostalAddress',
-    //     streetAddress: '...',
-    //     addressLocality: 'Ottawa',
-    //     addressRegion: 'ON',
-    //     postalCode: '...',
-    //     addressCountry: 'CA',
-    // },
-    // telephone: '+1-613-...',
-    // openingHoursSpecification: [
-    //     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '08:00', closes: '22:00' },
-    // ],
+    address: {
+        '@type': 'PostalAddress',
+        streetAddress: '2285 St. Laurent Blvd Unit B8b',
+        addressLocality: 'Ottawa',
+        addressRegion: 'ON',
+        postalCode: 'K1G 4Z7',
+        addressCountry: 'CA',
+    },
+    telephone: '+1-250-407-3530',
+    openingHoursSpecification: [
+        {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            opens: '09:00',
+            closes: '20:00',
+        },
+    ],
+    sameAs: ['https://share.google/ddCdMJqZs0MyNppzl'],
     image: 'https://res.cloudinary.com/studio404/image/upload/q_auto,f_auto/studio404/tour/cyc_full',
     priceRange: '$$',
     areaServed: {
