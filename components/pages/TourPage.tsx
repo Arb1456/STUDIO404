@@ -593,58 +593,93 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
 
             {/* 7. Kitchenette & Client Lounge (single slide) */}
             <TourSection id="kitchenette" singleSlide className="bg-cream">
-                <div className="w-full overflow-y-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2">
-                        {/* Kitchenette */}
-                        <div className="flex flex-col">
-                            <div className="w-full aspect-[3/2] relative overflow-hidden">
-                                <img
-                                    src={cloudinaryUrl('studio404/space/kitchenette', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
-                                    alt="Kitchenette"
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="flex items-center justify-center p-8 md:p-10 bg-cream">
-                                <div className="max-w-xs">
-                                    <Reveal>
-                                        <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
-                                    </Reveal>
-                                    <Reveal delay={0.1}>
-                                        <h2 className="font-serif text-3xl md:text-4xl mb-4">Kitchenette</h2>
-                                    </Reveal>
-                                    <Reveal delay={0.2}>
-                                        <p className="font-sans font-light text-charcoal/70 leading-relaxed">
-                                            Kitchenette with a large sink and plenty of storage.
-                                        </p>
-                                    </Reveal>
-                                </div>
+                {/* Desktop: side-by-side with aspect-ratio images */}
+                <div className="hidden md:grid md:grid-cols-2 w-full">
+                    {/* Kitchenette */}
+                    <div className="flex flex-col">
+                        <div className="w-full aspect-[3/2] relative overflow-hidden">
+                            <img
+                                src={cloudinaryUrl('studio404/space/kitchenette', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                alt="Kitchenette"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="flex items-center justify-center p-10 bg-cream">
+                            <div className="max-w-xs">
+                                <Reveal>
+                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                </Reveal>
+                                <Reveal delay={0.1}>
+                                    <h2 className="font-serif text-4xl mb-4">Kitchenette</h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                        Kitchenette with a large sink and plenty of storage.
+                                    </p>
+                                </Reveal>
                             </div>
                         </div>
+                    </div>
+                    {/* Client Lounge */}
+                    <div className="flex flex-col border-l border-charcoal/10">
+                        <div className="w-full aspect-[3/2] relative overflow-hidden">
+                            <img
+                                src={cloudinaryUrl('studio404/space/client_lounge', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                alt="Client lounge area"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="flex items-center justify-center p-10 bg-cream">
+                            <div className="max-w-xs">
+                                <Reveal>
+                                    <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
+                                </Reveal>
+                                <Reveal delay={0.1}>
+                                    <h2 className="font-serif text-4xl mb-4">Client Lounge</h2>
+                                </Reveal>
+                                <Reveal delay={0.2}>
+                                    <p className="font-sans font-light text-charcoal/70 leading-relaxed">
+                                        Plenty of places for clients to lounge, plan, or relax during the session.
+                                    </p>
+                                </Reveal>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        {/* Client Lounge */}
-                        <div className="flex flex-col border-t md:border-t-0 md:border-l border-charcoal/10">
-                            <div className="w-full aspect-[3/2] relative overflow-hidden">
-                                <img
-                                    src={cloudinaryUrl('studio404/space/client_lounge', { width: 900, height: 600, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
-                                    alt="Client lounge area"
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="flex items-center justify-center p-8 pb-32 md:pb-10 md:p-10 bg-cream">
-                                <div className="max-w-xs">
-                                    <Reveal>
-                                        <span className="text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-3 block">Amenities</span>
-                                    </Reveal>
-                                    <Reveal delay={0.1}>
-                                        <h2 className="font-serif text-3xl md:text-4xl mb-4">Client Lounge</h2>
-                                    </Reveal>
-                                    <Reveal delay={0.2}>
-                                        <p className="font-sans font-light text-charcoal/70 leading-relaxed">
-                                            Plenty of places for clients to lounge, plan, or relax during the session.
-                                        </p>
-                                    </Reveal>
-                                </div>
-                            </div>
+                {/* Mobile: compact stacked cards that fit one screen */}
+                <div className="flex md:hidden flex-col gap-3 w-full px-4 py-4 pb-nav-safe">
+                    {/* Kitchenette card — image on top, text below */}
+                    <div className="border border-charcoal/10 rounded-lg overflow-hidden flex-1 flex flex-col">
+                        <div className="w-full flex-1 relative overflow-hidden min-h-0">
+                            <img
+                                src={cloudinaryUrl('studio404/space/kitchenette', { width: 600, height: 400, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                alt="Kitchenette"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="px-4 py-3 bg-cream">
+                            <h2 className="font-serif text-xl mb-1">Kitchenette</h2>
+                            <p className="font-sans font-light text-charcoal/70 text-sm leading-snug">
+                                Large sink and plenty of storage.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Client Lounge card — text on top, image below */}
+                    <div className="border border-charcoal/10 rounded-lg overflow-hidden flex-1 flex flex-col">
+                        <div className="px-4 py-3 bg-cream">
+                            <h2 className="font-serif text-xl mb-1">Client Lounge</h2>
+                            <p className="font-sans font-light text-charcoal/70 text-sm leading-snug">
+                                Plenty of places to lounge, plan, or relax.
+                            </p>
+                        </div>
+                        <div className="w-full flex-1 relative overflow-hidden min-h-0">
+                            <img
+                                src={cloudinaryUrl('studio404/space/client_lounge', { width: 600, height: 400, crop: 'fill', gravity: 'auto', quality: 'auto', format: 'auto' })}
+                                alt="Client lounge area"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
                         </div>
                     </div>
                 </div>
