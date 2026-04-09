@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Outfit, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
@@ -18,6 +18,11 @@ const playfair = Playfair_Display({
     variable: '--font-playfair',
     display: 'swap',
 });
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://thestudio404.ca'),

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import BookingProvider from '@/components/layout/BookingProvider';
 import HomePage from '@/components/pages/HomePage';
+import { FAQ_ITEMS } from '@/lib/constants';
 
 export const metadata: Metadata = {
     title: 'Studio 404 | Premium Photography Studio in Ottawa',
@@ -36,13 +37,29 @@ const jsonLd = {
             closes: '20:00',
         },
     ],
-    sameAs: ['https://share.google/ddCdMJqZs0MyNppzl'],
+    sameAs: [
+        'https://share.google/ddCdMJqZs0MyNppzl',
+        'https://instagram.com/studio404inc',
+    ],
     image: 'https://res.cloudinary.com/studio404/image/upload/q_auto,f_auto/studio404/tour/cyc_full',
     priceRange: '$$',
     areaServed: {
         '@type': 'City',
         name: 'Ottawa',
     },
+};
+
+const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+        },
+    })),
 };
 
 export default function Home() {
@@ -52,6 +69,11 @@ export default function Home() {
                 type="application/ld+json"
                 // Safe: hardcoded build-time constants, not user input
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            {/* Safe: FAQ content is from hardcoded constants, not user input */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
             />
             <BookingProvider>
                 <HomePage />
