@@ -17,7 +17,7 @@ declare global {
 }
 
 const VoiceWidget: React.FC = () => {
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
 
     return (
         <>
