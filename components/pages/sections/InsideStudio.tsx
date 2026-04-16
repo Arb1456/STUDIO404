@@ -7,7 +7,7 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const InsideStudio: React.FC = () => {
     return (
-        <section className="h-screen-safe w-full snap-start relative overflow-hidden pb-nav-safe md:pb-0">
+        <section className="h-screen-safe w-full snap-start relative overflow-hidden pt-[12vh] pb-nav-safe md:pt-0 md:pb-0">
             {/* Full-width background image */}
             <div className="absolute inset-0" style={{
                 backgroundImage: `url(${cloudinaryUrl('The_Cyc_Wall_aohgwv')})`,

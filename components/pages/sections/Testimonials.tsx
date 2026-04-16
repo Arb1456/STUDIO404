@@ -145,7 +145,7 @@ const Testimonials: React.FC = () => {
     const [activeReview, setActiveReview] = useState<Review | null>(null);
 
     return (
-        <section className="h-screen-safe w-full snap-start bg-charcoal flex flex-col items-center justify-center pb-nav-safe overflow-hidden">
+        <section className="h-screen-safe w-full snap-start bg-charcoal flex flex-col items-center justify-center pt-[12vh] pb-nav-safe overflow-hidden">
             {/* Header */}
             <div className="px-6 text-center mb-10 md:mb-12">
                 <Reveal>
