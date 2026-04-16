@@ -158,9 +158,18 @@ const Testimonials: React.FC = () => {
                 </Reveal>
             </div>
 
+            {/* Ticker */}
+            <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-marquee">
+                    {TICKER_ITEMS.map((review, i) => (
+                        <ReviewCard key={i} review={review} onClick={() => setActiveReview(review)} />
+                    ))}
+                </div>
+            </div>
+
             {/* Five-star callout */}
             <Reveal delay={0.2}>
-                <div className="flex items-center gap-2 mb-8 md:mb-10">
+                <div className="flex items-center justify-center gap-2 mt-8 md:mt-10">
                     <div className="flex gap-0.5">
                         {Array.from({ length: 5 }).map((_, i) => (
                             <svg key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
@@ -172,17 +181,8 @@ const Testimonials: React.FC = () => {
                 </div>
             </Reveal>
 
-            {/* Ticker */}
-            <div className="w-full overflow-hidden">
-                <div className="flex w-max animate-marquee">
-                    {TICKER_ITEMS.map((review, i) => (
-                        <ReviewCard key={i} review={review} onClick={() => setActiveReview(review)} />
-                    ))}
-                </div>
-            </div>
-
             {/* CTA */}
-            <div className="w-full flex justify-center mt-10 md:mt-12">
+            <div className="w-full flex justify-center mt-4 md:mt-5">
                 <Reveal delay={0.2}>
                     <a
                         href={REVIEWS_URL}
