@@ -1,25 +1,23 @@
-# Session Notes — 2026-04-16
+# Session Notes — 2026-04-16 (Evening)
 
 ## Focus
-Mobile UX polish on the homepage: fixing section snap positioning on Chrome, tuning animation speeds, fixing the testimonials marquee, and adding a five-star review callout.
+Site audit remediation (hero performance, testimonials a11y, section copy) and GHL email deliverability investigation.
 
 ## What Changed
 
 ### Files Modified
-- `components/pages/sections/Availability.tsx` — padding adjusted for mobile positioning
-- `components/pages/sections/InsideStudio.tsx` — scroll-mt replaced with pt-40, bg fills viewport top
-- `components/pages/sections/Testimonials.tsx` — positioning fix, w-max marquee fix, five-star callout added
-- `components/ui/SectionWrapper.tsx` — removed duplicate snap-start/snap-always
-- `components/ui/Reveal.tsx` — fade-in duration 0.6s → 0.9s, slide 20px → 30px
-- `components/pages/HomePage.tsx` — custom easeOutQuart scroll, 1.5s cooldown
-- `app/globals.css` — mobile marquee 40s, desktop 20s
+- `components/pages/sections/Hero.tsx` — Cloudinary transforms (w_1920 desktop, w_828 mobile, q_auto, f_auto), blur placeholders
+- `components/pages/sections/Testimonials.tsx` — aria-hidden on duplicate marquee copy for screen readers & SEO
+- `components/pages/sections/Availability.tsx` — Heading renamed "Availability" → "Choose Your Experience"
+- `docs/CHANGELOG.md` — Session changelog entry
 
 ### Key Decisions
-- **Padding over scroll-margin**: scroll-margin-top offset caused background images to not reach viewport top. Internal padding (pt-40, pt-20) keeps backgrounds flush while positioning content.
-- **Custom scroll easing**: Native `scrollTo({ behavior: 'smooth' })` doesn't allow easing control. Replaced with requestAnimationFrame + easeOutQuart for slower snap landing.
-- **Marquee w-max fix**: The flex container for the review ticker was defaulting to viewport width, making `translateX(-50%)` only scroll ~187px. Adding `w-max` fixed it to scroll all 10 reviews.
+- **Cloudinary transforms over Next.js loader**: Added width/quality/format params directly in the Cloudinary URL rather than configuring a custom Next.js image loader. Simpler, and Cloudinary handles format negotiation (WebP/AVIF) server-side.
+- **`aria-hidden` with `contents` wrapper**: Used `<div className="contents" aria-hidden="true">` for the duplicate marquee set. `contents` ensures no layout impact while `aria-hidden` removes from accessibility tree.
+- **Contact "duplication" is fine**: Mobile/desktop responsive split is intentional architecture, not a bug. No fix needed.
 
 ## Still Open
-- [ ] Verify GA4 and Meta Pixel firing on live site (need Vercel env vars + redeploy)
+- [ ] Send test email from GHL to check if Dedicated Header fix resolved spam placement
+- [ ] If still spam: file GHL support ticket re SMTP credential error + stalled warmup on lc.thestudio404.ca
 - [ ] Meta Conversions API — blocked until pixel is linked to Meta Business Account
 - [ ] Content: About photos, Gallery photos, Photoshoot session photos

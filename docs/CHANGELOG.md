@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-04-16 — Site Audit Remediation & GHL Email Investigation
+
+### Site Audit Fixes
+- **Hero LCP fix**: Added Cloudinary transforms (`w_1920,q_auto,f_auto` desktop, `w_828,q_auto,f_auto` mobile) to eliminate oversized 3840px image requests. Added blur placeholders for instant visual feedback instead of 3-5s blank canvas.
+- **Testimonials accessibility**: Added `aria-hidden="true"` to duplicate marquee copy so screen readers and search engines only index reviews once.
+- **Section copy**: Renamed "Availability" → "Choose Your Experience" to match actual content (rental vs photoshoot cards, not a booking calendar).
+
+### Site Audit — Non-Code Findings
+- **Vercel Speed Insights 503**: Confirmed working; code is correct in layout.tsx.
+- **Facebook Pixel 503**: Browser adblocker blocking `fbevents.js`. Code is correct. Long-term fix is Meta Conversions API (server-side).
+- **Contact section "duplication"**: Intentional responsive architecture — mobile renders 2 snap sections, desktop renders 1 combined. Not a bug.
+- **Mobile nav overlap**: Visually confirmed no overlap on mobile.
+
+### GHL Email Deliverability Investigation
+- Invoice/confirmation emails landing in spam.
+- DNS fully verified for `lc.thestudio404.ca` (SPF, DKIM, DMARC, MX, CNAME all passing).
+- Fixed empty Dedicated Header (was "Name not provided / Email not provided").
+- Set Bulk/Campaign domains to `lc.thestudio404.ca`.
+- Root issue: SMTP credential error ("Unable to Create SMTP User") and domain warmup stuck at Stage 1 since Jan 2026 with 0 emails in April. Needs GHL support ticket if test email still lands in spam.
+
+### Commits
+- `c883e59` — Hero LCP fix, testimonials a11y, availability copy rename
+
+---
+
 ## 2026-04-16 — Mobile UX Polish & Animation Tuning
 
 ### Mobile Section Positioning
