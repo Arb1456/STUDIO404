@@ -4,9 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 
-// Cloudinary optimized URLs
-const heroDesktop = 'https://res.cloudinary.com/du5ixrlhz/image/upload/v1768672405/V1_vayy91.jpg';
-const heroMobile = 'https://res.cloudinary.com/du5ixrlhz/image/upload/v1768672533/V1-2_m8ltsl.jpg';
+// Cloudinary optimized URLs — width-capped, auto-quality, auto-format
+const heroDesktop = 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_1920,q_auto,f_auto/v1768672405/V1_vayy91.jpg';
+const heroMobile = 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_828,q_auto,f_auto/v1768672533/V1-2_m8ltsl.jpg';
+
+// Tiny blur placeholders (20px wide, heavy blur)
+const heroDesktopBlur = 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_20,q_10,f_auto,e_blur:1000/v1768672405/V1_vayy91.jpg';
+const heroMobileBlur = 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_20,q_10,f_auto,e_blur:1000/v1768672533/V1-2_m8ltsl.jpg';
 
 const Hero: React.FC = () => {
     return (
@@ -20,6 +24,8 @@ const Hero: React.FC = () => {
                         alt="Studio 404 - Mobile"
                         fill
                         priority
+                        placeholder="blur"
+                        blurDataURL={heroMobileBlur}
                         className="object-cover opacity-40"
                         sizes="100vw"
                     />
@@ -32,6 +38,8 @@ const Hero: React.FC = () => {
                         alt="Studio 404 - Desktop"
                         fill
                         priority
+                        placeholder="blur"
+                        blurDataURL={heroDesktopBlur}
                         className="object-cover opacity-40"
                         sizes="100vw"
                     />

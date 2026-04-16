@@ -12,7 +12,7 @@ const Availability: React.FC = () => {
             {/* Title Section - in normal flow */}
             <div className="text-center mb-4 md:mb-10 flex-shrink-0">
                 <Reveal>
-                    <h2 className="font-serif text-3xl md:text-4xl text-charcoal mb-2 md:mb-4">Availability</h2>
+                    <h2 className="font-serif text-3xl md:text-4xl text-charcoal mb-2 md:mb-4">Choose Your Experience</h2>
                 </Reveal>
                 <Reveal delay={0.1}>
                     <p className="text-charcoal/70 text-xs md:text-base leading-relaxed max-w-2xl mx-auto">

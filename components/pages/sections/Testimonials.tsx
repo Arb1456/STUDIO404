@@ -62,8 +62,7 @@ const REVIEWS: Review[] = [
     },
 ];
 
-// Duplicate for seamless CSS marquee loop (-50% translate needs 2 copies)
-const TICKER_ITEMS = [...REVIEWS, ...REVIEWS];
+// Marquee needs 2 copies for seamless -50% translate loop
 
 const REVIEWS_URL = 'https://www.google.com/maps/place/Studio+404/@45.3479994,-75.7564316,17z/data=!4m8!3m7!1s0x4cce05b77b63e6df:0x6f786e8f50a65c14!8m2!3d45.3479994!4d-75.7538567!9m1!1b1';
 
@@ -161,9 +160,15 @@ const Testimonials: React.FC = () => {
             {/* Ticker */}
             <div className="w-full overflow-hidden">
                 <div className="flex w-max animate-marquee">
-                    {TICKER_ITEMS.map((review, i) => (
+                    {REVIEWS.map((review, i) => (
                         <ReviewCard key={i} review={review} onClick={() => setActiveReview(review)} />
                     ))}
+                    {/* Duplicate copy for seamless loop — hidden from screen readers & SEO */}
+                    <div className="contents" aria-hidden="true">
+                        {REVIEWS.map((review, i) => (
+                            <ReviewCard key={`dup-${i}`} review={review} onClick={() => setActiveReview(review)} />
+                        ))}
+                    </div>
                 </div>
             </div>
 
