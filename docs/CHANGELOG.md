@@ -2,6 +2,44 @@
 
 ---
 
+## 2026-04-15 — Domain Migration, Analytics & Tracking
+
+### Domain Migration (Shopify → Cloudflare → Vercel)
+- Transferred DNS hosting from Shopify to Cloudflare (free plan)
+- Configured all DNS records in Cloudflare: A, CNAME, MX, TXT (Microsoft 365, SPF, GSC, LeadConnector, DKIM)
+- Pointed `thestudio404.ca` A record to Vercel (`216.198.79.1`)
+- Pointed `www` CNAME to Vercel (`4c1b00de5d6bb118.vercel-dns-017.com.`)
+- Added domain in Vercel dashboard (bare domain redirects to `www`)
+- Domain is now live on Cloudflare nameservers → Vercel
+- Shopify domain transfer initiated but not needed — nameserver change was sufficient
+- Note: domain registration stays with Shopify until transferred to another registrar (Cloudflare doesn't support `.ca` transfers)
+
+### Analytics — Google Analytics 4
+- GA4 measurement ID configured: `G-YYP2J2XGKJ`
+- Added `NEXT_PUBLIC_GA_ID` to `.env.local` and `.env.example`
+- Code was already wired up in `layout.tsx` via `@next/third-parties/google`
+
+### Tracking — Meta Pixel
+- Added Meta Pixel base code to `app/layout.tsx` via Next.js `<Script>` component
+- Pixel ID: `1480030709764047` (conditionally loaded via env var)
+- Fires `PageView` on every page load, includes `<noscript>` fallback
+- Added `NEXT_PUBLIC_META_PIXEL_ID` to `.env.local` and `.env.example`
+
+### Voice Widget
+- ElevenLabs voice widget now starts **closed** by default (was open)
+- Users click the `MessageCircle` button to open it
+
+### Commits
+- `360fa4b` — Meta Pixel, GA4 env config, voice widget starts closed
+
+### Still Open
+- [ ] Verify GA4 and Meta Pixel firing on live site (need Vercel env vars + redeploy)
+- [ ] Meta Conversions API — blocked until pixel is linked to Meta Business Account
+- [ ] Transfer domain registration away from Shopify before cancelling subscription (Cloudflare doesn't support `.ca` — try Namecheap or GoDaddy)
+- [ ] Content: About photos, Gallery photos, Photoshoot session photos, real testimonials, YouTube links
+
+---
+
 ## 2026-04-09 — SEO Migration Prep & Fixes
 
 ### LocalBusiness Structured Data
