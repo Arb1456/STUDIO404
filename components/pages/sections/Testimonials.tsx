@@ -160,7 +160,7 @@ const Testimonials: React.FC = () => {
 
             {/* Ticker */}
             <div className="w-full overflow-hidden">
-                <div className="flex animate-marquee">
+                <div className="flex w-max animate-marquee">
                     {TICKER_ITEMS.map((review, i) => (
                         <ReviewCard key={i} review={review} onClick={() => setActiveReview(review)} />
                     ))}
