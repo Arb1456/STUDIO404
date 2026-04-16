@@ -2,6 +2,44 @@
 
 ---
 
+## 2026-04-16 — Mobile UX Polish & Animation Tuning
+
+### Mobile Section Positioning
+- Fixed Availability, InsideStudio, and Testimonials sections sitting too high on mobile Chrome
+- Availability: adjusted to `pt-20 pb-nav-safe` so heading sits lower and cards end right above the nav bar
+- InsideStudio: replaced scroll-margin offset with `pt-40` so background image fills to viewport top while text card stays in the lower-center area
+- Testimonials: added `pt-20` to push text elements lower in the section
+- Removed duplicate `snap-start snap-always` from `SectionWrapper` to eliminate competing snap targets on Chrome
+
+### Animation & Scroll Tuning
+- Reveal fade-in duration: 0.6s → 0.9s, slide distance: 20px → 30px
+- Availability card slide-in animations: 0.7s → 1.2s
+- Snap scroll cooldown between sections: 1s → 1.5s
+- Replaced native `scrollTo({ behavior: 'smooth' })` with custom easeOutQuart animation (1.2s) for heavier deceleration at the end of each snap
+
+### Testimonials Marquee
+- Fixed marquee only showing ~2 reviews before looping — root cause: flex container defaulted to viewport width, so `translateX(-50%)` only moved ~187px. Added `w-max` so container spans all cards.
+- All 10 reviews now scroll continuously in a seamless loop
+- Mobile cycle time: 40s (desktop: 20s)
+
+### Testimonials — Five-Star Callout
+- Added "Over 100 five-star reviews" badge with five amber stars below the review ticker
+- Centered on screen with a small gap above the "Read All Our Reviews" CTA
+
+### Commits
+- `f942e9c` — Initial mobile snap fix (pt-[12vh] approach)
+- `7567198` — Switch to scroll-margin-top approach
+- `231fe22` — Revert to internal padding for Availability/Testimonials
+- `b2d7923` — InsideStudio bg fix, marquee w-max fix
+- `97c10a1` — Marquee timing adjustment
+- `ccd1f60` — Slow down animations across the board
+- `c69a71a` — Custom easeOutQuart snap scroll, marquee to 30s
+- `90de8c0` — Faster text fade-in (0.9s), marquee to 40s
+- `f4e189f` — Five-star callout badge
+- `71d9757` — Move callout below ticker, centered
+
+---
+
 ## 2026-04-15 — Domain Migration, Analytics & Tracking
 
 ### Domain Migration (Shopify → Cloudflare → Vercel)
