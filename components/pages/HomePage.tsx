@@ -21,6 +21,25 @@ const HomePage: React.FC = () => {
         if (!container) return;
 
         let cooldownUntil = 0;
+        let animationId = 0;
+
+        // Custom smooth scroll with strong deceleration at the end
+        const smoothScrollTo = (target: number, duration: number) => {
+            cancelAnimationFrame(animationId);
+            const start = container.scrollTop;
+            const distance = target - start;
+            const startTime = performance.now();
+
+            const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+            const step = (now: number) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                container.scrollTop = start + distance * easeOutQuart(progress);
+                if (progress < 1) animationId = requestAnimationFrame(step);
+            };
+            animationId = requestAnimationFrame(step);
+        };
 
         const handleWheel = (e: WheelEvent) => {
             // On desktop, allow normal scrolling
@@ -56,7 +75,7 @@ const HomePage: React.FC = () => {
             if (nextIndex === currentIndex) return;
 
             cooldownUntil = Date.now() + 1500;
-            container.scrollTo({ top: sections[nextIndex].offsetTop, behavior: 'smooth' });
+            smoothScrollTo(sections[nextIndex].offsetTop, 1200);
         };
 
         container.addEventListener('wheel', handleWheel, { passive: false });
