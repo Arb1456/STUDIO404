@@ -30,7 +30,7 @@ export const Reveal: React.FC<RevealProps> = ({
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{
-                    duration: 1.2,
+                    duration: 0.9,
                     delay: delay,
                     ease: [0.25, 0.1, 0.25, 1] // Smooth ease-out
                 }}
