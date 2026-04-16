@@ -151,7 +151,7 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
 
                     {/* Contact Action */}
                     <a
-                        href="tel:+12504073530"
+                        href="tel:+13433144140"
                         className="px-6 py-4 hover:bg-white/10 rounded-full transition-colors"
                     >
                         <Phone size={18} />

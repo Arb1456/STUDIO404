@@ -28,7 +28,7 @@ const jsonLd = {
         postalCode: 'K1G 4Z7',
         addressCountry: 'CA',
     },
-    telephone: '+1-250-407-3530',
+    telephone: '+1-343-314-4140',
     openingHoursSpecification: [
         {
             '@type': 'OpeningHoursSpecification',
