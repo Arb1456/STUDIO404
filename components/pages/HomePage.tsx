@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
             const nextIndex = Math.max(0, Math.min(sections.length - 1, currentIndex + direction));
             if (nextIndex === currentIndex) return;
 
-            cooldownUntil = Date.now() + 1000;
+            cooldownUntil = Date.now() + 1500;
             container.scrollTo({ top: sections[nextIndex].offsetTop, behavior: 'smooth' });
         };
 

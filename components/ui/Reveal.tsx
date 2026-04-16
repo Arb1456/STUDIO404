@@ -24,13 +24,13 @@ export const Reveal: React.FC<RevealProps> = ({
         <div ref={ref} style={{ width }} className={className}>
             <motion.div
                 variants={{
-                    hidden: { opacity: 0, y: 20 },
+                    hidden: { opacity: 0, y: 30 },
                     visible: { opacity: 1, y: 0 },
                 }}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{
-                    duration: 0.6,
+                    duration: 1.2,
                     delay: delay,
                     ease: [0.25, 0.1, 0.25, 1] // Smooth ease-out
                 }}

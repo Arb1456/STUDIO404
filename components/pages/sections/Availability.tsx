@@ -30,7 +30,7 @@ const Availability: React.FC = () => {
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-15%" }}
-                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                    transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
                 >
                     <Link
                         href="/rental"
@@ -61,7 +61,7 @@ const Availability: React.FC = () => {
                     initial={{ opacity: 0, x: 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-15%" }}
-                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+                    transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
                 >
                     <Link
                         href="/photoshoot"
