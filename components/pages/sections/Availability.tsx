@@ -8,7 +8,7 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const Availability: React.FC = () => {
     return (
-        <section className="h-screen-safe w-full snap-start bg-cream flex flex-col px-6 md:px-12 pt-[12vh] md:py-20 pb-nav-safe md:pb-20 overflow-hidden">
+        <section className="h-screen-safe w-full snap-start scroll-mt-[100px] md:scroll-mt-0 bg-cream flex flex-col px-6 md:px-12 py-10 md:py-20 overflow-hidden">
             {/* Title Section - in normal flow */}
             <div className="text-center mb-4 md:mb-10 flex-shrink-0">
                 <Reveal>
@@ -22,7 +22,7 @@ const Availability: React.FC = () => {
             </div>
 
             {/* Cards Grid - takes remaining space */}
-            <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-4 md:gap-6 flex-1 min-h-0">
+            <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-4 md:gap-6 flex-1 min-h-0 pb-20 md:pb-0">
 
                 {/* Card A: Rental - Slides from Left */}
                 <motion.div
