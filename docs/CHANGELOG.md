@@ -2,6 +2,38 @@
 
 ---
 
+## 2026-11-09 — Holiday 2026: Christmas Minis Rework (branch `holiday-2026`, uncommitted)
+
+### Seasonal Infrastructure
+- **`lib/holiday.ts`**: single source of truth for the season. Manual switch `HOLIDAY_SEASON_ENABLED`, offers (Holiday Mini $125 / 30 min / 4 photo selections + edits; Full Holiday Session from $250 / 1.5 hr / 8 photos), mini policy (5 people included, +$15/person, +$25 pet fee, edits within 3 days), `MINI_DAYS` (placeholder dates), FAQ, contact info, `CHRISTMAS_SET`, routes.
+- **`lib/holiday-tracking.ts`**: shared GA4 `begin_checkout` + Meta `InitiateCheckout` events, `scrollToMiniBooking`, `openMiniCalendar` (falls back to the waitlist when all days are sold out).
+- **`lib/arrival.ts`**: per-`utm_source` eyebrow hook. Decision: same text for all sources, so it returns null.
+- **`components/ui/Christmas.tsx`**: emblem set (Snowflake, Star, Ornament, Holly), `OrnamentDivider`, `EmblemScatter`, CSS `Snowfall` (fixed layout so server and client match, disabled for reduced motion). Snow keyframes in `app/globals.css`.
+- Tailwind colours: `evergreen` #1E3328, `gold` #C9A961.
+
+### Homepage
+- **`HolidayHero.tsx`** replaces `<Hero />` while the switch is on (the original hero is untouched). "Christmas 2026 · Limited Dates", "Holiday Mini Sessions", and three What's Included-style rows: Book Your Holiday Mini Session (primary) / Book A Photo Session / Rent The Studio.
+
+### New Pages
+- **`/holiday-minis`**: landing page for ads and the truck QR code. Centered mobile hero (hero CTA scrolls to booking), $125 "everything included" block, Families/Couples example tabs, review carousel on mobile (3 reviews), mini days with spots left plus waitlist form, embedded GHL calendar (no `form_embed.js`: it hides slug-URL iframes), fee fine print, Full Holiday upsell, "Christmas at Studio 404" call/email/inquiry form, FAQ.
+- **`/christmas-truck`**: Coming Soon placeholder (`noindex`).
+- **`/truck`**: 302 redirect to `/holiday-minis?utm_source=truck&utm_medium=qr&utm_campaign=holiday-minis-2026` (for the truck QR code).
+
+### Existing Pages
+- **Navigation**: menu reordered (Holiday Minis, Studio Rentals, Photo Sessions, Studio Tour, Equipment + Amenities, The Christmas Truck Initiative, then Gallery/About/Contact/Rates/Policies). Holly icon on seasonal items (`seasonal: true`). On `/holiday-minis` the bottom-bar CTA becomes "Book a Mini · $125" and opens the GHL calendar.
+- **Photo Sessions**: Holiday Mini and Full Holiday Session cards lead the grid (`cardTitle` field). The couple/mini review is mapped to the mini.
+- **Studio Rental**: holly link in the hero, plus a new "Run your own Christmas minis" section pitching a Full Day (8 hr / $400) to photographers.
+- **Studio Tour**: new "The Christmas Set" stop after intro (added to `SECTION_CONFIG` only while the switch is on).
+- **Sitemap**: added `/holiday-minis`.
+
+### Docs
+- `docs/plans/2026-11-09-ghl-holiday-calendars-setup.md`: GHL setup guide for both calendars, notifications, follow-up form, and form routing.
+
+### Declined
+- Fake "fully booked" days. This is a misleading representation (Canada's Competition Act). Replaced with honest scarcity: real spot counts, released in waves, plus a waitlist.
+
+---
+
 ## 2026-04-16 — Site Audit Remediation & GHL Email Investigation
 
 ### Site Audit Fixes

@@ -1,23 +1,60 @@
-# Session Notes — 2026-04-16 (Evening)
+# Session Notes — 2026-11-09
 
 ## Focus
-Site audit remediation (hero performance, testimonials a11y, section copy) and GHL email deliverability investigation.
+Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing page (for ads and truck QR traffic, targeting families and couples), holiday sessions on Photo Sessions, Christmas set marketing on Rental and Tour, and a GHL calendar setup guide.
+
+**Branch:** `holiday-2026`. **Nothing committed yet.** Dev server stopped.
 
 ## What Changed
 
+### New Files
+- `lib/holiday.ts`: season switch, offers, policy, mini days, FAQ, contact, Christmas set, routes
+- `lib/holiday-tracking.ts`: GA4/Meta booking-intent events and the shared CTA actions
+- `lib/arrival.ts`: utm_source eyebrow hook (returns null by decision)
+- `components/ui/Christmas.tsx`: emblems, divider, scatter, snowfall
+- `components/pages/sections/HolidayHero.tsx`: seasonal homepage hero
+- `components/pages/HolidayMinisPage.tsx` + `app/holiday-minis/page.tsx`
+- `app/christmas-truck/page.tsx`: Coming Soon placeholder
+- `docs/plans/2026-11-09-ghl-holiday-calendars-setup.md`
+
 ### Files Modified
-- `components/pages/sections/Hero.tsx` — Cloudinary transforms (w_1920 desktop, w_828 mobile, q_auto, f_auto), blur placeholders
-- `components/pages/sections/Testimonials.tsx` — aria-hidden on duplicate marquee copy for screen readers & SEO
-- `components/pages/sections/Availability.tsx` — Heading renamed "Availability" → "Choose Your Experience"
-- `docs/CHANGELOG.md` — Session changelog entry
+- `components/pages/HomePage.tsx`: hero swap via `isHolidaySeason()`
+- `components/layout/Navigation.tsx`: holly on seasonal items, mini-page bottom-bar CTA opens the calendar
+- `components/pages/PhotoshootPage.tsx`: holiday sessions, `cardTitle`, mini review
+- `components/pages/RentalPage.tsx`: Christmas set / full-day section
+- `components/pages/TourPage.tsx`: Christmas Set tour stop
+- `lib/constants.ts`, `types/index.ts`: menu order, `seasonal` flag
+- `next.config.js`: `/truck` redirect. `tailwind.config.js`: evergreen/gold. `app/globals.css`: snowfall. `app/sitemap.ts`
 
 ### Key Decisions
-- **Cloudinary transforms over Next.js loader**: Added width/quality/format params directly in the Cloudinary URL rather than configuring a custom Next.js image loader. Simpler, and Cloudinary handles format negotiation (WebP/AVIF) server-side.
-- **`aria-hidden` with `contents` wrapper**: Used `<div className="contents" aria-hidden="true">` for the duplicate marquee set. `contents` ensures no layout impact while `aria-hidden` removes from accessibility tree.
-- **Contact "duplication" is fine**: Mobile/desktop responsive split is intentional architecture, not a bug. No fix needed.
+- **Manual season switch** (`HOLIDAY_SEASON_ENABLED`), not a date window. The static build would freeze a date check at deploy time.
+- **"Holiday Minis"** on the site (not "Christmas Minis"); eyebrows say "Christmas 2026".
+- **Surcharges** (+$15/person over 5, +$25 pet) appear as fine print on the landing page and in full on the GHL booking form.
+- **Hero CTA scrolls to dates/booking; bottom bar opens the calendar directly.**
+- **Same eyebrow for truck and ad visitors**. The `utm` tags are kept for GA4 attribution only.
+- **Plain iframe for the GHL calendar.** `form_embed.js` hid it because the site uses slug URLs, not calendar IDs.
+- **No fake sold-out days.** Honest scarcity plus a waitlist instead.
+- "Christmas at Studio 404" is built as a section on `/holiday-minis`, not a separate page.
 
 ## Still Open
-- [ ] Send test email from GHL to check if Dedicated Header fix resolved spam placement
-- [ ] If still spam: file GHL support ticket re SMTP credential error + stalled warmup on lc.thestudio404.ca
-- [ ] Meta Conversions API — blocked until pixel is linked to Meta Business Account
-- [ ] Content: About photos, Gallery photos, Photoshoot session photos
+
+### Needed before launch
+- [ ] Create both GHL calendars (`404holiday-mini-session`, `404holiday-session`). See the setup guide and `docs/plans/2026-11-10-holiday-mini-slot-plan.md` (slot interval 45 min).
+- [x] (Nov 10) $50 deposit, refundable up to 14 days before; surcharges from the booking form, invoiced with the balance
+- [x] (Nov 10) Real mini days in `MINI_DAYS`: 11 days, 104 slots (30 min + 15 min reset)
+- [ ] Christmas set photos to replace the placeholders (`HOLIDAY_HERO_IMAGE`, `CHRISTMAS_SET.image`)
+- [ ] Confirm the set description ("tree, lights, cozy décor" was a guess)
+- [x] (Nov 10) Repointed the old Shopify redirect `/products/christmas-mini-session` → `/holiday-minis`
+- [x] (Nov 10) `npm run build` passes (21 pages); committed on `holiday-2026`
+- [ ] Merge to `main`, deploy, test both forms live against the GHL webhook
+- [ ] Verify the Meta Pixel fires on the live site; tag Meta ad links with `utm_source=meta`
+- [ ] Truck QR code → `thestudio404.ca/truck`
+- [ ] GHL email spam issue (SMTP credential error, stalled warmup), carried over
+
+### Later / nice to have
+- [ ] Holiday mini terms on the Policies page
+- [ ] Christmas examples for the Families/Couples tabs
+- [ ] GHL post-booking follow-up form (group size, ages, style)
+- [ ] Christmas Truck Initiative page content
+- [ ] Meta Conversions API (blocked on Business Account link)
+- [ ] After the season: `HOLIDAY_SEASON_ENABLED = false`, repoint `/truck`
