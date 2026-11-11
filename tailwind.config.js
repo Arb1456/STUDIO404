@@ -10,6 +10,9 @@ module.exports = {
                 cream: '#F2EFE9',
                 charcoal: '#262626',
                 'charcoal-light': '#333333',
+                // Holiday 2026 seasonal palette
+                evergreen: '#1E3328',
+                gold: '#C9A961',
             },
             fontFamily: {
                 sans: ['var(--font-outfit)', 'Inter', 'sans-serif'],

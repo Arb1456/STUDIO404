@@ -4,6 +4,8 @@ export interface MenuItem {
     label: string;
     href: string;
     isExternal?: boolean;
+    /** Seasonal decoration shown to the right of the label. */
+    seasonal?: boolean;
 }
 
 export interface FAQItem {

@@ -2,10 +2,12 @@ import { MenuItem, FAQItem, FeatureItem } from '@/types';
 
 export const MENU_ITEMS: MenuItem[] = [
     { label: 'Home', href: '/' },
+    { label: 'Holiday Minis', href: '/holiday-minis', seasonal: true },
     { label: 'Studio Rentals', href: '/rental' },
     { label: 'Photo Sessions', href: '/photoshoot' },
     { label: 'Studio Tour', href: '/tour' },
     { label: 'Equipment + Amenities', href: '/equipment' },
+    { label: 'The Christmas Truck Initiative', href: '/christmas-truck', seasonal: true },
     { label: 'Community Gallery', href: '/gallery' },
     { label: 'About Us', href: '/about' },
     { label: 'Contact Us', href: '/contact' },
