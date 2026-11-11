@@ -10,6 +10,13 @@ const nextConfig = {
     },
     async redirects() {
         return [
+            // === Holiday 2026: truck QR short link (302 — temporary campaign) ===
+            {
+                source: '/truck',
+                destination: '/holiday-minis?utm_source=truck&utm_medium=qr&utm_campaign=holiday-minis-2026',
+                permanent: false,
+            },
+
             // === Shopify → Next.js migration redirects (301) ===
             // Old Shopify pages used /pages/ prefix; new site uses clean routes.
 
@@ -63,7 +70,7 @@ const nextConfig = {
             { source: '/products/pet-session', destination: '/photoshoot', permanent: true },
             { source: '/products/couples-session', destination: '/photoshoot', permanent: true },
             { source: '/products/newborn-baby-session', destination: '/photoshoot', permanent: true },
-            { source: '/products/christmas-mini-session', destination: '/photoshoot', permanent: true },
+            { source: '/products/christmas-mini-session', destination: '/holiday-minis', permanent: true },
             { source: '/products/studio-viewing', destination: '/tour', permanent: true },
             { source: '/products/deposit', destination: '/rates', permanent: true },
 

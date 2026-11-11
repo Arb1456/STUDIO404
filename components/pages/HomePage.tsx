@@ -3,6 +3,8 @@ import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Hero from './sections/Hero';
+import HolidayHero from './sections/HolidayHero';
+import { isHolidaySeason } from '@/lib/holiday';
 import Availability from './sections/Availability';
 import InsideStudio from './sections/InsideStudio';
 import Features from './sections/Features';
@@ -87,7 +89,7 @@ const HomePage: React.FC = () => {
             {/* Main Scroll Container */}
             <div ref={mainRef} className="w-full h-full overflow-y-scroll snap-y snap-mandatory md:snap-none md:h-auto md:overflow-y-visible no-scrollbar relative z-10">
                 <SectionWrapper id="home">
-                    <Hero />
+                    {isHolidaySeason() ? <HolidayHero /> : <Hero />}
                 </SectionWrapper>
                 <SectionWrapper id="availability">
                     <Availability />

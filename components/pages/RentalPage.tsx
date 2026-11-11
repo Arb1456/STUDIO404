@@ -4,6 +4,8 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
+import { Holly, Snowflake, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
+import { isHolidaySeason, CHRISTMAS_SET } from '@/lib/holiday';
 import {
     Box,
     Lightbulb,
@@ -24,6 +26,7 @@ interface RentalPageProps {
 
 const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
     const [activeReview, setActiveReview] = useState(0);
+    const holiday = isHolidaySeason();
 
     const durationOptions = [
         { hours: 1, price: 70 },
@@ -103,8 +106,67 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             </Button>
                         </div>
                     </Reveal>
+
+                    {holiday && (
+                        <Reveal delay={0.5}>
+                            <a href="#christmas-set" className="mt-8 inline-flex items-center gap-2 text-sm text-charcoal/70 hover:text-charcoal no-underline">
+                                <Holly className="w-6 h-6" />
+                                <span className="border-b border-charcoal/30">Our Christmas set is up — run your own minis</span>
+                            </a>
+                        </Reveal>
+                    )}
                 </div>
             </section>
+
+            {/* S1b: Christmas set — seasonal, for photographers running their own minis */}
+            {holiday && (
+                <section id="christmas-set" className="scroll-mt-8 relative overflow-hidden w-full bg-evergreen text-cream">
+                    <EmblemScatter />
+                    <Snowfall count={18} />
+                    <div className="relative max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+                        <Reveal>
+                            <div className="relative aspect-[4/3] md:aspect-[4/5] overflow-hidden border border-cream/20">
+                                <img src={CHRISTMAS_SET.image} alt="The Studio 404 Christmas set" loading="lazy" className="w-full h-full object-cover" />
+                                {/* warm tint keeps the placeholder on-palette until real set photos exist */}
+                                <div className="absolute inset-0 bg-evergreen/25 mix-blend-multiply" />
+                            </div>
+                        </Reveal>
+                        <div className="text-center md:text-left">
+                            <Reveal>
+                                <span className="inline-flex flex-col md:flex-row items-center gap-2 text-xs tracking-[0.25em] uppercase text-gold mb-4">
+                                    <Snowflake className="w-5 h-5 md:w-4 md:h-4" /> For Photographers · Christmas 2026
+                                </span>
+                                <h2 className="font-serif text-4xl md:text-6xl leading-[1.05] mb-6">
+                                    Run your own <br /><span className="italic font-light">Christmas minis</span>
+                                </h2>
+                                <p className="text-cream/80 text-lg mb-8 max-w-md mx-auto md:mx-0">
+                                    {CHRISTMAS_SET.blurb} Book a full day and line up back-to-back minis for your own clients.
+                                </p>
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <ul className="border-t border-cream/20 mb-10 text-left max-w-md mx-auto md:mx-0">
+                                    {[
+                                        `Full Day — ${CHRISTMAS_SET.fullDay.hours} hours · $${CHRISTMAS_SET.fullDay.price}`,
+                                        'Christmas set + full lighting grid included',
+                                        'Enough time for a full day of back-to-back minis',
+                                        'Change room & free on-site parking for your clients',
+                                    ].map((line) => (
+                                        <li key={line} className="flex items-center gap-3 py-3 border-b border-cream/20 font-serif italic text-lg">
+                                            <Star size={12} className="text-gold fill-gold shrink-0" aria-hidden="true" /> {line}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button
+                                    onClick={() => onBook(CHRISTMAS_SET.fullDay.hours)}
+                                    className="w-full sm:w-auto bg-cream text-evergreen px-8 py-5 text-sm uppercase tracking-widest hover:bg-white transition-colors"
+                                >
+                                    Reserve a Full Day
+                                </button>
+                            </Reveal>
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* S2: Duration Cards */}
             <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-white/50">

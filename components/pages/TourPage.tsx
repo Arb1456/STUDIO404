@@ -6,6 +6,8 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cloudinaryUrl } from '@/lib/cloudinary';
+import { isHolidaySeason, CHRISTMAS_SET, HOLIDAY_ROUTES } from '@/lib/holiday';
+import { Holly, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import {
     TourContainer,
     TourSection,
@@ -27,6 +29,8 @@ const bgImage = (url: string, position: string = 'center') => ({
 // Section configuration - defines slides per section
 const SECTION_CONFIG: SectionConfig[] = [
     { id: 'intro', slides: 1 },
+    // Seasonal stop — only present while the holiday switch is on (must match the conditional render below)
+    ...(isHolidaySeason() ? [{ id: 'christmas-set', slides: 1 }] : []),
     { id: 'cyc-wall', slides: 3 },  // Updated: 3 slides (overview, specs, video showcase)
     { id: 'backdrops', slides: 3 },  // Updated: 3 slides (overview, colors, pulley system)
     { id: 'lighting', slides: 2 },
@@ -179,6 +183,40 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                     </Reveal>
                 </div>
             </TourSection>
+
+            {/* 1b. Christmas Set (seasonal, single slide) */}
+            {isHolidaySeason() && (
+                <TourSection id="christmas-set" singleSlide className="bg-evergreen text-cream">
+                    <div className="absolute inset-0" style={bgImage(CHRISTMAS_SET.image)} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-evergreen via-evergreen/80 to-evergreen/40" />
+                    <EmblemScatter />
+                    <Snowfall />
+                    <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
+                        <Reveal>
+                            <Holly className="w-12 h-12 mx-auto mb-4" />
+                            <p className="text-xs uppercase tracking-[0.3em] mb-6 text-gold">Now on set · Christmas 2026</p>
+                        </Reveal>
+                        <Reveal delay={0.2}>
+                            <h2 className="font-serif text-5xl md:text-7xl mb-8 leading-[0.95]">
+                                The Christmas <span className="italic font-light">Set</span>
+                            </h2>
+                        </Reveal>
+                        <Reveal delay={0.3}>
+                            <p className="font-light text-lg md:text-xl text-cream/80 mb-10 leading-relaxed">{CHRISTMAS_SET.blurb}</p>
+                        </Reveal>
+                        <Reveal delay={0.4}>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link href={HOLIDAY_ROUTES.minis} className="bg-cream text-evergreen px-8 py-4 text-xs uppercase tracking-widest no-underline hover:bg-white transition-colors">
+                                    Book a Holiday Mini
+                                </Link>
+                                <Link href="/rental#christmas-set" className="border border-cream/50 text-cream px-8 py-4 text-xs uppercase tracking-widest no-underline hover:bg-cream hover:text-evergreen transition-colors">
+                                    Rent It for Your Minis
+                                </Link>
+                            </div>
+                        </Reveal>
+                    </div>
+                </TourSection>
+            )}
 
             {/* 2. The Cyc Wall (3 slides) */}
             <TourSection id="cyc-wall">

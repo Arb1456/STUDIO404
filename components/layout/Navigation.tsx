@@ -6,6 +6,9 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone } from 'lucide-react';
 import { MENU_ITEMS } from '@/lib/constants';
+import { HOLIDAY_OFFERS, HOLIDAY_ROUTES } from '@/lib/holiday';
+import { Holly } from '@/components/ui/Christmas';
+import { openMiniCalendar } from '@/lib/holiday-tracking';
 
 interface NavigationProps {
     onBook: () => void;
@@ -142,12 +145,24 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                     </button>
 
                     {/* Center Book CTA */}
-                    <button
-                        onClick={onBook}
-                        className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
-                    >
-                        Reserve Your Session
-                    </button>
+                    {/* On the Holiday Minis landing page the center CTA becomes a sticky
+                        "book a mini" button that opens the GHL calendar directly
+                        (falls back to the waitlist section if every mini day is sold out). */}
+                    {pathname === HOLIDAY_ROUTES.minis ? (
+                        <button
+                            onClick={() => openMiniCalendar('bottom-bar')}
+                            className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
+                        >
+                            Book a Mini · ${HOLIDAY_OFFERS.mini.price}
+                        </button>
+                    ) : (
+                        <button
+                            onClick={onBook}
+                            className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
+                        >
+                            Reserve Your Session
+                        </button>
+                    )}
 
                     {/* Contact Action */}
                     <a
@@ -196,6 +211,8 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                                             }`}
                                     >
                                         {item.label}
+                                        {/* inline so it hugs the last word when the label wraps on mobile */}
+                                        {item.seasonal && <Holly className="inline-block align-middle w-9 h-9 md:w-11 md:h-11 ml-2 -mt-1" />}
                                     </Link>
                                 </motion.div>
                             ))}

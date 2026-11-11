@@ -7,10 +7,13 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
+import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE } from '@/lib/holiday';
 
 interface SessionType {
     id: string;
     title: string;
+    /** Optional grid-card label when it should differ from `title`. */
+    cardTitle?: string;
     price: number;
     description: string;
     image: string;
@@ -32,7 +35,26 @@ const getSessionImg = (folderName: string, index: number = 1) => {
 // ============================================
 // PHOTOSHOOT CALENDAR URLs
 // ============================================
+// Holiday sessions lead the grid while the season is active.
+// Explicit placeholder image so the grid's onError handler doesn't hide them
+// before real Christmas-set photos are uploaded. galleryCount 0 = no portfolio strip yet.
+const HOLIDAY_SESSIONS: SessionType[] = isHolidaySeason()
+    ? [HOLIDAY_OFFERS.mini, HOLIDAY_OFFERS.full].map((o) => ({
+        id: o.id,
+        title: o.title,
+        cardTitle: 'cardTitle' in o ? o.cardTitle : undefined,
+        price: o.price,
+        description: o.description,
+        image: HOLIDAY_HERO_IMAGE.card,
+        duration: o.durationLabel,
+        photoCount: o.photoCount,
+        galleryCount: 0,
+        calendarUrl: o.calendarUrl,
+    }))
+    : [];
+
 const SESSIONS: SessionType[] = [
+    ...HOLIDAY_SESSIONS,
     { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404portrait-session' },
     { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404family-session' },
     { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404couples-session' },
@@ -47,6 +69,11 @@ const SESSIONS: SessionType[] = [
 
 // Best-fit review per session type shown in the gallery testimonial card
 const SESSION_REVIEWS: Record<string, { text: string; author: string; role: string }> = {
+    'holiday-mini': {
+        text: "I called just days before Christmas and André had a cancellation we were able to fit into! The pictures are unreal — my family and I are so happy. It was quick and easy, he had lots of great ideas and even made my dad smile, which is hard. I would 100000% go here again and again!",
+        author: "Cassandra Bennett",
+        role: "Mini Christmas Session",
+    },
     portrait: {
         text: "I was never comfortable getting my picture taken — but Andre completely changed that. He captured exactly what I wanted from my portrait session. Super understanding, easy to work with, and the final photos blew me away. For anyone who's camera-shy, this is the place.",
         author: "Satisfied Client",
@@ -442,7 +469,7 @@ const PhotoshootPage: React.FC = () => {
 
                                                 <div className="absolute inset-0 p-4 md:p-8 flex flex-col justify-end">
                                                     <h3 className="text-cream font-serif text-xl md:text-4xl italic opacity-90 group-hover:translate-x-2 transition-transform duration-500">
-                                                        {session.title}
+                                                        {session.cardTitle ?? session.title}
                                                     </h3>
                                                     <p className="hidden md:block text-cream/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
                                                         View Catalog &rarr;
