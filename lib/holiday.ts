@@ -88,6 +88,7 @@ export interface MiniDay {
  * ends by close. Starting spotsLeft = slot count (docs/plans/2026-11-10-holiday-mini-slot-plan.md).
  */
 export const MINI_DAYS: MiniDay[] = [
+    { label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 5 },
     { label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 11 },
     { label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 11 },
     { label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 5 },
