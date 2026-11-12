@@ -41,7 +41,9 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 ### Needed before launch
 - [ ] Create both GHL calendars (`404holiday-mini-session`, `404holiday-session`). See the setup guide and `docs/plans/2026-11-10-holiday-mini-slot-plan.md` (slot interval 45 min).
 - [x] (Nov 10) $50 deposit, refundable up to 14 days before; surcharges from the booking form, invoiced with the balance
-- [x] (Nov 10) Real mini days in `MINI_DAYS`: 11 days, 104 slots (30 min + 15 min reset)
+- [x] (Nov 10) Real mini days in `MINI_DAYS`: 11 days, 104 slots (30 min + 15 min reset). Nov 12: added Nov 22 (2–6 pm), now 12 days, 109 slots
+- [x] (Nov 12) `/booking-confirmation` variants: default = rental, `?type=session`, `?type=holiday-mini`. **Update the GHL redirect URLs on the photo session calendars.**
+- [ ] Block mini time windows on the rental + photo session calendars (Full Holiday = normal photoshoot hours, any day)
 - [ ] Christmas set photos to replace the placeholders (`HOLIDAY_HERO_IMAGE`, `CHRISTMAS_SET.image`)
 - [ ] Confirm the set description ("tree, lights, cozy décor" was a guess)
 - [x] (Nov 10) Repointed the old Shopify redirect `/products/christmas-mini-session` → `/holiday-minis`
