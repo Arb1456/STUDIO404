@@ -9,11 +9,15 @@ import { HOLIDAY_OFFERS, MINI_POLICY } from '@/lib/holiday';
 /**
  * One confirmation page, three variants, picked by the GHL redirect URL:
  *   /booking-confirmation                    → studio rental (default, unchanged)
- *   /booking-confirmation?type=session       → photo sessions (incl. Full Holiday Session)
- *   /booking-confirmation?type=holiday-mini  → Holiday Mini
+ *   /booking-confirmation?type=session          → photo sessions
+ *   /booking-confirmation?type=holiday-session  → Full Holiday Session (session copy, its own deposit value)
+ *   /booking-confirmation?type=holiday-mini     → Holiday Mini
  * Unknown or missing ?type falls back to rental so existing rental calendars keep working.
  */
-type ConfirmationType = 'rental' | 'session' | 'holiday-mini';
+type ConfirmationType = 'rental' | 'session' | 'holiday-session' | 'holiday-mini';
+
+/** Deposit the GHL "Full Holiday Session" calendar charges at booking. Keep in sync with GHL → Payments. */
+const FULL_HOLIDAY_DEPOSIT = 75;
 
 interface Variant {
     heading: string;
@@ -25,6 +29,18 @@ interface Variant {
 }
 
 const miniBalance = HOLIDAY_OFFERS.mini.price - MINI_POLICY.deposit;
+
+const SESSION_VARIANT: Variant = {
+    heading: 'Your Session Is Booked!',
+    intro: "Thank you for booking a photoshoot with Studio 404. Your deposit is received, and you'll get a confirmation email and text shortly with your date, time and address.",
+    steps: [
+        'Check your email for your session details.',
+        'Plan your outfits: coordinated, not matching. Avoid large logos and neon.',
+        'Arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
+    ],
+    secondary: { href: '/tour', label: 'Tour the Studio', icon: MapPin },
+    ga: { value: 50.0, itemName: 'Photo Session Deposit' },
+};
 
 const VARIANTS: Record<ConfirmationType, Variant> = {
     rental: {
@@ -38,16 +54,10 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
         secondary: { href: '/photoshoot', label: 'Book Photoshoot', icon: Camera },
         ga: { value: 100.0, itemName: 'Studio Booking' },
     },
-    session: {
-        heading: 'Your Session Is Booked!',
-        intro: "Thank you for booking a photoshoot with Studio 404. Your deposit is received, and you'll get a confirmation email and text shortly with your date, time and address.",
-        steps: [
-            'Check your email for your session details.',
-            'Plan your outfits: coordinated, not matching. Avoid large logos and neon.',
-            'Arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
-        ],
-        secondary: { href: '/tour', label: 'Tour the Studio', icon: MapPin },
-        ga: { value: 50.0, itemName: 'Photo Session Deposit' },
+    session: SESSION_VARIANT,
+    'holiday-session': {
+        ...SESSION_VARIANT,
+        ga: { value: FULL_HOLIDAY_DEPOSIT, itemName: 'Full Holiday Session Deposit' },
     },
     'holiday-mini': {
         heading: 'Your Holiday Mini Is Booked!',
@@ -64,7 +74,7 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
 };
 
 function parseType(raw: string | null): ConfirmationType {
-    return raw === 'session' || raw === 'holiday-mini' ? raw : 'rental';
+    return raw === 'session' || raw === 'holiday-session' || raw === 'holiday-mini' ? raw : 'rental';
 }
 
 export default function BookingConfirmationContent() {
