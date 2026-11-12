@@ -44,22 +44,22 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
     const reviews = [
         {
             text: "I'd give 6 stars if I could. I'm a photographer and I was extremely happy with this studio, and the experience of working with the staff. The space is great, with lots of equipment and options at your disposal, and the price is amazing for what you're getting. Andre is absolutely the best studio owner I've ever worked with. Studio 404 did everything in their power to make sure I was comfortable and happy. I wouldn't even think of finding another studio the next time I'm working in Ottawa. Shoutout to Andre the homie.",
-            author: "Ramy Arida",
+            author: "A visiting professional photographer",
             role: "Professional Photography Rental"
         },
         {
             text: "We rented Studio 404 for a TV production and could not have been more pleased with our experience. Andre and Andy were extremely professional, responsive and accommodating from beginning to end. Their space is also super versatile and fit our needs beautifully. Thanks for the great experience ✌️",
-            author: "Cassandre M",
+            author: "A TV production crew",
             role: "TV Production"
         },
         {
             text: "Stop searching and book this studio now — it's the place you've been looking for! From start to finish, my experience was nothing short of amazing. The owners are beyond welcoming, super helpful, and truly care about making your shoot a success. The space is spotless, stylish, and has an incredible vibe that sets the perfect tone for creativity. And let's talk value — it's priced perfectly for what you get!",
-            author: "Medley Marmontel",
+            author: "A creative renting the studio",
             role: "Creative Studio Rental"
         },
         {
             text: "I had a great experience at this studio for my photoshoot. The space was clean, professional, and well set up. The owner was very welcoming and provided excellent service from start to finish. Everything went smoothly, and I felt comfortable the entire time. I would definitely recommend this studio to anyone looking for a reliable and professional place.",
-            author: "Nziza Kenny",
+            author: "A first-time studio client",
             role: "Studio Rental"
         },
     ];

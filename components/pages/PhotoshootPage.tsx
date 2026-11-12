@@ -71,8 +71,13 @@ const SESSIONS: SessionType[] = [
 const SESSION_REVIEWS: Record<string, { text: string; author: string; role: string }> = {
     'holiday-mini': {
         text: "I called just days before Christmas and André had a cancellation we were able to fit into! The pictures are unreal — my family and I are so happy. It was quick and easy, he had lots of great ideas and even made my dad smile, which is hard. I would 100000% go here again and again!",
-        author: "Cassandra Bennett",
+        author: "A family who booked days before Christmas",
         role: "Mini Christmas Session",
+    },
+    'holiday': {
+        text: "Andre and his team are phenomenal. They provided a great experience getting a photoshoot for me and my girlfriend in time for the holidays!",
+        author: "A couple shooting before the holidays",
+        role: "Holiday Couples Session",
     },
     portrait: {
         text: "I was never comfortable getting my picture taken — but Andre completely changed that. He captured exactly what I wanted from my portrait session. Super understanding, easy to work with, and the final photos blew me away. For anyone who's camera-shy, this is the place.",

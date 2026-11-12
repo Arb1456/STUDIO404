@@ -10,9 +10,16 @@ const nextConfig = {
     },
     async redirects() {
         return [
-            // === Holiday 2026: truck QR short link (302 — temporary campaign) ===
+            // === Holiday 2026: truck QR short links (302 — temporary campaign) ===
+            // Both codes live on the truck. Point the dynamic QR codes here, not at the pages,
+            // so destinations can change without reprinting.
             {
                 source: '/truck',
+                destination: '/christmas-truck?utm_source=truck&utm_medium=qr&utm_campaign=truck-initiative-2026',
+                permanent: false,
+            },
+            {
+                source: '/minis',
                 destination: '/holiday-minis?utm_source=truck&utm_medium=qr&utm_campaign=holiday-minis-2026',
                 permanent: false,
             },

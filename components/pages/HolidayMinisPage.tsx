@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { trackMiniIntent, scrollToMiniBooking } from '@/lib/holiday-tracking';
-import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown, Phone, Mail } from 'lucide-react';
+import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
+import { HolidayReviews, SetGallery, ChristmasContact } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
-import { cloudinaryUrl } from '@/lib/cloudinary';
 import { getArrivalMessage } from '@/lib/arrival';
 import {
     HOLIDAY_HERO_IMAGE,
@@ -16,36 +16,12 @@ import {
     MINI_DAYS,
     MINI_FAQ,
     MINI_POLICY,
-    STUDIO_CONTACT,
+    HOLIDAY_ROUTES,
     type MiniDay,
 } from '@/lib/holiday';
 
 // Tracking + CTA actions shared with the bottom nav bar — see lib/holiday-tracking.ts
 const scrollToBooking = scrollToMiniBooking;
-
-// ─── Examples (existing session photos until the Christmas set is shot) ───
-const EXAMPLES = {
-    families: [1, 2, 3].map((i) => cloudinaryUrl(`FAMILY-SESSION-0${i}`, { width: 700 })),
-    couples: [1, 2, 3].map((i) => cloudinaryUrl(`COUPLE-SESSION-0${i}`, { width: 700 })),
-};
-
-const REVIEWS = [
-    {
-        text: 'I called just days before Christmas and André had a cancellation we were able to fit into! The pictures are unreal — he had lots of great ideas and even made my dad smile, which is hard.',
-        author: 'Cassandra Bennett',
-        role: 'Mini Christmas Session',
-    },
-    {
-        text: 'The pictures are unreal — my whole family is so happy, we\'ve never had anything like it. Andre genuinely made everyone laugh and feel at ease.',
-        author: 'Happy Family',
-        role: 'Family Session',
-    },
-    {
-        text: 'Andre reached out before our session to get all the details and even researched reference photos. During the shoot he was calm, patient, and incredibly professional. The whole experience felt personal and thoughtful.',
-        author: 'Happy Couple',
-        role: 'Couples Session',
-    },
-];
 
 // ─── Sub-components ──────────────────────────────────────────────────────
 
@@ -80,7 +56,8 @@ const WaitlistForm: React.FC = () => {
                     name: data.get('name'),
                     email: data.get('email'),
                     subject: 'Holiday Minis Waitlist',
-                    message: 'Please add me to the Holiday Minis waitlist / notify me when new dates open.',
+                    // The visitor's preferred days/times lead the message so they're the first thing you read in GHL.
+                    message: `Preferred days / times: ${String(data.get('availability') || '').trim() || 'Any'}\n\nPlease add me to the Holiday Minis waitlist and let me know if a spot opens.`,
                     source: 'Holiday Minis Page — Waitlist',
                 }),
             });
@@ -95,74 +72,25 @@ const WaitlistForm: React.FC = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-            <label className="sr-only" htmlFor="wl-name">Name</label>
-            <input id="wl-name" name="name" required placeholder="Your name" className="flex-1 bg-transparent border-b border-charcoal/30 p-3 outline-none focus:border-charcoal" />
-            <label className="sr-only" htmlFor="wl-email">Email</label>
-            <input id="wl-email" name="email" type="email" required placeholder="Email" className="flex-1 bg-transparent border-b border-charcoal/30 p-3 outline-none focus:border-charcoal" />
-            <button disabled={state === 'sending'} className="px-6 py-3 border border-charcoal text-xs uppercase tracking-widest hover:bg-charcoal hover:text-cream transition-colors">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+                <label className="sr-only" htmlFor="wl-name">Name</label>
+                <input id="wl-name" name="name" required placeholder="Your name" className="flex-1 min-w-0 bg-transparent border-b border-charcoal/30 p-3 outline-none focus:border-charcoal" />
+                <label className="sr-only" htmlFor="wl-email">Email</label>
+                <input id="wl-email" name="email" type="email" required placeholder="Email" className="flex-1 min-w-0 bg-transparent border-b border-charcoal/30 p-3 outline-none focus:border-charcoal" />
+            </div>
+            <label className="sr-only" htmlFor="wl-availability">Days and times that work for you</label>
+            <textarea
+                id="wl-availability"
+                name="availability"
+                rows={2}
+                placeholder="Which days and times work for you? (e.g. any weekend afternoon, Dec 19 after 4 pm)"
+                className="bg-transparent border-b border-charcoal/30 p-3 outline-none focus:border-charcoal resize-none"
+            />
+            <button disabled={state === 'sending'} className="self-start px-6 py-3 border border-charcoal text-xs uppercase tracking-widest hover:bg-charcoal hover:text-cream transition-colors">
                 {state === 'sending' ? 'Sending…' : 'Join waitlist'}
             </button>
-            {state === 'error' && <p className="text-sm text-red-800 sm:self-center">Something went wrong — please call us.</p>}
-        </form>
-    );
-};
-
-const ChristmasInquiryForm: React.FC = () => {
-    const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setState('sending');
-        const data = new FormData(e.currentTarget);
-        const phone = data.get('phone');
-        try {
-            const res = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: data.get('name'),
-                    email: data.get('email'),
-                    subject: 'Christmas at Studio 404 — Inquiry',
-                    message: `${data.get('message')}${phone ? `\n\nPhone: ${phone}` : ''}`,
-                    source: 'Holiday Minis Page — Christmas at Studio 404',
-                }),
-            });
-            setState(res.ok ? 'done' : 'error');
-        } catch {
-            setState('error');
-        }
-    };
-
-    if (state === 'done') {
-        return <p className="font-serif text-2xl">Thanks — we&apos;ll be in touch shortly.</p>;
-    }
-
-    const field = 'w-full bg-transparent border-b border-charcoal/25 p-3 outline-none focus:border-charcoal';
-    return (
-        <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                    <label htmlFor="ci-name" className="text-xs uppercase tracking-widest text-charcoal/50">Name</label>
-                    <input id="ci-name" name="name" required className={field} />
-                </div>
-                <div>
-                    <label htmlFor="ci-phone" className="text-xs uppercase tracking-widest text-charcoal/50">Phone</label>
-                    <input id="ci-phone" name="phone" type="tel" className={field} />
-                </div>
-            </div>
-            <div>
-                <label htmlFor="ci-email" className="text-xs uppercase tracking-widest text-charcoal/50">Email</label>
-                <input id="ci-email" name="email" type="email" required className={field} />
-            </div>
-            <div>
-                <label htmlFor="ci-message" className="text-xs uppercase tracking-widest text-charcoal/50">How can we help?</label>
-                <textarea id="ci-message" name="message" required rows={4} className={`${field} resize-none`} />
-            </div>
-            <button disabled={state === 'sending'} className="px-8 py-4 bg-evergreen text-cream text-xs uppercase tracking-widest hover:bg-evergreen/90 transition-colors">
-                {state === 'sending' ? 'Sending…' : 'Send Inquiry'}
-            </button>
-            {state === 'error' && <p className="text-sm text-red-800">Something went wrong — please call or email us.</p>}
+            {state === 'error' && <p className="text-sm text-red-800">Something went wrong. Please call us.</p>}
         </form>
     );
 };
@@ -172,8 +100,7 @@ const ChristmasInquiryForm: React.FC = () => {
 const HolidayMinisPage: React.FC = () => {
     const mini = HOLIDAY_OFFERS.mini;
     const full = HOLIDAY_OFFERS.full;
-    const [audience, setAudience] = useState<'families' | 'couples'>('families');
-    const [arrival, setArrival] = useState<string | null>(null);
+        const [arrival, setArrival] = useState<string | null>(null);
 
     // Read utm_source client-side (avoids a Suspense boundary for useSearchParams on a static page)
     useEffect(() => {
@@ -265,67 +192,14 @@ const HolidayMinisPage: React.FC = () => {
                 </ul>
             </section>
 
-            {/* ── 3. Families / Couples examples ──────────────────── */}
-            <section className="px-6 pb-20 md:pb-28 max-w-6xl mx-auto">
-                <OrnamentDivider className="mb-6" />
-                <Reveal>
-                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-8">Made for the people you love</h2>
-                </Reveal>
-                <div role="tablist" aria-label="Example sessions" className="flex justify-center gap-8 mb-10">
-                    {(['families', 'couples'] as const).map((key) => (
-                        <button
-                            key={key}
-                            role="tab"
-                            aria-selected={audience === key}
-                            onClick={() => setAudience(key)}
-                            className={`font-serif italic text-2xl pb-1 border-b transition-colors capitalize ${audience === key ? 'border-charcoal text-charcoal' : 'border-transparent text-charcoal/40 hover:text-charcoal/70'}`}
-                        >
-                            {key}
-                        </button>
-                    ))}
-                </div>
-                <div className="grid grid-cols-3 gap-1 md:gap-2">
-                    {EXAMPLES[audience].map((src, i) => (
-                        <div key={src} className="aspect-[3/4] overflow-hidden bg-charcoal/5">
-                            <img
-                                src={src}
-                                alt={`${audience === 'families' ? 'Family' : 'Couple'} session example ${i + 1}`}
-                                loading="lazy"
-                                className="w-full h-full object-cover"
-                                onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </section>
+            {/* ── 3. The set ──────────────────────────────────────── */}
+            <SetGallery
+                heading="Made for the people you love"
+                caption="Four snow-white trees, warm lights, a cozy couch and fluffy carpet — families, couples and the dog all fit."
+            />
 
             {/* ── 4. Reviews ──────────────────────────────────────── */}
-            <section className="relative overflow-hidden bg-charcoal text-cream px-6 py-20 md:py-28">
-                <Snowfall count={16} />
-                <Snowflake className="absolute -top-6 -left-6 w-28 h-28 text-gold opacity-10 pointer-events-none" />
-                <Snowflake className="absolute -bottom-8 -right-8 w-36 h-36 text-gold opacity-10 pointer-events-none" />
-                <OrnamentDivider tone="light" className="relative mb-12" />
-                {/* Mobile: horizontal swipe carousel (scroll-snap). md+: side-by-side grid. */}
-                <div
-                    className="relative -mx-6 px-6 scroll-px-6 flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar md:mx-auto md:px-0 md:max-w-5xl md:grid md:grid-cols-3 md:gap-10 md:overflow-visible"
-                    aria-label="Client reviews"
-                >
-                    {REVIEWS.map((r) => (
-                        <div key={r.author} className="shrink-0 w-[85%] sm:w-[60%] md:w-auto snap-start">
-                            <figure className="h-full border border-cream/15 md:border-0 p-6 md:p-0">
-                                <div className="flex gap-0.5 mb-5" aria-label="5 out of 5 stars">
-                                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} className="text-gold fill-gold" />)}
-                                </div>
-                                <blockquote className="font-serif italic text-lg md:text-xl leading-relaxed mb-5">&ldquo;{r.text}&rdquo;</blockquote>
-                                <figcaption className="text-xs uppercase tracking-widest text-cream/60">— {r.author} · {r.role}</figcaption>
-                            </figure>
-                        </div>
-                    ))}
-                </div>
-                <p className="relative md:hidden text-center text-[10px] uppercase tracking-[0.25em] text-cream/40 mt-6" aria-hidden="true">
-                    Swipe for more →
-                </p>
-            </section>
+            <HolidayReviews />
 
             {/* ── 5. Dates + booking ──────────────────────────────── */}
             <section id="book" className="scroll-mt-8 px-6 py-20 md:py-28 max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.6fr] gap-12">
@@ -395,38 +269,14 @@ const HolidayMinisPage: React.FC = () => {
                             {full.durationLabel} on the Christmas set · {full.photoCount} edited photos · from ${full.price}. Any available day.
                         </p>
                     </div>
-                    <Link href="/photoshoot" className="shrink-0 inline-flex items-center justify-center border border-cream/50 px-8 py-4 text-xs uppercase tracking-widest no-underline text-cream hover:bg-cream hover:text-evergreen transition-colors">
-                        See Holiday Sessions
+                    <Link href={HOLIDAY_ROUTES.fullSession} className="shrink-0 inline-flex items-center justify-center border border-cream/50 px-8 py-4 text-xs uppercase tracking-widest no-underline text-cream hover:bg-cream hover:text-evergreen transition-colors">
+                        See the Full Session
                     </Link>
                 </div>
             </section>
 
             {/* ── 7. Christmas at Studio 404 — call / email / inquiry ── */}
-            <section id="christmas-at-studio-404" className="scroll-mt-8 px-6 py-20 md:py-28 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 border-b border-charcoal/10">
-                <Reveal>
-                    <div>
-                        <span className="block text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">Questions or something custom?</span>
-                        <h2 className="font-serif text-4xl md:text-5xl mb-5">
-                            Christmas at <span className="italic">Studio 404</span>
-                            <Holly className="inline-block w-10 h-10 md:w-12 md:h-12 ml-2 -mt-2 align-middle" />
-                        </h2>
-                        <p className="text-charcoal/70 mb-8 max-w-md">
-                            Big family, special request, or not sure which session fits? Call, email, or send us a note and we&apos;ll help you plan it.
-                        </p>
-                        <div className="flex flex-col gap-4">
-                            <a href={STUDIO_CONTACT.phoneHref} className="inline-flex items-center gap-3 font-serif text-2xl no-underline text-charcoal hover:text-evergreen">
-                                <Phone size={20} aria-hidden="true" /> {STUDIO_CONTACT.phoneDisplay}
-                            </a>
-                            <a href={`mailto:${STUDIO_CONTACT.email}?subject=Christmas%20at%20Studio%20404`} className="inline-flex items-center gap-3 font-serif text-2xl no-underline text-charcoal hover:text-evergreen">
-                                <Mail size={20} aria-hidden="true" /> {STUDIO_CONTACT.email}
-                            </a>
-                        </div>
-                    </div>
-                </Reveal>
-                <Reveal delay={0.1}>
-                    <ChristmasInquiryForm />
-                </Reveal>
-            </section>
+            <ChristmasContact source="Holiday Minis Page — Christmas at Studio 404" />
 
             {/* ── 8. FAQ ──────────────────────────────────────────── */}
             <section className="px-6 py-20 md:py-28">

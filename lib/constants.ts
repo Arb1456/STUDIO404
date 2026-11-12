@@ -3,6 +3,7 @@ import { MenuItem, FAQItem, FeatureItem } from '@/types';
 export const MENU_ITEMS: MenuItem[] = [
     { label: 'Home', href: '/' },
     { label: 'Holiday Minis', href: '/holiday-minis', seasonal: true },
+    { label: 'Christmas Photoshoots', href: '/holiday-session', seasonal: true },
     { label: 'Studio Rentals', href: '/rental' },
     { label: 'Photo Sessions', href: '/photoshoot' },
     { label: 'Studio Tour', href: '/tour' },

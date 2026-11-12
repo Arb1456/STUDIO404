@@ -1,3 +1,5 @@
+import { cloudinaryUrl } from '@/lib/cloudinary';
+
 /**
  * Holiday 2026 season config — single source of truth.
  *
@@ -18,13 +20,29 @@ export function isHolidaySeason(): boolean {
     return HOLIDAY_SEASON_ENABLED;
 }
 
-// Placeholder imagery until the Christmas set is photographed.
-// Swap these two URLs for the real set photos when they exist.
-export const HOLIDAY_HERO_IMAGE = {
-    desktop: 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_1920,q_auto,f_auto/v1768672405/V1_vayy91.jpg',
-    mobile: 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_828,q_auto,f_auto/v1768672533/V1-2_m8ltsl.jpg',
-    card: 'https://res.cloudinary.com/du5ixrlhz/image/upload/w_800,h_800,c_fill,q_auto,f_auto/v1768672405/V1_vayy91.jpg',
+// ─── Christmas set imagery ─────────────────────────────────────────────
+// Last year's set (Christmas 2025) until the 2026 set is photographed.
+// To swap: upload the new photos to Cloudinary and change the public IDs below —
+// every holiday page (hero, minis, full session, rental, tour) reads from here.
+const SET_PHOTOS = {
+    hero: 'HOLIDAY-SET-K1',
+    couple: 'HOLIDAY-SET-KHEY',
+    couplePortrait: 'HOLIDAY-SET-KT1',
+    family: 'HOLIDAY-SET-CASSI',
 };
+
+export const HOLIDAY_HERO_IMAGE = {
+    desktop: cloudinaryUrl(SET_PHOTOS.hero, { width: 1920 }),
+    mobile: cloudinaryUrl(SET_PHOTOS.hero, { width: 828, height: 1200, crop: 'fill', gravity: 'auto' }),
+    card: cloudinaryUrl(SET_PHOTOS.hero, { width: 800, height: 800, crop: 'fill', gravity: 'auto' }),
+};
+
+/** Set gallery shown on the minis + full-session pages (alt text describes the photo). */
+export const HOLIDAY_SET_GALLERY = [
+    { src: cloudinaryUrl(SET_PHOTOS.family, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Family of five on the cream couch in front of white Christmas trees' },
+    { src: cloudinaryUrl(SET_PHOTOS.couplePortrait, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Couple sharing a kiss on the Christmas set, one wearing a Santa hat' },
+    { src: cloudinaryUrl(SET_PHOTOS.couple, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Couple in matching red plaid pyjamas on the Christmas set' },
+];
 
 // Offers — pricing/packages to be fine-tuned later.
 // TODO: replace calendar URLs with the real GHL calendars once created.
@@ -48,7 +66,8 @@ export const HOLIDAY_OFFERS = {
         price: 250,
         durationLabel: '1.5 Hours',
         photoCount: 8,
-        description: 'A full holiday photoshoot on our Christmas set with time for outfit changes and more looks.',
+        outfitLabel: '2 Outfits',
+        description: 'A full holiday photoshoot on our Christmas set with 2 outfits and time for more looks.',
         calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-session',
     },
 } as const;
@@ -133,20 +152,69 @@ export const MINI_FAQ = [
     },
     {
         question: 'Want more time or more photos?',
-        answer: 'Book a Full Holiday Session instead: 1.5 hours on the set with 8 edited photos, starting at $250.',
+        answer: 'Book a Full Holiday Session instead: 1.5 hours on the set with 2 outfits, 8 edited photos, and any available day, starting at $250.',
     },
 ];
 
+// ─── Full Holiday Session landing page ───────────────────────────────────
+
+export const FULL_SESSION_FAQ = [
+    {
+        question: 'How is this different from a Holiday Mini?',
+        answer: 'Minis are 30 minutes, 1 outfit and 4 edited photos, on set mini days only. The Full Holiday Session gives you 1.5 hours on the set, 2 outfits and more looks, and 8 edited photos — on any available day.',
+    },
+    {
+        question: 'Which days can we book?',
+        answer: 'Any open time in the calendar. Mini-session hours are reserved for minis, so if a time you want isn’t showing, call or email us and we’ll find something that works.',
+    },
+    {
+        question: 'Can we bring the whole family — and the dog?',
+        answer: 'Yes. Kids, grandparents and potty-trained pets are all welcome. Let us know your group size and any pets when you book so we can plan poses and set-up.',
+    },
+    {
+        question: 'What should we wear?',
+        answer: 'Coordinated, not matching. Pick 2–3 colours that work with a warm Christmas set — creams, deep greens, burgundy, plaid and knits all photograph beautifully. With 2 outfits you can bring a cozy look and a dressier one.',
+    },
+    {
+        question: 'Where are you and is there parking?',
+        answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Free parking is available on site and in the plaza lot.',
+    },
+];
+
+// ─── The Christmas Truck Initiative ─────────────────────────────────────
+
+export const TRUCK_INITIATIVE = {
+    /** Drop-off spots. Stittsville address is shared by email, so it isn't public. */
+    dropOffs: [
+        { area: 'St. Laurent', detail: 'Studio 404, 2285 St. Laurent Blvd, Unit B8b' },
+        { area: 'Stittsville', detail: 'Email us for the drop-off address' },
+    ],
+    /** When the outreach runs. */
+    outreachLabel: 'December 2026',
+    instagramHandle: 'studio404inc',
+    instagramUrl: 'https://instagram.com/studio404inc',
+    /** Swap for a real photo of the decorated truck once one is shot (Cloudinary URL). null = emblem-only hero. */
+    image: null as string | null,
+    // Truck page copy rule: no em dashes, headings in Title Case.
+    story: [
+        { title: 'One Ornament', text: 'It started with a single Christmas ornament hung on the truck’s antenna, just for fun.' },
+        { title: 'Then A Few More', text: 'It kept being fun. A few more decorations, a trend we couldn’t resist, and a little extra holiday marketing for our Christmas sessions.' },
+        { title: 'People Noticed', text: 'Eventually the truck was decorated so much that people were waving, honking and taking pictures everywhere we drove.' },
+        { title: 'So We Made It Count', text: 'With that much attention, we realized the truck could make a real difference. This season it’s collecting warm clothing for people experiencing homelessness.' },
+    ],
+    accepted: ['Jackets & Coats', 'Blankets', 'Boots', 'Gloves & Mittens', 'Toques & Scarves', 'Warm Socks', 'Sweaters & Hoodies', 'Anything That Keeps Someone Warm'],
+};
+
 // ─── Christmas set (rental + tour) ──────────────────────────────────────
 export const CHRISTMAS_SET = {
-    /** Placeholder until the set is photographed — swap for the real set photo. */
     image: HOLIDAY_HERO_IMAGE.desktop,
-    blurb: 'A fully styled Christmas set — tree, lights, and cozy holiday décor — ready to shoot the moment you walk in.',
+    blurb: 'A fully styled Christmas set — four snow-white trees glowing with warm lights, a cozy cream couch on fluffy carpet, wrapped presents and holiday décor — ready to shoot the moment you walk in.',
     /** Full-day rental pitch for photographers running their own minis. */
     fullDay: { hours: 8, price: 400 },
 };
 
 export const HOLIDAY_ROUTES = {
     minis: '/holiday-minis',
+    fullSession: '/holiday-session',
     christmasTruck: '/christmas-truck',
 } as const;

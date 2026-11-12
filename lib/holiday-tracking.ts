@@ -3,18 +3,28 @@ import { HOLIDAY_OFFERS, MINI_DAYS } from '@/lib/holiday';
 
 type FbqWindow = Window & { fbq?: (...args: unknown[]) => void };
 
-/** Fires GA4 begin_checkout + Meta InitiateCheckout for a Holiday Mini booking intent. */
-export function trackMiniIntent(cta: string) {
-    const { price } = HOLIDAY_OFFERS.mini;
+/** Fires GA4 begin_checkout + Meta InitiateCheckout for a holiday booking intent. */
+function trackHolidayIntent(offer: 'mini' | 'full', cta: string) {
+    const name = offer === 'mini' ? 'Holiday Mini Session' : 'Full Holiday Session';
+    const { price } = HOLIDAY_OFFERS[offer];
     sendGAEvent('event', 'begin_checkout', {
-        items: [{ item_name: 'Holiday Mini Session', price }],
+        items: [{ item_name: name, price }],
         cta,
     });
     (window as FbqWindow).fbq?.('track', 'InitiateCheckout', {
-        content_name: 'Holiday Mini Session',
+        content_name: name,
         value: price,
         currency: 'CAD',
     });
+}
+
+export const trackMiniIntent = (cta: string) => trackHolidayIntent('mini', cta);
+export const trackFullSessionIntent = (cta: string) => trackHolidayIntent('full', cta);
+
+/** Smooth-scroll to the booking section on /holiday-session. */
+export function scrollToFullSessionBooking(cta: string) {
+    trackFullSessionIntent(cta);
+    document.getElementById('book')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 export const miniDaysSoldOut = () => MINI_DAYS.every((d) => d.spotsLeft === 0);

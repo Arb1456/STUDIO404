@@ -8,7 +8,7 @@ import { Menu, X, Phone } from 'lucide-react';
 import { MENU_ITEMS } from '@/lib/constants';
 import { HOLIDAY_OFFERS, HOLIDAY_ROUTES } from '@/lib/holiday';
 import { Holly } from '@/components/ui/Christmas';
-import { openMiniCalendar } from '@/lib/holiday-tracking';
+import { openMiniCalendar, scrollToFullSessionBooking } from '@/lib/holiday-tracking';
 
 interface NavigationProps {
     onBook: () => void;
@@ -154,6 +154,20 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                             className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
                         >
                             Book a Mini · ${HOLIDAY_OFFERS.mini.price}
+                        </button>
+                    ) : pathname === HOLIDAY_ROUTES.fullSession ? (
+                        <button
+                            onClick={() => scrollToFullSessionBooking('bottom-bar')}
+                            className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
+                        >
+                            Book · from ${HOLIDAY_OFFERS.full.price}
+                        </button>
+                    ) : pathname === HOLIDAY_ROUTES.christmasTruck ? (
+                        <button
+                            onClick={() => document.getElementById('help')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                            className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
+                        >
+                            How To Help
                         </button>
                     ) : (
                         <button
