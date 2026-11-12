@@ -1,6 +1,11 @@
 # Website Forms → GHL: Hook-Up and Notification Plan
 
-**Priority: HIGH.** Not started. Do this before (or right after) the holiday pages go live.
+**Status (2026-11-12): DONE and verified.** All 7 forms go through `/api/contact` to the published GHL workflow **"Contact Form"** (`2c22fc33-d65c-4aa0-aa3d-40852640f722`):
+Inbound Webhook → Create Contact → Add Tag `from contact form` → Add Note ("Email info": name, email, subject, message, page) → Email to all users (GHL default sender; subject `Website form: {subject} from {name}`; includes Page) → **SMS Alert to Andre** (particular user) → End.
+Two live tests on 2026-11-12 ran every step successfully. Test contact: "Website Form Test" (andre+formtest@thestudio404.ca), safe to delete.
+Fixed: the notification email used to send *from* the visitor's address (`{{contact.email}}`), which fails SPF/DMARC and lands in spam. It now uses GHL's default sender.
+
+Remaining optional items: per-source tags (step 2) and separate `phone`/`availability` fields (step 4). The original plan follows for reference.
 **Goal:** every form on the site lands in GHL as a contact, is tagged by where it came from, and André gets notified within a minute.
 
 ## How forms work today
