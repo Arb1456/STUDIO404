@@ -39,6 +39,11 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 ## Still Open
 
 ### Needed before launch
+- [ ] **(HIGH) Hook up all 7 site forms to GHL with notifications.** Plan: `docs/plans/2026-11-12-website-forms-ghl-plan.md`
+- [ ] GHL Full Holiday Session calendar: 30 min → 1.5 h (re-send slotDuration + slotInterval)
+- [ ] Google Business Profile phone (250) 407-3530 → 343-314-4140
+- [ ] Point the dynamic truck QR codes at `thestudio404.ca/truck` (initiative page) and `thestudio404.ca/minis` (Holiday Minis)
+- [ ] Swap last year's set photos for the 2026 set: change the IDs in `SET_PHOTOS`, `lib/holiday.ts`
 - [ ] Create both GHL calendars (`404holiday-mini-session`, `404holiday-session`). See the setup guide and `docs/plans/2026-11-10-holiday-mini-slot-plan.md` (slot interval 45 min).
 - [x] (Nov 10) $50 deposit, refundable up to 14 days before; surcharges from the booking form, invoiced with the balance
 - [x] (Nov 10) Real mini days in `MINI_DAYS`: 11 days, 104 slots (30 min + 15 min reset). Nov 12: added Nov 22 (2–6 pm), now 12 days, 109 slots
