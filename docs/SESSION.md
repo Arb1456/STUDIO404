@@ -39,6 +39,7 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 ## Still Open
 
 ### Needed before launch
+- [x] (Nov 12) GHL alerts to André by SMS + email: new bookings (all 24 calendars, including Holiday Mini, which had none), 24h and 2h session reminders, cancellations, GHL form submissions, and paid invoices (SMS). Website forms: SMS + email. **Next real booking = first live test of the booking alert.**
 - [x] (Nov 12) All 7 site forms → GHL "Contact Form" workflow: contact + note + email to all users + SMS to André. Verified live. See `docs/plans/2026-11-12-website-forms-ghl-plan.md`
 - [x] (Nov 12) GHL Full Holiday Session calendar is 1.5 h (90 min, 15-min interval), verified via API
 - [ ] **NOTE:** Google Business Profile phone (250) 407-3530 → 343-314-4140 (the GHL number), for consistent local SEO
@@ -57,15 +58,21 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 - [ ] Merge to `main`, deploy, test both forms live against the GHL webhook
 - [ ] Verify the Meta Pixel fires on the live site; tag Meta ad links with `utm_source=meta`
 - [ ] Truck QR code → `thestudio404.ca/truck`
-- [ ] GHL email spam issue (SMTP credential error, stalled warmup), carried over
+- [~] GHL email spam issue: (Nov 12) the API test email reached the Gmail **inbox** (Updates tab) with SPF + DKIM passing via `lc.thestudio404.ca` / Mailgun. Still to check: the copy sent to andre@thestudio404.ca, and one Outlook/Hotmail address.
 
 ### Christmas marketing (added Nov 12, next up)
 
 Claude drafts and sets everything up. **Andre approves every send, post and dollar of ad spend before it goes out.**
 
 **Email campaigns** (GHL: 658 contacts, 0 campaigns so far)
-- [ ] **Blocker first: fix the GHL email spam issue** (SMTP credential error, warmup stuck at Stage 1). A blast to 658 contacts on a cold domain will mostly land in spam and hurt the domain further. Send a test to Gmail/Outlook; if it's still spam, open a GHL support ticket.
-- [ ] **CASL check**: only email contacts with consent (past clients and enquiries within 2 years, or opted in). Every email needs an unsubscribe link and the business address. Build a smart list or tag for eligible contacts.
+- [x] (Nov 12) Deliverability test: Gmail inbox, SPF/DKIM pass. Volume is still low (Mailgun "low volume" shared pool), so keep sends small; the eligible list is small anyway.
+- [ ] **Audience = past photo-session clients only** (family, couple, portrait, general shoots). No rental-only clients.
+  - (Nov 12, recount) Anyone who booked or was invoiced for a photo shoot in GHL (Jan 2026 onward, any status): **30 emailable**. 23 family/couple/portrait/general, 4 business-only (headshot/product/branding), 3 only cancelled/invalid bookings. GHL holds just ~25 photo-shoot bookings in total; the business there is mostly rentals.
+  - **247 contacts tagged `shopify`** are pre-GHL customers, and GHL doesn't record what they bought. Export Shopify orders (products like `christmas-mini-session`, family/portrait sessions) to find which were photo-session clients, then tag them.
+  - Tag the final list (e.g. `xmas26-past-client`) for the campaign. CASL: past paying clients within 2 years count as implied consent; every email needs an unsubscribe link and the address (GHL adds unsubscribe).
+- [x] (Nov 12) **Email 1, priority minis** → 22 past photo clients, tag `xmas26-priority-mini`. GHL template `6af64df670957623488d47b0`. Subject: "You're first: Christmas Minis at Studio 404". Excluded: Wassim, Anu Rai, Ajmer, Maad, Isha, Salwa, Justin Lafrance, Jaye Recoskie.
+- [x] (Nov 12) **Email 2, "Christmas is live"** → 181 past rental clients (minus the 2 already on Email 1), tag `xmas26-general`. GHL template `6af64df86019801c7f525484`. CTAs: Book a Mini / Book a Session (`/holiday-session`) / Rent the Studio (`/rental`).
+- [ ] Andre approves both previews (sent to Gmail, landed in **Promotions**), then Claude schedules both as GHL bulk email campaigns (Chrome). Send Email 1 a day or two before Email 2 so priority is real.
 - [ ] Draft the email sequence: (1) Holiday Minis announcement, (2) "spots filling" with real counts from `MINI_DAYS`, (3) last call before Dec 21. Optional: a Full Holiday Session and gift-card angle.
 - [ ] Build the templates in GHL (Email Builder, API) and schedule the campaign (Marketing → Emails, in Chrome) after approval. Link to `/holiday-minis` with `utm_source=email`.
 
