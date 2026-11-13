@@ -4,7 +4,7 @@
  * Content lives in lib/holiday.ts; these components only lay it out.
  */
 import React, { useState } from 'react';
-import { Star, Phone, Mail } from 'lucide-react';
+import { Star, Phone, Mail, ChevronDown, ExternalLink } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HOLIDAY_SET_GALLERY, STUDIO_CONTACT } from '@/lib/holiday';
@@ -183,3 +183,54 @@ export const ChristmasContact: React.FC<{ source: string }> = ({ source }) => (
         </Reveal>
     </section>
 );
+
+// ─── View Availability dropdown ─────────────────────────────────────────
+
+/**
+ * "View Availability" button that expands the GHL booking calendar in place, so
+ * visitors can book right after reading what's included. The iframe only mounts
+ * once opened, so visitors who never tap it don't load the GHL widget twice.
+ */
+export const AvailabilityDropdown: React.FC<{
+    calendarUrl: string;
+    title: string;
+    /** Fired once when the calendar is opened (booking-intent tracking). */
+    onOpen: () => void;
+}> = ({ calendarUrl, title, onOpen }) => {
+    const [open, setOpen] = useState(false);
+    const toggle = () => {
+        if (!open) onOpen();
+        setOpen(!open);
+    };
+    return (
+        <div className="mt-10 max-w-3xl mx-auto">
+            <div className="text-center">
+                <button
+                    onClick={toggle}
+                    aria-expanded={open}
+                    aria-controls="availability-calendar"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
+                >
+                    {open ? 'Hide Availability' : 'View Availability'}
+                    <ChevronDown size={16} className={`transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+                </button>
+            </div>
+            {open && (
+                <div id="availability-calendar" className="mt-6">
+                    <div className="bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
+                        {/* Plain iframe, no GHL form_embed.js: see HolidayMinisPage for why. */}
+                        <iframe src={calendarUrl} title={title} className="w-full h-[760px] border-0" />
+                    </div>
+                    <a
+                        href={calendarUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-2 text-sm text-charcoal/60 underline underline-offset-4 hover:text-charcoal"
+                    >
+                        Calendar not loading? Open it in a new tab <ExternalLink size={14} />
+                    </a>
+                </div>
+            )}
+        </div>
+    );
+};

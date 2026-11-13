@@ -84,7 +84,8 @@ Claude drafts and sets everything up. **Andre approves every send, post and doll
 - [ ] Optional: Google Business Profile post and offer
 
 **Social posts** (GHL Social Planner connected: Facebook page, Instagram `studio404inc`, Google Business Profile)
-- [ ] **Check the connection expiry dates regularly** (GHL → Marketing → Social Planner → accounts, or ask Claude to check via API) and **reconnect before they lapse.** Google shows an expiry of Nov 12 (now); Facebook expires **Dec 15** and Instagram **Dec 16**, right in the middle of the last mini week. Posts scheduled after those dates will fail unless the accounts are reconnected.
+- [ ] **SUNDAY NOV 15: plan + schedule all Instagram and Facebook posts for the minis page** (Social Planner). Andre approves the drafts first.
+- [ ] **Check the connection expiry dates regularly** (GHL → Marketing → Social Planner → accounts, or ask Claude to check via API) and **reconnect before they lapse.** (Nov 12) Google Business Profile: connected, no expiry (auto-renews). Facebook expires **Dec 15** and Instagram **Dec 16**, right in the middle of the last mini week. Posts scheduled after those dates will fail unless the accounts are reconnected.
 - [ ] Draft a Christmas content calendar (Nov 16 – Dec 21): set reveal, mini-day announcements, behind-the-scenes, client results, Christmas truck, "last spots", final-week posts
 - [ ] Andre approves the drafts and photos. Claude schedules them via the Social Planner API and checks they're queued.
 

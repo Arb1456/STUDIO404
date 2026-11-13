@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { trackMiniIntent, scrollToMiniBooking } from '@/lib/holiday-tracking';
-import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown } from 'lucide-react';
+import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
-import { HolidayReviews, SetGallery, ChristmasContact } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, AvailabilityDropdown } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
@@ -25,18 +25,67 @@ const scrollToBooking = scrollToMiniBooking;
 
 // ─── Sub-components ──────────────────────────────────────────────────────
 
-const DayChip: React.FC<{ day: MiniDay }> = ({ day }) => {
-    const soldOut = day.spotsLeft === 0;
-    const low = !soldOut && day.spotsLeft <= 3;
+/** Live open times per ISO date from /api/holiday-availability; null until loaded (or if it fails). */
+type LiveSlots = Record<string, string[]> | null;
+
+/** Today's date in Toronto as YYYY-MM-DD, so finished mini days drop off the list. */
+const torontoToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
+
+/** Scroll to the main booking calendar in section 5. */
+const scrollToCalendar = () =>
+    document.getElementById('mini-calendar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }> = ({ day, times, spots }) => {
+    const [open, setOpen] = useState(false);
+    const soldOut = spots === 0;
+    const low = !soldOut && spots <= 3;
     return (
-        <li className={`flex items-center justify-between px-4 py-3 border-b border-charcoal/15 ${soldOut ? 'opacity-50' : ''}`}>
-            <span className={soldOut ? 'line-through' : ''}>
-                <span className="font-serif text-lg">{day.label}</span>
-                <span className="ml-2 text-sm text-charcoal/50">{day.hours}</span>
-            </span>
-            <span className={`text-xs uppercase tracking-widest ${low ? 'text-red-800 font-medium' : 'text-charcoal/60'}`}>
-                {soldOut ? 'Sold out' : `${day.spotsLeft} spot${day.spotsLeft === 1 ? '' : 's'} left`}
-            </span>
+        <li className="border-b border-charcoal/15">
+            <button
+                type="button"
+                onClick={() => setOpen(!open)}
+                aria-expanded={open}
+                className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-white/60 transition-colors ${soldOut ? 'opacity-50' : ''}`}
+            >
+                <span className={soldOut ? 'line-through' : ''}>
+                    <span className="font-serif text-lg">{day.label}</span>
+                    <span className="ml-2 text-sm text-charcoal/50">{day.hours}</span>
+                </span>
+                <span className="flex items-center gap-2 shrink-0">
+                    <span className={`text-xs uppercase tracking-widest ${low ? 'text-red-800 font-medium' : 'text-charcoal/60'}`}>
+                        {soldOut ? 'Sold out' : `${spots} spot${spots === 1 ? '' : 's'} left`}
+                    </span>
+                    <ChevronDown size={14} className={`text-charcoal/40 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+                </span>
+            </button>
+            {open && (
+                <div className="px-4 pb-4">
+                    {soldOut ? (
+                        <p className="text-sm text-charcoal/60">This day is full. Join the waitlist below and we&apos;ll reach out if a spot opens.</p>
+                    ) : (
+                        <>
+                            {times && (
+                                <ul className="flex flex-wrap gap-2 mb-4" aria-label={`Open times on ${day.label}`}>
+                                    {times.map((t) => (
+                                        <li key={t} className="px-3 py-1.5 text-sm bg-white border border-charcoal/15 rounded-full">{t}</li>
+                                    ))}
+                                </ul>
+                            )}
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    trackMiniIntent(`day-${day.date}`);
+                                    scrollToCalendar();
+                                }}
+                                className="inline-flex items-center gap-2 bg-evergreen text-cream px-5 py-3 text-xs uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
+                            >
+                                Book {day.label}
+                            </button>
+                            <p className="mt-2 text-xs text-charcoal/50">Pick {day.label.split(', ')[1]} in the calendar to choose your time.</p>
+                        </>
+                    )}
+                </div>
+            )}
         </li>
     );
 };
@@ -108,8 +157,22 @@ const HolidayMinisPage: React.FC = () => {
         setArrival(getArrivalMessage(source));
     }, []);
 
-    const openDays = MINI_DAYS.filter((d) => d.spotsLeft > 0);
-    const totalLeft = openDays.reduce((sum, d) => sum + d.spotsLeft, 0);
+    // Live open times from GHL. On failure, stays null and the hand-entered spotsLeft numbers are shown.
+    const [live, setLive] = useState<LiveSlots>(null);
+    const [today, setToday] = useState<string | null>(null);
+    useEffect(() => {
+        setToday(torontoToday());
+        fetch('/api/holiday-availability')
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => data?.days && setLive(data.days))
+            .catch(() => {});
+    }, []);
+
+    const spotsFor = (d: MiniDay) => (live ? (live[d.date]?.length ?? 0) : d.spotsLeft);
+    // Finished days drop off the list (today is set client-side so the static build doesn't freeze it).
+    const upcomingDays = today ? MINI_DAYS.filter((d) => d.date >= today) : MINI_DAYS;
+    const openDays = upcomingDays.filter((d) => spotsFor(d) > 0);
+    const totalLeft = openDays.reduce((sum, d) => sum + spotsFor(d), 0);
     const allSoldOut = openDays.length === 0;
 
     return (
@@ -190,6 +253,13 @@ const HolidayMinisPage: React.FC = () => {
                         </li>
                     ))}
                 </ul>
+                {!allSoldOut && (
+                    <AvailabilityDropdown
+                        calendarUrl={mini.calendarUrl}
+                        title="Book a Holiday Mini Session"
+                        onOpen={() => trackMiniIntent('view-availability')}
+                    />
+                )}
             </section>
 
             {/* ── 3. The set ──────────────────────────────────────── */}
@@ -212,11 +282,13 @@ const HolidayMinisPage: React.FC = () => {
                         <p className="text-charcoal/70 mb-8">
                             {allSoldOut
                                 ? 'All mini days are booked. Join the waitlist and we’ll reach out first if spots open.'
-                                : `Minis are only offered on these specific days and times — ${totalLeft} spots left.`}
+                                : `Minis are only offered on these specific days and times — ${totalLeft} spots left. Tap a day to see its open times.`}
                         </p>
                     </Reveal>
                     <ul className="border-t border-charcoal/15 mb-10">
-                        {MINI_DAYS.map((d) => <DayChip key={d.label} day={d} />)}
+                        {upcomingDays.map((d) => (
+                            <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} spots={spotsFor(d)} />
+                        ))}
                     </ul>
                     <div className="bg-white/60 border border-charcoal/10 rounded-xl p-6">
                         <p className="font-serif text-xl mb-1">Day sold out?</p>
@@ -228,7 +300,7 @@ const HolidayMinisPage: React.FC = () => {
                 <div>
                     {!allSoldOut && (
                         <>
-                            <div className="bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
+                            <div id="mini-calendar" className="scroll-mt-8 bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
                                 <iframe
                                     src={mini.calendarUrl}
                                     title="Book a Holiday Mini Session"

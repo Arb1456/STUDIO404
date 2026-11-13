@@ -136,3 +136,24 @@ Check each run in the workflow's **Execution logs** tab.
 - Step menu (⋯) → **Copy action** → ⋯ → **Paste below** duplicates a step with its message.
 - The email notification needs both *From Name* and *From Email*, or neither (GHL rejects a name without an email).
 - The workflow API can list workflows but can't read or edit steps, so all changes are made in the UI.
+
+---
+
+## Review pass: 2026-11-12 (evening)
+
+Checked in the GHL UI (trigger, settings, step contents):
+- **1. New Bookings + Reminders:** trigger, recipients, SMS/email merge fields (all valid chips), both waits ("before" 1 day / 2 h, appointment from trigger, "skip outbound until next wait" if passed). Settings: re-entry ON, stop-on-response OFF, account timezone. **0 enrollments so far.**
+- **2. Cancellations:** trigger (Normal + cancelled), SMS fields valid, Remove-from-workflow targets workflow 1. **0 enrollments.**
+- **4. Invoice Paid:** steps in place. It fires often (10+ paid invoices Nov 3–12), but all of those ran before the SMS steps were added, so the next real payment is the first live test. Note that a second published workflow, **"Invoice Paid (Tag Tracker)"** `8230749b-…`, also exists. Check for overlap.
+- Not re-opened this pass: 3 (GHL Form Submissions), 5 (Contact Form; already verified live).
+
+## Missed Call Text Back: limited to 1 per contact per week
+
+- Previously: built-in **Settings → Phone System → Voice → Voicemail & Missed Call TextBack** was ON (default GHL text). It has no frequency cap.
+- New workflow **"Missed Call Text Back (max 1 per week)"** `c75275a0-6ebc-4ad8-bc3b-b89919d7d24a`:
+  Trigger *Call details*: direction = Incoming, status any of busy / canceled / no-answer / voicemail → **Send SMS** (same text as the built-in: `Hi this is {{location.name}}, I saw that we just missed your call how can I help?`) → **Wait 7 days**.
+  How the cap works: GHL skips a contact who triggers a workflow they're still enrolled in, so repeat calls during the 7-day wait don't re-send. Re-entry ON lets them get it again after the week. **Keep "Stop on response" OFF**, or a reply would end the wait early.
+- ⚠️ **Status: saved as DRAFT.** Still to do, in this order:
+  1. Publish the workflow.
+  2. Untick *Enable Missed call textback* in the Phone System setting above (otherwise callers get two texts).
+  3. Test: call 343-314-4140 from a phone that isn't in the team, don't answer → 1 text. Call again → no text. Check Enrollment history.

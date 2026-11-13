@@ -7,7 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
-import { HolidayReviews, SetGallery, ChristmasContact } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, AvailabilityDropdown } from '@/components/pages/holiday/HolidayShared';
 import { trackFullSessionIntent, scrollToFullSessionBooking } from '@/lib/holiday-tracking';
 import { HOLIDAY_HERO_IMAGE, HOLIDAY_OFFERS, HOLIDAY_ROUTES, FULL_SESSION_FAQ, CHRISTMAS_SET } from '@/lib/holiday';
 
@@ -105,6 +105,11 @@ const HolidaySessionPage: React.FC = () => {
                         </li>
                     ))}
                 </ul>
+                <AvailabilityDropdown
+                    calendarUrl={full.calendarUrl}
+                    title="Book a Full Holiday Session"
+                    onOpen={() => trackFullSessionIntent('view-availability')}
+                />
             </section>
 
             {/* ── 3. The set ──────────────────────────────────────── */}

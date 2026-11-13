@@ -57,6 +57,8 @@ export const HOLIDAY_OFFERS = {
         outfitLabel: '1 Outfit',
         description: 'A quick, festive session on our Christmas set — offered on specific mini-session days and times only.',
         calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-mini-session',
+        /** GHL calendar ID, used server-side for live availability. */
+        calendarId: 'qMWxfnMOJQ1KA6zGsHCB',
     },
     full: {
         id: 'holiday',
@@ -69,6 +71,8 @@ export const HOLIDAY_OFFERS = {
         outfitLabel: '2 Outfits',
         description: 'A full holiday photoshoot on our Christmas set with 2 outfits and time for more looks.',
         calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-session',
+        /** GHL calendar ID, used server-side for live availability. */
+        calendarId: 'b4CiROJpNQTGDtossKxl',
     },
 } as const;
 
@@ -97,28 +101,34 @@ export interface MiniDay {
     label: string;
     /** Mini-session hours that day, e.g. "12–8 pm" */
     hours: string;
-    /** Hand-updated as bookings come in. 0 = sold out → waitlist. */
+    /** ISO date (America/Toronto), matched against GHL's live free slots. */
+    date: string;
+    /**
+     * Fallback only: the page shows live counts from GHL (/api/holiday-availability).
+     * This number is used if that request fails, and by the bottom-bar sold-out check.
+     * 0 = sold out → waitlist.
+     */
     spotsLeft: number;
 }
 
 /**
- * Dedicated mini-session days. Hand-edited — GHL doesn't push availability to the site.
+ * Dedicated mini-session days. Spot counts on the page come live from GHL; spotsLeft is the fallback.
  * Slots: 30-min session + 15-min reset = a new start every 45 min; the last session
  * ends by close. Starting spotsLeft = slot count (docs/plans/2026-11-10-holiday-mini-slot-plan.md).
  */
 export const MINI_DAYS: MiniDay[] = [
-    { label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 5 },
-    { label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 5 },
-    { label: 'Fri, Dec 11', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Sat, Dec 12', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Sun, Dec 13', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Mon, Dec 14', hours: '2–6 pm', spotsLeft: 5 },
-    { label: 'Fri, Dec 18', hours: '12–8 pm', spotsLeft: 11 },
-    { label: 'Sat, Dec 19', hours: '2:30–8 pm', spotsLeft: 7 },
-    { label: 'Sun, Dec 20', hours: '10 am–8 pm', spotsLeft: 13 },
-    { label: 'Mon, Dec 21', hours: '2–8 pm', spotsLeft: 8 },
+    { date: '2026-11-22', label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 5 },
+    { date: '2026-11-29', label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-05', label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-06', label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 5 },
+    { date: '2026-12-11', label: 'Fri, Dec 11', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-12', label: 'Sat, Dec 12', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-13', label: 'Sun, Dec 13', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-14', label: 'Mon, Dec 14', hours: '2–6 pm', spotsLeft: 5 },
+    { date: '2026-12-18', label: 'Fri, Dec 18', hours: '12–8 pm', spotsLeft: 11 },
+    { date: '2026-12-19', label: 'Sat, Dec 19', hours: '2:30–8 pm', spotsLeft: 7 },
+    { date: '2026-12-20', label: 'Sun, Dec 20', hours: '10 am–8 pm', spotsLeft: 13 },
+    { date: '2026-12-21', label: 'Mon, Dec 21', hours: '2–8 pm', spotsLeft: 8 },
 ];
 
 export const MINI_FAQ = [
