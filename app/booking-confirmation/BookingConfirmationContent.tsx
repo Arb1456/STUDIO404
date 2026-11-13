@@ -63,7 +63,7 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
         heading: 'Your Holiday Mini Is Booked!',
         intro: `Thank you for booking a Holiday Mini with Studio 404. Your $${MINI_POLICY.deposit} deposit holds your spot, and you'll get a confirmation email and text shortly.`,
         steps: [
-            `We'll send one invoice for the $${miniBalance} balance, plus any extra-person or pet fee.`,
+            `We'll send one invoice for the $${miniBalance} balance plus applicable HST, and any extra-person or pet fee.`,
             `Your deposit is refundable if you cancel or reschedule at least ${MINI_POLICY.refundWindowDays / 7} weeks before your session.`,
             'Minis run back to back, so please arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
             `You'll choose your 4 favourites, and edits are delivered within 3 days.`,

@@ -324,7 +324,7 @@ const HolidayMinisPage: React.FC = () => {
                     <p className="mt-6 text-xs text-charcoal/50 leading-relaxed">
                         ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.
                         Pets welcome if potty trained — ${MINI_POLICY.petFee} cleaning fee applies. Group size and pets are confirmed when you book.
-                        A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance and any extra fees are invoiced together.
+                        A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance plus applicable HST and any extra fees are invoiced together.
                     </p>
                 </div>
             </section>

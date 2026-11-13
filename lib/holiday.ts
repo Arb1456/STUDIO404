@@ -142,7 +142,7 @@ export const MINI_FAQ = [
     },
     {
         question: 'How does payment work?',
-        answer: `A $${MINI_POLICY.deposit} deposit holds your spot and is refundable up to ${MINI_POLICY.refundWindowDays / 7} weeks before your session. The remaining balance, plus any extra-person or pet fee, is sent together as one invoice.`,
+        answer: `A $${MINI_POLICY.deposit} deposit holds your spot and is refundable up to ${MINI_POLICY.refundWindowDays / 7} weeks before your session. The remaining balance plus applicable HST, and any extra-person or pet fee, is sent together as one invoice.`,
     },
     {
         question: 'When will we get our photos?',
