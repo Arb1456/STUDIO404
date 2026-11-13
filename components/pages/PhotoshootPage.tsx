@@ -6,8 +6,9 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
-import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE } from '@/lib/holiday';
+import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE, HOLIDAY_ROUTES } from '@/lib/holiday';
 
 interface SessionType {
     id: string;
@@ -21,6 +22,8 @@ interface SessionType {
     photoCount: number;
     galleryCount: number;
     calendarUrl: string;
+    /** When set, the grid card goes to this landing page instead of opening the detail panel. */
+    landingUrl?: string;
 }
 
 // Helper to generate session image URL
@@ -50,6 +53,7 @@ const HOLIDAY_SESSIONS: SessionType[] = isHolidaySeason()
         photoCount: o.photoCount,
         galleryCount: 0,
         calendarUrl: o.calendarUrl,
+        landingUrl: o === HOLIDAY_OFFERS.mini ? HOLIDAY_ROUTES.minis : HOLIDAY_ROUTES.fullSession,
     }))
     : [];
 
@@ -378,7 +382,14 @@ const PhotoshootPage: React.FC = () => {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const detailRef = useRef<HTMLDivElement>(null);
 
+    const router = useRouter();
+
     const handleSessionClick = (session: SessionType) => {
+        // Holiday cards go to their own landing pages (dates, set photos, FAQ, booking).
+        if (session.landingUrl) {
+            router.push(session.landingUrl);
+            return;
+        }
         setSelectedSession(session);
         setTimeout(() => {
             detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
