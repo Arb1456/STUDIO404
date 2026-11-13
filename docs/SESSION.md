@@ -39,7 +39,8 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 ## Still Open
 
 ### Needed before launch
-- [x] (Nov 12) GHL alerts to André by SMS + email: new bookings (all 24 calendars, including Holiday Mini, which had none), 24h and 2h session reminders, cancellations, GHL form submissions, and paid invoices (SMS). Website forms: SMS + email. **Next real booking = first live test of the booking alert.**
+- [x] (Nov 12) GHL alerts to André by SMS + email: new bookings (all 24 calendars, including Holiday Mini, which had none), 24h and 2h session reminders, cancellations, GHL form submissions, and paid invoices (SMS). Website forms: SMS + email. **Next real booking = first live test of the booking alert.** All SMS also go to 613-581-1134.
+- [ ] **(NEXT SESSION) In-depth review of all GHL notification workflows**: `docs/plans/2026-11-12-ghl-notification-workflows.md` (IDs, messages, gaps, test plan)
 - [x] (Nov 12) All 7 site forms → GHL "Contact Form" workflow: contact + note + email to all users + SMS to André. Verified live. See `docs/plans/2026-11-12-website-forms-ghl-plan.md`
 - [x] (Nov 12) GHL Full Holiday Session calendar is 1.5 h (90 min, 15-min interval), verified via API
 - [ ] **NOTE:** Google Business Profile phone (250) 407-3530 → 343-314-4140 (the GHL number), for consistent local SEO
@@ -72,7 +73,7 @@ Claude drafts and sets everything up. **Andre approves every send, post and doll
   - Tag the final list (e.g. `xmas26-past-client`) for the campaign. CASL: past paying clients within 2 years count as implied consent; every email needs an unsubscribe link and the address (GHL adds unsubscribe).
 - [x] (Nov 12) **Email 1, priority minis** → 22 past photo clients, tag `xmas26-priority-mini`. GHL template `6af64df670957623488d47b0`. Subject: "You're first: Christmas Minis at Studio 404". Excluded: Wassim, Anu Rai, Ajmer, Maad, Isha, Salwa, Justin Lafrance, Jaye Recoskie.
 - [x] (Nov 12) **Email 2, "Christmas is live"** → 181 past rental clients (minus the 2 already on Email 1), tag `xmas26-general`. GHL template `6af64df86019801c7f525484`. CTAs: Book a Mini / Book a Session (`/holiday-session`) / Rent the Studio (`/rental`).
-- [ ] Andre approves both previews (sent to Gmail, landed in **Promotions**), then Claude schedules both as GHL bulk email campaigns (Chrome). Send Email 1 a day or two before Email 2 so priority is real.
+- [ ] **REVIEW BOTH EMAILS BEFORE SENDING (on hold, Nov 12).** Andre reviews the `[PREVIEW]` emails in Gmail: wording, buttons, the unsubscribe link, "Hi there" vs first names. Then he approves both previews (sent to Gmail, landed in **Promotions**), then Claude schedules both as GHL bulk email campaigns (Chrome). Send Email 1 a day or two before Email 2 so priority is real.
 - [ ] Draft the email sequence: (1) Holiday Minis announcement, (2) "spots filling" with real counts from `MINI_DAYS`, (3) last call before Dec 21. Optional: a Full Holiday Session and gift-card angle.
 - [ ] Build the templates in GHL (Email Builder, API) and schedule the campaign (Marketing → Emails, in Chrome) after approval. Link to `/holiday-minis` with `utm_source=email`.
 
