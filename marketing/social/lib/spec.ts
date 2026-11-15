@@ -58,6 +58,16 @@ export function validateSpec(s: PostSpec): string[] {
     if (s.caption.length > 2200) errs.push(`caption is ${s.caption.length} chars (Instagram max 2200)`);
     if (hashtagCount(s.caption) > 30) errs.push('caption has more than 30 hashtags (Instagram max 30 hashtags)');
 
+    if (s.template === 'mini-day') {
+        for (const [i, sl] of s.slides.entries()) {
+            const n = sl.spotsLeft;
+            if (!(n === 'sold-out' || (Number.isInteger(n) && (n as number) >= 0))) {
+                errs.push(`slide ${i + 1}: spotsLeft must be a whole number of 0 or more, or "sold-out" (got ${JSON.stringify(n)})`);
+            }
+            for (const k of ['dateLabel', 'hours']) if (!sl[k]) errs.push(`slide ${i + 1}: ${k} is required on a mini-day card`);
+        }
+    }
+
     if (s.job === 'book' || s.job === 'rent') {
         if (!s.captionGoogle) errs.push('captionGoogle is required for book/rent posts');
     }

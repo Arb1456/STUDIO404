@@ -67,3 +67,14 @@ test('loadSpecs returns only the given week, sorted by date', () => {
     assert.equal(loadSpecs().length, 4);
     delete process.env.SOCIAL_POSTS_DIR;
 });
+
+test('a mini-day card needs a whole-number spot count or sold-out', () => {
+    const mini = (slide: Record<string, unknown>) => base({ template: 'mini-day', slides: [{ dateLabel: 'Sun, Nov 22', hours: '2 to 6 pm', ...slide }] });
+    has(validateSpec(mini({})), 'spotsLeft');
+    has(validateSpec(mini({ spotsLeft: 'seven' })), 'spotsLeft');
+    has(validateSpec(mini({ spotsLeft: 2.5 })), 'spotsLeft');
+    has(validateSpec(mini({ spotsLeft: -1 })), 'spotsLeft');
+    assert.deepEqual(validateSpec(mini({ spotsLeft: 7 })), []);
+    assert.deepEqual(validateSpec(mini({ spotsLeft: 'sold-out' })), []);
+    has(validateSpec(base({ template: 'mini-day', slides: [{ spotsLeft: 7 }] })), 'dateLabel');
+});

@@ -68,3 +68,15 @@ test('text that overflows its box fails the render, naming the post', async () =
         (e: Error) => /too-long/.test(e.message) && /overflow/.test(e.message),
     );
 });
+
+test('an image whose text would show NaN, undefined or null is never produced', async () => {
+    const out = mkdtempSync(join(tmpdir(), 'render-'));
+    await assert.rejects(
+        renderPost(spec({ id: 'nan-card', template: 'mini-day', slides: [{ dateLabel: 'Sun, Nov 22', hours: '2 to 6 pm' }] }), out),
+        (e: Error) => /nan-card/.test(e.message) && /NaN/.test(e.message),
+    );
+    await assert.rejects(
+        renderPost(spec({ id: 'undef-card', slides: [{ quote: 'Great', name: 'undefined' }] }), out),
+        (e: Error) => /undef-card/.test(e.message) && /undefined/.test(e.message),
+    );
+});

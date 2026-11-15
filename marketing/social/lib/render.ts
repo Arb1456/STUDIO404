@@ -47,6 +47,13 @@ export async function renderPost(spec: PostSpec, outDir: string = OUT_ROOT): Pro
                         })
                         .map((el) => el.tagName.toLowerCase() + (el.className ? `.${el.className}` : '')),
                 );
+                // Never produce an image with broken placeholder text (a missing value printed as text).
+                // textContent, not innerText: CSS uppercasing would turn "NaN" into "NAN".
+                const visible = await page.evaluate(() => document.body.textContent ?? "");
+                const broken = visible.match(/\b(NaN|undefined|null)\b/);
+                if (broken) {
+                    throw new Error(`${spec.id}: slide ${i + 1} (${format}) would show "${broken[1]}". A value is missing from the post's data.`);
+                }
                 if (overflow.length) {
                     throw new Error(`${spec.id}: text overflow in slide ${i + 1} (${format}): ${overflow.join(', ')}. Shorten the text.`);
                 }
