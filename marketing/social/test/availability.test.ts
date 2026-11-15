@@ -81,3 +81,16 @@ test('a live-count date already past is skipped with a message', async () => {
     assert.match(res.messages.join(' '), /past date/);
     assert.equal(readFileSync(file, 'utf8'), before);
 });
+
+test('a day that sold out is not published: the caption needs re-approval', async () => {
+    const { file, before } = setup('2026-11-22');
+    let published = false;
+    const res = await refreshCounts({
+        date: '2026-11-21', today: '2026-11-20', fetchImpl: fakeFetch(200, { days: { '2026-11-22': [] } }),
+        render: async () => [], publish: async () => { published = true; },
+    });
+    assert.equal(res.ok, false);
+    assert.match(res.messages.join(' '), /sold out/i);
+    assert.equal(published, false);
+    assert.equal(readFileSync(file, 'utf8'), before);
+});

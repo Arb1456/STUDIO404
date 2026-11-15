@@ -17,7 +17,7 @@ export interface RefreshOptions {
     today: string;
     fetchImpl?: typeof fetch;
     render?: (spec: PostSpec) => Promise<string[]>;
-    /** Uploads the new images and swaps them into the scheduled GHL post. */
+    /** Uploads the new images and swaps ONLY the images into the scheduled GHL posts. */
     publish: (spec: PostSpec, files: string[]) => Promise<void>;
 }
 
@@ -33,7 +33,13 @@ export async function refreshCounts(o: RefreshOptions): Promise<{ ok: boolean; m
             continue;
         }
         try {
-            counts.set(s.id, await getSpotsLeft(s.liveCountDate!, o.fetchImpl));
+            const spots = await getSpotsLeft(s.liveCountDate!, o.fetchImpl);
+            if (spots === 'sold-out') {
+                // The approved caption invites people to book; a Sold Out card would contradict it.
+                messages.push(`${s.id}: ${s.liveCountDate} is sold out. Left unchanged: the caption needs André's re-approval (e.g. switch to a waitlist message).`);
+                return { ok: false, messages };
+            }
+            counts.set(s.id, spots);
         } catch (e) {
             messages.push(`${s.id}: ${(e as Error).message}. Left unchanged.`);
             return { ok: false, messages };
