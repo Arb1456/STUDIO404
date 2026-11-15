@@ -63,3 +63,7 @@ PHOTOS-NEEDED-WEBSITE404.html
 /policies (1)/
 /rates/
 .vercel
+
+# Social pipeline (raw photos + rendered output)
+marketing/social/inbox/
+marketing/social/out/

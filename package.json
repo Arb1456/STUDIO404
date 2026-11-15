@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "social:test": "node --test \"marketing/social/test/*.test.ts\"",
+    "social:render": "node --env-file-if-exists=.env.local marketing/social/bin/render.ts",
+    "social:preview": "node --env-file-if-exists=.env.local marketing/social/bin/preview.ts",
+    "social:schedule": "node --env-file-if-exists=.env.local marketing/social/bin/schedule.ts",
+    "social:refresh": "node --env-file-if-exists=.env.local marketing/social/bin/refresh-counts.ts",
+    "social:calendar": "node --env-file-if-exists=.env.local marketing/social/bin/calendar.ts"
   },
   "dependencies": {
     "@next/third-parties": "^14.2.35",
