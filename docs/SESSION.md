@@ -38,28 +38,36 @@ Christmas 2026 rework: the holiday homepage hero, the `/holiday-minis` landing p
 
 ## Still Open
 
+### Today (Nov 15)
+- [x] Minis: 30-min back-to-back slots, 2 per hour, no buffer (GHL slotInterval 45 -> 30). 163 slots.
+- [x] Mini add-ons live: 4 More Edited Photos +$40, Full Proof Album +$35. GHL "Holiday Mini Form" `s10hT3DfmHFKgCDnDKxL` on the mini calendar; add-ons shown in the client confirmation email, Andre's booking alert email and both SEND MINI INVOICE texts. Full Holiday Session now 12 edited photos. Site committed `46a4c05`, pushed to main.
+- [ ] **Test booking**: one Holiday Mini with an add-on ticked. Check the client email, Andre's alert email + texts, and the SEND MINI INVOICE text (if the session is under 7 days out).
+- [x] Rental door-code SMS: "Send Pre Booking SMS (door code)" added right after "Send Pre Booking Email" in "Booking Confirmation & Contract Flow" `149ffca6…` (code 4449 is typed into the SMS; update it there too if the door code changes).
+- [ ] **TEST SLOTS TO REMOVE after testing:** Holiday Mini availability Tue Nov 17, 8:00–10:00 pm (added via API for Andre's tests). Remove that date from the mini calendar, cancel the test bookings and refund the $50 deposits (keep the 8 pm one until the Mon 8 pm reminder fires).
+- [~] **Mini deposit payment intermittently hangs** after "Schedule meeting" + card (Andre Nov 15 attempt 1 on the website, saved card typed in; Michelle Bowie 2 of 3 attempts). Booking becomes "invalid" ~10 min later, no charge. Attempt 2 worked end to end. Fix 1 deployed (`1253bdc`): `allow="payment *"` on all GHL calendar iframes. Testing: Apple Pay on phone, typed card on desktop, direct link.
+- [ ] Later (not now): add-ons for the Full Holiday Session and all photo sessions.
+
 ### Needed before launch
 - [x] (Nov 12) GHL alerts to André by SMS + email: new bookings (all 24 calendars, including Holiday Mini, which had none), 24h and 2h session reminders, cancellations, GHL form submissions, and paid invoices (SMS). Website forms: SMS + email. **Next real booking = first live test of the booking alert.** All SMS also go to 613-581-1134.
 - [ ] **(NEXT SESSION) In-depth review of all GHL notification workflows**: `docs/plans/2026-11-12-ghl-notification-workflows.md` (IDs, messages, gaps, test plan)
 - [x] (Nov 12) All 7 site forms → GHL "Contact Form" workflow: contact + note + email to all users + SMS to André. Verified live. See `docs/plans/2026-11-12-website-forms-ghl-plan.md`
 - [x] (Nov 12) GHL Full Holiday Session calendar is 1.5 h (90 min, 15-min interval), verified via API
-- [ ] **NOTE:** Google Business Profile phone (250) 407-3530 → 343-314-4140 (the GHL number), for consistent local SEO
-- [ ] Point the dynamic truck QR codes at `thestudio404.ca/truck` (initiative page) and `thestudio404.ca/minis` (Holiday Minis)
+- [x] (Nov 12) Google Business Profile phone (250) 407-3530 → 343-314-4140 (the GHL number), for consistent local SEO
+- [x] (Nov 12) Pointed the dynamic truck QR codes at `thestudio404.ca/truck` (initiative page) and `thestudio404.ca/minis` (Holiday Minis)
 - [ ] Swap last year's set photos for the 2026 set: change the IDs in `SET_PHOTOS`, `lib/holiday.ts`
 - [x] (Nov 12) Created both GHL calendars. Holiday Mini is an *event* calendar: 109 slots verified against the slot plan, $50 deposit. Full Holiday: $75 deposit. Status: `docs/plans/2026-11-09-ghl-holiday-calendars-setup.md`
 - [x] (Nov 10) $50 deposit, refundable up to 14 days before; surcharges from the booking form, invoiced with the balance
 - [x] (Nov 10) Real mini days in `MINI_DAYS`: 11 days, 104 slots (30 min + 15 min reset). Nov 12: added Nov 22 (2–6 pm), now 12 days, 109 slots
 - [x] (Nov 12) `/booking-confirmation` variants: default = rental, `?type=session`, `?type=holiday-mini`. (Nov 12, after deploy) All 22 GHL calendars now redirect to their variant, including `?type=holiday-session` for Full Holiday. Script: `docs/plans/ghl-scripts/reapply_session_redirects.py`
 - [x] (Nov 12) Mini windows are blocked on all 21 other calendars by Andre's user-level "Christmas reserve" blocked slots (verified). **Don't delete them.**
-- [ ] Run the launch check: `docs/plans/2026-11-12-holiday-launch-e2e-checklist.md`, including one real $50 test booking (then refund it)
+- [~] Run the launch check: `docs/plans/2026-11-12-holiday-launch-e2e-checklist.md`. (Nov 12) Sections 0–3 PASSED (redirects, live pages, confirmation variants, customer-view calendars). **Section 4 (real $50 test booking) on hold** until the other session finishes its GHL workflow changes; then build a **master booking-flow verification** (website → GHL booking → payment → confirmation page → GA4/Meta → client + owner alerts → reminders → cancel/refund → slot returns on the live site) and run it once end to end.
 - [ ] Christmas set photos to replace the placeholders (`HOLIDAY_HERO_IMAGE`, `CHRISTMAS_SET.image`)
 - [ ] Confirm the set description ("tree, lights, cozy décor" was a guess)
 - [x] (Nov 10) Repointed the old Shopify redirect `/products/christmas-mini-session` → `/holiday-minis`
 - [x] (Nov 10) `npm run build` passes (21 pages); committed on `holiday-2026`
-- [ ] Merge to `main`, deploy, test both forms live against the GHL webhook
+- [x] (Nov 15) Merged to `main` and deployed (holiday-2026 is live). Website forms verified live Nov 12.
 - [ ] Verify the Meta Pixel fires on the live site; tag Meta ad links with `utm_source=meta`
-- [ ] Truck QR code → `thestudio404.ca/truck`
-- [~] GHL email spam issue: (Nov 12) the API test email reached the Gmail **inbox** (Updates tab) with SPF + DKIM passing via `lc.thestudio404.ca` / Mailgun. Still to check: the copy sent to andre@thestudio404.ca, and one Outlook/Hotmail address.
+- [~] GHL email spam issue: (Nov 13) Gmail gets everything. andre@thestudio404.ca is **Microsoft 365**: the Emilia Salomon booking alert + form alert (Nov 12, 8:55 pm) **failed** (Outlook 4.3.2 throttling Mailgun; the SMS alert for it arrived fine), and "delivered" emails don't show (likely Junk/quarantine; no DMARC). **Fix 1 handed to the GHL session:** owner email alerts also go to Andre's Gmail. Optional later: DMARC `p=none` record + M365 allow for `lc.thestudio404.ca`.
 
 ### Christmas marketing (added Nov 12, next up)
 
@@ -84,7 +92,7 @@ Claude drafts and sets everything up. **Andre approves every send, post and doll
 - [ ] Optional: Google Business Profile post and offer
 
 **Social posts** (GHL Social Planner connected: Facebook page, Instagram `studio404inc`, Google Business Profile)
-- [ ] **SUNDAY NOV 15: plan + schedule all Instagram and Facebook posts for the minis page** (Social Planner). Andre approves the drafts first.
+- [~] (Nov 15) **Social media moved to its own folder: `~/Desktop/STUDIO404-Social Media`** (open that folder for anything social). Week 1 = 7 drafts awaiting Andre's approval; shot list #1 there; `thestudio404.ca/links` to paste into the IG bio.
 - [ ] **Check the connection expiry dates regularly** (GHL → Marketing → Social Planner → accounts, or ask Claude to check via API) and **reconnect before they lapse.** (Nov 12) Google Business Profile: connected, no expiry (auto-renews). Facebook expires **Dec 15** and Instagram **Dec 16**, right in the middle of the last mini week. Posts scheduled after those dates will fail unless the accounts are reconnected.
 - [ ] Draft a Christmas content calendar (Nov 16 – Dec 21): set reveal, mini-day announcements, behind-the-scenes, client results, Christmas truck, "last spots", final-week posts
 - [ ] Andre approves the drafts and photos. Claude schedules them via the Social Planner API and checks they're queued.
