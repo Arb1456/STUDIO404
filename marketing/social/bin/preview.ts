@@ -40,6 +40,7 @@ for (const spec of specs) {
 <section>
   <header><b>${dayName(spec.date)} ${spec.date.slice(5)}</b> · ${spec.time} · ${spec.job} · ${spec.template} · <span class="st ${spec.status}">${spec.status}</span></header>
   <h2>${esc(headlineOf(spec))}</h2>
+  ${spec.slides.some((s) => s.standIn === true) ? '<div class="err"><b>STAND-IN PHOTO:</b> this post uses a placeholder image. It cannot be approved until the real photo is swapped in.</div>' : ''}
   ${problems.length ? `<div class="err">${problems.map(esc).join('<br>')}</div>` : ''}
   <div class="body">
     <div class="imgs">${images.map((f) => `<img src="${relative(OUT_ROOT, f)}">`).join('')}</div>

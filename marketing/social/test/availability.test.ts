@@ -94,3 +94,23 @@ test('a day that sold out is not published: the caption needs re-approval', asyn
     assert.equal(published, false);
     assert.equal(readFileSync(file, 'utf8'), before);
 });
+
+test('a mini day happening today is not refreshed', async () => {
+    const { file, before } = setup('2026-11-22');
+    const res = await refreshCounts({
+        date: '2026-11-22', today: '2026-11-22', fetchImpl: fakeFetch(200, { days: { '2026-11-22': ['5:00 pm'] } }),
+        render: async () => [], publish: async () => { throw new Error('should not publish'); },
+    });
+    assert.match(res.messages.join(' '), /today|No scheduled/);
+    assert.equal(readFileSync(file, 'utf8'), before);
+});
+
+test('same-day: a post dated the day before but refreshed on the mini day itself is skipped', async () => {
+    const { file, before } = setup('2026-11-22');
+    const res = await refreshCounts({
+        date: '2026-11-21', today: '2026-11-22', fetchImpl: fakeFetch(200, { days: { '2026-11-22': ['5:00 pm'] } }),
+        render: async () => [], publish: async () => { throw new Error('should not publish'); },
+    });
+    assert.match(res.messages.join(' '), /today/);
+    assert.equal(readFileSync(file, 'utf8'), before);
+});

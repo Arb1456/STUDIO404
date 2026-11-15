@@ -78,3 +78,10 @@ test('a mini-day card needs a whole-number spot count or sold-out', () => {
     assert.deepEqual(validateSpec(mini({ spotsLeft: 'sold-out' })), []);
     has(validateSpec(base({ template: 'mini-day', slides: [{ spotsLeft: 7 }] })), 'dateLabel');
 });
+
+test('a post with a stand-in photo cannot be approved or scheduled', () => {
+    const withStandIn = (status: PostSpec['status']) => base({ status, slides: [{ image: 'old.jpg', headline: 'Set', standIn: true }] });
+    assert.deepEqual(validateSpec(withStandIn('draft')), []);
+    has(validateSpec(withStandIn('approved')), 'stand-in');
+    has(validateSpec(withStandIn('scheduled')), 'stand-in');
+});

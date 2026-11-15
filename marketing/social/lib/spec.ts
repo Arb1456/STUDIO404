@@ -58,6 +58,11 @@ export function validateSpec(s: PostSpec): string[] {
     if (s.caption.length > 2200) errs.push(`caption is ${s.caption.length} chars (Instagram max 2200)`);
     if (hashtagCount(s.caption) > 30) errs.push('caption has more than 30 hashtags (Instagram max 30 hashtags)');
 
+    // Stand-in photos (e.g. last year's set) are fine in a draft but must be replaced before approval.
+    if (s.status !== 'draft' && s.slides.some((sl) => sl.standIn === true)) {
+        errs.push('has a stand-in photo: replace it before approving (slide marked standIn)');
+    }
+
     if (s.template === 'mini-day') {
         for (const [i, sl] of s.slides.entries()) {
             const n = sl.spotsLeft;

@@ -32,6 +32,11 @@ export async function refreshCounts(o: RefreshOptions): Promise<{ ok: boolean; m
             messages.push(`${s.id}: skipped, ${s.liveCountDate} is a past date.`);
             continue;
         }
+        if (s.liveCountDate === o.today) {
+            // Mid-day the feed only lists the remaining times, so the count would look lower than intended.
+            messages.push(`${s.id}: skipped, ${s.liveCountDate} is today. Refresh runs the evening before.`);
+            continue;
+        }
         try {
             const spots = await getSpotsLeft(s.liveCountDate!, o.fetchImpl);
             if (spots === 'sold-out') {
