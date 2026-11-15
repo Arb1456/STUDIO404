@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-18",
+  "job": "book",
+  "template": "carousel",
+  "slides": [
+    {
+      "image": "https://res.cloudinary.com/du5ixrlhz/image/upload/w_1400,q_auto/HOLIDAY-SET-CASSI",
+      "eyebrow": "Christmas 2026",
+      "headline": "Holiday Minis\n*Are Open*",
+      "sub": "$125 · 30 minutes on our Christmas set"
+    },
+    {
+      "eyebrow": "12 Mini Days",
+      "question": "Pick Your *Day*",
+      "items": [
+        "Sun, Nov 22 · Sun, Nov 29",
+        "Sat, Dec 5 · Sun, Dec 6",
+        "Fri, Dec 11 to Mon, Dec 14",
+        "Fri, Dec 18 to Mon, Dec 21"
+      ]
+    },
+    {
+      "eyebrow": "Your Holiday Mini",
+      "question": "What's *Included*",
+      "items": [
+        "30 minutes on the Christmas set",
+        "4 edited photos in 3 days",
+        "Up to 5 people, kids welcome",
+        "Pets welcome (potty trained)",
+        "$50 deposit holds your spot"
+      ]
+    }
+  ],
+  "caption": "Holiday Minis are officially open. 🎄\n\n✨ 30 minutes on our Christmas set\n✨ 4 edited photos, delivered within 3 days (in time for cards)\n✨ Up to 5 people, kids and pets welcome\n✨ $125, with a $50 deposit to hold your spot\n\nThere are 12 mini days between Nov 22 and Dec 21, and each one has a limited number of spots. Swipe for the dates.\n\nBook through the link in bio. 👆\n\n#ottawaphotographer #ottawaphotostudio #ottawachristmas #holidayminis #christmasminis #ottawafamilyphotographer #ottawacouples #studio404ottawa",
+  "captionGoogle": "Holiday Minis are open at Studio 404 in Ottawa: 30 minutes on our Christmas set, 4 edited photos delivered within 3 days, up to 5 people, $125. Twelve mini days between Nov 22 and Dec 21. Book online.",
+  "time": "19:00",
+  "status": "draft",
+  "id": "2026-11-18-holiday-minis-are-open"
+}
