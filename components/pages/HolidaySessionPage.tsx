@@ -190,6 +190,7 @@ const HolidaySessionPage: React.FC = () => {
                             src={full.calendarUrl}
                             title="Book a Full Holiday Session"
                             loading="lazy"
+                            allow="payment *"
                             className="w-full h-[760px] border-0"
                         />
                         {/* Plain iframe, no GHL form_embed.js — see HolidayMinisPage for why. */}

@@ -320,6 +320,7 @@ const HolidayMinisPage: React.FC = () => {
                                     src={mini.calendarUrl}
                                     title="Book a Holiday Mini Session"
                                     loading="lazy"
+                                    allow="payment *"
                                     className="w-full h-[760px] border-0"
                                 />
                                 {/* No GHL form_embed.js: it hides iframes whose src isn't a calendar-ID

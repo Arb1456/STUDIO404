@@ -61,7 +61,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
                                 scrolling="yes"
                                 className="w-full h-full min-h-[600px] md:min-h-[700px]"
                                 style={{ border: 'none', height: '75vh' }}
-                                allow="payment"
+                                allow="payment *"
                             />
                         </div>
                     </motion.div>

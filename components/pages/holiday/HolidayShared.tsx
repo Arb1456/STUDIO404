@@ -219,7 +219,7 @@ export const AvailabilityDropdown: React.FC<{
                 <div id="availability-calendar" className="mt-6">
                     <div className="bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
                         {/* Plain iframe, no GHL form_embed.js: see HolidayMinisPage for why. */}
-                        <iframe src={calendarUrl} title={title} className="w-full h-[760px] border-0" />
+                        <iframe src={calendarUrl} title={title} allow="payment *" className="w-full h-[760px] border-0" />
                     </div>
                     <a
                         href={calendarUrl}
