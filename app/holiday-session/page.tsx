@@ -5,10 +5,10 @@ import { breadcrumbJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
     title: 'Christmas Photoshoot in Ottawa | Full Holiday Session — Studio 404',
-    description: '1.5-hour Christmas photoshoot on our holiday set in Ottawa. Outfit changes, 8 edited photos, any available day — from $250.',
+    description: '1.5-hour Christmas photoshoot on our holiday set in Ottawa. Outfit changes, 12 edited photos, any available day — from $250.',
     openGraph: {
         title: 'Full Holiday Session | Studio 404',
-        description: '1.5 hours on our Christmas set, outfit changes, 8 edited photos. From $250.',
+        description: '1.5 hours on our Christmas set, outfit changes, 12 edited photos. From $250.',
     },
     alternates: { canonical: '/holiday-session' },
 };

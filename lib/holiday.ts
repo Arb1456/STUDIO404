@@ -67,7 +67,7 @@ export const HOLIDAY_OFFERS = {
         cardTitle: 'Full Holiday Session',
         price: 250,
         durationLabel: '1.5 Hours',
-        photoCount: 8,
+        photoCount: 12,
         outfitLabel: '2 Outfits',
         description: 'A full holiday photoshoot on our Christmas set with 2 outfits and time for more looks.',
         calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-session',
@@ -89,6 +89,15 @@ export const MINI_POLICY = {
     /** Deposit is refundable up to this many days before the booked time. */
     refundWindowDays: 14,
 };
+
+/**
+ * Optional mini upgrades. Picked on the GHL booking form (Holiday Mini only) and
+ * added to the balance invoice by hand. Keep labels in sync with that form question.
+ */
+export const MINI_ADDONS = [
+    { id: 'extra-edits', label: '4 More Edited Photos', note: '8 edits total', price: 40 },
+    { id: 'proof-album', label: 'Full Proof Album', note: 'Every photo from your session', price: 35 },
+] as const;
 
 export const STUDIO_CONTACT = {
     phoneDisplay: '343-314-4140',
@@ -113,22 +122,22 @@ export interface MiniDay {
 
 /**
  * Dedicated mini-session days. Spot counts on the page come live from GHL; spotsLeft is the fallback.
- * Slots: 30-min session + 15-min reset = a new start every 45 min; the last session
- * ends by close. Starting spotsLeft = slot count (docs/plans/2026-11-10-holiday-mini-slot-plan.md).
+ * Slots: 30-min blocks back-to-back (20-min shoot + 5 min hello/goodbye each side),
+ * so 2 starts per hour; the last session ends by close. Starting spotsLeft = slot count (docs/plans/2026-11-10-holiday-mini-slot-plan.md).
  */
 export const MINI_DAYS: MiniDay[] = [
-    { date: '2026-11-22', label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 5 },
-    { date: '2026-11-29', label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-05', label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-06', label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 5 },
-    { date: '2026-12-11', label: 'Fri, Dec 11', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-12', label: 'Sat, Dec 12', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-13', label: 'Sun, Dec 13', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-14', label: 'Mon, Dec 14', hours: '2–6 pm', spotsLeft: 5 },
-    { date: '2026-12-18', label: 'Fri, Dec 18', hours: '12–8 pm', spotsLeft: 11 },
-    { date: '2026-12-19', label: 'Sat, Dec 19', hours: '2:30–8 pm', spotsLeft: 7 },
-    { date: '2026-12-20', label: 'Sun, Dec 20', hours: '10 am–8 pm', spotsLeft: 13 },
-    { date: '2026-12-21', label: 'Mon, Dec 21', hours: '2–8 pm', spotsLeft: 8 },
+    { date: '2026-11-22', label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 8 },
+    { date: '2026-11-29', label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-05', label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-06', label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 8 },
+    { date: '2026-12-11', label: 'Fri, Dec 11', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-12', label: 'Sat, Dec 12', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-13', label: 'Sun, Dec 13', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-14', label: 'Mon, Dec 14', hours: '2–6 pm', spotsLeft: 8 },
+    { date: '2026-12-18', label: 'Fri, Dec 18', hours: '12–8 pm', spotsLeft: 16 },
+    { date: '2026-12-19', label: 'Sat, Dec 19', hours: '2:30–8 pm', spotsLeft: 11 },
+    { date: '2026-12-20', label: 'Sun, Dec 20', hours: '10 am–8 pm', spotsLeft: 20 },
+    { date: '2026-12-21', label: 'Mon, Dec 21', hours: '2–8 pm', spotsLeft: 12 },
 ];
 
 export const MINI_FAQ = [
@@ -161,8 +170,8 @@ export const MINI_FAQ = [
         answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Free parking is available on site and in the plaza lot.',
     },
     {
-        question: 'Want more time or more photos?',
-        answer: 'Book a Full Holiday Session instead: 1.5 hours on the set with 2 outfits, 8 edited photos, and any available day, starting at $250.',
+        question: 'Want more photos?',
+        answer: 'Add 4 more edited photos (+$40) or the full proof album with every photo from your session (+$35) when you book. Add-ons go on your final invoice. Want more time and a second outfit? The Full Holiday Session is 1.5 hours with 2 outfits and 12 edited photos, starting at $250.',
     },
 ];
 
@@ -171,7 +180,7 @@ export const MINI_FAQ = [
 export const FULL_SESSION_FAQ = [
     {
         question: 'How is this different from a Holiday Mini?',
-        answer: 'Minis are 30 minutes, 1 outfit and 4 edited photos, on set mini days only. The Full Holiday Session gives you 1.5 hours on the set, 2 outfits and more looks, and 8 edited photos — on any available day.',
+        answer: 'Minis are 30 minutes, 1 outfit and 4 edited photos, on set mini days only. The Full Holiday Session gives you 1.5 hours on the set, 2 outfits and more looks, and 12 edited photos — on any available day.',
     },
     {
         question: 'Which days can we book?',

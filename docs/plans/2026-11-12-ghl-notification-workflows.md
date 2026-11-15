@@ -157,3 +157,24 @@ Checked in the GHL UI (trigger, settings, step contents):
   1. Publish the workflow.
   2. Untick *Enable Missed call textback* in the Phone System setting above (otherwise callers get two texts).
   3. Test: call 343-314-4140 from a phone that isn't in the team, don't answer → 1 text. Call again → no text. Check Enrollment history.
+
+## Holiday season booking setup (2026-11-12, late evening)
+
+Missed call text back: André chose to keep the built-in one (after every call). The draft weekly-cap workflow was repurposed (see below).
+
+**Done and PUBLISHED:**
+- **Holiday Mini: Client Confirmation + Invoice Reminder** `c75275a0-6ebc-4ad8-bc3b-b89919d7d24a`. Trigger: booked, In calendar = Holiday Mini Session. Client email "Your Holiday Mini Session Is Booked!" (date/time, address, $50 deposit received, balance invoice ~1 week before, 14-day refund, call/text 343-314-4140) → Wait until 7 days before appointment (if passed: continue) → SMS "SEND MINI INVOICE…" (people, pet, balance formula) to André + 613.
+- **Photo Sessions: Client Confirmation + Invoice Reminder** `9e802984-8a7f-4983-b2d4-cf2e2bff81ab`. 11 triggers (Family, Couple, Maternity, Portrait, Boudoir, Product, Headshots, Full Holiday, Group, Birthday, Newborn). Session email → same wait → SMS "SEND SESSION INVOICE…" (attendees, project scope) to André + 613.
+
+**Also done (2026-11-12, later):**
+- **Booking Confirmation & Contract Flow** `149ffca6…` (advanced builder) is now **rentals only**. The 2 catch-all triggers were replaced by 20: "Booked: Studio Rental - N Hour" + "Status new: Studio Rental - N Hour" (N = 1..10). Saved, reloaded and checked that all 20 connect to "Update appointment status". The opportunity name is now `{{contact.name}} - {{calendar.name}}` (was invalid firstName/lastName).
+- **Andre Alerts: Rental Invoice Now** `2bfc2552-e913-4bdb-8921-794b58193149`, published: 10 rental triggers → SMS "SEND RENTAL INVOICE NOW: {{calendar.name}} for {{contact.name}} | time | People | Project | phone email" to André + 613.
+- **Cancellations** now also removes the contact from the Holiday Mini and Photo Sessions workflows (no invoice reminder after a cancel).
+- **GHL Form Submissions** trigger is now limited to Contact Us + Form 2. Booking-widget forms (Holiday Form, Studio Booking Intake) no longer double-alert.
+- **New Bookings + Reminders** email now lists form answers (people, pet, attendees, project details).
+- First live run confirmed: a booking at 8:55 pm on Nov 12 fired the SMS (André), SMS (613) and email.
+
+**Still open:**
+- Test-book a Holiday Mini and a photo session (check the client email, and the invoice text if the session is under 7 days out).
+- Advanced-builder gotchas: trigger panels save immediately; clicking an edge's icon can **delete** the edge (undo with the top-left arrow); right-click canvas → Format tidies overlapping nodes.
+- Opportunity value is still $0 (pipelines deferred to after the season).
