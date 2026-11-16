@@ -101,8 +101,11 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
 
                     <Reveal delay={0.4}>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button onClick={() => onBook()}>
-                                Reserve the Studio
+                            <Button onClick={() => onBook(8)}>
+                                Reserve a Full Day
+                            </Button>
+                            <Button variant="outline" onClick={() => onBook(4)}>
+                                Reserve a Half Day
                             </Button>
                         </div>
                     </Reveal>
@@ -115,6 +118,119 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             </a>
                         </Reveal>
                     )}
+                </div>
+            </section>
+
+            {/* S2: Studio Rental — hour picker */}
+            <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-white/50">
+                <div className="max-w-7xl mx-auto">
+                    <Reveal>
+                        <div className="mb-12 text-center md:text-left">
+                            <h2 className="font-serif text-5xl md:text-6xl mb-3">Studio Rental</h2>
+                            <p className="font-serif italic text-2xl md:text-3xl text-charcoal/70">Select Your Duration</p>
+                        </div>
+                    </Reveal>
+
+                    {/* Hourly Circles */}
+                    <Reveal delay={0.1}>
+                        <div>
+                            <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-8">
+                                {durationOptions.map((opt) => (
+                                    <button
+                                        key={opt.hours}
+                                        onClick={() => onBook(opt.hours)}
+                                        className="group flex flex-col items-center gap-3"
+                                    >
+                                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-charcoal/20 bg-cream group-hover:bg-charcoal group-hover:border-charcoal transition-all duration-300 flex flex-col items-center justify-center shadow-sm">
+                                            <span className="font-serif text-xl md:text-2xl group-hover:text-cream transition-colors leading-none mb-0.5">
+                                                {opt.hours}
+                                            </span>
+                                            <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-charcoal/50 group-hover:text-cream/70 transition-colors leading-none">
+                                                {opt.hours === 1 ? 'Hour' : 'Hours'}
+                                            </span>
+                                        </div>
+                                        <span className="text-sm font-medium text-charcoal/80 group-hover:text-charcoal transition-colors">
+                                            ${opt.price}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </Reveal>
+
+                </div>
+            </section>
+
+            {/* S3: All-Inclusive List */}
+            <section className="w-full px-6 md:px-12 lg:px-24 py-24" id="tour">
+                <div className="max-w-4xl mx-auto text-center mb-16">
+                    <Reveal>
+                        <h2 className="font-serif text-4xl md:text-5xl mb-6">Everything You Need</h2>
+                        <p className="text-charcoal/70">Walk in and start creating. We've handled the technical details.</p>
+                    </Reveal>
+                </div>
+
+                <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    {[
+                        { icon: <Box size={24} />, title: "12x10x10 CycWall", desc: "Seamless white infinity curve" },
+                        { icon: <Lightbulb size={24} />, title: "Pro Lighting", desc: "Professional strobes and constants included" },
+                        { icon: <Box size={24} />, title: "Premium 9-foot Seamless Backdrops", desc: "Assorted paper colors" },
+                        { icon: <Sofa size={24} />, title: "Furniture", desc: "A curated collection of premium furniture" },
+                        { icon: <Shirt size={24} />, title: "Change Room", desc: "Large, well-lit, spacious change room" },
+                        { icon: <Car size={24} />, title: "Parking", desc: "Free spots on-site" },
+                        { icon: <Box size={24} />, title: "Props", desc: "Stools, chairs, handheld props, and decor" },
+                    ].map((item, i) => (
+                        <Reveal key={i} delay={0.05 * i}>
+                            <div className="flex flex-col items-center text-center space-y-3">
+                                <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-charcoal mb-2">
+                                    {item.icon}
+                                </div>
+                                <h3 className="font-serif text-lg">{item.title}</h3>
+                                <p className="text-xs text-charcoal/60 uppercase tracking-wide">{item.desc}</p>
+                            </div>
+                        </Reveal>
+                    ))}
+                    {/* View All Link */}
+                    <Reveal delay={0.4}>
+                        <Link href="/tour" className="flex flex-col items-center text-center space-y-3 group">
+                            <div className="w-12 h-12 rounded-full bg-charcoal group-hover:bg-charcoal/80 flex items-center justify-center text-cream mb-2 transition-colors">
+                                <ArrowRight size={24} />
+                            </div>
+                            <h3 className="font-serif text-lg group-hover:italic transition-all">Explore the Tour</h3>
+                            <p className="text-xs text-charcoal/60 uppercase tracking-wide">Take a full studio tour</p>
+                        </Link>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* S3b: Popular blocks */}
+            <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-white/50">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates.", hours: 1 },
+                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions.", hours: 2 },
+                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots.", hours: 4 },
+                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions.", hours: 8 },
+                        ].map((card, i) => (
+                            <Reveal key={i} delay={0.1 * i} className="h-full">
+                                <div className="flex flex-col justify-between h-full p-8 border border-charcoal/10 bg-cream hover:bg-white hover:border-charcoal/30 transition-all duration-300 group">
+                                    <div>
+                                        <h3 className="font-serif text-2xl mb-2 group-hover:italic transition-all">{card.title}</h3>
+                                        <div className="text-3xl font-light mb-4">{card.price}</div>
+                                        <p className="text-sm text-charcoal/60 mb-8 leading-relaxed">{card.desc}</p>
+                                    </div>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full text-xs py-3"
+                                        onClick={() => onBook(card.hours)}
+                                    >
+                                        Reserve This Option
+                                    </Button>
+                                </div>
+                            </Reveal>
+                        ))}
+                    </div>
                 </div>
             </section>
 
@@ -167,110 +283,6 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     </div>
                 </section>
             )}
-
-            {/* S2: Duration Cards */}
-            <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-white/50">
-                <div className="max-w-7xl mx-auto">
-                    <Reveal>
-                        <h2 className="font-serif text-4xl mb-12 text-center md:text-left">Select Your Duration</h2>
-                    </Reveal>
-
-                    {/* Hourly Circles */}
-                    <Reveal delay={0.1}>
-                        <div className="mb-20">
-                            <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-8">
-                                {durationOptions.map((opt) => (
-                                    <button
-                                        key={opt.hours}
-                                        onClick={() => onBook(opt.hours)}
-                                        className="group flex flex-col items-center gap-3"
-                                    >
-                                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-charcoal/20 bg-cream group-hover:bg-charcoal group-hover:border-charcoal transition-all duration-300 flex flex-col items-center justify-center shadow-sm">
-                                            <span className="font-serif text-xl md:text-2xl group-hover:text-cream transition-colors leading-none mb-0.5">
-                                                {opt.hours}
-                                            </span>
-                                            <span className="text-[9px] md:text-[10px] uppercase tracking-widest text-charcoal/50 group-hover:text-cream/70 transition-colors leading-none">
-                                                {opt.hours === 1 ? 'Hour' : 'Hours'}
-                                            </span>
-                                        </div>
-                                        <span className="text-sm font-medium text-charcoal/80 group-hover:text-charcoal transition-colors">
-                                            ${opt.price}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </Reveal>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-charcoal/10">
-                        {[
-                            { title: "1 Hour", price: "$70", desc: "Perfect for headshots or quick product updates.", hours: 1 },
-                            { title: "2 Hours", price: "$120", desc: "Our most popular option for standard sessions.", hours: 2 },
-                            { title: "Half Day", price: "$225", desc: "4 hours. Ideal for editorial or small brand shoots.", hours: 4 },
-                            { title: "Full Day", price: "$400", desc: "8 hours. Full access for large scale productions.", hours: 8 },
-                        ].map((card, i) => (
-                            <Reveal key={i} delay={0.1 * i} className="h-full">
-                                <div className="flex flex-col justify-between h-full p-8 border border-charcoal/10 bg-cream hover:bg-white hover:border-charcoal/30 transition-all duration-300 group">
-                                    <div>
-                                        <h3 className="font-serif text-2xl mb-2 group-hover:italic transition-all">{card.title}</h3>
-                                        <div className="text-3xl font-light mb-4">{card.price}</div>
-                                        <p className="text-sm text-charcoal/60 mb-8 leading-relaxed">{card.desc}</p>
-                                    </div>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full text-xs py-3"
-                                        onClick={() => onBook(card.hours)}
-                                    >
-                                        Reserve This Option
-                                    </Button>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* S3: All-Inclusive List */}
-            <section className="w-full px-6 md:px-12 lg:px-24 py-24" id="tour">
-                <div className="max-w-4xl mx-auto text-center mb-16">
-                    <Reveal>
-                        <h2 className="font-serif text-4xl md:text-5xl mb-6">Everything You Need</h2>
-                        <p className="text-charcoal/70">Walk in and start creating. We've handled the technical details.</p>
-                    </Reveal>
-                </div>
-
-                <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
-                    {[
-                        { icon: <Box size={24} />, title: "12x10x10 CycWall", desc: "Seamless white infinity curve" },
-                        { icon: <Lightbulb size={24} />, title: "Pro Lighting", desc: "Professional strobes and constants included" },
-                        { icon: <Box size={24} />, title: "Premium 9-foot Seamless Backdrops", desc: "Assorted paper colors" },
-                        { icon: <Sofa size={24} />, title: "Furniture", desc: "A curated collection of premium furniture" },
-                        { icon: <Shirt size={24} />, title: "Change Room", desc: "Large, well-lit, spacious change room" },
-                        { icon: <Car size={24} />, title: "Parking", desc: "Free spots on-site" },
-                        { icon: <Box size={24} />, title: "Props", desc: "Stools, chairs, handheld props, and decor" },
-                    ].map((item, i) => (
-                        <Reveal key={i} delay={0.05 * i}>
-                            <div className="flex flex-col items-center text-center space-y-3">
-                                <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-charcoal mb-2">
-                                    {item.icon}
-                                </div>
-                                <h3 className="font-serif text-lg">{item.title}</h3>
-                                <p className="text-xs text-charcoal/60 uppercase tracking-wide">{item.desc}</p>
-                            </div>
-                        </Reveal>
-                    ))}
-                    {/* View All Link */}
-                    <Reveal delay={0.4}>
-                        <Link href="/tour" className="flex flex-col items-center text-center space-y-3 group">
-                            <div className="w-12 h-12 rounded-full bg-charcoal group-hover:bg-charcoal/80 flex items-center justify-center text-cream mb-2 transition-colors">
-                                <ArrowRight size={24} />
-                            </div>
-                            <h3 className="font-serif text-lg group-hover:italic transition-all">Explore the Tour</h3>
-                            <p className="text-xs text-charcoal/60 uppercase tracking-wide">Take a full studio tour</p>
-                        </Link>
-                    </Reveal>
-                </div>
-            </section>
 
             {/* S4: Testimonials */}
             <section className="w-full px-6 md:px-12 py-32 bg-charcoal text-cream text-center relative overflow-hidden">
@@ -330,15 +342,19 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
             <section className="w-full px-6 md:px-12 lg:px-24 py-24 bg-cream/20">
                 <div className="max-w-4xl mx-auto">
                     <Reveal>
-                        <h2 className="font-serif text-4xl text-center mb-16">How It Works</h2>
+                        <h2 className="font-serif text-4xl text-center mb-4">How It Works</h2>
+                        <p className="text-center text-charcoal/70 max-w-xl mx-auto mb-16">
+                            Studio 404 is fully self-serve. Everything you need to get in and get started comes in your confirmation email.
+                        </p>
                     </Reveal>
 
                     <div className="space-y-12 relative before:absolute before:left-[19px] md:before:left-1/2 before:top-0 before:h-full before:w-[1px] before:bg-charcoal/10">
                         {[
-                            { title: "Check Availability", desc: "Use the calendar below to find your slot." },
-                            { title: "Select Duration", desc: "Choose the time block that fits your project." },
-                            { title: "Receive Confirmation Email", desc: "Your booking details will be inside." },
-                            { title: "Create", desc: "The space is yours. Equipment and amenities are at your disposal." }
+                            { title: "Book Your Time", desc: "Pick your duration and time in the booking calendar, then pay online." },
+                            { title: "Check Your Email", desc: "Your confirmation email has your door access code, a studio map and step-by-step instructions." },
+                            { title: "Let Yourself In", desc: "The studio is fully self-serve. Arrive, use your code, and the space is yours." },
+                            { title: "Create", desc: "Equipment and amenities are at your disposal." },
+                            { title: "Reset the Space", desc: "You're in charge of resetting the studio before your time ends: equipment, props and furniture back where you found them." },
                         ].map((step, i) => (
                             <Reveal key={i} delay={0.1 * i} width="100%">
                                 <div className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-0 ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
