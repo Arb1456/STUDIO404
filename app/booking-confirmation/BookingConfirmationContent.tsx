@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Home, Camera, MapPin } from 'lucide-react';
+import { CheckCircle2, Home } from 'lucide-react';
 import { sendGAEvent } from '@next/third-parties/google';
 import { HOLIDAY_OFFERS, MINI_POLICY } from '@/lib/holiday';
 
@@ -23,7 +23,6 @@ interface Variant {
     heading: string;
     intro: string;
     steps: string[];
-    secondary: { href: string; label: string; icon: React.ElementType };
     /** GA4 purchase event payload */
     ga: { value: number; itemName: string };
 }
@@ -38,7 +37,6 @@ const SESSION_VARIANT: Variant = {
         'Plan your outfits: coordinated, not matching. Avoid large logos and neon.',
         'Arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
     ],
-    secondary: { href: '/tour', label: 'Tour the Studio', icon: MapPin },
     ga: { value: 50.0, itemName: 'Photo Session Deposit' },
 };
 
@@ -51,7 +49,6 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
             "Review our house rules if you haven't already.",
             'Arrive 5-10 minutes early to get settled.',
         ],
-        secondary: { href: '/photoshoot', label: 'Book Photoshoot', icon: Camera },
         ga: { value: 100.0, itemName: 'Studio Booking' },
     },
     session: SESSION_VARIANT,
@@ -68,7 +65,6 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
             'Minis run back to back, so please arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
             `You'll choose your 4 favourites, and edits are delivered within 3 days.`,
         ],
-        secondary: { href: '/holiday-minis', label: 'What to Wear', icon: Camera },
         ga: { value: MINI_POLICY.deposit, itemName: 'Holiday Mini Deposit' },
     },
 };
@@ -96,7 +92,6 @@ export default function BookingConfirmationContent() {
     }, []);
 
     const v = type ? VARIANTS[type] : null;
-    const SecondaryIcon = v?.secondary.icon;
 
     return (
         <main className="min-h-screen bg-cream flex items-center justify-center p-4">
@@ -144,21 +139,6 @@ export default function BookingConfirmationContent() {
                         <span>Return Home</span>
                     </Link>
 
-                    {v && SecondaryIcon && (
-                        <Link
-                            href={v.secondary.href}
-                            className="
-                                flex items-center justify-center gap-2
-                                px-6 py-3 rounded-full
-                                bg-transparent border border-charcoal text-charcoal
-                                font-sans text-sm font-medium uppercase tracking-widest
-                                hover:bg-charcoal/5 transition-colors
-                            "
-                        >
-                            <SecondaryIcon size={18} />
-                            <span>{v.secondary.label}</span>
-                        </Link>
-                    )}
                 </div>
             </div>
         </main>
