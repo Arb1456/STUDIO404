@@ -88,6 +88,18 @@ const nextConfig = {
             // === Shopify blog URLs ===
             { source: '/blogs/news', destination: '/', permanent: true },
             { source: '/blogs/news/:slug', destination: '/', permanent: true },
+
+            // === Shopify catch-alls (must stay LAST) ===
+            // Any old Shopify URL not mapped above (e.g. /collections/all, retired products,
+            // /cart, /products.json) still gets indexed or linked from directories. Send it
+            // somewhere useful instead of a 404. None of these prefixes are real routes here.
+            { source: '/products/:slug*', destination: '/rates', permanent: true },
+            { source: '/collections/:slug*', destination: '/', permanent: true },
+            { source: '/pages/:slug*', destination: '/', permanent: true },
+            { source: '/blogs/:slug*', destination: '/', permanent: true },
+            { source: '/cart/:slug*', destination: '/', permanent: true },
+            { source: '/account/:slug*', destination: '/', permanent: true },
+            { source: '/products.json', destination: '/rates', permanent: true },
         ];
     },
 };
