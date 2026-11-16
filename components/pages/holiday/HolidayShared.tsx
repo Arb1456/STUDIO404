@@ -239,7 +239,7 @@ export const BookingPanel: React.FC<{
                 {[
                     ['Pick your time', 'See every open time and choose the one that works.'],
                     ['Add your details', 'Group size, pets and any add-ons.'],
-                    [`Pay your $${deposit} deposit`, 'Apple Pay, Google Pay or card. The balance is invoiced later.'],
+                    [`Pay your $${deposit} deposit`, 'Apple Pay, Google Pay, PayPal or card. The remaining balance is invoiced later.'],
                 ].map(([head, body], i) => (
                     <li key={head} className="flex gap-4">
                         <span className="shrink-0 w-8 h-8 rounded-full bg-cream text-evergreen font-serif text-lg flex items-center justify-center">{i + 1}</span>
