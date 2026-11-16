@@ -6,7 +6,7 @@ import { trackMiniIntent, scrollToMiniBooking } from '@/lib/holiday-tracking';
 import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
-import { HolidayReviews, SetGallery, ChristmasContact, AvailabilityDropdown } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel, openBookingCalendar } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
@@ -31,10 +31,6 @@ type LiveSlots = Record<string, string[]> | null;
 
 /** Today's date in Toronto as YYYY-MM-DD, so finished mini days drop off the list. */
 const torontoToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
-
-/** Scroll to the main booking calendar in section 5. */
-const scrollToCalendar = () =>
-    document.getElementById('mini-calendar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
 const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }> = ({ day, times, spots }) => {
     const [open, setOpen] = useState(false);
@@ -76,13 +72,13 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                                 type="button"
                                 onClick={() => {
                                     trackMiniIntent(`day-${day.date}`);
-                                    scrollToCalendar();
+                                    openBookingCalendar(HOLIDAY_OFFERS.mini.calendarUrl);
                                 }}
                                 className="inline-flex items-center gap-2 bg-evergreen text-cream px-5 py-3 text-xs uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                             >
-                                Book {day.label}
+                                Book {day.label} <ExternalLink size={14} aria-hidden="true" />
                             </button>
-                            <p className="mt-2 text-xs text-charcoal/50">Pick {day.label.split(', ')[1]} in the calendar to choose your time.</p>
+                            <p className="mt-2 text-xs text-charcoal/50">Opens the booking calendar in a new tab. Pick {day.label.split(', ')[1]} there to choose your time.</p>
                         </>
                     )}
                 </div>
@@ -269,9 +265,9 @@ const HolidayMinisPage: React.FC = () => {
                     <p className="text-xs text-charcoal/50 mt-3">Choose add-ons when you book. They&apos;re added to your final invoice.</p>
                 </div>
                 {!allSoldOut && (
-                    <AvailabilityDropdown
+                    <BookCalendarButton
                         calendarUrl={mini.calendarUrl}
-                        title="Book a Holiday Mini Session"
+                        label="See Times & Book"
                         onOpen={() => trackMiniIntent('view-availability')}
                     />
                 )}
@@ -314,28 +310,13 @@ const HolidayMinisPage: React.FC = () => {
 
                 <div>
                     {!allSoldOut && (
-                        <>
-                            <div id="mini-calendar" className="scroll-mt-8 bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
-                                <iframe
-                                    src={mini.calendarUrl}
-                                    title="Book a Holiday Mini Session"
-                                    loading="lazy"
-                                    allow="payment *"
-                                    className="w-full h-[760px] border-0"
-                                />
-                                {/* No GHL form_embed.js: it hides iframes whose src isn't a calendar-ID
-                                    embed URL (ours are slug URLs). Plain iframe + fixed height instead. */}
-                            </div>
-                            <a
-                                href={mini.calendarUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => trackMiniIntent('calendar-new-tab')}
-                                className="mt-4 inline-flex items-center gap-2 text-sm text-charcoal/60 underline underline-offset-4 hover:text-charcoal"
-                            >
-                                Calendar not loading? Open it in a new tab <ExternalLink size={14} />
-                            </a>
-                        </>
+                        <BookingPanel
+                            id="mini-calendar"
+                            calendarUrl={mini.calendarUrl}
+                            title="Book a Holiday Mini"
+                            deposit={MINI_POLICY.deposit}
+                            onOpen={() => trackMiniIntent('booking-panel')}
+                        />
                     )}
                     <p className="mt-6 text-xs text-charcoal/50 leading-relaxed">
                         ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.

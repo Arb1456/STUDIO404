@@ -7,7 +7,10 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
-import { HolidayReviews, SetGallery, ChristmasContact, AvailabilityDropdown } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
+
+/** Deposit the GHL Full Holiday Session calendar charges at booking. Keep in sync with GHL. */
+const FULL_HOLIDAY_DEPOSIT = 75;
 import { trackFullSessionIntent, scrollToFullSessionBooking } from '@/lib/holiday-tracking';
 import { HOLIDAY_HERO_IMAGE, HOLIDAY_OFFERS, HOLIDAY_ROUTES, FULL_SESSION_FAQ, CHRISTMAS_SET } from '@/lib/holiday';
 
@@ -105,9 +108,9 @@ const HolidaySessionPage: React.FC = () => {
                         </li>
                     ))}
                 </ul>
-                <AvailabilityDropdown
+                <BookCalendarButton
                     calendarUrl={full.calendarUrl}
-                    title="Book a Full Holiday Session"
+                    label="See Times & Book"
                     onOpen={() => trackFullSessionIntent('view-availability')}
                 />
             </section>
@@ -184,27 +187,12 @@ const HolidaySessionPage: React.FC = () => {
                     </ul>
                 </div>
 
-                <div>
-                    <div className="bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
-                        <iframe
-                            src={full.calendarUrl}
-                            title="Book a Full Holiday Session"
-                            loading="lazy"
-                            allow="payment *"
-                            className="w-full h-[760px] border-0"
-                        />
-                        {/* Plain iframe, no GHL form_embed.js — see HolidayMinisPage for why. */}
-                    </div>
-                    <a
-                        href={full.calendarUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackFullSessionIntent('calendar-new-tab')}
-                        className="mt-4 inline-flex items-center gap-2 text-sm text-charcoal/60 underline underline-offset-4 hover:text-charcoal"
-                    >
-                        Calendar not loading? Open it in a new tab <ExternalLink size={14} />
-                    </a>
-                </div>
+                <BookingPanel
+                    calendarUrl={full.calendarUrl}
+                    title="Book a Full Holiday Session"
+                    deposit={FULL_HOLIDAY_DEPOSIT}
+                    onOpen={() => trackFullSessionIntent('booking-panel')}
+                />
             </section>
 
             {/* ── 7. Minis cross-sell ─────────────────────────────── */}

@@ -4,7 +4,7 @@
  * Content lives in lib/holiday.ts; these components only lay it out.
  */
 import React, { useState } from 'react';
-import { Star, Phone, Mail, ChevronDown, ExternalLink } from 'lucide-react';
+import { Star, Phone, Mail, ExternalLink } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HOLIDAY_SET_GALLERY, STUDIO_CONTACT } from '@/lib/holiday';
@@ -191,46 +191,75 @@ export const ChristmasContact: React.FC<{ source: string }> = ({ source }) => (
  * visitors can book right after reading what's included. The iframe only mounts
  * once opened, so visitors who never tap it don't load the GHL widget twice.
  */
-export const AvailabilityDropdown: React.FC<{
+/** Open a GHL booking calendar in its own tab.
+ *  Not embedded: inside an iframe, Stripe Link's saved-card code prompt hangs the
+ *  payment step and Apple Pay is unavailable (tested Nov 15, 2026). */
+export const openBookingCalendar = (calendarUrl: string) =>
+    window.open(calendarUrl, '_blank', 'noopener,noreferrer');
+
+/** Centered "book now" button used under the offer details. */
+export const BookCalendarButton: React.FC<{
+    calendarUrl: string;
+    label: string;
+    /** Fired before the calendar opens (booking-intent tracking). */
+    onOpen: () => void;
+}> = ({ calendarUrl, label, onOpen }) => (
+    <div className="mt-10 text-center">
+        <button
+            onClick={() => {
+                onOpen();
+                openBookingCalendar(calendarUrl);
+            }}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
+        >
+            {label} <ExternalLink size={16} aria-hidden="true" />
+        </button>
+        <p className="mt-3 text-xs text-charcoal/50">Opens our secure booking calendar in a new tab</p>
+    </div>
+);
+
+/** Booking card that replaces the embedded calendar: what happens next + one big button. */
+export const BookingPanel: React.FC<{
     calendarUrl: string;
     title: string;
-    /** Fired once when the calendar is opened (booking-intent tracking). */
+    deposit: number;
     onOpen: () => void;
-}> = ({ calendarUrl, title, onOpen }) => {
-    const [open, setOpen] = useState(false);
-    const toggle = () => {
-        if (!open) onOpen();
-        setOpen(!open);
-    };
-    return (
-        <div className="mt-10 max-w-3xl mx-auto">
-            <div className="text-center">
-                <button
-                    onClick={toggle}
-                    aria-expanded={open}
-                    aria-controls="availability-calendar"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
-                >
-                    {open ? 'Hide Availability' : 'View Availability'}
-                    <ChevronDown size={16} className={`transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
-                </button>
-            </div>
-            {open && (
-                <div id="availability-calendar" className="mt-6">
-                    <div className="bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
-                        {/* Plain iframe, no GHL form_embed.js: see HolidayMinisPage for why. */}
-                        <iframe src={calendarUrl} title={title} allow="payment *" className="w-full h-[760px] border-0" />
-                    </div>
-                    <a
-                        href={calendarUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-4 inline-flex items-center gap-2 text-sm text-charcoal/60 underline underline-offset-4 hover:text-charcoal"
-                    >
-                        Calendar not loading? Open it in a new tab <ExternalLink size={14} />
-                    </a>
-                </div>
-            )}
+    id?: string;
+}> = ({ calendarUrl, title, deposit, onOpen, id }) => (
+    <div id={id} className="scroll-mt-8 bg-white border border-charcoal/10 rounded-2xl overflow-hidden">
+        <div className="relative bg-evergreen text-cream px-8 py-7 overflow-hidden">
+            <Snowfall count={8} />
+            <span className="relative flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-gold mb-2">
+                <Snowflake className="w-4 h-4" /> Secure booking
+            </span>
+            <p className="relative font-serif text-3xl">{title}</p>
         </div>
-    );
-};
+        <div className="px-8 py-8">
+            <ol className="space-y-5 mb-8">
+                {[
+                    ['Pick your time', 'See every open time and choose the one that works.'],
+                    ['Add your details', 'Group size, pets and any add-ons.'],
+                    [`Pay your $${deposit} deposit`, 'Apple Pay, Google Pay or card. The balance is invoiced later.'],
+                ].map(([head, body], i) => (
+                    <li key={head} className="flex gap-4">
+                        <span className="shrink-0 w-8 h-8 rounded-full bg-cream text-evergreen font-serif text-lg flex items-center justify-center">{i + 1}</span>
+                        <span>
+                            <span className="block font-serif text-lg leading-snug">{head}</span>
+                            <span className="block text-sm text-charcoal/60">{body}</span>
+                        </span>
+                    </li>
+                ))}
+            </ol>
+            <button
+                onClick={() => {
+                    onOpen();
+                    openBookingCalendar(calendarUrl);
+                }}
+                className="w-full inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
+            >
+                Open Booking Calendar <ExternalLink size={16} aria-hidden="true" />
+            </button>
+            <p className="mt-3 text-center text-xs text-charcoal/50">Opens in a new tab. Your confirmation shows there once you&apos;re booked.</p>
+        </div>
+    </div>
+);
