@@ -158,16 +158,12 @@ export const MINI_FAQ = [
         answer: 'You choose your 4 favourite photos, and your edits are delivered within 3 days — plenty of time for holiday cards and gifts.',
     },
     {
-        question: 'What should we wear?',
-        answer: 'Coordinated, not matching. Pick 2–3 colours that work with a warm Christmas set — creams, deep greens, burgundy, plaid and knits all photograph beautifully. Avoid large logos and neon.',
-    },
-    {
         question: 'How long is the session?',
         answer: '30 minutes on our Christmas set with 1 outfit. Minis are only offered on specific days and times, and run back-to-back — please arrive 5–10 minutes early so we can start on time.',
     },
     {
         question: 'Where are you and is there parking?',
-        answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Free parking is available on site and in the plaza lot.',
+        answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Park for free in lot C.',
     },
     {
         question: 'Want more photos?',
@@ -191,12 +187,8 @@ export const FULL_SESSION_FAQ = [
         answer: 'Yes. Kids, grandparents and potty-trained pets are all welcome. Let us know your group size and any pets when you book so we can plan poses and set-up.',
     },
     {
-        question: 'What should we wear?',
-        answer: 'Coordinated, not matching. Pick 2–3 colours that work with a warm Christmas set — creams, deep greens, burgundy, plaid and knits all photograph beautifully. With 2 outfits you can bring a cozy look and a dressier one.',
-    },
-    {
         question: 'Where are you and is there parking?',
-        answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Free parking is available on site and in the plaza lot.',
+        answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Park for free in lot C.',
     },
 ];
 

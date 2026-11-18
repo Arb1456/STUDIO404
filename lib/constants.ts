@@ -31,7 +31,7 @@ export const FAQ_ITEMS: FAQItem[] = [
     },
     {
         question: "Is there parking available?",
-        answer: "We have dedicated parking spaces as well as an open plaza lot with free public parking."
+        answer: "Yes. Park for free in lot C and look for Unit B8b."
     }
 ];
 

@@ -95,7 +95,7 @@ const HolidaySessionPage: React.FC = () => {
                     {[
                         { icon: Clock, label: `${full.durationLabel} Session`, note: 'Unhurried, room to play' },
                         { icon: Camera, label: `${full.photoCount} Edited Photos`, note: 'You pick your favourites' },
-                        { icon: Shirt, label: full.outfitLabel, note: 'Cozy and dressy' },
+                        { icon: Shirt, label: full.outfitLabel, note: 'Change partway through' },
                         { icon: Users, label: 'Families, Couples & Pets', note: 'Potty-trained pets welcome' },
                         { icon: CalendarDays, label: 'Any Available Day', note: 'Not just mini days' },
                     ].map(({ icon: Icon, label, note }, i) => (
@@ -178,7 +178,7 @@ const HolidaySessionPage: React.FC = () => {
                             `${full.photoCount} edited photos of your choice`,
                             `${full.outfitLabel} and multiple groupings`,
                             'Kids and potty-trained pets welcome',
-                            'Free parking on site',
+                            'Free parking in lot C',
                         ].map((item) => (
                             <li key={item} className="flex items-start gap-3">
                                 <Check size={16} className="text-evergreen mt-0.5 shrink-0" aria-hidden="true" /> {item}

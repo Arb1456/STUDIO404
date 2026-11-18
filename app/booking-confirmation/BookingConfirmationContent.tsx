@@ -34,8 +34,7 @@ const SESSION_VARIANT: Variant = {
     intro: "Thank you for booking a photoshoot with Studio 404. Your deposit is received, and you'll get a confirmation email and text shortly with your date, time and address.",
     steps: [
         'Check your email for your session details.',
-        'Plan your outfits: coordinated, not matching. Avoid large logos and neon.',
-        'Arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
+        'Arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking in lot C.',
     ],
     ga: { value: 50.0, itemName: 'Photo Session Deposit' },
 };
@@ -62,7 +61,7 @@ const VARIANTS: Record<ConfirmationType, Variant> = {
         steps: [
             `We'll send one invoice for the $${miniBalance} balance plus applicable HST, and any extra-person or pet fee.`,
             `Your deposit is refundable if you cancel or reschedule at least ${MINI_POLICY.refundWindowDays / 7} weeks before your session.`,
-            'Minis run back to back, so please arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking on site.',
+            'Minis run back to back, so please arrive 5–10 minutes early. We’re at 2285 St. Laurent Blvd, Unit B8b, with free parking in lot C.',
             `You'll choose your 4 favourites, and edits are delivered within 3 days.`,
         ],
         ga: { value: MINI_POLICY.deposit, itemName: 'Holiday Mini Deposit' },

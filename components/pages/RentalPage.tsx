@@ -177,7 +177,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                         { icon: <Box size={24} />, title: "Premium 9-foot Seamless Backdrops", desc: "Assorted paper colors" },
                         { icon: <Sofa size={24} />, title: "Furniture", desc: "A curated collection of premium furniture" },
                         { icon: <Shirt size={24} />, title: "Change Room", desc: "Large, well-lit, spacious change room" },
-                        { icon: <Car size={24} />, title: "Parking", desc: "Free spots on-site" },
+                        { icon: <Car size={24} />, title: "Parking", desc: "Free, in lot C" },
                         { icon: <Box size={24} />, title: "Props", desc: "Stools, chairs, handheld props, and decor" },
                     ].map((item, i) => (
                         <Reveal key={i} delay={0.05 * i}>
@@ -265,7 +265,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                         `Full Day — ${CHRISTMAS_SET.fullDay.hours} hours · $${CHRISTMAS_SET.fullDay.price}`,
                                         'Christmas set + full lighting grid included',
                                         'Enough time for a full day of back-to-back minis',
-                                        'Change room & free on-site parking for your clients',
+                                        'Change room & free parking in lot C for your clients',
                                     ].map((line) => (
                                         <li key={line} className="flex items-center gap-3 py-3 border-b border-cream/20 font-serif italic text-lg">
                                             <Star size={12} className="text-gold fill-gold shrink-0" aria-hidden="true" /> {line}
