@@ -8,6 +8,7 @@ import { Star, Phone, Mail, ExternalLink } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HOLIDAY_SET_GALLERY, STUDIO_CONTACT } from '@/lib/holiday';
+import { newEventId, trackLead } from '@/lib/tracking';
 
 // ─── Reviews ─────────────────────────────────────────────────────────────
 
@@ -105,6 +106,7 @@ const ChristmasInquiryForm: React.FC<{ source: string }> = ({ source }) => {
         const data = new FormData(e.currentTarget);
         const phone = data.get('phone');
         try {
+            const eventId = newEventId();
             const res = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -114,8 +116,10 @@ const ChristmasInquiryForm: React.FC<{ source: string }> = ({ source }) => {
                     subject: 'Christmas at Studio 404 — Inquiry',
                     message: `${data.get('message')}${phone ? `\n\nPhone: ${phone}` : ''}`,
                     source,
+                    eventId,
                 }),
             });
+            if (res.ok) trackLead(source, eventId);
             setState(res.ok ? 'done' : 'error');
         } catch {
             setState('error');

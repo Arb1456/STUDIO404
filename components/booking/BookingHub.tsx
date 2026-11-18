@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Camera, ExternalLink, Clock, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
+import { trackBookingClick } from '@/lib/tracking';
 
 // ============================================
 // RENTAL CALENDAR URLs
@@ -71,6 +72,8 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
         sendGAEvent('event', 'select_item', {
             items: [{ item_name: `${selectedDuration} Hour Studio Rental`, price: calendar.price }]
         });
+        // Meta only: GA4 begin_checkout already fired when this sheet opened
+        trackBookingClick(`${selectedDuration} Hour Studio Rental`, calendar.price, { sendGA: false });
         // Open in new tab
         window.open(calendar.url, '_blank', 'noopener,noreferrer');
     };

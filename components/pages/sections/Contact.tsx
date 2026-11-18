@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight, Mail, MapPin, Instagram, ChevronDown, Phone, Check, AlertCircle } from 'lucide-react';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
+import { newEventId, trackLead } from '@/lib/tracking';
 
 const ContactInfoContent = () => (
     <div className="space-y-6">
@@ -79,6 +80,7 @@ const ContactFormContent = () => {
         setErrorMessage('');
 
         try {
+            const eventId = newEventId();
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
@@ -89,6 +91,7 @@ const ContactFormContent = () => {
                     email: formState.email,
                     message: formState.message,
                     source: 'Homepage Contact Section',
+                    eventId,
                 }),
             });
 
@@ -97,6 +100,7 @@ const ContactFormContent = () => {
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to submit form');
             }
+            trackLead('Homepage Contact Section', eventId);
 
             setSubmitStatus('success');
             setFormState({ name: '', email: '', message: '' });

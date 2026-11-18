@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BookingProvider from '@/components/layout/BookingProvider';
+import TrackViewContent from '@/components/layout/TrackViewContent';
 import HolidayMinisPage from '@/components/pages/HolidayMinisPage';
 import { breadcrumbJsonLd } from '@/lib/structured-data';
 
@@ -19,6 +20,7 @@ export default function HolidayMinis() {
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <TrackViewContent name="Holiday Mini Session" category="Holiday" />
             <BookingProvider>
                 <HolidayMinisPage />
             </BookingProvider>

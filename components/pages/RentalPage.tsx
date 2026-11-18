@@ -116,6 +116,9 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                 <Holly className="w-6 h-6" />
                                 <span className="border-b border-charcoal/30">Our Christmas set is up — run your own minis</span>
                             </a>
+                            <p className="mt-3 text-xs text-charcoal/60 max-w-md mx-auto">
+                                The Christmas set takes up half the studio this season. The cyclorama side is open for rentals as usual.
+                            </p>
                         </Reveal>
                     )}
                 </div>

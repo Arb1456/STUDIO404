@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
+import { newEventId, trackBookingClick, trackLead } from '@/lib/tracking';
 import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE, HOLIDAY_ROUTES } from '@/lib/holiday';
 
 interface SessionType {
@@ -205,6 +206,7 @@ const SessionCalendarModal: React.FC<{
     if (!session) return null;
 
     const handleContinueToBooking = () => {
+        trackBookingClick(`${session.title} Session`, session.price);
         window.open(session.calendarUrl, '_blank', 'noopener,noreferrer');
     };
 
@@ -323,6 +325,8 @@ const PhotoshootContactForm: React.FC = () => {
         setFormState('sending');
         const data = new FormData(e.currentTarget);
         try {
+            const eventId = newEventId();
+            const source = 'Photoshoot Page — Have Questions Form';
             const res = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -330,9 +334,11 @@ const PhotoshootContactForm: React.FC = () => {
                     name: data.get('name'),
                     email: data.get('email'),
                     message: data.get('message'),
-                    source: 'Photoshoot Page — Have Questions Form',
+                    source,
+                    eventId,
                 }),
             });
+            if (res.ok) trackLead(source, eventId);
             setFormState(res.ok ? 'success' : 'error');
         } catch {
             setFormState('error');
@@ -640,7 +646,10 @@ const PhotoshootPage: React.FC = () => {
                                                 <p className="text-xs text-charcoal/50 mt-1">View live availability and secure your session</p>
                                             </div>
                                             <button
-                                                onClick={() => window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer')}
+                                                onClick={() => {
+                                                    trackBookingClick(`${selectedSession.title} Session`, selectedSession.price);
+                                                    window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer');
+                                                }}
                                                 className="
                                                     w-full flex items-center justify-center gap-3
                                                     bg-charcoal text-cream py-4 px-6 rounded-full

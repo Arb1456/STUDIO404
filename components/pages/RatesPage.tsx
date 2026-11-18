@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
+import { trackBookingClick } from '@/lib/tracking';
 
 interface RatesPageProps {
     onBook: (duration?: number) => void;
@@ -274,7 +275,10 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                             View our live availability and secure your studio time in just a few clicks.
                         </p>
                         <button
-                            onClick={() => window.open('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour', '_blank', 'noopener,noreferrer')}
+                            onClick={() => {
+                                trackBookingClick('2 Hour Studio Rental', 120);
+                                window.open('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour', '_blank', 'noopener,noreferrer');
+                            }}
                             className="
                                 inline-flex items-center justify-center gap-3
                                 bg-charcoal text-cream py-4 px-8 rounded-full

@@ -6,6 +6,8 @@ interface ContactFormData {
     subject?: string;
     message: string;
     source?: string;
+    /** Browser Meta Lead eventID, passed to GHL so a server-side CAPI Lead can de-duplicate. */
+    eventId?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -47,6 +49,7 @@ export async function POST(request: NextRequest) {
             message: body.message,
             source: body.source || 'Website Contact Form',
             timestamp: new Date().toISOString(),
+            meta_event_id: typeof body.eventId === 'string' ? body.eventId.slice(0, 64) : '',
         };
 
         // Send to GHL webhook

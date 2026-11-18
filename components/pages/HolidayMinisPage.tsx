@@ -10,6 +10,7 @@ import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, Booki
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
+import { newEventId, trackLead } from '@/lib/tracking';
 import {
     HOLIDAY_HERO_IMAGE,
     HOLIDAY_OFFERS,
@@ -95,10 +96,12 @@ const WaitlistForm: React.FC = () => {
         setState('sending');
         const data = new FormData(e.currentTarget);
         try {
+            const eventId = newEventId();
             const res = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    eventId,
                     name: data.get('name'),
                     email: data.get('email'),
                     subject: 'Holiday Minis Waitlist',
@@ -107,6 +110,7 @@ const WaitlistForm: React.FC = () => {
                     source: 'Holiday Minis Page — Waitlist',
                 }),
             });
+            if (res.ok) trackLead('Holiday Minis Page — Waitlist', eventId);
             setState(res.ok ? 'done' : 'error');
         } catch {
             setState('error');

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
 import { Volume2, Dog, HelpCircle, AlertTriangle, CheckSquare } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import { newEventId, trackLead } from '@/lib/tracking';
 
 interface PoliciesPageProps {
     onBook: (duration?: number) => void;
@@ -21,6 +22,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
         setSubmitStatus('idle');
 
         try {
+            const eventId = newEventId();
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -30,6 +32,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                     subject: 'Policy Question',
                     message: formState.message,
                     source: 'Policies Page',
+                    eventId,
                 }),
             });
 
@@ -37,6 +40,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                 const data = await response.json();
                 throw new Error(data.error || 'Failed to submit form');
             }
+            trackLead('Policies Page', eventId);
 
             setSubmitStatus('success');
             setFormState({ name: '', email: '', message: '' });

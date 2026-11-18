@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { VoiceAgentBlock } from '@/components/ui/VoiceAgentBlock';
 import { MapPin, Instagram, Mail, ArrowRight } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import { newEventId, trackLead } from '@/lib/tracking';
 
 interface ContactPageProps {
     onBook: (duration?: number) => void;
@@ -71,6 +72,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
         setErrorMessage('');
 
         try {
+            const eventId = newEventId();
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
@@ -82,6 +84,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
                     subject: subject || 'General Inquiry',
                     message: formState.details,
                     source: 'Contact Page',
+                    eventId,
                 }),
             });
 
@@ -90,6 +93,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
             if (!response.ok) {
                 throw new Error(data.error || 'Failed to submit form');
             }
+            trackLead('Contact Page', eventId);
 
             setSubmitStatus('success');
             setFormState({ name: '', email: '', details: '' });
