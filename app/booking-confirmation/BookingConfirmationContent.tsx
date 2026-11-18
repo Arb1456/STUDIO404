@@ -81,13 +81,27 @@ export default function BookingConfirmationContent() {
         const resolved = parseType(new URLSearchParams(window.location.search).get('type'));
         setType(resolved);
 
+        // Visitors always land here on a fresh page load (GHL redirect), so this
+        // effect runs before the GA script has created window.dataLayer, and
+        // sendGAEvent would silently drop the purchase. Wait for GA first.
         const { value, itemName } = VARIANTS[resolved].ga;
-        sendGAEvent('event', 'purchase', {
-            transaction_id: `booking_${Date.now()}`, // Unique ID based on timestamp
-            value,
-            currency: 'CAD',
-            items: [{ item_name: itemName, item_category: 'Service' }],
-        });
+        const sendPurchase = () =>
+            sendGAEvent('event', 'purchase', {
+                transaction_id: `booking_${Date.now()}`, // Unique ID based on timestamp
+                value,
+                currency: 'CAD',
+                items: [{ item_name: itemName, item_category: 'Service' }],
+            });
+        let tries = 0;
+        const timer = setInterval(() => {
+            if ((window as Window & { dataLayer?: unknown[] }).dataLayer) {
+                clearInterval(timer);
+                sendPurchase();
+            } else if (++tries >= 50) {
+                clearInterval(timer); // ~10 s: GA blocked (ad blocker), give up quietly
+            }
+        }, 200);
+        return () => clearInterval(timer);
     }, []);
 
     const v = type ? VARIANTS[type] : null;

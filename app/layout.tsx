@@ -96,15 +96,14 @@ export default function RootLayout({
                                 fbq('track', 'PageView');
                             `}
                         </Script>
-                        <noscript>
-                            <img
-                                height="1"
-                                width="1"
-                                style={{ display: 'none' }}
-                                src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev=PageView&noscript=1`}
-                                alt=""
-                            />
-                        </noscript>
+                        {/* Raw HTML on purpose: a JSX <img> here gets a <link rel="preload">
+                            hoisted into <head>, so every JS visitor also fired this
+                            fallback hit and Meta counted each page view twice. */}
+                        <noscript
+                            dangerouslySetInnerHTML={{
+                                __html: `<img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev=PageView&noscript=1" />`,
+                            }}
+                        />
                     </>
                 )}
             </body>
