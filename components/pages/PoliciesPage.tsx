@@ -6,6 +6,87 @@ import { AccordionItem } from '@/components/ui/AccordionItem';
 import { Volume2, Dog, HelpCircle, AlertTriangle, CheckSquare } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackLead } from '@/lib/tracking';
+import { CalendarClock, Receipt, Clock, Users } from 'lucide-react';
+import {
+    isHolidaySeason,
+    HOLIDAY_OFFERS,
+    MINI_POLICY,
+    FULL_SESSION_POLICY,
+    HOLIDAY_BALANCE_DUE_DAYS,
+    STUDIO_CONTACT,
+} from '@/lib/holiday';
+
+/** Holiday Mini + Full Holiday Session terms. Shown only while holiday mode is on. */
+const HolidayTerms: React.FC = () => {
+    const mini = MINI_POLICY;
+    const full = FULL_SESSION_POLICY;
+    const cards = [
+        {
+            icon: CalendarClock,
+            title: 'Deposits',
+            body: (
+                <>
+                    Holiday Mini: a <strong>${mini.deposit} deposit</strong> holds your spot and is refundable up to {mini.refundWindowDays} days before your session.
+                    {' '}{HOLIDAY_OFFERS.full.cardTitle}: a <strong>${full.deposit} deposit</strong>, refundable up to {full.refundWindowDays} days before.
+                </>
+            ),
+            note: `After that, the deposit is generally non-refundable, since a spot is hard to fill on short notice. If something comes up, call or text ${STUDIO_CONTACT.phoneDisplay.replace(/-/g, '‑')} and we'll look at it case by case.`,
+        },
+        {
+            icon: Receipt,
+            title: 'Balance',
+            body: (
+                <>
+                    The remaining balance, plus applicable HST and any extra-person, pet or add-on fees, comes as one invoice and is <strong>due {HOLIDAY_BALANCE_DUE_DAYS} days before your session</strong>.
+                </>
+            ),
+            note: 'If it has not been paid by then, it is charged to the card on file where possible.',
+        },
+        {
+            icon: Clock,
+            title: 'Arriving On Time',
+            body: (
+                <>
+                    Minis run back to back. If you arrive late, your session still <strong>ends at its booked time</strong> so the next family is not kept waiting.
+                </>
+            ),
+            note: 'You get the time remaining in your slot, and the full price applies.',
+        },
+        {
+            icon: Users,
+            title: 'Group Size & Pets',
+            body: (
+                <>
+                    A Holiday Mini includes up to {mini.includedPeople} people and a {HOLIDAY_OFFERS.full.cardTitle} up to {full.includedPeople}, kids included. Each extra person is <strong>+${mini.extraPersonFee}</strong>.
+                </>
+            ),
+            note: `Potty-trained pets are welcome on holiday sessions for a $${mini.petFee} cleaning fee.`,
+        },
+    ];
+
+    return (
+        <section id="holiday-terms" className="scroll-mt-24 py-24 px-6 md:px-12 lg:px-24 border-b border-charcoal/10">
+            <div className="max-w-7xl mx-auto">
+                <Reveal className="mb-16">
+                    <h2 className="text-4xl font-medium tracking-tight mb-4">Holiday Session Terms</h2>
+                    <p className="opacity-60 max-w-xl">For Holiday Minis and {HOLIDAY_OFFERS.full.cardTitle}s on our Christmas set, Christmas 2026.</p>
+                </Reveal>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {cards.map(({ icon: Icon, title, body, note }, i) => (
+                        <Reveal key={title} delay={0.1 * (i + 1)}>
+                            <div className="bg-cream p-8 h-full border border-charcoal/5 hover:border-charcoal/20 transition-colors">
+                                <Icon className="mb-6 opacity-60" size={32} />
+                                <h3 className="font-bold uppercase tracking-widest text-xs mb-4">{title}</h3>
+                                <p className="text-sm opacity-80 leading-relaxed mb-4">{body}</p>
+                                <p className="text-xs opacity-60 font-mono border-t border-charcoal/10 pt-4">{note}</p>
+                            </div>
+                        </Reveal>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
 
 interface PoliciesPageProps {
     onBook: (duration?: number) => void;
@@ -265,6 +346,8 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                     </div>
                 </div>
             </section>
+
+            {isHolidaySeason() && <HolidayTerms />}
 
             {/* Teardown Checklist */}
             <section className="py-24 px-6 md:px-12 lg:px-24">

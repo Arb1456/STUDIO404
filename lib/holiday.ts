@@ -90,6 +90,18 @@ export const MINI_POLICY = {
     refundWindowDays: 14,
 };
 
+/** Full Holiday Session terms (mirrors the GHL Holiday Form footer). */
+export const FULL_SESSION_POLICY = {
+    includedPeople: 6,
+    extraPersonFee: 15,
+    petFee: 25,
+    deposit: 75,
+    refundWindowDays: 7,
+};
+
+/** Holiday balance invoices are due this many days before the session (both offers). */
+export const HOLIDAY_BALANCE_DUE_DAYS = 3;
+
 /**
  * Optional mini upgrades. Picked on the GHL booking form (Holiday Mini only) and
  * added to the balance invoice by hand. Keep labels in sync with that form question.
