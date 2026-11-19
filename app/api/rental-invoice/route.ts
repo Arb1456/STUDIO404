@@ -148,8 +148,13 @@ export async function POST(req: Request) {
         if (path === 'hand' && depositPaid > 0)
             return NextResponse.json({ skipped: 'online booking (deposit paid); the online workflow invoices it' });
         if (path === 'online' && depositPaid === 0) {
-            await textAndre(`Rental auto-invoice: no online deposit found for ${who} on ${torontoDate(new Date(appt.startTime))}. Nothing was sent. Please check and invoice by hand.`);
-            return NextResponse.json({ skipped: 'online path but no deposit found' });
+            // Hand bookings also pass through the online workflow (it listens to every
+            // confirmed rental so moves re-time it). The hand workflow invoices those.
+            // Only a booking made on the online booking page without a deposit is odd.
+            if (appt.createdBy?.source === 'booking_widget') {
+                await textAndre(`Rental auto-invoice: ${who} booked online on ${torontoDate(new Date(appt.startTime))} but no deposit was found. Nothing was sent. Please check and invoice by hand.`);
+            }
+            return NextResponse.json({ skipped: 'online path, no deposit (hand booking or unpaid)' });
         }
 
         const today = torontoDate(new Date());
