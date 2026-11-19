@@ -1,0 +1,130 @@
+/**
+ * Rental auto-invoice: pure pricing and due-date rules (no network, no imports).
+ * Used by app/api/rental-invoice/route.ts; tested by tests/rental-invoice.test.mjs.
+ *
+ * Rules (André, 2026-11-18):
+ * - Online booking: client paid a 30% deposit. Invoice = remainder + HST (13% of the
+ *   full base), due 3 days before the rental.
+ * - Booked by hand (no deposit): one invoice right away, split into the 30% deposit
+ *   due today and the remainder + HST due 3 days before. Under 3 days away: one
+ *   payment due today.
+ */
+
+/** GHL "Studio Rental - N Hour" calendar id -> hours. */
+export const RENTAL_CALENDAR_HOURS: Record<string, number> = {
+    '3abPFtm86r4XNJBQ7IDU': 1,
+    '0vdWae4y3Zgd6mKS6aTG': 2,
+    VC0lwVNVE6j2aD1WSVyd: 3,
+    qKI04XfXWVqM0bXCDBsp: 4,
+    KsTEqQWVdmhEraqFD2SL: 5,
+    Iki58Nn230JKZoT9sP7G: 6,
+    pWJZvp02gbH77jGM5agK: 7,
+    ltPHoFWeeJkh0ehNSNZL: 8,
+    ci9PthBBWYKs3dQXRDrU: 9,
+    NnLJQCqdQeBb9sJSzK1u: 10,
+};
+
+/** Base price (before HST) by hours, matching the GHL calendars and invoice templates. */
+export const RENTAL_BASE_PRICE: Record<number, number> = {
+    1: 70, 2: 120, 3: 180, 4: 225, 5: 270, 6: 320, 7: 370, 8: 420, 9: 460, 10: 500,
+};
+
+export const DEPOSIT_RATE = 0.3;
+export const HST_RATE = 0.13;
+/** Remainder is due this many days before the rental. */
+export const DUE_DAYS_BEFORE = 3;
+
+const TZ = 'America/Toronto';
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+
+/** 'YYYY-MM-DD' of an instant, in Toronto. */
+export function torontoDate(d: Date): string {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+}
+
+/** Calendar-date arithmetic on 'YYYY-MM-DD' (no time zone involved). */
+function addDays(ymd: string, days: number): string {
+    const [y, m, d] = ymd.split('-').map(Number);
+    const t = new Date(Date.UTC(y, m - 1, d + days));
+    return t.toISOString().slice(0, 10);
+}
+
+/** Rental date minus 3 days; if that has already passed (or is today), today. */
+export function remainderDueDate(startTime: string, today: string): string {
+    const rentalDay = torontoDate(new Date(startTime));
+    const due = addDays(rentalDay, -DUE_DAYS_BEFORE);
+    return due > today ? due : today;
+}
+
+export interface InvoiceItem {
+    name: string;
+    description: string;
+    amount: number;
+}
+
+export interface RentalInvoicePlan {
+    kind: 'remainder' | 'deposit+remainder' | 'full';
+    items: InvoiceItem[];
+    total: number;
+    /** Final due date of the invoice. */
+    dueDate: string;
+    /** Two-part payment schedule, or null for a single payment. */
+    schedule: { value: number; dueDate: string }[] | null;
+}
+
+export function planRentalInvoice(input: {
+    hours: number;
+    startTime: string;
+    today: string;
+    depositPaid: number;
+}): RentalInvoicePlan {
+    const { hours, startTime, today, depositPaid } = input;
+    const base = RENTAL_BASE_PRICE[hours];
+    if (!base) throw new Error(`No price for a ${hours}h rental`);
+
+    const hst = round2(base * HST_RATE);
+    const hstItem: InvoiceItem = { name: 'HST - Manual entry', description: `13% of ${base}$`, amount: hst };
+    const rentalDay = torontoDate(new Date(startTime));
+    const label = new Date(`${rentalDay}T12:00:00Z`).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+    const dueDate = remainderDueDate(startTime, today);
+
+    if (depositPaid > 0) {
+        const remainder = round2(base - depositPaid);
+        return {
+            kind: 'remainder',
+            items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid)`, amount: remainder }, hstItem],
+            total: round2(remainder + hst),
+            dueDate,
+            schedule: null,
+        };
+    }
+
+    const items = [{ name: `${hours}h Studio Rental`, description: `${label} rental`, amount: base }, hstItem];
+    const total = round2(base + hst);
+    if (dueDate <= today) {
+        return { kind: 'full', items, total, dueDate: today, schedule: null };
+    }
+    const deposit = round2(base * DEPOSIT_RATE);
+    return {
+        kind: 'deposit+remainder',
+        items,
+        total,
+        dueDate,
+        schedule: [
+            { value: deposit, dueDate: today },
+            { value: round2(total - deposit), dueDate },
+        ],
+    };
+}
+
+/** "Rental Invoices Sent" contact field: space-separated appointment IDs. */
+export function ledgerHas(ledger: string, id: string): boolean {
+    return ledger.split(/\s+/).includes(id);
+}
+
+export function ledgerAdd(ledger: string, id: string): string {
+    const ids = ledger.split(/\s+/).filter(Boolean);
+    if (!ids.includes(id)) ids.push(id);
+    return ids.join(' ');
+}
