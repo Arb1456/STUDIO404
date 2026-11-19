@@ -29,12 +29,15 @@ const SET_PHOTOS = {
     wide: 'HOLIDAY-SET-2026-WIDE',
     /** Set2026-10: full set, 4:5, already fades to black at the bottom (good under text). */
     fade: 'HOLIDAY-SET-2026-FADE',
+    /** Fe Newborn Session v2-3 (a set photo, misnamed): wreath on the black diamond between the white trees. */
+    wreathWide: 'HOLIDAY-SET-2026-WREATH-WIDE',
 };
 
 export const HOLIDAY_HERO_IMAGE = {
-    // Hero boxes are ~2.4:1, so pre-crop to that shape anchored low: keeps the couch, drops the top drape.
-    desktop: cloudinaryUrl(SET_PHOTOS.wide, { width: 1920, aspectRatio: '2.4', crop: 'fill', gravity: 'south' }),
-    mobile: cloudinaryUrl(SET_PHOTOS.fade, { width: 828, height: 1200, crop: 'fill', gravity: 'center' }),
+    // Hero boxes are ~2.4:1, so pre-crop to that shape, centred on the wreath.
+    desktop: cloudinaryUrl(SET_PHOTOS.wreathWide, { width: 1920, aspectRatio: '2.4', crop: 'fill', gravity: 'center' }),
+    mobile: cloudinaryUrl(SET_PHOTOS.wreathWide, { width: 828, height: 1200, crop: 'fill', gravity: 'center' }),
+    // Session card on the Photoshoot page keeps the couch shot.
     card: cloudinaryUrl(SET_PHOTOS.wide, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
 };
 
