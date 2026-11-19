@@ -10,6 +10,7 @@ import {
     planRentalInvoice,
     ledgerHas,
     ledgerAdd,
+    scheduleNote,
 } from '../lib/rental-invoice.ts';
 
 test('all 10 rental calendars map to hours with a base price', () => {
@@ -93,4 +94,11 @@ test('ledger: whole-ID match only, append keeps earlier IDs', () => {
     assert.equal(ledgerHas('xabcx', 'abc'), false);
     assert.equal(ledgerAdd(' abc', 'def'), 'abc def');
     assert.equal(ledgerAdd('abc', 'abc'), 'abc');
+});
+
+test('two-part invoice gets a client note naming both payments; single payment gets none', () => {
+    const two = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 0 });
+    assert.equal(scheduleNote(two), 'Payment schedule: the 30% deposit of $21.00 is due now to hold your booking. The balance of $58.10 is due November 25.');
+    const one = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 21 });
+    assert.equal(scheduleNote(one), '');
 });

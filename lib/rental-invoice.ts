@@ -118,6 +118,15 @@ export function planRentalInvoice(input: {
     };
 }
 
+/** Client-facing note for a two-part invoice (GHL's own text/email only shows the final due date). */
+export function scheduleNote(plan: RentalInvoicePlan): string {
+    if (!plan.schedule) return '';
+    const [dep, rest] = plan.schedule;
+    const day = (ymd: string) =>
+        new Date(`${ymd}T12:00:00Z`).toLocaleDateString('en-CA', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+    return `Payment schedule: the 30% deposit of $${dep.value.toFixed(2)} is due now to hold your booking. The balance of $${rest.value.toFixed(2)} is due ${day(rest.dueDate)}.`;
+}
+
 /** "Rental Invoices Sent" contact field: space-separated appointment IDs. */
 export function ledgerHas(ledger: string, id: string): boolean {
     return ledger.split(/\s+/).includes(id);

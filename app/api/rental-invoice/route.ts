@@ -5,6 +5,7 @@ import {
     ledgerAdd,
     ledgerHas,
     planRentalInvoice,
+    scheduleNote,
     torontoDate,
     type RentalInvoicePlan,
 } from '@/lib/rental-invoice';
@@ -185,7 +186,7 @@ export async function POST(req: Request) {
                 dueDate: plan.dueDate,
                 sentTo: { email: contact.email ? [contact.email] : [], phoneNo: contact.phone ? [contact.phone] : [] },
                 liveMode: true,
-                termsNotes: '',
+                termsNotes: scheduleNote(plan) ? `<p>${scheduleNote(plan)}</p>` : '',
                 ...(plan.schedule ? { paymentSchedule: { type: 'fixed', schedules: plan.schedule } } : {}),
             }),
         });
