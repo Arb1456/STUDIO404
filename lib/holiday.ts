@@ -53,25 +53,25 @@ export interface HolidayCarouselPhoto {
     alt: string;
 }
 
+// Order set by André (Nov 18): full set first, then clients / details / clients,
+// then the rest of the details, ending on a full set shot.
 const CAROUSEL_PHOTOS: HolidayCarouselPhoto[] = [
-    { id: 'HOLIDAY-SET-2026-WIDE', era: '2026-set', ratio: '3/2', alt: 'The 2026 Christmas set: cream couch with red velvet pillows between flocked white trees and a wreath' },
+    // Full set (Set2026-10)
+    { id: 'HOLIDAY-SET-2026-FADE', era: '2026-set', ratio: '4/5', alt: 'The full 2026 Christmas set: cream couch, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
+    // Last year's clients
     { id: 'HOLIDAY-2025-AMV-8', era: '2025-client', ratio: '5/4', alt: 'Family of six in matching red plaid pyjamas on the couch' },
     { id: 'HOLIDAY-SET-KHEY', era: '2025-client', ratio: '5/4', alt: 'Couple in matching red plaid pyjamas on the Christmas set' },
-    { id: 'HOLIDAY-SET-2026-SIDE', era: '2026-set', ratio: '2/3', alt: 'Side view of the 2026 set: couch, garland and the wreath on the black diamond' },
+    // Set details
+    { id: 'HOLIDAY-SET-2026-ORNAMENTS', era: '2026-set', ratio: '2/3', alt: 'Close-up of red glitter ornaments on a flocked tree' },
+    { id: 'HOLIDAY-SET-2026-BOW', era: '2026-set', ratio: '2/3', alt: 'Red velvet bow and ornament garland on a white tree' },
+    // More of last year's clients
     { id: 'HOLIDAY-2025-FAUSTIN-10', era: '2025-client', ratio: '3/2', alt: 'Parents and baby in matching Santa hats and Fair Isle pyjamas' },
     { id: 'HOLIDAY-SET-CASSI', era: '2025-client', ratio: '3/2', alt: 'Family of five on the cream couch in front of white Christmas trees' },
-    { id: 'HOLIDAY-SET-2026-PRESENTS', era: '2026-set', ratio: '3/2', alt: 'Wrapped presents in gold and red under the glowing white trees on the 2026 set' },
-    { id: 'HOLIDAY-2025-FAUSTIN-9', era: '2025-client', ratio: '2/3', alt: 'Baby in a Santa hat sitting in a tiny armchair beside a teddy bear' },
-    { id: 'HOLIDAY-2025-ISAAC-11', era: '2025-client', ratio: '5/4', alt: 'Large family of twelve holding gifts and teddy bears on the couch' },
-    { id: 'HOLIDAY-SET-2026-WREATH', era: '2026-set', ratio: '2/3', alt: 'Red-bowed wreath on the black diamond backdrop of the 2026 set' },
-    { id: 'HOLIDAY-2025-KHEY-2', era: '2025-client', ratio: '3/2', alt: 'Couple in red plaid pyjamas cuddling a teddy bear on the couch' },
-    { id: 'HOLIDAY-2025-AMV-7', era: '2025-client', ratio: '3/2', alt: 'Four kids in plaid pyjamas and festive headbands on the fluffy carpet' },
-    { id: 'HOLIDAY-SET-2026-ORNAMENTS', era: '2026-set', ratio: '2/3', alt: 'Close-up of red glitter ornaments on a flocked tree' },
-    { id: 'HOLIDAY-2025-FAUSTIN-2', era: '2025-client', ratio: '2/3', alt: 'Parents in white shirts holding their baby on the couch' },
-    { id: 'HOLIDAY-2025-CASSI-V2', era: '2025-client', ratio: '3/2', alt: 'Three siblings relaxing on the carpet among wrapped presents' },
-    { id: 'HOLIDAY-SET-2026-BOW', era: '2026-set', ratio: '2/3', alt: 'Red velvet bow and ornament garland on a white tree' },
-    { id: 'HOLIDAY-2025-FAUSTIN-6', era: '2025-client', ratio: '3/2', alt: 'Baby sitting on the fluffy carpet between two big teddy bears' },
+    // More details, then a full set shot to close
     { id: 'HOLIDAY-SET-2026-GIFT', era: '2026-set', ratio: '2/3', alt: 'Gold-wrapped gift tied with a red velvet bow' },
+    { id: 'HOLIDAY-SET-2026-SWIRL', era: '2026-set', ratio: '2/3', alt: 'Red ornament with a gold swirl on a flocked tree' },
+    { id: 'HOLIDAY-SET-2026-BERRIES', era: '2026-set', ratio: '2/3', alt: 'Flocked tree with red berries and ornaments' },
+    { id: 'HOLIDAY-SET-2026-WIDE', era: '2026-set', ratio: '3/2', alt: 'The 2026 Christmas set: cream couch with red velvet pillows between flocked white trees' },
 ];
 
 /** Slide height is fixed in CSS; 920px tall covers 2x screens at the md height (460px). */
