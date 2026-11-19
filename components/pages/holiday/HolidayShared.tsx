@@ -3,11 +3,11 @@
  * Sections shared by the holiday landing pages (/holiday-minis, /holiday-session).
  * Content lives in lib/holiday.ts; these components only lay it out.
  */
-import React, { useState } from 'react';
-import { Star, Phone, Mail, ExternalLink } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Star, Phone, Mail, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
-import { HOLIDAY_SET_GALLERY, STUDIO_CONTACT } from '@/lib/holiday';
+import { HOLIDAY_SET_CAROUSEL, STUDIO_CONTACT, type HolidayPhotoEra } from '@/lib/holiday';
 import { newEventId, trackLead } from '@/lib/tracking';
 
 // ─── Reviews ─────────────────────────────────────────────────────────────
@@ -78,22 +78,82 @@ export const HolidayReviews: React.FC = () => (
 
 // ─── Christmas set gallery ───────────────────────────────────────────────
 
-export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ heading, caption }) => (
-    <section className="px-6 pb-20 md:pb-28 max-w-6xl mx-auto">
-        <OrnamentDivider className="mb-6" />
-        <Reveal width="100%">
-            <h2 className="font-serif text-4xl md:text-5xl text-center mb-3">{heading}</h2>
-            {caption && <p className="text-center text-charcoal/60 max-w-xl mx-auto mb-10">{caption}</p>}
-        </Reveal>
-        <div className="grid grid-cols-3 gap-1 md:gap-2">
-            {HOLIDAY_SET_GALLERY.map((photo) => (
-                <div key={photo.src} className="aspect-[3/4] overflow-hidden bg-charcoal/5">
-                    <img src={photo.src} alt={photo.alt} loading="lazy" className="w-full h-full object-cover" />
+const ERA_LABEL: Record<HolidayPhotoEra, string> = {
+    '2026-set': 'New 2026 set',
+    '2025-client': 'Christmas 2025 client',
+};
+
+/**
+ * Swipeable carousel mixing this year's (empty) set with real client photos
+ * from last year's set. Fixed height, natural widths, so no photo is cropped.
+ */
+export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ heading, caption }) => {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const scroll = (dir: 1 | -1) => {
+        const el = trackRef.current;
+        if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+    };
+
+    return (
+        <section className="pb-20 md:pb-28">
+            <div className="px-6 max-w-6xl mx-auto">
+                <OrnamentDivider className="mb-6" />
+                <Reveal width="100%">
+                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-3">{heading}</h2>
+                    {caption && <p className="text-center text-charcoal/60 max-w-xl mx-auto mb-4">{caption}</p>}
+                    <p className="text-center text-sm text-charcoal/70 max-w-xl mx-auto mb-10">
+                        Our set is brand new for 2026. The family photos below were taken on{' '}
+                        <span className="italic">last year&apos;s</span> set, so you can see the kind of photos you&apos;ll take home.
+                    </p>
+                </Reveal>
+            </div>
+            <div className="relative max-w-7xl mx-auto">
+                <div
+                    ref={trackRef}
+                    className="flex gap-2 md:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar px-6 scroll-px-6"
+                    aria-label="Christmas set and client photos"
+                    tabIndex={0}
+                >
+                    {HOLIDAY_SET_CAROUSEL.map((photo) => (
+                        <figure
+                            key={photo.id}
+                            className="relative shrink-0 snap-start h-[340px] md:h-[460px] overflow-hidden bg-charcoal/5"
+                            style={{ aspectRatio: photo.ratio }}
+                        >
+                            <img src={photo.src} alt={photo.alt} loading="lazy" className="w-full h-full object-cover" />
+                            <figcaption
+                                className={`absolute left-2 top-2 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] ${
+                                    photo.era === '2026-set' ? 'bg-evergreen text-cream' : 'bg-cream/90 text-charcoal'
+                                }`}
+                            >
+                                {ERA_LABEL[photo.era]}
+                            </figcaption>
+                        </figure>
+                    ))}
                 </div>
-            ))}
-        </div>
-    </section>
-);
+                <button
+                    type="button"
+                    onClick={() => scroll(-1)}
+                    aria-label="Previous photos"
+                    className="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-cream/90 text-charcoal shadow hover:bg-cream"
+                >
+                    <ChevronLeft size={20} />
+                </button>
+                <button
+                    type="button"
+                    onClick={() => scroll(1)}
+                    aria-label="Next photos"
+                    className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center rounded-full bg-cream/90 text-charcoal shadow hover:bg-cream"
+                >
+                    <ChevronRight size={20} />
+                </button>
+            </div>
+            <p className="md:hidden text-center text-[10px] uppercase tracking-[0.25em] text-charcoal/40 mt-5" aria-hidden="true">
+                Swipe for more →
+            </p>
+        </section>
+    );
+};
 
 // ─── Christmas at Studio 404 — call / email / inquiry ────────────────────
 

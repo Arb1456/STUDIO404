@@ -21,28 +21,64 @@ export function isHolidaySeason(): boolean {
 }
 
 // ─── Christmas set imagery ─────────────────────────────────────────────
-// Last year's set (Christmas 2025) until the 2026 set is photographed.
-// To swap: upload the new photos to Cloudinary and change the public IDs below —
-// every holiday page (hero, minis, full session, rental, tour) reads from here.
+// 2026 set photos (shot Nov 2026, source: ~/Desktop/STU CHRISTMAS /NEW SET PHOTOS).
+// Every holiday page (hero, minis, full session, rental, tour) reads from here.
+// Never use HOLIDAY-SET-K1 / HOLIDAY-SET-KT1: those are photos of André, not clients.
 const SET_PHOTOS = {
-    hero: 'HOLIDAY-SET-K1',
-    couple: 'HOLIDAY-SET-KHEY',
-    couplePortrait: 'HOLIDAY-SET-KT1',
-    family: 'HOLIDAY-SET-CASSI',
+    /** Set2026-6: full set, landscape, couch centred. */
+    wide: 'HOLIDAY-SET-2026-WIDE',
+    /** Set2026-10: full set, 4:5, already fades to black at the bottom (good under text). */
+    fade: 'HOLIDAY-SET-2026-FADE',
 };
 
 export const HOLIDAY_HERO_IMAGE = {
-    desktop: cloudinaryUrl(SET_PHOTOS.hero, { width: 1920 }),
-    mobile: cloudinaryUrl(SET_PHOTOS.hero, { width: 828, height: 1200, crop: 'fill', gravity: 'auto' }),
-    card: cloudinaryUrl(SET_PHOTOS.hero, { width: 800, height: 800, crop: 'fill', gravity: 'auto' }),
+    // Hero boxes are ~2.4:1, so pre-crop to that shape anchored low: keeps the couch, drops the top drape.
+    desktop: cloudinaryUrl(SET_PHOTOS.wide, { width: 1920, aspectRatio: '2.4', crop: 'fill', gravity: 'south' }),
+    mobile: cloudinaryUrl(SET_PHOTOS.fade, { width: 828, height: 1200, crop: 'fill', gravity: 'center' }),
+    card: cloudinaryUrl(SET_PHOTOS.wide, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
 };
 
-/** Set gallery shown on the minis + full-session pages (alt text describes the photo). */
-export const HOLIDAY_SET_GALLERY = [
-    { src: cloudinaryUrl(SET_PHOTOS.family, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Family of five on the cream couch in front of white Christmas trees' },
-    { src: cloudinaryUrl(SET_PHOTOS.couplePortrait, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Couple sharing a kiss on the Christmas set, one wearing a Santa hat' },
-    { src: cloudinaryUrl(SET_PHOTOS.couple, { width: 900, height: 1200, crop: 'fill', gravity: 'auto' }), alt: 'Couple in matching red plaid pyjamas on the Christmas set' },
+/**
+ * Photo carousel on the minis + full-session pages.
+ * '2026-set' = this year's set, empty (no clients yet).
+ * '2025-client' = real client sessions on LAST year's set, shown as "what to expect".
+ * `ratio` is the photo's real shape (width/height) so nothing is cropped.
+ * Alt text describes the photo only; never put client names here.
+ */
+export type HolidayPhotoEra = '2026-set' | '2025-client';
+export interface HolidayCarouselPhoto {
+    id: string;
+    era: HolidayPhotoEra;
+    ratio: string;
+    alt: string;
+}
+
+const CAROUSEL_PHOTOS: HolidayCarouselPhoto[] = [
+    { id: 'HOLIDAY-SET-2026-WIDE', era: '2026-set', ratio: '3/2', alt: 'The 2026 Christmas set: cream couch with red velvet pillows between flocked white trees and a wreath' },
+    { id: 'HOLIDAY-2025-AMV-8', era: '2025-client', ratio: '5/4', alt: 'Family of six in matching red plaid pyjamas on the couch' },
+    { id: 'HOLIDAY-SET-KHEY', era: '2025-client', ratio: '5/4', alt: 'Couple in matching red plaid pyjamas on the Christmas set' },
+    { id: 'HOLIDAY-SET-2026-SIDE', era: '2026-set', ratio: '2/3', alt: 'Side view of the 2026 set: couch, garland and the wreath on the black diamond' },
+    { id: 'HOLIDAY-2025-FAUSTIN-10', era: '2025-client', ratio: '3/2', alt: 'Parents and baby in matching Santa hats and Fair Isle pyjamas' },
+    { id: 'HOLIDAY-SET-CASSI', era: '2025-client', ratio: '3/2', alt: 'Family of five on the cream couch in front of white Christmas trees' },
+    { id: 'HOLIDAY-SET-2026-PRESENTS', era: '2026-set', ratio: '3/2', alt: 'Wrapped presents in gold and red under the glowing white trees on the 2026 set' },
+    { id: 'HOLIDAY-2025-FAUSTIN-9', era: '2025-client', ratio: '2/3', alt: 'Baby in a Santa hat sitting in a tiny armchair beside a teddy bear' },
+    { id: 'HOLIDAY-2025-ISAAC-11', era: '2025-client', ratio: '5/4', alt: 'Large family of twelve holding gifts and teddy bears on the couch' },
+    { id: 'HOLIDAY-SET-2026-WREATH', era: '2026-set', ratio: '2/3', alt: 'Red-bowed wreath on the black diamond backdrop of the 2026 set' },
+    { id: 'HOLIDAY-2025-KHEY-2', era: '2025-client', ratio: '3/2', alt: 'Couple in red plaid pyjamas cuddling a teddy bear on the couch' },
+    { id: 'HOLIDAY-2025-AMV-7', era: '2025-client', ratio: '3/2', alt: 'Four kids in plaid pyjamas and festive headbands on the fluffy carpet' },
+    { id: 'HOLIDAY-SET-2026-ORNAMENTS', era: '2026-set', ratio: '2/3', alt: 'Close-up of red glitter ornaments on a flocked tree' },
+    { id: 'HOLIDAY-2025-FAUSTIN-2', era: '2025-client', ratio: '2/3', alt: 'Parents in white shirts holding their baby on the couch' },
+    { id: 'HOLIDAY-2025-CASSI-V2', era: '2025-client', ratio: '3/2', alt: 'Three siblings relaxing on the carpet among wrapped presents' },
+    { id: 'HOLIDAY-SET-2026-BOW', era: '2026-set', ratio: '2/3', alt: 'Red velvet bow and ornament garland on a white tree' },
+    { id: 'HOLIDAY-2025-FAUSTIN-6', era: '2025-client', ratio: '3/2', alt: 'Baby sitting on the fluffy carpet between two big teddy bears' },
+    { id: 'HOLIDAY-SET-2026-GIFT', era: '2026-set', ratio: '2/3', alt: 'Gold-wrapped gift tied with a red velvet bow' },
 ];
+
+/** Slide height is fixed in CSS; 920px tall covers 2x screens at the md height (460px). */
+export const HOLIDAY_SET_CAROUSEL = CAROUSEL_PHOTOS.map((p) => ({
+    ...p,
+    src: cloudinaryUrl(p.id, { height: 920, crop: 'fit' }),
+}));
 
 // Offers — pricing/packages to be fine-tuned later.
 // TODO: replace calendar URLs with the real GHL calendars once created.
