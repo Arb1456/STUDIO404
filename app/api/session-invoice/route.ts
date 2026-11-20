@@ -100,7 +100,18 @@ async function depositPaidFor(contactId: string, appointmentId: string): Promise
     const orders = await ghl<{ data?: any[] }>(
         `/payments/orders?altId=${LOCATION_ID}&altType=location&locationId=${LOCATION_ID}&contactId=${contactId}&limit=100`,
     );
-    const order = (orders.data ?? []).find((o) => o?.source?.appointmentId === appointmentId);
+    let order = (orders.data ?? []).find((o) => o?.source?.appointmentId === appointmentId);
+    if (!order) {
+        // The order list can leave out `source` (seen 2026-11-19); read each order in full.
+        for (const o of orders.data ?? []) {
+            if (o?.source?.appointmentId || !o?._id) continue;
+            const full = await ghl<any>(`/payments/orders/${o._id}?altId=${LOCATION_ID}&altType=location&locationId=${LOCATION_ID}`);
+            if (full?.source?.appointmentId === appointmentId) {
+                order = full;
+                break;
+            }
+        }
+    }
     if (!order) return 0;
     const tx = await ghl<{ data?: any[] }>(
         `/payments/transactions?altId=${LOCATION_ID}&altType=location&contactId=${contactId}&limit=100`,
