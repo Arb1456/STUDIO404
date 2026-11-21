@@ -298,7 +298,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 <Dog className="mb-6 opacity-60" size={32} />
                                 <h3 className="font-bold uppercase tracking-widest text-xs mb-4">Animal Policy</h3>
                                 <p className="text-sm opacity-80 leading-relaxed mb-4">
-                                    Well-behaved pets are permitted on set. We require a <strong>$50 cleaning deposit</strong> upfront.
+                                    Well-behaved, potty-trained pets are welcome on set, and they don&apos;t need to be leashed inside the studio. A <strong>$25 cleaning fee</strong> is added to your rental.
                                 </p>
                                 <p className="text-xs opacity-60 font-mono border-t border-charcoal/10 pt-4">
                                     NOTE: The renter assumes 100% liability for any damage to the cyc wall or equipment caused by the animal.
