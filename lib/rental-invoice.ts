@@ -30,6 +30,8 @@ export const RENTAL_BASE_PRICE: Record<number, number> = {
 };
 
 export const DEPOSIT_RATE = 0.3;
+/** Cleaning fee when a pet comes to a rental (policies page, André 2026-11-20). */
+export const PET_FEE = 25;
 export const HST_RATE = 0.13;
 /** Remainder is due this many days before the rental. */
 export const DUE_DAYS_BEFORE = 3;
@@ -78,13 +80,17 @@ export function planRentalInvoice(input: {
     startTime: string;
     today: string;
     depositPaid: number;
+    /** Client answered "Pet Coming? Yes" on the booking form. */
+    pet?: boolean;
 }): RentalInvoicePlan {
-    const { hours, startTime, today, depositPaid } = input;
+    const { hours, startTime, today, depositPaid, pet = false } = input;
     const base = RENTAL_BASE_PRICE[hours];
     if (!base) throw new Error(`No price for a ${hours}h rental`);
 
-    const hst = round2(base * HST_RATE);
-    const hstItem: InvoiceItem = { name: 'HST - Manual entry', description: `13% of ${base}$`, amount: hst };
+    const petItems: InvoiceItem[] = pet ? [{ name: 'Pet cleaning fee', description: '', amount: PET_FEE }] : [];
+    const taxable = base + (pet ? PET_FEE : 0);
+    const hst = round2(taxable * HST_RATE);
+    const hstItem: InvoiceItem = { name: 'HST - Manual entry', description: `13% of ${taxable}$`, amount: hst };
     const rentalDay = torontoDate(new Date(startTime));
     const label = new Date(`${rentalDay}T12:00:00Z`).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', timeZone: 'UTC' });
     const dueDate = remainderDueDate(startTime, today);
@@ -93,15 +99,15 @@ export function planRentalInvoice(input: {
         const remainder = round2(base - depositPaid);
         return {
             kind: 'remainder',
-            items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid)`, amount: remainder }, hstItem],
-            total: round2(remainder + hst),
+            items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid)`, amount: remainder }, ...petItems, hstItem],
+            total: round2(remainder + (pet ? PET_FEE : 0) + hst),
             dueDate,
             schedule: null,
         };
     }
 
-    const items = [{ name: `${hours}h Studio Rental`, description: `${label} rental`, amount: base }, hstItem];
-    const total = round2(base + hst);
+    const items = [{ name: `${hours}h Studio Rental`, description: `${label} rental`, amount: base }, ...petItems, hstItem];
+    const total = round2(taxable + hst);
     if (dueDate <= today) {
         return { kind: 'full', items, total, dueDate: today, schedule: null };
     }

@@ -47,6 +47,8 @@ const ANDRE_USER_ID = '4Y0acd57977BsswSio0T';
 const ALERT_CONTACT_ID = 'wJCLuu5zR30XT3Ncx25K';
 /** Contact field "Rental Invoices Sent" (appointment IDs already invoiced). */
 const LEDGER_FIELD_ID = '1XRNhPKAYlS5bSXqfEWF';
+/** Contact field "Pet Coming?" (Yes/No radio), filled by the booking form. */
+const PET_FIELD_ID = '53fz0Jt5VX6lwM3zqlHt';
 const BUSINESS_DETAILS = {
     name: 'Studio 404',
     phoneNo: '+13433144140',
@@ -184,7 +186,11 @@ export async function POST(req: Request) {
         }
 
         const today = torontoDate(new Date());
-        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid });
+        // Only trust the pet answer on online bookings: the form just overwrote it. A hand
+        // booking never sees the form, so the field could hold an old holiday-booking answer.
+        const petAnswer = (contact.customFields ?? []).find((f: any) => f.id === PET_FIELD_ID)?.value;
+        const pet = appt.createdBy?.source === 'booking_widget' && String(petAnswer ?? '').trim().toLowerCase() === 'yes';
+        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid, pet });
         const dayLabel = plan.items[0].description.split(' rental')[0];
         const name = `${dayLabel} ${hours}h Rental – ${first || fullName || 'Client'}`;
 

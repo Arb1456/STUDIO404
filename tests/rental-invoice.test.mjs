@@ -102,3 +102,18 @@ test('two-part invoice gets a client note naming both payments; single payment g
     const one = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 21 });
     assert.equal(scheduleNote(one), '');
 });
+
+test('pet coming: $25 cleaning fee line, HST covers it, no pet means no line', () => {
+    const p = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 21, pet: true });
+    assert.deepEqual(p.items.map((i) => [i.name, i.amount]), [
+        ['1h Rental – Remainder', 49],
+        ['Pet cleaning fee', 25],
+        ['HST - Manual entry', 12.35],
+    ]);
+    assert.equal(p.items[2].description, '13% of 95$');
+    assert.equal(p.total, 86.35);
+
+    const none = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 21, pet: false });
+    assert.equal(none.items.length, 2);
+    assert.equal(none.total, 58.1);
+});
