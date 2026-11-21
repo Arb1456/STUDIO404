@@ -29,6 +29,16 @@ import {
  */
 
 export const dynamic = 'force-dynamic';
+/** Room for the deposit re-checks below. */
+export const maxDuration = 60;
+
+/**
+ * An online booking's deposit can be recorded a few seconds AFTER GHL fires the workflow
+ * (Heckson, 2026-11-19: called 11 s after booking, deposit not there yet, so no invoice).
+ * Re-check up to 3 more times, 5 s apart.
+ */
+const DEPOSIT_RETRIES = 3;
+const DEPOSIT_RETRY_MS = 5000;
 
 const GHL = 'https://services.leadconnectorhq.com';
 const LOCATION_ID = 'cDtp2a3Mcml7dTHdhndk';
@@ -156,7 +166,11 @@ export async function POST(req: Request) {
         const ledger: string = (contact.customFields ?? []).find((f: any) => f.id === LEDGER_FIELD_ID)?.value ?? '';
         if (ledgerHas(ledger, appointmentId)) return NextResponse.json({ skipped: 'already invoiced' });
 
-        const depositPaid = await depositPaidFor(contactId, appointmentId);
+        let depositPaid = await depositPaidFor(contactId, appointmentId);
+        for (let i = 0; i < DEPOSIT_RETRIES && depositPaid === 0 && appt.createdBy?.source === 'booking_widget'; i++) {
+            await new Promise((r) => setTimeout(r, DEPOSIT_RETRY_MS));
+            depositPaid = await depositPaidFor(contactId, appointmentId);
+        }
         if (path === 'hand' && depositPaid > 0)
             return NextResponse.json({ skipped: 'online booking (deposit paid); the online workflow invoices it' });
         if (path === 'online' && depositPaid === 0) {

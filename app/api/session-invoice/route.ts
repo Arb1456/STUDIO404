@@ -29,6 +29,17 @@ import {
  */
 
 export const dynamic = 'force-dynamic';
+/** Room for the deposit re-checks below. */
+export const maxDuration = 60;
+
+/**
+ * An online booking's deposit can be recorded a few seconds AFTER GHL fires the workflow
+ * (seen on a rental 2026-11-19). Re-check up to 3 more times, 5 s apart. If an online
+ * booking still shows no deposit, invoice nothing: treating it as a hand booking would
+ * bill the full price.
+ */
+const DEPOSIT_RETRIES = 3;
+const DEPOSIT_RETRY_MS = 5000;
 
 const GHL = 'https://services.leadconnectorhq.com';
 const LOCATION_ID = 'cDtp2a3Mcml7dTHdhndk';
@@ -165,7 +176,16 @@ export async function POST(req: Request) {
         if (ledgerHas(ledger, appointmentId)) return NextResponse.json({ skipped: 'already invoiced' });
 
         const extras = parseExtras(fields);
-        const depositPaid = await depositPaidFor(contactId, appointmentId);
+        const online = appt.createdBy?.source === 'booking_widget';
+        let depositPaid = await depositPaidFor(contactId, appointmentId);
+        for (let i = 0; i < DEPOSIT_RETRIES && depositPaid === 0 && online; i++) {
+            await new Promise((r) => setTimeout(r, DEPOSIT_RETRY_MS));
+            depositPaid = await depositPaidFor(contactId, appointmentId);
+        }
+        if (online && depositPaid === 0) {
+            await textAndre(`Session auto-invoice: ${who} was booked online but no deposit was found. Nothing was created. Please check and invoice by hand.`);
+            return NextResponse.json({ skipped: 'online booking, no deposit found' });
+        }
         const today = torontoDate(new Date());
         const plan = planSessionInvoice({ offer, extras, startTime: appt.startTime, today, depositPaid });
         const name = `${plan.dayLabel} ${offer.name} – ${first || fullName || 'Client'}`;
