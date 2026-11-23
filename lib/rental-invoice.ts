@@ -26,7 +26,7 @@ export const RENTAL_CALENDAR_HOURS: Record<string, number> = {
 
 /** Base price (before HST) by hours, matching the GHL calendars and invoice templates. */
 export const RENTAL_BASE_PRICE: Record<number, number> = {
-    1: 70, 2: 120, 3: 180, 4: 225, 5: 270, 6: 320, 7: 370, 8: 420, 9: 460, 10: 500,
+    1: 70, 2: 120, 3: 180, 4: 225, 5: 270, 6: 315, 7: 360, 8: 400, 9: 430, 10: 450,
 };
 
 export const DEPOSIT_RATE = 0.3;

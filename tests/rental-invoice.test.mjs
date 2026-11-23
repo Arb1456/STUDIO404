@@ -19,7 +19,9 @@ test('all 10 rental calendars map to hours with a base price', () => {
     assert.equal(RENTAL_BASE_PRICE[1], 70);
     assert.equal(RENTAL_BASE_PRICE[2], 120);
     assert.equal(RENTAL_BASE_PRICE[4], 225);
-    assert.equal(RENTAL_BASE_PRICE[10], 500);
+    assert.equal(RENTAL_BASE_PRICE[10], 450);
+    // 6h+ must match the site (RentalPage, BookingHub) and the GHL calendar prices (André, Nov 22).
+    assert.deepEqual([6, 7, 8, 9, 10].map((h) => RENTAL_BASE_PRICE[h]), [315, 360, 400, 430, 450]);
 });
 
 test('torontoDate uses Toronto wall-clock date, not UTC', () => {

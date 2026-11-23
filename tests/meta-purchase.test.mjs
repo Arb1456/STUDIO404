@@ -12,7 +12,7 @@ test('full price for every booking calendar: minis, holiday, photo sessions, eve
     assert.deepEqual(purchaseFor('b4CiROJpNQTGDtossKxl'), { value: 250, contentName: 'Full Holiday Session', category: 'holiday' });
     assert.deepEqual(purchaseFor('GSWUXn108tS992TUjrrl'), { value: 250, contentName: 'Maternity Session', category: 'photo session' });
     assert.deepEqual(purchaseFor('3abPFtm86r4XNJBQ7IDU'), { value: 70, contentName: '1h Studio Rental', category: 'rental' });
-    assert.deepEqual(purchaseFor('NnLJQCqdQeBb9sJSzK1u'), { value: 500, contentName: '10h Studio Rental', category: 'rental' });
+    assert.deepEqual(purchaseFor('NnLJQCqdQeBb9sJSzK1u'), { value: 450, contentName: '10h Studio Rental', category: 'rental' });
 });
 
 test('non-booking calendars (personal calendars) send nothing', () => {

@@ -259,10 +259,13 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             <AccordionItem
                                 number="08"
                                 title="Studio Restoration"
-                                warning="Restoration Fee: Starting at $100.00"
+                                warning="Restoration Fee: $25 if not reset"
                             >
                                 <p>
-                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned to its original layout with all equipment, modifiers, and cords returned to their designated storage locations. If the space is left in disarray or requires resetting, a restoration fee starting at $100.00 will be applied.
+                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned exactly as it was found: all C-stands placed together, all lights back in the cabinets, lighting modifiers back on the wall, and all other equipment returned to where it was taken from. An immediate <strong>$25 charge</strong> applies if the studio isn&apos;t reset, as it can impact the next booking.
+                                </p>
+                                <p className="mt-3">
+                                    Arrived and the studio wasn&apos;t reset? Reply to your booking text or email with photos of how the space was left, so you aren&apos;t charged for it.
                                 </p>
                             </AccordionItem>
 
@@ -365,7 +368,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
                                     <div>
                                         <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Equipment</h4>
-                                        <p className="text-sm opacity-70">All strobes and constant lights returned to their starting positions.</p>
+                                        <p className="text-sm opacity-70">All lights back in the cabinets; all C-stands placed together.</p>
                                     </div>
                                 </div>
 
@@ -373,7 +376,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
                                     <div>
                                         <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Modifiers</h4>
-                                        <p className="text-sm opacity-70">Softboxes, grids, and umbrellas returned to designated storage.</p>
+                                        <p className="text-sm opacity-70">Softboxes, grids, umbrellas and other lighting modifiers back on the wall.</p>
                                     </div>
                                 </div>
 
