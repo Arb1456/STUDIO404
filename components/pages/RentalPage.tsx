@@ -244,10 +244,15 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     <Snowfall count={18} />
                     <div className="relative max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
                         <Reveal>
-                            <div className="relative aspect-[4/3] md:aspect-[4/5] overflow-hidden border border-cream/20">
-                                <img src={CHRISTMAS_SET.image} alt="The Studio 404 Christmas set" loading="lazy" className="w-full h-full object-cover" />
-                                {/* warm tint keeps the placeholder on-palette until real set photos exist */}
-                                <div className="absolute inset-0 bg-evergreen/25 mix-blend-multiply" />
+                            <div className="relative aspect-[4/5] overflow-hidden border border-cream/20">
+                                <img src={CHRISTMAS_SET.portrait} alt="The full 2026 Christmas set: cream couch, red carpet, flocked white trees and a wreath" loading="lazy" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="grid grid-cols-4 gap-2 mt-2">
+                                {CHRISTMAS_SET.details.map((d) => (
+                                    <div key={d.src} className="aspect-square overflow-hidden border border-cream/20">
+                                        <img src={d.src} alt={d.alt} loading="lazy" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
                             </div>
                         </Reveal>
                         <div className="text-center md:text-left">

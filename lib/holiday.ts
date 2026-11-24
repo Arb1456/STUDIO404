@@ -268,8 +268,19 @@ export const TRUCK_INITIATIVE = {
 };
 
 // ─── Christmas set (rental + tour) ──────────────────────────────────────
+/** Details row on the tour + rental Christmas sections (2026 set only, no clients). */
+const SET_DETAIL_IDS = ['HOLIDAY-SET-2026-ORNAMENTS', 'HOLIDAY-SET-2026-BOW', 'HOLIDAY-SET-2026-GIFT', 'HOLIDAY-SET-2026-BERRIES'];
+
 export const CHRISTMAS_SET = {
     image: HOLIDAY_HERO_IMAGE.desktop,
+    /** Full set, 4:5 (rental section's main photo). */
+    portrait: cloudinaryUrl(SET_PHOTOS.fade, { width: 1000, crop: 'fit' }),
+    /** Full set, landscape (tour slide background). */
+    landscape: cloudinaryUrl(SET_PHOTOS.wide, { width: 1920, crop: 'fit' }),
+    details: SET_DETAIL_IDS.map((id) => ({
+        src: cloudinaryUrl(id, { width: 400, height: 400, crop: 'fill', gravity: 'center' }),
+        alt: CAROUSEL_PHOTOS.find((p) => p.id === id)?.alt ?? 'Christmas set detail',
+    })),
     blurb: 'A fully styled Christmas set — four snow-white trees glowing with warm lights, a cozy cream couch on fluffy carpet, wrapped presents and holiday décor — ready to shoot the moment you walk in.',
     /** Full-day rental pitch for photographers running their own minis. */
     fullDay: { hours: 8, price: 400 },

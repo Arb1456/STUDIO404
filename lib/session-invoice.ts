@@ -73,12 +73,20 @@ function addDays(ymd: string, days: number): string {
 const dayLabel = (ymd: string, month: 'short' | 'long') =>
     new Date(`${ymd}T12:00:00Z`).toLocaleDateString('en-CA', { month, day: 'numeric', timeZone: 'UTC' });
 
+/** Most people a real group can be. Bigger answers (e.g. a phone number typed in the box) are treated as unanswered. */
+export const MAX_PEOPLE = 25;
+
+/** A session invoice above this is never sent automatically; André gets it as a draft to check. */
+export const MAX_AUTO_SEND_TOTAL = 600;
+
 export interface SessionExtras {
-    /** People in the photos, or null if the form wasn't answered. */
+    /** People in the photos, or null if the form wasn't answered (or the answer can't be a head count). */
     people: number | null;
     pet: boolean;
     /** Raw add-on checkbox labels from the booking form. */
     addons: string[];
+    /** Set when the head-count answer was rejected as implausible; holds what the client typed. */
+    peopleRejected?: string;
 }
 
 /**
@@ -90,7 +98,15 @@ export function parseExtras(raw: { people?: unknown; pet?: unknown; petOld?: unk
     const yes = (v: unknown) => (Array.isArray(v) ? v : [v]).some((x) => String(x).trim().toLowerCase() === 'yes');
     const pet = raw.pet != null && raw.pet !== '' ? yes(raw.pet) : yes(raw.petOld);
     const addons = (Array.isArray(raw.addons) ? raw.addons : raw.addons ? [raw.addons] : []).map(String).filter(Boolean);
+    if (Number.isFinite(n) && n > MAX_PEOPLE) return { people: null, pet, addons, peopleRejected: String(raw.people) };
     return { people: Number.isFinite(n) && n > 0 ? Math.round(n) : null, pet, addons };
+}
+
+/** Why an invoice must stay a draft for André to check, or null if it looks normal. */
+export function reviewReason(extras: SessionExtras, plan: SessionInvoicePlan): string | null {
+    if (extras.peopleRejected) return `The group-size answer was "${extras.peopleRejected}", which can't be a head count, so no extra-people fee was added. Ask the client how many people are coming.`;
+    if (plan.total > MAX_AUTO_SEND_TOTAL) return `The total is $${plan.total.toFixed(2)}, which is unusually high.`;
+    return null;
 }
 
 export interface InvoiceItem {

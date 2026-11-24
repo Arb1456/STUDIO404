@@ -187,7 +187,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
             {/* 1b. Christmas Set (seasonal, single slide) */}
             {isHolidaySeason() && (
                 <TourSection id="christmas-set" singleSlide className="bg-evergreen text-cream">
-                    <div className="absolute inset-0" style={bgImage(CHRISTMAS_SET.image)} />
+                    <div className="absolute inset-0" style={bgImage(CHRISTMAS_SET.landscape)} />
                     <div className="absolute inset-0 bg-gradient-to-t from-evergreen via-evergreen/80 to-evergreen/40" />
                     <EmblemScatter />
                     <Snowfall />
@@ -202,7 +202,16 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             </h2>
                         </Reveal>
                         <Reveal delay={0.3}>
-                            <p className="font-light text-lg md:text-xl text-cream/80 mb-10 leading-relaxed">{CHRISTMAS_SET.blurb}</p>
+                            <p className="font-light text-lg md:text-xl text-cream/80 mb-8 leading-relaxed">{CHRISTMAS_SET.blurb}</p>
+                        </Reveal>
+                        <Reveal delay={0.35}>
+                            <div className="grid grid-cols-4 gap-2 md:gap-3 max-w-md md:max-w-xl mx-auto mb-10">
+                                {CHRISTMAS_SET.details.map((d) => (
+                                    <div key={d.src} className="aspect-square overflow-hidden border border-cream/30">
+                                        <img src={d.src} alt={d.alt} loading="lazy" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
                         </Reveal>
                         <Reveal delay={0.4}>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">

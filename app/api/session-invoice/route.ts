@@ -5,6 +5,7 @@ import {
     ledgerAdd,
     ledgerHas,
     parseExtras,
+    reviewReason,
     planSessionInvoice,
     sessionNote,
     torontoDate,
@@ -229,9 +230,12 @@ export async function POST(req: Request) {
         const parts = plan.schedule
             ? plan.schedule.map((s) => `$${s.value.toFixed(2)} due ${s.dueDate}`).join(', then ')
             : `$${plan.total.toFixed(2)} due ${plan.dueDate}`;
-        const sendNow = mode === 'send' && !offer.draftOnly;
+        const problem = reviewReason(extras, plan);
+        const sendNow = mode === 'send' && !offer.draftOnly && !problem;
 
-        if (sendNow) {
+        if (problem && !offer.draftOnly) {
+            await textAndre(`Session invoice NEEDS A CHECK (draft, not sent): ${name}, ${parts}. ${problem} Fix it in GHL > Payments > Invoices, then click Send.`);
+        } else if (sendNow) {
             await ghl(`/invoices/${created._id}/send`, {
                 method: 'POST',
                 body: JSON.stringify({

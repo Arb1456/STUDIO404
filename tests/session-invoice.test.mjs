@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
     SESSION_CALENDARS,
     parseExtras,
+    reviewReason,
+    MAX_PEOPLE,
     planSessionInvoice,
     sessionNote,
 } from '../lib/session-invoice.ts';
@@ -106,4 +108,23 @@ test('parseExtras reads the GHL contact field shapes (new + old pet field)', () 
     assert.deepEqual(parseExtras({ people: '7', petOld: ['Yes'] }), { people: 7, pet: true, addons: [] });
     assert.deepEqual(parseExtras({ pet: 'Yes', petOld: ['No'] }), { people: null, pet: true, addons: [] });
     assert.deepEqual(parseExtras({ people: '', addons: 'Full Proof Album (+$35)' }), { people: null, pet: false, addons: ['Full Proof Album (+$35)'] });
+});
+
+test('a phone number in the head-count box is rejected, not billed', () => {
+    const extras = parseExtras({ people: '7057189583', pet: 'Yes' });
+    assert.equal(extras.people, null);
+    assert.equal(extras.peopleRejected, '7057189583');
+    const offer = SESSION_CALENDARS[Object.keys(SESSION_CALENDARS).find((k) => SESSION_CALENDARS[k].kind === 'mini')];
+    const plan = planSessionInvoice({ offer, extras, startTime: '2026-11-30T00:30:00Z', today: '2026-11-23', depositPaid: 50 });
+    assert.ok(plan.total < 200, `total was ${plan.total}`);
+    assert.match(reviewReason(extras, plan), /can't be a head count/);
+    assert.equal(parseExtras({ people: MAX_PEOPLE }).people, MAX_PEOPLE);
+});
+
+test('normal invoices need no review; very large totals do', () => {
+    const offer = SESSION_CALENDARS[Object.keys(SESSION_CALENDARS).find((k) => SESSION_CALENDARS[k].kind === 'mini')];
+    const ok = planSessionInvoice({ offer, extras: parseExtras({ people: 6 }), startTime: '2026-11-30T00:30:00Z', today: '2026-11-23', depositPaid: 50 });
+    assert.equal(reviewReason(parseExtras({ people: 6 }), ok), null);
+    const big = { ...ok, total: 5000 };
+    assert.match(reviewReason(parseExtras({ people: 6 }), big), /unusually high/);
 });
