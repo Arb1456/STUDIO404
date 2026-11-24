@@ -397,7 +397,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                     <Reveal delay={0.1}>
                         <ul className="space-y-6">
                             {[
-                                "Please bring clean indoor shoes for the cyclorama wall.",
+                                "No outdoor shoes inside: bring a clean pair of indoor shoes, or use the slides at the front ($15 per person for outdoor shoes).",
                                 "Setup and teardown time is included in your booking window.",
                                 "Leave the space as you found it to avoid cleaning fees.",
                                 "No glitter or confetti without prior approval."

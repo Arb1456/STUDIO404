@@ -173,7 +173,6 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             >
                                 <p>
                                     Our Infinity Curve is the heart of Studio 404. We maintain it pristine for every booking.
-                                    Users must tape the soles of all shoes before stepping onto the white space.
                                     <br /><br />
                                     <strong>Liability:</strong> Any visible scuffs, cracks, or holes caused by equipment dragging or improper footwear will incur an automatic damage fee. Deep structural damage will be assessed by our contractor.
                                 </p>
