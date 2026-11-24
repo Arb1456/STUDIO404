@@ -169,12 +169,12 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             <AccordionItem
                                 number="01"
                                 title="The Cyclorama Wall"
-                                warning="Repair Fee: $150 - $300 depending on severity"
+                                warning="Repair Fee: from $100, more depending on severity"
                             >
                                 <p>
                                     Our Infinity Curve is the heart of Studio 404. We maintain it pristine for every booking.
                                     <br /><br />
-                                    <strong>Liability:</strong> Any visible scuffs, cracks, or holes caused by equipment dragging or improper footwear will incur an automatic damage fee. Deep structural damage will be assessed by our contractor.
+                                    <strong>Liability:</strong> Any visible scuffs, cracks, or holes caused by equipment dragging or improper footwear will incur an automatic damage fee, starting at $100 for small cracks and holes. Anything beyond that is charged at the discretion of studio management, and deep structural damage will be assessed by our contractor.
                                 </p>
                             </AccordionItem>
 
