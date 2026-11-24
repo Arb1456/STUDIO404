@@ -23,25 +23,30 @@ export interface TeardownGroup {
 
 export const RESET_FEE = 25;
 
-const CABINETS = 'Back in the light cabinets.';
+const CABINETS = 'Back in the lighting cabinet.';
 const WALL = 'Back on the modifier wall.';
-const STANDS = 'Back with the other C-stands, all placed together.';
+const STANDS = 'C-stand storage, to the right of the cyclorama wall. Place all C-stands together.';
+const ABOVE_SINK = 'Kitchenette cabinet above the sink.';
+const KITCHEN_TOP = 'Kitchenette cabinets, top shelves.';
+const BEHIND_COUCH = 'Against the wall behind the couch.';
 
+/** Photo IDs are filled in once André's spot photos are uploaded (see the photo checklist artifact). */
 export const TEARDOWN_GROUPS: TeardownGroup[] = [
     {
         id: 'lights',
-        title: 'Lights',
-        summary: 'Every light goes back in the cabinets.',
+        title: 'Lights & Cables',
+        summary: 'Every light, power cord and cable goes back in the lighting cabinet.',
         items: [
             { name: 'Godox SK400ii strobes (3)', where: CABINETS },
             { name: 'Godox MS300 strobes (2)', where: CABINETS },
-            { name: 'Godox XT-16 trigger', where: '' },
             { name: 'Amaran 200d', where: CABINETS },
             { name: 'Godox SL100d (2)', where: CABINETS },
             { name: 'Neewer 70bi', where: CABINETS },
             { name: 'Godox SL60bi', where: CABINETS },
             { name: 'Neewer 660 RGB panels (4)', where: CABINETS },
             { name: 'KinoFlo FIX-4804 (2)', where: CABINETS },
+            { name: 'Power cords and cables', where: CABINETS },
+            { name: 'Godox XT-16 trigger', where: 'On its Velcro tab, to the left of the backdrop storage.' },
         ],
     },
     {
@@ -55,59 +60,64 @@ export const TEARDOWN_GROUPS: TeardownGroup[] = [
             { name: '95 cm octabox + grid', where: WALL },
             { name: '55 x 55 cm softbox + grid', where: WALL },
             { name: 'Umbrellas', where: WALL },
-            { name: 'Optical projector snoots (2)', where: '' },
+            { name: 'Optical projector snoots (2)', where: 'Kitchenette cabinets, above the lights.' },
         ],
     },
     {
         id: 'stands',
-        title: 'Stands',
-        summary: 'All C-stands placed together.',
+        title: 'Stands & Sandbags',
+        summary: 'All C-stands placed together in C-stand storage.',
         items: [
             { name: '12 ft C-stands (4)', where: STANDS },
             { name: 'Rolling 10 ft C-stand', where: STANDS },
-            { name: '10 ft light tripods (3)', where: '' },
-            { name: 'Overhead boom arm (wall mounted)', where: '' },
+            { name: 'Light tripods', where: KITCHEN_TOP },
+            { name: 'Sandbags', where: 'On the floor to the right of the cyclorama wall, near the C-stand storage.' },
+            { name: 'Overhead boom arm', where: 'Stays mounted on the wall. Just swing it back out of the way.' },
         ],
     },
     {
         id: 'grip',
-        title: 'Grip, Clamps & Cables',
-        summary: 'Sandbags, clamps, cables and tape.',
+        title: 'Clamps, Tape & Ladders',
+        summary: 'Small grip goes in the kitchenette cabinet above the sink.',
         items: [
-            { name: 'Sandbags', where: '' },
-            { name: 'A-clamps, super clamps, duckbill and mini clamps', where: '' },
-            { name: 'Power cords and trigger cables', where: '' },
-            { name: 'Gaffer and electrical tape', where: '' },
-            { name: 'Ladders', where: '' },
+            { name: 'A-clamps, super clamps, duckbill and mini clamps', where: ABOVE_SINK },
+            { name: 'Gaffer and electrical tape', where: ABOVE_SINK },
+            { name: 'Ladders', where: 'Beside the change room.' },
         ],
     },
     {
         id: 'reflectors',
-        title: 'Reflectors, V-Flats & Gels',
-        summary: 'Bounce, flags and colour.',
+        title: 'V-Flats & Reflectors',
+        summary: 'Both go against the wall behind the couch.',
         items: [
-            { name: 'V-flats (black/white)', where: '' },
-            { name: '5-in-1 reflector kit', where: '' },
-            { name: 'Bounce cards', where: '' },
-            { name: 'Gels, CTO/CTB rolls and diffusion', where: '' },
+            { name: 'V-flats (black/white)', where: BEHIND_COUCH },
+            { name: '5-in-1 reflector kit', where: BEHIND_COUCH },
         ],
     },
     {
         id: 'backdrops',
-        title: 'Seamless Paper',
-        summary: 'Paper backdrops and the cyc wall.',
+        title: 'Seamless Paper & Cyc Wall',
+        summary: 'Paper back in storage, cyc floor clear of tape.',
         items: [
-            { name: 'Seamless paper rolls', where: '' },
+            { name: 'Seamless paper rolls', where: 'Back in the seamless paper roll storage area.' },
             { name: 'Cyc wall floor', where: 'Remove all tape from the floor and clear any large debris.' },
         ],
     },
     {
         id: 'seating',
         title: 'Seating & Props',
-        summary: 'Chairs, stools and props go back where you took them from.',
+        summary: 'Stools, ottomans and chairs go under the modifier wall.',
         items: [
-            { name: 'Chairs and stools', where: 'Back exactly where you took them from.' },
-            { name: 'Props and decor', where: 'Back exactly where you took them from.' },
+            { name: "Stools, ottomans and director's chairs", where: 'Underneath the light modifiers, against the wall.' },
+            { name: 'Other props and decor', where: 'Back exactly where you took them from.' },
+        ],
+    },
+    {
+        id: 'christmas',
+        title: 'Christmas Set',
+        summary: 'Please do not touch or move the Christmas set.',
+        items: [
+            { name: 'Trees, couch, carpet, presents and decor', where: 'Not to be touched. Shoot it exactly as it is.' },
         ],
     },
 ];
