@@ -194,11 +194,12 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                             <AccordionItem
                                 number="03"
                                 title="Capacity & Overtime"
-                                warning="Penalty: 3x Hourly Rate for unauthorized overtime"
+                                warning="+$10 per person over 8 · 3x hourly rate for unauthorized overtime"
                             >
                                 <p>
-                                    <strong>Strict Capacity:</strong> Standard booking includes up to 8 individuals (talent + crew).
-                                    Unplanned groups exceeding this limit will incur a <strong>$30 per person</strong> fee and require an immediate <strong>$300 security deposit</strong>.
+                                    <strong>Group Size:</strong> A standard booking includes up to 8 people (talent + crew).
+                                    Each additional person is <strong>$10</strong>, added to your invoice from the number of attendees on your booking form.
+                                    Unplanned groups beyond what was booked will incur a <strong>$30 per person</strong> fee and require an immediate <strong>$300 security deposit</strong>.
                                     <br /><br />
                                     <strong>Time Management:</strong> Your booking window includes load-in and load-out. Entering early or leaving late disrupts our schedule. Overtime is billed at 1.5x the hourly rate if arranged in advance, or 3x the hourly rate if unannounced.
                                 </p>
@@ -262,7 +263,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 warning="Restoration Fee: $25 if not reset"
                             >
                                 <p>
-                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned exactly as it was found: all C-stands placed together, all lights back in the cabinets, lighting modifiers back on the wall, and all other equipment returned to where it was taken from. An immediate <strong>$25 charge</strong> applies if the studio isn&apos;t reset, as it can impact the next booking.
+                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned exactly as it was found: all C-stands placed together, all lights back in the cabinets, lighting modifiers and softboxes back on the wall, all seating and props (chairs, stools, couches) back where they were taken from, and all other equipment returned to its designated area. An immediate <strong>$25 charge</strong> applies if the studio isn&apos;t reset, as it can impact the next booking.
                                 </p>
                                 <p className="mt-3">
                                     Arrived and the studio wasn&apos;t reset? Reply to your booking text or email with photos of how the space was left, so you aren&apos;t charged for it.
@@ -271,6 +272,16 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
 
                             <AccordionItem
                                 number="09"
+                                title="Indoor Shoes Only"
+                                warning="Outdoor Shoes: $15 per person"
+                            >
+                                <p>
+                                    Slides are available at the front for everyone in your party. Anyone who would rather wear their own shoes inside must bring a clean pair of indoor shoes to change into. Outdoor shoes are not permitted anywhere in the studio, and each person wearing them inside incurs an immediate <strong>$15 charge</strong>.
+                                </p>
+                            </AccordionItem>
+
+                            <AccordionItem
+                                number="10"
                                 title="Equipment & Space Availability"
                                 warning="Note: Subject to current condition"
                             >
@@ -377,6 +388,14 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <div>
                                         <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Modifiers</h4>
                                         <p className="text-sm opacity-70">Softboxes, grids, umbrellas and other lighting modifiers back on the wall.</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-4 pb-6 border-b border-charcoal/10">
+                                    <div className="w-5 h-5 border-2 border-charcoal/40 rounded-sm shrink-0 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-bold uppercase tracking-widest mb-1">Seating & Props</h4>
+                                        <p className="text-sm opacity-70">Chairs, stools and other props back where they were taken from.</p>
                                     </div>
                                 </div>
 

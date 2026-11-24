@@ -32,6 +32,19 @@ export const RENTAL_BASE_PRICE: Record<number, number> = {
 export const DEPOSIT_RATE = 0.3;
 /** Cleaning fee when a pet comes to a rental (policies page, André 2026-11-20). */
 export const PET_FEE = 25;
+/** Standard group (policies §03: up to 8 people, talent + crew). Each extra person is GROUP_EXTRA_FEE (André 2026-11-24). */
+export const GROUP_INCLUDED = 8;
+export const GROUP_EXTRA_FEE = 10;
+/** A head count above this can't be real (e.g. a phone number typed in): ignored and flagged. */
+export const RENTAL_MAX_PEOPLE = 40;
+
+/** "Number of Attendees" answer -> head count, or null if blank or impossible. */
+export function parseAttendees(v: unknown): { people: number | null; rejected?: string } {
+    const n = v === '' || v == null ? NaN : Number(v);
+    if (!Number.isFinite(n) || n <= 0) return { people: null };
+    if (n > RENTAL_MAX_PEOPLE) return { people: null, rejected: String(v) };
+    return { people: Math.round(n) };
+}
 export const HST_RATE = 0.13;
 /** Remainder is due this many days before the rental. */
 export const DUE_DAYS_BEFORE = 3;
@@ -82,13 +95,22 @@ export function planRentalInvoice(input: {
     depositPaid: number;
     /** Client answered "Pet Coming? Yes" on the booking form. */
     pet?: boolean;
+    /** "Number of Attendees" from the booking form (online bookings only). */
+    people?: number | null;
 }): RentalInvoicePlan {
-    const { hours, startTime, today, depositPaid, pet = false } = input;
+    const { hours, startTime, today, depositPaid, pet = false, people = null } = input;
     const base = RENTAL_BASE_PRICE[hours];
     if (!base) throw new Error(`No price for a ${hours}h rental`);
 
-    const petItems: InvoiceItem[] = pet ? [{ name: 'Pet cleaning fee', description: '', amount: PET_FEE }] : [];
-    const taxable = base + (pet ? PET_FEE : 0);
+    const extraPeople = people ? Math.max(0, people - GROUP_INCLUDED) : 0;
+    const petItems: InvoiceItem[] = [
+        ...(extraPeople > 0
+            ? [{ name: `Additional people (${extraPeople} × $${GROUP_EXTRA_FEE})`, description: `${people} people, ${GROUP_INCLUDED} included`, amount: extraPeople * GROUP_EXTRA_FEE }]
+            : []),
+        ...(pet ? [{ name: 'Pet cleaning fee', description: '', amount: PET_FEE }] : []),
+    ];
+    const extrasTotal = petItems.reduce((sum, i) => sum + i.amount, 0);
+    const taxable = base + extrasTotal;
     const hst = round2(taxable * HST_RATE);
     const hstItem: InvoiceItem = { name: 'HST - Manual entry', description: `13% of ${taxable}$`, amount: hst };
     const rentalDay = torontoDate(new Date(startTime));
@@ -100,7 +122,7 @@ export function planRentalInvoice(input: {
         return {
             kind: 'remainder',
             items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid)`, amount: remainder }, ...petItems, hstItem],
-            total: round2(remainder + (pet ? PET_FEE : 0) + hst),
+            total: round2(remainder + extrasTotal + hst),
             dueDate,
             schedule: null,
         };

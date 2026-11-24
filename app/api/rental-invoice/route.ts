@@ -4,6 +4,7 @@ import {
     RENTAL_CALENDAR_HOURS,
     ledgerAdd,
     ledgerHas,
+    parseAttendees,
     planRentalInvoice,
     scheduleNote,
     torontoDate,
@@ -49,6 +50,8 @@ const ALERT_CONTACT_ID = 'wJCLuu5zR30XT3Ncx25K';
 const LEDGER_FIELD_ID = '1XRNhPKAYlS5bSXqfEWF';
 /** Contact field "Pet Coming?" (Yes/No radio), filled by the booking form. */
 const PET_FIELD_ID = '53fz0Jt5VX6lwM3zqlHt';
+/** Contact field "Number of Attendees" (number), filled by the Studio Booking Intake form. */
+const ATTENDEES_FIELD_ID = '8rm7ElLL2yzY9rwIeai7';
 const BUSINESS_DETAILS = {
     name: 'Studio 404',
     phoneNo: '+13433144140',
@@ -190,7 +193,12 @@ export async function POST(req: Request) {
         // booking never sees the form, so the field could hold an old holiday-booking answer.
         const petAnswer = (contact.customFields ?? []).find((f: any) => f.id === PET_FIELD_ID)?.value;
         const pet = appt.createdBy?.source === 'booking_widget' && String(petAnswer ?? '').trim().toLowerCase() === 'yes';
-        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid, pet });
+        // Same rule for the head count: only trust it when the form was just filled.
+        const online = appt.createdBy?.source === 'booking_widget';
+        const attendees = online
+            ? parseAttendees((contact.customFields ?? []).find((f: any) => f.id === ATTENDEES_FIELD_ID)?.value)
+            : { people: null };
+        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid, pet, people: attendees.people });
         const dayLabel = plan.items[0].description.split(' rental')[0];
         const name = `${dayLabel} ${hours}h Rental – ${first || fullName || 'Client'}`;
 
@@ -232,7 +240,10 @@ export async function POST(req: Request) {
             ? plan.schedule.map((s) => `$${s.value.toFixed(2)} due ${s.dueDate}`).join(', then ')
             : `$${plan.total.toFixed(2)} due ${plan.dueDate}`;
 
-        if (mode === 'send') {
+        const problem = attendees.rejected
+            ? ` The attendees answer was "${attendees.rejected}", which can't be a head count, so no group fee was added. Ask the client how many people are coming.`
+            : '';
+        if (mode === 'send' && !problem) {
             await ghl(`/invoices/${created._id}/send`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -245,7 +256,7 @@ export async function POST(req: Request) {
                 }),
             });
         } else {
-            await textAndre(`Rental invoice READY TO REVIEW (draft, not sent): ${name}, ${parts}. Open GHL > Payments > Invoices, check it and click Send.`);
+            await textAndre(`Rental invoice ${problem ? 'NEEDS A CHECK' : 'READY TO REVIEW'} (draft, not sent): ${name}, ${parts}.${problem} Open GHL > Payments > Invoices, check it and click Send.`);
         }
 
         return NextResponse.json({ ok: true, mode, invoiceId: created._id, invoiceNumber: created.invoiceNumber, name, kind: plan.kind, parts });

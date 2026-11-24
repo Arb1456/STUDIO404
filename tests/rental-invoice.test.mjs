@@ -8,6 +8,7 @@ import {
     torontoDate,
     remainderDueDate,
     planRentalInvoice,
+    parseAttendees,
     ledgerHas,
     ledgerAdd,
     scheduleNote,
@@ -118,4 +119,20 @@ test('pet coming: $25 cleaning fee line, HST covers it, no pet means no line', (
     const none = planRentalInvoice({ hours: 1, startTime: '2026-11-28T15:30:00-05:00', today: '2026-11-18', depositPaid: 21, pet: false });
     assert.equal(none.items.length, 2);
     assert.equal(none.total, 58.1);
+});
+
+test('group fee: +$10 per person over 8, taxed, and impossible head counts are ignored', () => {
+    const base = { hours: 2, startTime: '2026-12-10T17:00:00Z', today: '2026-11-24', depositPaid: 36 };
+    const eight = planRentalInvoice({ ...base, people: 8 });
+    assert.equal(eight.items.some((i) => i.name.startsWith('Additional people')), false);
+    const twelve = planRentalInvoice({ ...base, people: 12 });
+    const extra = twelve.items.find((i) => i.name.startsWith('Additional people'));
+    assert.equal(extra.amount, 40);
+    assert.equal(twelve.items.find((i) => i.name.startsWith('HST')).amount, Math.round((120 + 40) * 0.13 * 100) / 100);
+    assert.equal(twelve.total, Math.round((120 - 36 + 40 + (120 + 40) * 0.13) * 100) / 100);
+    const withPet = planRentalInvoice({ ...base, people: 10, pet: true });
+    assert.equal(withPet.total, Math.round((120 - 36 + 20 + 25 + (120 + 45) * 0.13) * 100) / 100);
+    assert.deepEqual(parseAttendees('7057189583'), { people: null, rejected: '7057189583' });
+    assert.deepEqual(parseAttendees('12'), { people: 12 });
+    assert.deepEqual(parseAttendees(''), { people: null });
 });
