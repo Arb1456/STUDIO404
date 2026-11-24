@@ -224,9 +224,9 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 <p>
                                     <strong>Remaining Balance:</strong> The outstanding 70% balance must be settled at least three (3) days prior to the rental. If booked within that window, payment is due one (1) day (24 hours) prior to the session. Unpaid balances will be automatically charged to the card on file to secure the time slot.
                                     <br /><br />
-                                    <strong>Security Deposit:</strong> At the studio&apos;s discretion (generally for new clients or large groups), a $1.00 validation hold may be requested via a separate invoice. This acts as a pre-authorization for a conditional $100 security deposit.
+                                    <strong>Security Deposit:</strong> At the studio&apos;s discretion (generally for new clients or large groups), a $100 security deposit may be requested via a separate invoice.
                                     <br /><br />
-                                    <strong>Refund Policy:</strong> The $1.00 hold is refunded within 24 hours post-shoot if no damages or cleaning fees occur.
+                                    <strong>Refund Policy:</strong> The $100 deposit is refunded within 24 hours post-shoot if no damages or cleaning fees occur.
                                 </p>
                             </AccordionItem>
 
@@ -262,7 +262,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 warning="Restoration Fee: $25 if not reset"
                             >
                                 <p>
-                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned exactly as it was found: all C-stands placed together, all lights back in the cabinets, lighting modifiers and softboxes back on the wall, all seating and props (chairs, stools, couches) back where they were taken from, and all other equipment returned to its designated area. An immediate <strong>$25 charge</strong> applies if the studio isn&apos;t reset, as it can impact the next booking.
+                                    The Renter commits to a full Tear Down before the booking window ends. The studio must be returned exactly as it was found: all C-stands placed together, all lights back in the cabinets, lighting modifiers and softboxes back on the wall, all seating and props (chairs, stools, couches) back where they were taken from, and all other equipment returned to its designated area. An immediate <strong>$25 reset charge</strong> applies if the studio isn&apos;t reset. A reset means a staff member moving the equipment back to where it goes; bookings often run back to back, so it can delay the following booking, which may be given extra time to make up for resetting the space. Mess beyond a reset is charged as additional cleaning, at the discretion of the Studio 404 manager assessing it.
                                 </p>
                                 <p className="mt-3">
                                     Arrived and the studio wasn&apos;t reset? Reply to your booking text or email with photos of how the space was left, so you aren&apos;t charged for it.
