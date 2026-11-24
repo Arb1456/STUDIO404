@@ -433,7 +433,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
 
                             <div className="mt-8 pt-6 border-t border-charcoal/20">
                                 <p className="text-xs font-mono uppercase tracking-wide opacity-60">
-                                    Note: Failure to complete this checklist may result in a minimum $50.00 restoration fee.
+                                    Note: Failure to complete this checklist results in an immediate $25 reset charge. Not sure where something goes? See thestudio404.ca/teardown.
                                 </p>
                             </div>
                         </div>

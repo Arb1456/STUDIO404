@@ -259,3 +259,24 @@ Plan:
 - Pre-check: every appointment still active and owned by the right contact. Gabriella's (Nov 18 4:30 PM) was already "showed" (set 4:35 PM by the workflow, as designed).
 - Post-check: no message sent to any of these contacts after the write (latest ~20 min before), so no workflow reacted to the field change.
 - Effect: moving any of these rentals now takes the Moved branch (door code re-timed, no second contract).
+
+## 2026-11-24: Text alerts slimmed down (André's request: "way too many notifications")
+André's rule: texts only for **new booking**, **website contact form**, and the **day-before reminder**, sent to the **613 number only**. Everything else is email-only. Every André-cell ("Particular User") SMS step was removed.
+
+| Workflow | Change |
+|---|---|
+| Andre Alerts: New Bookings + Reminders `be08cef9` | Removed André-cell New Booking + Tomorrow SMS; removed the 2-hour wait and both 2-hour SMS. Now: SMS New Booking (613) → Email → Wait 1 day → SMS Tomorrow (613). |
+| Andre Alerts: Cancellations `214ea89b` | Both SMS removed. Email + Remove-from-workflow kept. |
+| Andre Alerts: GHL Form Submissions `f6b24055` | Both SMS removed (it fired on every booking because booking forms are GHL forms; 33/33 form fillers Nov 10–24 had a booking; failed card retries sent 3–4 extra texts). Email kept. |
+| Contact Form `2c22fc33` | André-cell SMS removed; 613 SMS kept. |
+| Invoice Paid `3e988fff` | Both SMS removed. Only the Add Tag step remains (no email; check GHL > Payments). |
+| Andre Alerts: Rental Invoice Now `2bfc2552` | Set to **Draft** (it only sent the two SMS; rental auto-invoice replaces it). Republish to restore. |
+| Holiday Mini: Client Confirmation `c75275a0` and (by hand or moved) `9c466b19` | 7-day wait + both "SEND MINI INVOICE" SMS removed; client confirmation email kept. |
+| Photo Sessions: Client Confirmation `9e802984` and (by hand or moved) `547a2f56` | Both "SEND SESSION INVOICE" SMS removed; waits + day-before client email kept. |
+| Website `/api/rental-invoice`, `/api/session-invoice` | Unchanged: "READY TO REVIEW" draft texts already go to the 613 contact only (André chose to keep them). |
+| Holiday Mini: Day-Before Email + Calendar Text `ea201b37` | "SMS: Add mini to Andre's calendar" removed (went to the retired 250 number). Wait + client day-before email kept. |
+
+Checked, no texts to André: Contact Form Submitted `cd193ac2` (in-app notification only), Document Signed `ccfae0e6` (tag), Invoice Paid (Tag Tracker) `8230749b` (tag).
+
+**Finding:** "Particular User → Andre Beaudin" SMS steps go to the phone on André's GHL user profile, which is still **+1 250-407-3530 (retired)**. So the "André cell" copies were never reaching him; every alert he actually read came via the 613 alert contact `wJCLuu5zR30XT3Ncx25K` (+1 613-581-1134). Don't use "Particular User" for SMS alerts; use the custom number +16135811134.
+Invoice modes verified 2026-11-24 from invoice timestamps: auto invoices are created as drafts and sent hours later by André (draft mode).

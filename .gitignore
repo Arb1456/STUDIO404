@@ -64,3 +64,7 @@ PHOTOS-NEEDED-WEBSITE404.html
 /rates/
 .vercel
 
+
+# Local overview pages (client details, never commit)
+.overview/
+.playwright-mcp/
