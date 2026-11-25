@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
+import { BACKDROP_REQUEST_SHORT } from '@/lib/backdrops';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import { Holly, Snowflake, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
@@ -399,6 +400,7 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             {[
                                 "No outdoor shoes inside: bring a clean pair of indoor shoes, or use the slides at the front ($15 per person for outdoor shoes).",
                                 "Setup and teardown time is included in your booking window.",
+                                BACKDROP_REQUEST_SHORT,
                                 "Leave the space as you found it to avoid cleaning fees.",
                                 "No glitter or confetti without prior approval."
                             ].map((rule, i) => (

@@ -1,4 +1,5 @@
 import { MenuItem, FAQItem, FeatureItem } from '@/types';
+import { BACKDROP_REQUEST_POLICY } from '@/lib/backdrops';
 
 export const MENU_ITEMS: MenuItem[] = [
     { label: 'Home', href: '/' },
@@ -24,6 +25,10 @@ export const FAQ_ITEMS: FAQItem[] = [
     {
         question: "What are the booking options?",
         answer: "We offer hourly bookings, half-day, and full-day rates. We also have a number of guided sessions available for those who don't have a designated photographer."
+    },
+    {
+        question: "Can I request a backdrop color?",
+        answer: `${BACKDROP_REQUEST_POLICY.request} ${BACKDROP_REQUEST_POLICY.selfChange} ${BACKDROP_REQUEST_POLICY.help}`
     },
     {
         question: "Can I bring my own equipment?",

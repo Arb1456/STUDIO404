@@ -6,7 +6,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cloudinaryUrl } from '@/lib/cloudinary';
-import { SEAMLESS_PAPERS } from '@/lib/backdrops';
+import { SEAMLESS_PAPERS, BACKDROP_REQUEST_SHORT } from '@/lib/backdrops';
 import { isHolidaySeason, CHRISTMAS_SET, HOLIDAY_ROUTES } from '@/lib/holiday';
 import { Holly, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import {
@@ -406,6 +406,9 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <p className="text-center text-charcoal/50 text-xs md:text-sm mt-4 md:mt-8">
                                 Availability may vary • Additional colors upon request
                             </p>
+                            <p className="text-center text-charcoal/70 text-xs md:text-sm mt-2 max-w-2xl mx-auto">
+                                {BACKDROP_REQUEST_SHORT}
+                            </p>
                         </Reveal>
                     </div>
                 </TourSlide>
@@ -421,7 +424,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                         </Reveal>
                         <Reveal delay={0.2}>
                             <p className="text-cream/80 max-w-lg mx-auto mb-8 text-sm md:text-base">
-                                Our integrated pulley system allows quick backdrop changes without ladders or hassle. Simply pull to swap colors in seconds.
+                                Our integrated pulley system allows quick backdrop changes without ladders or hassle. Simply pull to swap colors.
                             </p>
                         </Reveal>
 

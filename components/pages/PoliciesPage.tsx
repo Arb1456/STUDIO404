@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { AccordionItem } from '@/components/ui/AccordionItem';
 import { Volume2, Dog, HelpCircle, AlertTriangle, CheckSquare } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import { BACKDROP_REQUEST_NOTICE_HOURS, BACKDROP_REQUEST_POLICY } from '@/lib/backdrops';
 import { newEventId, trackLead } from '@/lib/tracking';
 import { CalendarClock, Receipt, Clock, Users } from 'lucide-react';
 import {
@@ -184,7 +185,7 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                 warning="Cost: $5.00 per foot of soiled paper"
                             >
                                 <p>
-                                    We stock a variety of Savage Universal seamless backgrounds. Your rental includes the setup of stands, but the paper itself is a consumable.
+                                    We stock a variety of Savage Universal seamless backgrounds. Your rental includes use of the backdrop system, but the paper itself is a consumable. For color requests, see Backdrop Color Requests below.
                                     <br /><br />
                                     If you require a fresh pull (sweeping the paper onto the floor), you will be charged per linear foot for the portion that becomes soiled or creased. Please assist our staff in cutting the paper at the end of your session.
                                 </p>
@@ -292,6 +293,22 @@ const PoliciesPage: React.FC<PoliciesPageProps> = ({ onBook }) => {
                                     <strong>Specific Requests:</strong> If your production depends on a particular piece of equipment or feature, please notify us <strong>in advance</strong> so we can confirm availability and make arrangements. We're happy to accommodate special requests whenever possible.
                                 </p>
                             </AccordionItem>
+
+                            <div id="backdrop-requests" className="scroll-mt-24">
+                                <AccordionItem
+                                    number="11"
+                                    title="Backdrop Color Requests"
+                                    warning={`Notice: at least ${BACKDROP_REQUEST_NOTICE_HOURS} hours`}
+                                >
+                                    <p>
+                                        <strong>Requests:</strong> {BACKDROP_REQUEST_POLICY.request}
+                                        <br /><br />
+                                        <strong>Changing Backdrops:</strong> {BACKDROP_REQUEST_POLICY.selfChange}
+                                        <br /><br />
+                                        <strong>Help:</strong> {BACKDROP_REQUEST_POLICY.help}
+                                    </p>
+                                </AccordionItem>
+                            </div>
                         </div>
                     </Reveal>
                 </div>

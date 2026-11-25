@@ -7,7 +7,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import { cloudinaryUrl } from '@/lib/cloudinary';
-import { SEAMLESS_PAPERS } from '@/lib/backdrops';
+import { SEAMLESS_PAPERS, BACKDROP_REQUEST_SHORT } from '@/lib/backdrops';
 import { GalleryStripModal } from './tour/GalleryStripModal';
 import { PhotoGalleryModal, GalleryImage } from './tour/PhotoGalleryModal';
 
@@ -483,6 +483,10 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                         </Reveal>
 
                         <PaperColorsGrid papers={SEAMLESS_PAPERS} />
+                        <p className="text-sm opacity-80 leading-relaxed">
+                            {BACKDROP_REQUEST_SHORT}{' '}
+                            <a href="/policies#backdrop-requests" className="underline underline-offset-4">How Backdrop Requests Work</a>
+                        </p>
                     </div>
                 </div>
             </section>
