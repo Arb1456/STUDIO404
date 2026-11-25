@@ -39,16 +39,19 @@ export const HOLIDAY_HERO_IMAGE = {
     mobile: cloudinaryUrl(SET_PHOTOS.wreathWide, { width: 828, height: 1200, crop: 'fill', gravity: 'center' }),
     // Session card on the Photoshoot page keeps the couch shot.
     card: cloudinaryUrl(SET_PHOTOS.wide, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
+    // Mini card: real clients from Mini Day 1 (Nov 22, 2026).
+    miniCard: cloudinaryUrl('HOLIDAY-2026-MINI1-7', { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
 };
 
 /**
  * Photo carousel on the minis + full-session pages.
  * '2026-set' = this year's set, empty (no clients yet).
+ * '2026-client' = real client mini sessions on this year's set.
  * '2025-client' = real client sessions on LAST year's set, shown as "what to expect".
  * `ratio` is the photo's real shape (width/height) so nothing is cropped.
  * Alt text describes the photo only; never put client names here.
  */
-export type HolidayPhotoEra = '2026-set' | '2025-client';
+export type HolidayPhotoEra = '2026-set' | '2026-client' | '2025-client';
 export interface HolidayCarouselPhoto {
     id: string;
     era: HolidayPhotoEra;
@@ -57,10 +60,17 @@ export interface HolidayCarouselPhoto {
 }
 
 // Order set by André (Nov 18): full set first, then clients / details / clients,
+// (Nov 25: this year's mini clients go right after the full set),
 // then the rest of the details, ending on a full set shot.
 const CAROUSEL_PHOTOS: HolidayCarouselPhoto[] = [
     // Full set (Set2026-10)
     { id: 'HOLIDAY-SET-2026-FADE', era: '2026-set', ratio: '4/5', alt: 'The full 2026 Christmas set: cream couch, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
+    // This year's clients: Mini Day 1 best-of (source: ~/Desktop/STU CHRISTMAS /EDITED MINIS DAY 1/BEST OF)
+    { id: 'HOLIDAY-2026-MINI1-5', era: '2026-client', ratio: '5/4', alt: 'Family of five dressed up on the cream couch in front of the 2026 Christmas set' },
+    { id: 'HOLIDAY-2026-MINI1-1', era: '2026-client', ratio: '3/2', alt: 'Parents and baby in matching Santa hats on the couch, with red ornaments behind them' },
+    { id: 'HOLIDAY-2026-MINI1-7', era: '2026-client', ratio: '3/2', alt: 'Mother and three young girls with candy canes and wrapped gifts on the Christmas set' },
+    { id: 'HOLIDAY-2026-MINI1-2', era: '2026-client', ratio: '2/3', alt: 'Baby in a Santa suit looking at a plush snowman beside a flocked tree' },
+    { id: 'HOLIDAY-2026-MINI1-8', era: '2026-client', ratio: '3/2', alt: 'Three young girls on the red fluffy carpet between wrapped gifts and white trees' },
     // Last year's clients
     { id: 'HOLIDAY-2025-AMV-8', era: '2025-client', ratio: '5/4', alt: 'Family of six in matching red plaid pyjamas on the couch' },
     { id: 'HOLIDAY-SET-KHEY', era: '2025-client', ratio: '5/4', alt: 'Couple in matching red plaid pyjamas on the Christmas set' },

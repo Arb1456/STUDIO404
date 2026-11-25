@@ -80,12 +80,13 @@ export const HolidayReviews: React.FC = () => (
 
 const ERA_LABEL: Record<HolidayPhotoEra, string> = {
     '2026-set': 'New 2026 set',
+    '2026-client': '2026 mini session',
     '2025-client': 'Christmas 2025 client',
 };
 
 /**
- * Swipeable carousel mixing this year's (empty) set with real client photos
- * from last year's set. Fixed height, natural widths, so no photo is cropped.
+ * Swipeable carousel mixing this year's set with real client photos
+ * from this year's minis and last year's set. Fixed height, natural widths, so no photo is cropped.
  */
 export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ heading, caption }) => {
     const trackRef = useRef<HTMLDivElement>(null);
@@ -102,8 +103,8 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
                     <h2 className="font-serif text-4xl md:text-5xl text-center mb-3">{heading}</h2>
                     {caption && <p className="text-center text-charcoal/60 max-w-xl mx-auto mb-4">{caption}</p>}
                     <p className="text-center text-sm text-charcoal/70 max-w-xl mx-auto mb-10">
-                        Our set is brand new for 2026. The family photos below were taken on{' '}
-                        <span className="italic">last year&apos;s</span> set, so you can see the kind of photos you&apos;ll take home.
+                        Our set is brand new for 2026, and the first minis are in. Photos labelled{' '}
+                        <span className="italic">Christmas 2025 client</span> were taken on last year&apos;s set.
                     </p>
                 </Reveal>
             </div>
@@ -123,7 +124,7 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
                             <img src={photo.src} alt={photo.alt} loading="lazy" className="w-full h-full object-cover" />
                             <figcaption
                                 className={`absolute left-2 top-2 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] ${
-                                    photo.era === '2026-set' ? 'bg-evergreen text-cream' : 'bg-cream/90 text-charcoal'
+                                    photo.era !== '2025-client' ? 'bg-evergreen text-cream' : 'bg-cream/90 text-charcoal'
                                 }`}
                             >
                                 {ERA_LABEL[photo.era]}

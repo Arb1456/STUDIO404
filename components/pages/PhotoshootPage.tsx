@@ -49,7 +49,7 @@ const HOLIDAY_SESSIONS: SessionType[] = isHolidaySeason()
         cardTitle: 'cardTitle' in o ? o.cardTitle : undefined,
         price: o.price,
         description: o.description,
-        image: HOLIDAY_HERO_IMAGE.card,
+        image: o === HOLIDAY_OFFERS.mini ? HOLIDAY_HERO_IMAGE.miniCard : HOLIDAY_HERO_IMAGE.card,
         duration: o.durationLabel,
         photoCount: o.photoCount,
         galleryCount: 0,
