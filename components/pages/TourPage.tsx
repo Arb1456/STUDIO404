@@ -6,6 +6,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cloudinaryUrl } from '@/lib/cloudinary';
+import { SEAMLESS_PAPERS } from '@/lib/backdrops';
 import { isHolidaySeason, CHRISTMAS_SET, HOLIDAY_ROUTES } from '@/lib/holiday';
 import { Holly, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import {
@@ -389,20 +390,7 @@ const TourPage: React.FC<TourPageProps> = ({ onBook }) => {
                             <h3 className="font-serif text-2xl md:text-5xl mb-6 md:mb-12 text-center">Choose Your Canvas</h3>
                         </Reveal>
                         <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-6">
-                            {[
-                                { name: 'White', color: '#FFFFFF' },
-                                { name: 'Black', color: '#1A1A1A' },
-                                { name: 'Dark Brown', color: '#4B3621' },
-                                { name: 'Red', color: '#DC2626' },
-                                { name: 'Grey', color: '#9CA3AF' },
-                                { name: 'Pink', color: '#F9A8D4' },
-                                { name: 'Navy Blue', color: '#1E3A8A' },
-                                { name: 'Light Blue', color: '#93C5FD' },
-                                { name: 'Dark Green', color: '#14532D' },
-                                { name: 'Chroma Green', color: '#22C55E' },
-                                { name: 'Beige', color: '#E1C699' },
-                                { name: 'Newspaper', color: '#D1D5DB' },
-                            ].map((backdrop, i) => (
+                            {SEAMLESS_PAPERS.map((backdrop, i) => (
                                 <Reveal key={backdrop.name} delay={0.05 + i * 0.03}>
                                     <div className="flex flex-col items-center">
                                         <div

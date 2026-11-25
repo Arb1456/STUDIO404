@@ -7,6 +7,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import { cloudinaryUrl } from '@/lib/cloudinary';
+import { SEAMLESS_PAPERS } from '@/lib/backdrops';
 import { GalleryStripModal } from './tour/GalleryStripModal';
 import { PhotoGalleryModal, GalleryImage } from './tour/PhotoGalleryModal';
 
@@ -90,7 +91,7 @@ const PaperColorsGrid: React.FC<{
                     transition={{ duration: 2.2, ease: [0.12, 0.8, 0.2, 1], delay: getDelay(i) }}
                     className="flex flex-col items-center gap-3 text-center"
                 >
-                    <div className={`w-12 h-12 rounded-full border border-gray-300/50 shadow-sm ${paper.color}`}></div>
+                    <div className="w-12 h-12 rounded-full border border-gray-300/50 shadow-sm" style={{ backgroundColor: paper.color }}></div>
                     <span className="text-xs uppercase tracking-wide opacity-80">{paper.name}</span>
                 </motion.div>
             ))}
@@ -316,22 +317,6 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
         }
     };
 
-    // Seamless Paper Data
-    const seamlessPapers = [
-        { color: "bg-white border-gray-200", name: "White" },
-        { color: "bg-black", name: "Black" },
-        { color: "bg-[#4B3621]", name: "Dark Brown" },
-        { color: "bg-red-600", name: "Red" },
-        { color: "bg-gray-400", name: "Grey" },
-        { color: "bg-pink-300", name: "Pink" },
-        { color: "bg-blue-900", name: "Navy Blue" },
-        { color: "bg-blue-300", name: "Light Blue" },
-        { color: "bg-green-900", name: "Dark Green" },
-        { color: "bg-green-500", name: "Chroma Key Green" },
-        { color: "bg-[#E1C699]", name: "Beige" },
-        { color: "bg-gray-300", name: "Newspaper" },
-    ];
-
     return (
         <div className="pb-32 min-h-screen">
 
@@ -497,7 +482,7 @@ const EquipmentPage: React.FC<EquipmentPageProps> = ({ onBook }) => {
                             </p>
                         </Reveal>
 
-                        <PaperColorsGrid papers={seamlessPapers} />
+                        <PaperColorsGrid papers={SEAMLESS_PAPERS} />
                     </div>
                 </div>
             </section>
