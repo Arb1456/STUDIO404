@@ -139,3 +139,12 @@ test('late add-ons (day-after form) join the booking-form add-ons and a repeat i
     assert.equal(p.total, 176); // 75 + 40 + 35 + 13% of 200
     assert.deepEqual(parseExtras({ people: 3, lateAddons: album }).addons, [album]);
 });
+
+test('booking-form add-ons stay on the invoice when the day-after form is blank or never filled', () => {
+    const edits = '4 More Edited Photos (+$40)';
+    for (const late of [undefined, null, '', []]) {
+        const extras = parseExtras({ people: 3, pet: 'No', addons: [edits], lateAddons: late });
+        const p = planSessionInvoice({ offer: MINI, extras, startTime: '2026-12-06T14:00:00-05:00', today: TODAY, depositPaid: 50 });
+        assert.deepEqual(pick(p).filter(([n]) => n.startsWith('Add-on')), [['Add-on: 4 More Edited Photos', 40]]);
+    }
+});
