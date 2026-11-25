@@ -40,7 +40,7 @@ export const HOLIDAY_HERO_IMAGE = {
     // Session card on the Photoshoot page keeps the couch shot.
     card: cloudinaryUrl(SET_PHOTOS.wide, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
     // Mini card: real clients from Mini Day 1 (Nov 22, 2026).
-    miniCard: cloudinaryUrl('HOLIDAY-2026-MINI1-7', { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
+    miniCard: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 800, height: 800, crop: 'fill', gravity: 'auto' }),
 };
 
 /**
