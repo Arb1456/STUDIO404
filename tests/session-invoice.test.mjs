@@ -128,3 +128,14 @@ test('normal invoices need no review; very large totals do', () => {
     const big = { ...ok, total: 5000 };
     assert.match(reviewReason(parseExtras({ people: 6 }), big), /unusually high/);
 });
+
+test('late add-ons (day-after form) join the booking-form add-ons and a repeat is charged once', () => {
+    const edits = '4 More Edited Photos (+$40)';
+    const album = 'Full Proof Album, every photo from your session (+$35)';
+    const both = parseExtras({ people: 3, pet: 'No', addons: [edits], lateAddons: [edits, album] });
+    assert.deepEqual(both.addons, [edits, album]);
+    const p = planSessionInvoice({ offer: MINI, extras: both, startTime: '2026-12-06T14:00:00-05:00', today: TODAY, depositPaid: 50 });
+    assert.deepEqual(pick(p).slice(1, 3), [['Add-on: 4 More Edited Photos', 40], ['Add-on: Full Proof Album', 35]]);
+    assert.equal(p.total, 176); // 75 + 40 + 35 + 13% of 200
+    assert.deepEqual(parseExtras({ people: 3, lateAddons: album }).addons, [album]);
+});

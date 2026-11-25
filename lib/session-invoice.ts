@@ -91,13 +91,15 @@ export interface SessionExtras {
 
 /**
  * Raw contact field values -> extras. Keys: people (how_many_people_will_be_in_the_photos),
- * pet (pet_coming radio, current), petOld (bringing_a_pet checkbox, older bookings), addons.
+ * pet (pet_coming radio, current), petOld (bringing_a_pet checkbox, older bookings), addons (booking form),
+ * lateAddons (day-after mini form; own field so it can't overwrite the booking answers).
  */
-export function parseExtras(raw: { people?: unknown; pet?: unknown; petOld?: unknown; addons?: unknown }): SessionExtras {
+export function parseExtras(raw: { people?: unknown; pet?: unknown; petOld?: unknown; addons?: unknown; lateAddons?: unknown }): SessionExtras {
     const n = raw.people === '' || raw.people == null ? NaN : Number(raw.people);
     const yes = (v: unknown) => (Array.isArray(v) ? v : [v]).some((x) => String(x).trim().toLowerCase() === 'yes');
     const pet = raw.pet != null && raw.pet !== '' ? yes(raw.pet) : yes(raw.petOld);
-    const addons = (Array.isArray(raw.addons) ? raw.addons : raw.addons ? [raw.addons] : []).map(String).filter(Boolean);
+    const list = (v: unknown) => (Array.isArray(v) ? v : v ? [v] : []).map(String).filter(Boolean);
+    const addons = [...new Set([...list(raw.addons), ...list(raw.lateAddons)])];
     if (Number.isFinite(n) && n > MAX_PEOPLE) return { people: null, pet, addons, peopleRejected: String(raw.people) };
     return { people: Number.isFinite(n) && n > 0 ? Math.round(n) : null, pet, addons };
 }
