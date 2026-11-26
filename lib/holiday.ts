@@ -25,6 +25,9 @@ export function isHolidaySeason(): boolean {
 // Every holiday page (hero, minis, full session, rental, tour) reads from here.
 // Never use HOLIDAY-SET-K1 / HOLIDAY-SET-KT1: those are photos of André, not clients.
 const SET_PHOTOS = {
+    /** PRIMARY set photo (André, Nov 26): full set with the carpet extended so the couch top sits at half height.
+     *  Source: ~/Desktop/STU CHRISTMAS /Extended Set Photo.jpg (1306x1470). */
+    primary: 'HOLIDAY-SET-2026-PRIMARY',
     /** Set2026-6: full set, landscape, couch centred. */
     wide: 'HOLIDAY-SET-2026-WIDE',
     /** Set2026-10: full set, 4:5, already fades to black at the bottom (good under text). */
@@ -37,8 +40,8 @@ export const HOLIDAY_HERO_IMAGE = {
     // Hero boxes are ~2.4:1, so pre-crop to that shape, centred on the wreath.
     desktop: cloudinaryUrl(SET_PHOTOS.wreathWide, { width: 1920, aspectRatio: '2.4', crop: 'fill', gravity: 'center' }),
     mobile: cloudinaryUrl(SET_PHOTOS.wreathWide, { width: 828, height: 1200, crop: 'fill', gravity: 'center' }),
-    // Session card on the Photoshoot page keeps the couch shot.
-    card: cloudinaryUrl(SET_PHOTOS.wide, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
+    // Full Holiday session card on the Photoshoot page: the primary set photo.
+    card: cloudinaryUrl(SET_PHOTOS.primary, { width: 800, height: 800, crop: 'fill', gravity: 'center' }),
     // Mini card: real clients from Mini Day 1 (Nov 22, 2026).
     miniCard: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 800, height: 800, crop: 'fill', gravity: 'auto' }),
 };
@@ -74,7 +77,7 @@ export interface HolidayCarouselPhoto {
 // then the rest of the details, ending on a full set shot.
 const CAROUSEL_PHOTOS: HolidayCarouselPhoto[] = [
     // Full set (Set2026-10)
-    { id: 'HOLIDAY-SET-2026-FULL', era: '2026-set', ratio: '5/4', alt: 'The full 2026 Christmas set: cream couch with red velvet pillows, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
+    { id: 'HOLIDAY-SET-2026-PRIMARY', era: '2026-set', ratio: '1306/1470', alt: 'The full 2026 Christmas set: cream couch with red velvet pillows, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
     // This year's clients: Mini Day 1 best-of (source: ~/Desktop/STU CHRISTMAS /EDITED MINIS DAY 1/BEST OF)
     { id: 'HOLIDAY-2026-MINI1-5', era: '2026-client', ratio: '5/4', alt: 'Family of five dressed up on the cream couch in front of the 2026 Christmas set' },
     { id: 'HOLIDAY-2026-MINI1-1', era: '2026-client', ratio: '3/2', alt: 'Parents and baby in matching Santa hats on the couch, with red ornaments behind them' },
@@ -293,8 +296,8 @@ const SET_DETAIL_IDS = ['HOLIDAY-SET-2026-ORNAMENTS', 'HOLIDAY-SET-2026-BOW', 'H
 
 export const CHRISTMAS_SET = {
     image: HOLIDAY_HERO_IMAGE.desktop,
-    /** Full set, 4:5 (rental section's main photo). */
-    portrait: cloudinaryUrl(SET_PHOTOS.fade, { width: 1000, crop: 'fit' }),
+    /** Primary set photo (rental Christmas set section's main photo). */
+    portrait: cloudinaryUrl(SET_PHOTOS.primary, { width: 1000, crop: 'fit' }),
     /** Full set, landscape (tour slide background). */
     landscape: cloudinaryUrl(SET_PHOTOS.wide, { width: 1920, crop: 'fit' }),
     details: SET_DETAIL_IDS.map((id) => ({
