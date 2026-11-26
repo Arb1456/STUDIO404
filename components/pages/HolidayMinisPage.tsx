@@ -6,7 +6,7 @@ import { trackMiniIntent, scrollToMiniBooking, openMiniCalendar } from '@/lib/ho
 import { Clock, Camera, Users, PawPrint, Gift, ArrowRight, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
-import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
@@ -217,6 +217,13 @@ const HolidayMinisPage: React.FC = () => {
     const allSoldOut = openDays.length === 0;
     // First screen shows the next two days that still have open times (from the live feed once loaded).
     const nextDays = openDays.slice(0, 2);
+    // "Pick your day" list starts collapsed; the hero link and FAQ button open it.
+    const [daysOpen, setDaysOpen] = useState(false);
+    const showDays = () => {
+        setDaysOpen(true);
+        scrollToBooking();
+    };
+    const scrollToWaitlist = () => document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     return (
         <div className="bg-cream text-charcoal">
@@ -271,7 +278,7 @@ const HolidayMinisPage: React.FC = () => {
 
                     {allSoldOut ? (
                         <button
-                            onClick={() => scrollToBooking()}
+                            onClick={scrollToWaitlist}
                             className="relative w-full md:w-auto md:self-start inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-4 text-sm uppercase tracking-widest hover:bg-white transition-colors"
                         >
                             Join The Waitlist <ArrowDown size={16} aria-hidden="true" />
@@ -290,7 +297,7 @@ const HolidayMinisPage: React.FC = () => {
                         </p>
                     )}
                     <button
-                        onClick={() => scrollToBooking()}
+                        onClick={showDays}
                         className="relative mt-4 self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest text-cream/80 underline underline-offset-4"
                     >
                         All {upcomingDays.length} mini days <ArrowDown size={12} aria-hidden="true" />
@@ -298,51 +305,47 @@ const HolidayMinisPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* ── 2. Dates + booking (straight after the first screen) ──────────────────────────────── */}
-            <section id="book" className="scroll-mt-8 px-6 py-20 md:py-28 max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.6fr] gap-12">
-                <div>
-                    <Reveal>
-                        <span className="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">
-                            <Snowflake className="w-4 h-4 text-gold" /> Mini session days
-                        </span>
-                        <h2 className="font-serif text-4xl mb-3">Pick your day</h2>
-                        <p className="text-charcoal/70 mb-8">
-                            {allSoldOut
-                                ? 'All mini days are booked. Join the waitlist and we’ll reach out first if spots open.'
-                                : `Minis are only offered on these days. ${totalLeft} times left in all. Tap a day to see its open times.`}
-                        </p>
-                    </Reveal>
-                    <ul className="border-t border-charcoal/15 mb-10">
+            {/* ── 2. Pick your day: collapsed list of the remaining days ── */}
+            <section id="book" className="scroll-mt-8 px-6 pt-16 pb-10 md:pt-24 max-w-3xl mx-auto">
+                <Reveal width="100%">
+                    <span className="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">
+                        <Snowflake className="w-4 h-4 text-gold" /> Mini session days
+                    </span>
+                    <h2 className="font-serif text-4xl mb-3">Pick your day</h2>
+                    <p className="text-charcoal/70 mb-6">
+                        {allSoldOut
+                            ? 'All mini days are booked. Join the waitlist below and we’ll reach out first if a time opens.'
+                            : `Minis are only offered on these days. ${totalLeft} times left in all. Tap a day to see its open times.`}
+                    </p>
+                </Reveal>
+                <button
+                    type="button"
+                    onClick={() => setDaysOpen(!daysOpen)}
+                    aria-expanded={daysOpen}
+                    aria-controls="mini-days"
+                    className="w-full flex items-center justify-between gap-3 px-5 py-4 border border-charcoal/20 bg-white/60 hover:bg-white transition-colors text-left"
+                >
+                    <span className="font-serif text-lg">
+                        {daysOpen ? 'Hide the days' : `View the ${upcomingDays.length} remaining mini days`}
+                    </span>
+                    <ChevronDown size={18} className={`text-charcoal/50 transition-transform ${daysOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+                </button>
+                {daysOpen && (
+                    <ul id="mini-days" className="border-t border-charcoal/15 mt-4">
                         {upcomingDays.map((d) => (
                             <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} spots={spotsFor(d)} />
                         ))}
                     </ul>
-                    <div className="bg-white/60 border border-charcoal/10 rounded-xl p-6">
-                        <p className="font-serif text-xl mb-1">Day sold out?</p>
-                        <p className="text-sm text-charcoal/60 mb-4">Get first dibs on cancellations and new dates.</p>
-                        <WaitlistForm />
-                    </div>
-                </div>
-
-                <div>
-                    {!allSoldOut && (
-                        <BookingPanel
-                            id="mini-calendar"
-                            calendarUrl={mini.calendarUrl}
-                            title="Book a Holiday Mini"
-                            deposit={MINI_POLICY.deposit}
-                            onOpen={() => trackMiniIntent('booking-panel')}
-                        />
-                    )}
-                    <p className="mt-6 text-xs text-charcoal/50 leading-relaxed">
-                        ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.
-                        Pets welcome if potty trained. A ${MINI_POLICY.petFee} cleaning fee applies. Group size and pets are confirmed when you book.
-                        A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance plus applicable HST and any extra fees are invoiced together.
-                    </p>
-                </div>
+                )}
             </section>
 
-            {/* ── 3. What's included ──────────────────────────────── */}
+            {/* ── 3. The set ──────────────────────────────────────── */}
+            <SetGallery
+                heading="Made for the people you love"
+                caption="Four snow-white trees, warm lights, a cozy couch and fluffy carpet. Families, couples and the dog all fit."
+            />
+
+            {/* ── 4. What's included (+ fine print) ──────────────────────────────── */}
             <section className="px-6 py-14 md:py-20 max-w-5xl mx-auto">
                 <Reveal width="100%">
                     <div className="text-center mb-8">
@@ -391,13 +394,21 @@ const HolidayMinisPage: React.FC = () => {
                         onOpen={() => trackMiniIntent('view-availability')}
                     />
                 )}
+                <p className="mt-8 max-w-2xl mx-auto text-center text-xs text-charcoal/50 leading-relaxed">
+                    ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.
+                    Pets welcome if potty trained. A ${MINI_POLICY.petFee} cleaning fee applies. Group size and pets are confirmed when you book.
+                    A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance plus applicable HST and any extra fees are invoiced together.
+                </p>
             </section>
 
-            {/* ── 4. The set ──────────────────────────────────────── */}
-            <SetGallery
-                heading="Made for the people you love"
-                caption="Four snow-white trees, warm lights, a cozy couch and fluffy carpet. Families, couples and the dog all fit."
-            />
+            {/* ── Waitlist ─────────────────────────────────────────── */}
+            <section id="waitlist" className="scroll-mt-8 px-6 pb-16 md:pb-24 max-w-3xl mx-auto">
+                <div className="bg-white/60 border border-charcoal/10 rounded-xl p-6">
+                    <p className="font-serif text-xl mb-1">Day sold out?</p>
+                    <p className="text-sm text-charcoal/60 mb-4">Get first dibs on cancellations and new dates.</p>
+                    <WaitlistForm />
+                </div>
+            </section>
 
             {/* ── 5. Reviews ──────────────────────────────────────── */}
             <HolidayReviews />
@@ -432,7 +443,7 @@ const HolidayMinisPage: React.FC = () => {
                 <FAQAccordion items={MINI_FAQ} />
                 <div className="text-center mt-14">
                     <button
-                        onClick={() => scrollToBooking()}
+                        onClick={() => openMiniCalendar('faq')}
                         className="inline-flex items-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                     >
                         Book Your Holiday Mini · ${mini.price}
