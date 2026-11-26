@@ -169,6 +169,8 @@ test('test-hour credit: the 1h rental must be real, on/after Nov 24, and not aft
     assert.equal(credit({ appointments: [testHour('2026-11-27 15:00:00', { deleted: true })] }), 0);
     // A 2h rental isn't the test hour.
     assert.equal(credit({ appointments: [testHour('2026-11-27 15:00:00', { calendarId: TWO_HOUR })] }), 0);
+    // Same day as the full day doesn't count either.
+    assert.equal(credit({ appointments: [testHour('2026-12-10 09:00:00')] }), 0);
     // 1h booked for after the full day: "test" doesn't come first.
     assert.equal(credit({ appointments: [testHour('2026-12-15 15:00:00')] }), 0);
 });

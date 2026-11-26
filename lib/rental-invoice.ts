@@ -210,7 +210,9 @@ export function testHourCredit(input: {
         if (RENTAL_CALENDAR_HOURS[a.calendarId] !== 1) return false;
         if (['cancelled', 'invalid', 'noshow'].includes(a.appointmentStatus ?? '')) return false;
         const day = String(a.startTime).slice(0, 10);
-        return day >= TEST_HOUR_OFFER_START && day <= rentalDay;
+        // Strictly an earlier day than the full day. Known gap (accepted, invoices are drafts André reviews):
+        // a test hour cancelled AFTER this invoice is made keeps the credit; André fixes it by hand.
+        return day >= TEST_HOUR_OFFER_START && day < rentalDay;
     });
     return hadTestHour ? TEST_HOUR_CREDIT : 0;
 }
