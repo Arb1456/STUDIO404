@@ -64,7 +64,7 @@ const HolidaySessionPage: React.FC = () => {
                     <Reveal delay={0.2} width="100%">
                         <div className="flex flex-col items-center md:items-start gap-5">
                             <button
-                                onClick={() => scrollToFullSessionBooking('hero')}
+                                onClick={() => scrollToFullSessionBooking()}
                                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-5 text-sm uppercase tracking-widest hover:bg-white transition-colors"
                             >
                                 Book Your Session <ArrowDown size={16} />
@@ -148,7 +148,7 @@ const HolidaySessionPage: React.FC = () => {
                 <Reveal width="100%">
                     <p className="font-serif italic text-2xl md:text-3xl mb-6">Ready for your Christmas photos?</p>
                     <button
-                        onClick={() => scrollToFullSessionBooking('mid-page')}
+                        onClick={() => scrollToFullSessionBooking()}
                         className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                     >
                         Book Your Full Holiday Session <ArrowDown size={16} />
@@ -236,7 +236,7 @@ const HolidaySessionPage: React.FC = () => {
                         {full.durationLabel} · {full.outfitLabel} · {full.photoCount} edited photos · from ${full.price}
                     </p>
                     <button
-                        onClick={() => scrollToFullSessionBooking('closing-cta')}
+                        onClick={() => scrollToFullSessionBooking()}
                         className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-10 py-5 text-sm uppercase tracking-widest hover:bg-white transition-colors"
                     >
                         Pick Your Day

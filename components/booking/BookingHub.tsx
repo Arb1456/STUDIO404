@@ -6,6 +6,7 @@ import { X, Camera, ExternalLink, Clock, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
 import { trackBookingClick } from '@/lib/tracking';
+import { openCalendarTab } from '@/lib/attribution';
 
 // ============================================
 // RENTAL CALENDAR URLs
@@ -38,11 +39,6 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
         if (isOpen) {
             setSelectedDuration(initialDuration);
             document.body.style.overflow = 'hidden';
-
-            // Track booking intent
-            sendGAEvent('event', 'begin_checkout', {
-                items: [{ item_name: `${initialDuration} Hour Studio Rental` }]
-            });
         } else {
             document.body.style.overflow = '';
         }
@@ -72,10 +68,9 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
         sendGAEvent('event', 'select_item', {
             items: [{ item_name: `${selectedDuration} Hour Studio Rental`, price: calendar.price }]
         });
-        // Meta only: GA4 begin_checkout already fired when this sheet opened
-        trackBookingClick(`${selectedDuration} Hour Studio Rental`, calendar.price, { sendGA: false });
-        // Open in new tab
-        window.open(calendar.url, '_blank', 'noopener,noreferrer');
+        // begin_checkout + InitiateCheckout only now, as the calendar opens (not when this sheet opens)
+        trackBookingClick(`${selectedDuration} Hour Studio Rental`, calendar.price);
+        openCalendarTab(calendar.url);
     };
 
     const currentCalendar = RENTAL_CALENDARS[selectedDuration];

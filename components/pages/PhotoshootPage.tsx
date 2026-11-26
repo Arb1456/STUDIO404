@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackBookingClick, trackLead } from '@/lib/tracking';
+import { openCalendarTab } from '@/lib/attribution';
 import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE, HOLIDAY_ROUTES } from '@/lib/holiday';
 
 interface SessionType {
@@ -207,7 +208,7 @@ const SessionCalendarModal: React.FC<{
 
     const handleContinueToBooking = () => {
         trackBookingClick(`${session.title} Session`, session.price);
-        window.open(session.calendarUrl, '_blank', 'noopener,noreferrer');
+        openCalendarTab(session.calendarUrl);
     };
 
     return (
@@ -648,7 +649,7 @@ const PhotoshootPage: React.FC = () => {
                                             <button
                                                 onClick={() => {
                                                     trackBookingClick(`${selectedSession.title} Session`, selectedSession.price);
-                                                    window.open(selectedSession.calendarUrl, '_blank', 'noopener,noreferrer');
+                                                    openCalendarTab(selectedSession.calendarUrl);
                                                 }}
                                                 className="
                                                     w-full flex items-center justify-center gap-3

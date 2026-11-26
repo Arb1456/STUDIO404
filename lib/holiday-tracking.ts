@@ -1,43 +1,34 @@
-import { sendGAEvent } from '@next/third-parties/google';
 import { HOLIDAY_OFFERS, MINI_DAYS } from '@/lib/holiday';
+import { trackBookingClick } from '@/lib/tracking';
+import { openCalendarTab } from '@/lib/attribution';
 
-type FbqWindow = Window & { fbq?: (...args: unknown[]) => void };
-
-/** Fires GA4 begin_checkout + Meta InitiateCheckout for a holiday booking intent. */
+/**
+ * GA4 begin_checkout + Meta InitiateCheckout for a holiday calendar opening.
+ * Call only right before the calendar opens: scroll buttons must not fire it (Nov 26).
+ */
 function trackHolidayIntent(offer: 'mini' | 'full', cta: string) {
     const name = offer === 'mini' ? 'Holiday Mini Session' : 'Full Holiday Session';
-    const { price } = HOLIDAY_OFFERS[offer];
-    sendGAEvent('event', 'begin_checkout', {
-        items: [{ item_name: name, price }],
-        cta,
-    });
-    (window as FbqWindow).fbq?.('track', 'InitiateCheckout', {
-        content_name: name,
-        value: price,
-        currency: 'CAD',
-    });
+    trackBookingClick(name, HOLIDAY_OFFERS[offer].price, { cta });
 }
 
 export const trackMiniIntent = (cta: string) => trackHolidayIntent('mini', cta);
 export const trackFullSessionIntent = (cta: string) => trackHolidayIntent('full', cta);
 
-/** Smooth-scroll to the booking section on /holiday-session. */
-export function scrollToFullSessionBooking(cta: string) {
-    trackFullSessionIntent(cta);
+/** Smooth-scroll to the booking section on /holiday-session. No tracking: it only scrolls. */
+export function scrollToFullSessionBooking() {
     document.getElementById('book')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 export const miniDaysSoldOut = () => MINI_DAYS.every((d) => d.spotsLeft === 0);
 
-/** Smooth-scroll to the dates + booking section on /holiday-minis. */
-export function scrollToMiniBooking(cta: string) {
-    trackMiniIntent(cta);
+/** Smooth-scroll to the dates + booking section on /holiday-minis. No tracking: it only scrolls. */
+export function scrollToMiniBooking() {
     document.getElementById('book')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /** Open the GHL Holiday Mini calendar in a new tab (falls back to the booking section if sold out). */
 export function openMiniCalendar(cta: string) {
-    if (miniDaysSoldOut()) return scrollToMiniBooking(`${cta}-waitlist`);
+    if (miniDaysSoldOut()) return scrollToMiniBooking();
     trackMiniIntent(cta);
-    window.open(HOLIDAY_OFFERS.mini.calendarUrl, '_blank', 'noopener,noreferrer');
+    openCalendarTab(HOLIDAY_OFFERS.mini.calendarUrl);
 }

@@ -45,12 +45,20 @@ export function trackLead(source: string, eventId: string) {
     fbq('track', 'Lead', { content_name: source }, { eventID: eventId });
 }
 
+/** Page (pathname) that already sent its checkout event: one per page view, repeat clicks don't count. */
+let checkoutSentFor: string | null = null;
+
 /**
- * Fire when a visitor clicks through to a GHL booking calendar.
- * Pass sendGA: false where the caller already sends its own GA4 checkout event.
+ * Fire ONLY when a GHL booking calendar actually opens (never on scroll buttons or
+ * when a picker sheet opens): Meta ad sets optimize for InitiateCheckout (Nov 26),
+ * so it must mean "opened the calendar". Once per page view.
+ * Extra GA4 params (e.g. cta) ride along on begin_checkout.
  */
-export function trackBookingClick(name: string, value: number, { sendGA = true }: { sendGA?: boolean } = {}) {
-    if (sendGA) ga('begin_checkout', { currency: 'CAD', value, items: [{ item_name: name, price: value }] });
+export function trackBookingClick(name: string, value: number, gaExtra: Record<string, unknown> = {}) {
+    const page = window.location.pathname;
+    if (checkoutSentFor === page) return;
+    checkoutSentFor = page;
+    ga('begin_checkout', { currency: 'CAD', value, items: [{ item_name: name, price: value }], ...gaExtra });
     fbq('track', 'InitiateCheckout', { content_name: name, value, currency: 'CAD' });
 }
 

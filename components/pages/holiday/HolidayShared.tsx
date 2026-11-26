@@ -9,6 +9,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HOLIDAY_SET_CAROUSEL, STUDIO_CONTACT, type HolidayPhotoEra } from '@/lib/holiday';
 import { newEventId, trackLead } from '@/lib/tracking';
+import { openCalendarTab } from '@/lib/attribution';
 
 // ─── Reviews ─────────────────────────────────────────────────────────────
 
@@ -259,8 +260,7 @@ export const ChristmasContact: React.FC<{ source: string }> = ({ source }) => (
 /** Open a GHL booking calendar in its own tab.
  *  Not embedded: inside an iframe, Stripe Link's saved-card code prompt hangs the
  *  payment step and Apple Pay is unavailable (tested Nov 15, 2026). */
-export const openBookingCalendar = (calendarUrl: string) =>
-    window.open(calendarUrl, '_blank', 'noopener,noreferrer');
+export const openBookingCalendar = (calendarUrl: string) => openCalendarTab(calendarUrl);
 
 /** Centered "book now" button used under the offer details. */
 export const BookCalendarButton: React.FC<{

@@ -8,6 +8,7 @@ import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import { trackBookingClick } from '@/lib/tracking';
+import { openCalendarTab } from '@/lib/attribution';
 
 interface RatesPageProps {
     onBook: (duration?: number) => void;
@@ -277,7 +278,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                         <button
                             onClick={() => {
                                 trackBookingClick('2 Hour Studio Rental', 120);
-                                window.open('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour', '_blank', 'noopener,noreferrer');
+                                openCalendarTab('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour');
                             }}
                             className="
                                 inline-flex items-center justify-center gap-3

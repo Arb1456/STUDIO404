@@ -157,7 +157,7 @@ const Navigation: React.FC<NavigationProps> = ({ onBook }) => {
                         </button>
                     ) : pathname === HOLIDAY_ROUTES.fullSession ? (
                         <button
-                            onClick={() => scrollToFullSessionBooking('bottom-bar')}
+                            onClick={() => scrollToFullSessionBooking()}
                             className="font-serif italic text-lg px-2 hover:text-white/80 transition-colors"
                         >
                             Book · from ${HOLIDAY_OFFERS.full.price}

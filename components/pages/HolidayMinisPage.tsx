@@ -210,7 +210,7 @@ const HolidayMinisPage: React.FC = () => {
                         <div className="flex flex-col items-center md:items-start gap-5">
                             {/* Hero scrolls to dates + booking; the bottom nav bar opens the calendar directly. */}
                             <button
-                                onClick={() => scrollToBooking(allSoldOut ? 'hero-waitlist' : 'hero')}
+                                onClick={() => scrollToBooking()}
                                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-5 text-sm uppercase tracking-widest hover:bg-white transition-colors"
                             >
                                 {allSoldOut ? 'Join The Waitlist' : 'Pick Your Time Slot'} <ArrowDown size={16} />
@@ -360,7 +360,7 @@ const HolidayMinisPage: React.FC = () => {
                 <FAQAccordion items={MINI_FAQ} />
                 <div className="text-center mt-14">
                     <button
-                        onClick={() => scrollToBooking('faq')}
+                        onClick={() => scrollToBooking()}
                         className="inline-flex items-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                     >
                         Book Your Holiday Mini · ${mini.price}
