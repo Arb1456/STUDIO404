@@ -29,6 +29,16 @@ interface SessionType {
 }
 
 // Helper to generate session image URL
+/** Christmas client examples added to the end of a session's photo strip (real clients on the set; André OK'd client photos). */
+const CHRISTMAS_EXAMPLES: Record<string, { id: string; alt: string }[]> = {
+    family: [
+        { id: 'HOLIDAY-2026-MINI1-5', alt: 'Family of five on the 2026 Christmas set' },
+        { id: 'HOLIDAY-2026-MINI1-7', alt: 'Mother and three girls with gifts on the Christmas set' },
+        { id: 'HOLIDAY-2026-MINI1-1', alt: 'Parents and baby in Santa hats on the Christmas set' },
+    ],
+    couple: [{ id: 'HOLIDAY-SET-KHEY', alt: 'Couple in matching red plaid pyjamas on the Christmas set' }],
+};
+
 const getSessionImg = (folderName: string, index: number = 1) => {
     const paddedIndex = index.toString().padStart(2, '0');
     const folder = `${folderName.toUpperCase()}-SESSION`;
@@ -692,6 +702,17 @@ const PhotoshootPage: React.FC = () => {
                                                                 if (el) el.style.display = 'none';
                                                             }}
                                                         />
+                                                    </div>
+                                                ))}
+                                                {(CHRISTMAS_EXAMPLES[selectedSession.id] ?? []).map((x) => (
+                                                    <div key={x.id} className="relative shrink-0 w-[280px] md:w-[350px] aspect-[3/4] snap-center overflow-hidden">
+                                                        <img
+                                                            src={cloudinaryUrl(x.id, { width: 700, aspectRatio: '0.75', crop: 'fill', gravity: 'auto' })}
+                                                            alt={x.alt}
+                                                            loading="lazy"
+                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                                        />
+                                                        <span className="absolute left-2 top-2 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] bg-evergreen text-cream">Christmas session</span>
                                                     </div>
                                                 ))}
                                                 {(() => {
