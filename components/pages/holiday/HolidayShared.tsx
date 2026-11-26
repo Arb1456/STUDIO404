@@ -120,8 +120,6 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
         let bestDist = Infinity;
         items().forEach((item, i) => {
             const d = Math.abs(item.offsetLeft + item.offsetWidth / 2 - mid);
-            // Gradual fade: clear in the middle, fading with distance (down to 15%).
-            item.style.opacity = String(1 - 0.85 * Math.min(1, d / (el.clientWidth * 0.9)));
             if (d < bestDist) {
                 bestDist = d;
                 best = i;
@@ -180,8 +178,6 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
                 <div
                     ref={trackRef}
                     className="flex items-center gap-2 md:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar [--gh:340px] md:[--gh:460px]"
-                    // Soft fade at the far left and right edges of the strip.
-                    style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
                     aria-label="Christmas set and client photos"
                     tabIndex={0}
                 >
@@ -190,8 +186,8 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
                             key={photo.id}
                             data-slide
                             onClick={() => i !== active && goTo(i)}
-                            className={`relative shrink-0 snap-center overflow-hidden bg-charcoal/5 transition-opacity duration-150 ${
-                                i === active ? '' : 'cursor-pointer'
+                            className={`relative shrink-0 snap-center overflow-hidden bg-charcoal/5 transition-opacity duration-300 ${
+                                i === active ? 'opacity-100' : 'opacity-35 cursor-pointer'
                             }`}
                             // Natural shape at the gallery height, but never wider than 82% of the screen,
                             // so wide photos still leave the faded neighbours peeking in on phones.
