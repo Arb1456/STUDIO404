@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import BookingProvider from '@/components/layout/BookingProvider';
 import TrackViewContent from '@/components/layout/TrackViewContent';
 import HolidaySessionPage from '@/components/pages/HolidaySessionPage';
-import { breadcrumbJsonLd } from '@/lib/structured-data';
+import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from '@/lib/structured-data';
+import { FULL_SESSION_FAQ, HOLIDAY_OFFERS } from '@/lib/holiday';
 
 export const metadata: Metadata = {
     title: 'Christmas Photoshoot in Ottawa | Full Holiday Session — Studio 404',
@@ -14,7 +15,17 @@ export const metadata: Metadata = {
     alternates: { canonical: '/holiday-session' },
 };
 
-const jsonLd = breadcrumbJsonLd('Full Holiday Session', '/holiday-session');
+const jsonLd = [
+    breadcrumbJsonLd('Full Holiday Session', '/holiday-session'),
+    serviceJsonLd({
+        name: 'Full Holiday Session',
+        description: '1.5-hour Christmas photoshoot on our holiday set in Ottawa, 2 outfits, 12 edited photos, any available day.',
+        path: '/holiday-session',
+        price: HOLIDAY_OFFERS.full.price,
+        priceType: 'from',
+    }),
+    faqJsonLd(FULL_SESSION_FAQ),
+];
 
 export default function HolidaySession() {
     return (
