@@ -2,17 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { trackMiniIntent, scrollToMiniBooking } from '@/lib/holiday-tracking';
-import { Clock, Camera, Users, PawPrint, Gift, Star, ExternalLink, ArrowDown, ChevronDown } from 'lucide-react';
+import { trackMiniIntent, scrollToMiniBooking, openMiniCalendar } from '@/lib/holiday-tracking';
+import { Clock, Camera, Users, PawPrint, Gift, ExternalLink, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
-import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
-import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel, openBookingCalendar } from '@/components/pages/holiday/HolidayShared';
+import { Holly, Snowflake, Ornament, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
 import { newEventId, trackLead } from '@/lib/tracking';
 import {
-    HOLIDAY_HERO_IMAGE,
+    MINI_HERO_IMAGE,
     HOLIDAY_OFFERS,
     MINI_DAYS,
     MINI_FAQ,
@@ -33,6 +33,53 @@ type LiveSlots = Record<string, string[]> | null;
 /** Today's date in Toronto as YYYY-MM-DD, so finished mini days drop off the list. */
 const torontoToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
 
+/**
+ * Live open times as buttons. GHL can't open on a given date or time (URL params ignored,
+ * tested Nov 26), so a tap opens the calendar and the caller says which day to tap there.
+ */
+const TimeChips: React.FC<{ times: string[]; dayLabel: string; cta: string; max?: number; dark?: boolean; compact?: boolean; className?: string }> = ({
+    times,
+    dayLabel,
+    cta,
+    max,
+    dark = false,
+    compact = false,
+    className = '',
+}) => {
+    const shown = max ? times.slice(0, max) : times;
+    const more = times.length - shown.length;
+    const chip = dark
+        ? 'border-cream/30 bg-cream/10 text-cream hover:bg-cream hover:text-evergreen'
+        : 'border-charcoal/15 bg-white hover:border-evergreen hover:text-evergreen';
+    return (
+        <ul className={`flex ${compact ? "flex-nowrap gap-1.5" : "flex-wrap gap-2"} ${className}`} aria-label={`Open times on ${dayLabel}`}>
+            {shown.map((t) => (
+                <li key={t}>
+                    <button
+                        type="button"
+                        onClick={() => openMiniCalendar(cta)}
+                        aria-label={`Book ${dayLabel} at ${t} (opens the booking calendar)`}
+                        className={`${compact ? "px-2.5 py-1.5 text-[13px]" : "px-3 py-1.5 text-sm"} whitespace-nowrap border rounded-full transition-colors ${chip}`}
+                    >
+                        {t}
+                    </button>
+                </li>
+            ))}
+            {more > 0 && (
+                <li>
+                    <button
+                        type="button"
+                        onClick={() => openMiniCalendar(cta)}
+                        className={`${compact ? "px-1.5 py-1.5 text-[13px]" : "px-3 py-1.5 text-sm"} whitespace-nowrap rounded-full underline underline-offset-2 ${dark ? 'text-cream/80' : 'text-charcoal/60'}`}
+                    >
+                        +{more} more
+                    </button>
+                </li>
+            )}
+        </ul>
+    );
+};
+
 const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }> = ({ day, times, spots }) => {
     const [open, setOpen] = useState(false);
     const soldOut = spots === 0;
@@ -51,7 +98,7 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                 </span>
                 <span className="flex items-center gap-2 shrink-0">
                     <span className={`text-xs uppercase tracking-widest ${low ? 'text-red-800 font-medium' : 'text-charcoal/60'}`}>
-                        {soldOut ? 'Sold out' : `${spots} spot${spots === 1 ? '' : 's'} left`}
+                        {soldOut ? 'Sold out' : `${spots} time${spots === 1 ? '' : 's'} left`}
                     </span>
                     <ChevronDown size={14} className={`text-charcoal/40 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
                 </span>
@@ -63,18 +110,11 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                     ) : (
                         <>
                             {times && (
-                                <ul className="flex flex-wrap gap-2 mb-4" aria-label={`Open times on ${day.label}`}>
-                                    {times.map((t) => (
-                                        <li key={t} className="px-3 py-1.5 text-sm bg-white border border-charcoal/15 rounded-full">{t}</li>
-                                    ))}
-                                </ul>
+                                <TimeChips times={times} dayLabel={day.label} cta={`time-${day.date}`} className="mb-4" />
                             )}
                             <button
                                 type="button"
-                                onClick={() => {
-                                    trackMiniIntent(`day-${day.date}`);
-                                    openBookingCalendar(HOLIDAY_OFFERS.mini.calendarUrl);
-                                }}
+                                onClick={() => openMiniCalendar(`day-${day.date}`)}
                                 className="inline-flex items-center gap-2 bg-evergreen text-cream px-5 py-3 text-xs uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                             >
                                 Book {day.label} <ExternalLink size={14} aria-hidden="true" />
@@ -118,7 +158,7 @@ const WaitlistForm: React.FC = () => {
     };
 
     if (state === 'done') {
-        return <p className="font-serif text-xl">You&apos;re on the list — we&apos;ll reach out first when spots open.</p>;
+        return <p className="font-serif text-xl">You&apos;re on the list. We&apos;ll reach out first when a time opens.</p>;
     }
 
     return (
@@ -175,64 +215,136 @@ const HolidayMinisPage: React.FC = () => {
     const openDays = upcomingDays.filter((d) => spotsFor(d) > 0);
     const totalLeft = openDays.reduce((sum, d) => sum + spotsFor(d), 0);
     const allSoldOut = openDays.length === 0;
+    // First screen shows the next two days that still have open times (from the live feed once loaded).
+    const nextDays = openDays.slice(0, 2);
 
     return (
         <div className="bg-cream text-charcoal">
-            {/* ── 1. Hero ─────────────────────────────────────────── */}
-            <section className="relative bg-evergreen text-cream overflow-hidden">
-                <div className="absolute inset-0">
-                    <div className="block md:hidden absolute inset-0">
-                        <Image src={HOLIDAY_HERO_IMAGE.mobile} alt="" fill priority className="object-cover opacity-30" sizes="100vw" />
-                    </div>
-                    <div className="hidden md:block absolute inset-0">
-                        <Image src={HOLIDAY_HERO_IMAGE.desktop} alt="" fill priority className="object-cover opacity-30" sizes="100vw" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-evergreen via-evergreen/70 to-evergreen/30" />
-                    <EmblemScatter />
-                    <Snowfall />
+            {/* ── 1. First screen: real family, price line, next open days, Book (Nov 26) ──
+                Ad visitors left in ~5 s when this was a title + scroll button, so everything
+                they need to book sits above the fold on a phone. Same version for all sources. */}
+            <section className="relative bg-evergreen text-cream overflow-hidden md:grid md:grid-cols-[1.1fr_1fr] md:min-h-[640px]">
+                <div className="relative aspect-[1.9] md:aspect-auto md:order-2">
+                    <Image src={MINI_HERO_IMAGE.mobile} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover md:hidden" sizes="100vw" />
+                    <Image src={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover hidden md:block" sizes="50vw" />
+                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-evergreen to-transparent md:hidden" />
                 </div>
 
-                {/* Centered on mobile, left-aligned from md up. Offer details live in the next section. */}
-                <div className="relative px-6 pt-28 pb-12 md:pt-44 md:pb-24 max-w-5xl mx-auto text-center md:text-left">
-                    <Reveal width="100%">
-                        <span className="inline-flex flex-col md:flex-row items-center gap-2 md:gap-3 text-xs tracking-[0.25em] uppercase text-gold mb-5">
-                            <Holly className="w-10 h-10 md:w-8 md:h-8 md:-my-2 shrink-0" />
-                            {arrival ?? 'Ottawa · Christmas 2026 · Limited Dates'}
-                        </span>
-                    </Reveal>
-                    <Reveal delay={0.1} width="100%">
-                        <h1 className="font-serif text-5xl md:text-7xl leading-[1.05] mb-8">
-                            Holiday Minis <br />
-                            <span className="italic font-light">in Ottawa</span>
-                        </h1>
-                    </Reveal>
-                    <Reveal delay={0.2} width="100%">
-                        <div className="flex flex-col items-center md:items-start gap-5">
-                            {/* Hero scrolls to dates + booking; the bottom nav bar opens the calendar directly. */}
-                            <button
-                                onClick={() => scrollToBooking()}
-                                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-5 text-sm uppercase tracking-widest hover:bg-white transition-colors"
-                            >
-                                {allSoldOut ? 'Join The Waitlist' : 'Pick Your Time Slot'} <ArrowDown size={16} />
-                            </button>
-                            <span className="flex items-center gap-2 text-sm text-cream/80">
-                                <span className="flex gap-0.5" aria-hidden="true">
-                                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={14} className="text-gold fill-gold" />)}
-                                </span>
-                                Over 100 five-star reviews
-                            </span>
+                <div className="relative px-5 pt-3 pb-28 md:px-12 md:py-16 md:flex md:flex-col md:justify-center md:order-1">
+                    <Snowfall count={8} />
+                    <span className="relative flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-gold mb-1">
+                        <Holly className="w-5 h-5 shrink-0" />
+                        {arrival ?? 'Ottawa · Christmas 2026'}
+                    </span>
+                    <h1 className="relative font-serif text-[2rem] md:text-6xl leading-none mt-1 mb-1 md:mb-3">Holiday Minis</h1>
+                    <p className="relative text-sm md:text-base text-cream/85 mb-3">
+                        ${mini.price} · 30 min · {mini.photoCount} edited photos · up to {MINI_POLICY.includedPeople} people
+                    </p>
+
+                    {allSoldOut ? (
+                        <p className="relative text-cream/85 mb-4">Every mini day is booked. Join the waitlist and we&apos;ll reach out first if a time opens.</p>
+                    ) : (
+                        <div className="relative space-y-2.5 mb-4 min-h-[112px]">
+                            {nextDays.map((d) => {
+                                const times = live?.[d.date] ?? null;
+                                const left = spotsFor(d);
+                                return (
+                                    <div key={d.date}>
+                                        <p className="text-sm mb-1">
+                                            <span className="font-serif text-lg">{d.label}</span>
+                                            <span className="ml-2 text-cream/70">{left} time{left === 1 ? '' : 's'} left</span>
+                                        </p>
+                                        {times ? (
+                                            <TimeChips times={times} dayLabel={d.label} cta={`hero-time-${d.date}`} max={3} dark compact />
+                                        ) : (
+                                            <p className="text-sm text-cream/60">{d.hours}</p>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
-                    </Reveal>
+                    )}
+
+                    {allSoldOut ? (
+                        <button
+                            onClick={() => scrollToBooking()}
+                            className="relative w-full md:w-auto md:self-start inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-4 text-sm uppercase tracking-widest hover:bg-white transition-colors"
+                        >
+                            Join The Waitlist <ArrowDown size={16} aria-hidden="true" />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => openMiniCalendar('hero')}
+                            className="relative w-full md:w-auto md:self-start inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-4 text-sm uppercase tracking-widest hover:bg-white transition-colors"
+                        >
+                            See All Times &amp; Book <ExternalLink size={16} aria-hidden="true" />
+                        </button>
+                    )}
+                    {!allSoldOut && nextDays[0] && (
+                        <p className="relative mt-2 text-xs text-cream/60">
+                            Opens our booking calendar in a new tab. Tap your day there to see its times. ${MINI_POLICY.deposit} deposit to book.
+                        </p>
+                    )}
+                    <button
+                        onClick={() => scrollToBooking()}
+                        className="relative mt-4 self-start inline-flex items-center gap-2 text-xs uppercase tracking-widest text-cream/80 underline underline-offset-4"
+                    >
+                        All {upcomingDays.length} mini days <ArrowDown size={12} aria-hidden="true" />
+                    </button>
                 </div>
             </section>
 
-            {/* ── 2. What's included ──────────────────────────────── */}
+            {/* ── 2. Dates + booking (straight after the first screen) ──────────────────────────────── */}
+            <section id="book" className="scroll-mt-8 px-6 py-20 md:py-28 max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.6fr] gap-12">
+                <div>
+                    <Reveal>
+                        <span className="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">
+                            <Snowflake className="w-4 h-4 text-gold" /> Mini session days
+                        </span>
+                        <h2 className="font-serif text-4xl mb-3">Pick your day</h2>
+                        <p className="text-charcoal/70 mb-8">
+                            {allSoldOut
+                                ? 'All mini days are booked. Join the waitlist and we’ll reach out first if spots open.'
+                                : `Minis are only offered on these days. ${totalLeft} times left in all. Tap a day to see its open times.`}
+                        </p>
+                    </Reveal>
+                    <ul className="border-t border-charcoal/15 mb-10">
+                        {upcomingDays.map((d) => (
+                            <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} spots={spotsFor(d)} />
+                        ))}
+                    </ul>
+                    <div className="bg-white/60 border border-charcoal/10 rounded-xl p-6">
+                        <p className="font-serif text-xl mb-1">Day sold out?</p>
+                        <p className="text-sm text-charcoal/60 mb-4">Get first dibs on cancellations and new dates.</p>
+                        <WaitlistForm />
+                    </div>
+                </div>
+
+                <div>
+                    {!allSoldOut && (
+                        <BookingPanel
+                            id="mini-calendar"
+                            calendarUrl={mini.calendarUrl}
+                            title="Book a Holiday Mini"
+                            deposit={MINI_POLICY.deposit}
+                            onOpen={() => trackMiniIntent('booking-panel')}
+                        />
+                    )}
+                    <p className="mt-6 text-xs text-charcoal/50 leading-relaxed">
+                        ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.
+                        Pets welcome if potty trained. A ${MINI_POLICY.petFee} cleaning fee applies. Group size and pets are confirmed when you book.
+                        A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance plus applicable HST and any extra fees are invoiced together.
+                    </p>
+                </div>
+            </section>
+
+            {/* ── 3. What's included ──────────────────────────────── */}
             <section className="px-6 py-14 md:py-20 max-w-5xl mx-auto">
                 <Reveal width="100%">
                     <div className="text-center mb-8">
                         <span className="block text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-2">Your Holiday Mini</span>
                         <p className="font-serif text-6xl md:text-7xl text-evergreen leading-none">${mini.price}</p>
-                        <p className="text-sm text-charcoal/60 mt-3">Everything included — on our Christmas set</p>
+                        <p className="text-sm text-charcoal/60 mt-3">Everything included, on our Christmas set</p>
                         <p className="text-xs text-charcoal/50 mt-1">${MINI_POLICY.deposit} deposit to book · refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before</p>
                     </div>
                 </Reveal>
@@ -277,58 +389,14 @@ const HolidayMinisPage: React.FC = () => {
                 )}
             </section>
 
-            {/* ── 3. The set ──────────────────────────────────────── */}
+            {/* ── 4. The set ──────────────────────────────────────── */}
             <SetGallery
                 heading="Made for the people you love"
-                caption="Four snow-white trees, warm lights, a cozy couch and fluffy carpet — families, couples and the dog all fit."
+                caption="Four snow-white trees, warm lights, a cozy couch and fluffy carpet. Families, couples and the dog all fit."
             />
 
-            {/* ── 4. Reviews ──────────────────────────────────────── */}
+            {/* ── 5. Reviews ──────────────────────────────────────── */}
             <HolidayReviews />
-
-            {/* ── 5. Dates + booking ──────────────────────────────── */}
-            <section id="book" className="scroll-mt-8 px-6 py-20 md:py-28 max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.6fr] gap-12">
-                <div>
-                    <Reveal>
-                        <span className="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">
-                            <Snowflake className="w-4 h-4 text-gold" /> Mini session days
-                        </span>
-                        <h2 className="font-serif text-4xl mb-3">Pick your day</h2>
-                        <p className="text-charcoal/70 mb-8">
-                            {allSoldOut
-                                ? 'All mini days are booked. Join the waitlist and we’ll reach out first if spots open.'
-                                : `Minis are only offered on these specific days and times — ${totalLeft} spots left. Tap a day to see its open times.`}
-                        </p>
-                    </Reveal>
-                    <ul className="border-t border-charcoal/15 mb-10">
-                        {upcomingDays.map((d) => (
-                            <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} spots={spotsFor(d)} />
-                        ))}
-                    </ul>
-                    <div className="bg-white/60 border border-charcoal/10 rounded-xl p-6">
-                        <p className="font-serif text-xl mb-1">Day sold out?</p>
-                        <p className="text-sm text-charcoal/60 mb-4">Get first dibs on cancellations and new dates.</p>
-                        <WaitlistForm />
-                    </div>
-                </div>
-
-                <div>
-                    {!allSoldOut && (
-                        <BookingPanel
-                            id="mini-calendar"
-                            calendarUrl={mini.calendarUrl}
-                            title="Book a Holiday Mini"
-                            deposit={MINI_POLICY.deposit}
-                            onOpen={() => trackMiniIntent('booking-panel')}
-                        />
-                    )}
-                    <p className="mt-6 text-xs text-charcoal/50 leading-relaxed">
-                        ${mini.price} includes up to {MINI_POLICY.includedPeople} people. Additional people ${MINI_POLICY.extraPersonFee} each.
-                        Pets welcome if potty trained — ${MINI_POLICY.petFee} cleaning fee applies. Group size and pets are confirmed when you book.
-                        A ${MINI_POLICY.deposit} deposit holds your spot (refundable up to {MINI_POLICY.refundWindowDays / 7} weeks before your session); the balance plus applicable HST and any extra fees are invoiced together.
-                    </p>
-                </div>
-            </section>
 
             {/* ── 6. Upgrade ──────────────────────────────────────── */}
             <section className="relative overflow-hidden bg-evergreen text-cream px-6 py-16 md:py-20">

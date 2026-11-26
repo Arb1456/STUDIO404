@@ -44,6 +44,16 @@ export const HOLIDAY_HERO_IMAGE = {
 };
 
 /**
+ * /holiday-minis first screen (Nov 26): a real 2026 family on this year's set, like the ads show.
+ * Mobile is a short wide band so the open days + Book button still fit above the fold.
+ */
+export const MINI_HERO_IMAGE = {
+    mobile: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 828, aspectRatio: '1.9', crop: 'fill', gravity: 'auto' }),
+    desktop: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 1400, aspectRatio: '1.25', crop: 'fill', gravity: 'auto' }),
+    alt: 'A family of five on the cream couch in front of the 2026 Studio 404 Christmas set',
+};
+
+/**
  * Photo carousel on the minis + full-session pages.
  * '2026-set' = this year's set, empty (no clients yet).
  * '2026-client' = real client mini sessions on this year's set.
