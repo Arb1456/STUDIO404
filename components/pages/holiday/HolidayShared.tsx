@@ -3,7 +3,7 @@
  * Sections shared by the holiday landing pages (/holiday-minis, /holiday-session).
  * Content lives in lib/holiday.ts; these components only lay it out.
  */
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Star, Phone, Mail, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
@@ -85,16 +85,81 @@ const ERA_LABEL: Record<HolidayPhotoEra, string> = {
     '2025-client': 'Christmas 2025 client',
 };
 
+/** "5/4" -> 1.25 */
+const ratioOf = (r: string) => {
+    const [w, h] = r.split('/').map(Number);
+    return h ? w / h : 1;
+};
+
 /**
  * Swipeable carousel mixing this year's set with real client photos
- * from this year's minis and last year's set. Fixed height, natural widths, so no photo is cropped.
+ * from this year's minis and last year's set. Natural shapes, so no photo is cropped. The current
+ * photo snaps to the centre at full opacity; the ones either side are faded.
  */
 export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ heading, caption }) => {
     const trackRef = useRef<HTMLDivElement>(null);
-    const scroll = (dir: 1 | -1) => {
+    // The photo nearest the middle is "active": full opacity; the ones either side fade.
+    const [active, setActive] = useState(0);
+
+    const items = () => Array.from(trackRef.current?.querySelectorAll<HTMLElement>('[data-slide]') ?? []);
+
+    /** Pad the track so the first and last photos can sit in the centre too. */
+    const fitPadding = useCallback(() => {
         const el = trackRef.current;
-        if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+        const all = items();
+        if (!el || all.length === 0) return;
+        el.style.paddingLeft = `${Math.max(0, (el.clientWidth - all[0].offsetWidth) / 2)}px`;
+        el.style.paddingRight = `${Math.max(0, (el.clientWidth - all[all.length - 1].offsetWidth) / 2)}px`;
+    }, []);
+
+    const updateActive = useCallback(() => {
+        const el = trackRef.current;
+        if (!el) return;
+        const mid = el.scrollLeft + el.clientWidth / 2;
+        let best = 0;
+        let bestDist = Infinity;
+        items().forEach((item, i) => {
+            const d = Math.abs(item.offsetLeft + item.offsetWidth / 2 - mid);
+            if (d < bestDist) {
+                bestDist = d;
+                best = i;
+            }
+        });
+        setActive(best);
+    }, []);
+
+    useEffect(() => {
+        const el = trackRef.current;
+        if (!el) return;
+        fitPadding();
+        el.scrollLeft = 0;
+        updateActive();
+        let frame = 0;
+        const onScroll = () => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(updateActive);
+        };
+        const onResize = () => {
+            fitPadding();
+            updateActive();
+        };
+        el.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize);
+        return () => {
+            el.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
+            cancelAnimationFrame(frame);
+        };
+    }, [fitPadding, updateActive]);
+
+    /** Centre a given photo (arrows, or tapping a faded side photo). */
+    const goTo = (i: number) => {
+        const el = trackRef.current;
+        const item = items()[Math.max(0, Math.min(i, items().length - 1))];
+        if (!el || !item) return;
+        el.scrollTo({ left: item.offsetLeft + item.offsetWidth / 2 - el.clientWidth / 2, behavior: 'smooth' });
     };
+    const scroll = (dir: 1 | -1) => goTo(active + dir);
 
     return (
         <section className="pb-20 md:pb-28">
@@ -112,15 +177,21 @@ export const SetGallery: React.FC<{ heading: string; caption?: string }> = ({ he
             <div className="relative max-w-7xl mx-auto">
                 <div
                     ref={trackRef}
-                    className="flex gap-2 md:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar px-6 scroll-px-6"
+                    className="flex items-center gap-2 md:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar [--gh:340px] md:[--gh:460px]"
                     aria-label="Christmas set and client photos"
                     tabIndex={0}
                 >
-                    {HOLIDAY_SET_CAROUSEL.map((photo) => (
+                    {HOLIDAY_SET_CAROUSEL.map((photo, i) => (
                         <figure
                             key={photo.id}
-                            className="relative shrink-0 snap-start h-[340px] md:h-[460px] overflow-hidden bg-charcoal/5"
-                            style={{ aspectRatio: photo.ratio }}
+                            data-slide
+                            onClick={() => i !== active && goTo(i)}
+                            className={`relative shrink-0 snap-center overflow-hidden bg-charcoal/5 transition-opacity duration-300 ${
+                                i === active ? 'opacity-100' : 'opacity-35 cursor-pointer'
+                            }`}
+                            // Natural shape at the gallery height, but never wider than 82% of the screen,
+                            // so wide photos still leave the faded neighbours peeking in on phones.
+                            style={{ aspectRatio: photo.ratio, width: `min(calc(var(--gh) * ${ratioOf(photo.ratio)}), 82vw)` }}
                         >
                             <img src={photo.src} alt={photo.alt} loading="lazy" className="w-full h-full object-cover" />
                             <figcaption
