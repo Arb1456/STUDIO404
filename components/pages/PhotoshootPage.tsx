@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackBookingClick, trackLead } from '@/lib/tracking';
 import { openCalendar } from '@/lib/attribution';
+import { bookingUrl } from '@/lib/booking';
 import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE, HOLIDAY_ROUTES } from '@/lib/holiday';
 
 interface SessionType {
@@ -71,16 +72,16 @@ const HOLIDAY_SESSIONS: SessionType[] = isHolidaySeason()
 
 const SESSIONS: SessionType[] = [
     ...HOLIDAY_SESSIONS,
-    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404portrait-session' },
-    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404family-session' },
-    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404couples-session' },
-    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404birthday-session' },
-    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404headshot-session' },
-    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404maternity-session' },
-    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404group-session' },
-    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404newborn-session' },
-    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404boudoir-session' },
-    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404product-session' },
+    { id: 'portrait', title: 'Portrait', price: 225, description: 'Capture your essence with professional lighting and direction.', image: getSessionImg('portrait'), duration: '1-2+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404portrait-session') },
+    { id: 'family', title: 'Family', price: 250, description: 'Timeless memories for the whole family in our spacious studio.', image: getSessionImg('family'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404family-session') },
+    { id: 'couple', title: 'Couple', price: 250, description: 'Intimate and creative sessions for you and your partner.', image: getSessionImg('couple'), duration: '1.5-3 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404couples-session') },
+    { id: 'birthday', title: 'Birthday', price: 275, description: 'Celebrate another year with a fun, styled photoshoot.', image: getSessionImg('birthday'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404birthday-session') },
+    { id: 'headshot', title: 'Headshots', price: 150, description: 'Professional branding and corporate headshots.', image: getSessionImg('headshot'), duration: '1-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404headshot-session') },
+    { id: 'maternity', title: 'Maternity', price: 250, description: 'Documenting the beauty of motherhood.', image: getSessionImg('maternity'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404maternity-session') },
+    { id: 'group', title: 'Group', price: 325, description: 'Large group sessions for bands, teams, or friends.', image: getSessionImg('group'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404group-session') },
+    { id: 'newborn', title: 'Newborn', price: 250, description: 'Safe, warm, and gentle sessions for the newest additions.', image: getSessionImg('newborn'), duration: '1.5-3.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404newborn-session') },
+    { id: 'boudoir', title: 'Boudoir', price: 300, description: 'Empowering and intimate sessions in a comfortable, private setting.', image: getSessionImg('boudoir'), duration: '1.5-3+ Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404boudoir-session') },
+    { id: 'product', title: 'Product', price: 275, description: 'High-quality commercial imagery to showcase your brand\'s products.', image: getSessionImg('product'), duration: '1.5-2.5 Hours', photoCount: 8, galleryCount: 6, calendarUrl: bookingUrl('404product-session') },
 ];
 
 // Best-fit review per session type shown in the gallery testimonial card

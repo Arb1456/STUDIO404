@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import { trackBookingClick } from '@/lib/tracking';
 import { openCalendar } from '@/lib/attribution';
+import { bookingUrl } from '@/lib/booking';
 
 interface RatesPageProps {
     onBook: (duration?: number) => void;
@@ -278,7 +279,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                         <button
                             onClick={() => {
                                 trackBookingClick('2 Hour Studio Rental', 120);
-                                openCalendar('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour');
+                                openCalendar(bookingUrl('studio-rental-2-hour'));
                             }}
                             className="
                                 inline-flex items-center justify-center gap-3

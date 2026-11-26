@@ -1,4 +1,5 @@
 import { cloudinaryUrl } from '@/lib/cloudinary';
+import { bookingUrl } from '@/lib/booking';
 
 /**
  * Holiday 2026 season config — single source of truth.
@@ -118,7 +119,7 @@ export const HOLIDAY_OFFERS = {
         photoLabel: '4 Photo Selections + Edits',
         outfitLabel: '1 Outfit',
         description: 'A quick, festive session on our Christmas set — offered on specific mini-session days and times only.',
-        calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-mini-session',
+        calendarUrl: bookingUrl('404holiday-mini-session'),
         /** GHL calendar ID, used server-side for live availability. */
         calendarId: 'qMWxfnMOJQ1KA6zGsHCB',
     },
@@ -132,7 +133,7 @@ export const HOLIDAY_OFFERS = {
         photoCount: 12,
         outfitLabel: '2 Outfits',
         description: 'A full holiday photoshoot on our Christmas set with 2 outfits and time for more looks.',
-        calendarUrl: 'https://api.leadconnectorhq.com/widget/bookings/404holiday-session',
+        calendarUrl: bookingUrl('404holiday-session'),
         /** GHL calendar ID, used server-side for live availability. */
         calendarId: 'b4CiROJpNQTGDtossKxl',
     },

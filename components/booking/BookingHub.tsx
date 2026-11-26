@@ -7,21 +7,22 @@ import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
 import { trackBookingClick } from '@/lib/tracking';
 import { openCalendar } from '@/lib/attribution';
+import { bookingUrl } from '@/lib/booking';
 
 // ============================================
 // RENTAL CALENDAR URLs
 // ============================================
 export const RENTAL_CALENDARS: Record<number, { url: string; price: number }> = {
-    1: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-1-hour', price: 70 },
-    2: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour', price: 120 },
-    3: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-3-hour', price: 180 },
-    4: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-4-hour', price: 225 },
-    5: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-5-hour', price: 270 },
-    6: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-6-hour', price: 315 },
-    7: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-7-hour', price: 360 },
-    8: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-8-hour', price: 400 },
-    9: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-9-hour', price: 430 },
-    10: { url: 'https://api.leadconnectorhq.com/widget/bookings/studio-rental-10-hour', price: 450 },
+    1: { url: bookingUrl('studio-rental-1-hour'), price: 70 },
+    2: { url: bookingUrl('studio-rental-2-hour'), price: 120 },
+    3: { url: bookingUrl('studio-rental-3-hour'), price: 180 },
+    4: { url: bookingUrl('studio-rental-4-hour'), price: 225 },
+    5: { url: bookingUrl('studio-rental-5-hour'), price: 270 },
+    6: { url: bookingUrl('studio-rental-6-hour'), price: 315 },
+    7: { url: bookingUrl('studio-rental-7-hour'), price: 360 },
+    8: { url: bookingUrl('studio-rental-8-hour'), price: 400 },
+    9: { url: bookingUrl('studio-rental-9-hour'), price: 430 },
+    10: { url: bookingUrl('studio-rental-10-hour'), price: 450 },
 };
 
 interface BookingHubProps {
