@@ -12,6 +12,8 @@ import {
     ledgerHas,
     ledgerAdd,
     scheduleNote,
+    testHourCredit,
+    TEST_HOUR_CREDIT_TAG,
 } from '../lib/rental-invoice.ts';
 
 test('all 10 rental calendars map to hours with a base price', () => {
@@ -135,4 +137,54 @@ test('group fee: +$10 per person over 8, taxed, and impossible head counts are i
     assert.deepEqual(parseAttendees('7057189583'), { people: null, rejected: '7057189583' });
     assert.deepEqual(parseAttendees('12'), { people: 12 });
     assert.deepEqual(parseAttendees(''), { people: null });
+});
+
+// ── Test-hour credit (André, Nov 24 2026): 1h test rental, then a full day = $350 ──
+const ONE_HOUR = '3abPFtm86r4XNJBQ7IDU';
+const TWO_HOUR = '0vdWae4y3Zgd6mKS6aTG';
+const testHour = (startTime, extra = {}) => ({ id: 'test1', calendarId: ONE_HOUR, appointmentStatus: 'showed', startTime, ...extra });
+const credit = (over = {}) =>
+    testHourCredit({ hours: 8, rentalDay: '2026-12-10', appointmentId: 'full1', appointments: [testHour('2026-11-27 15:00:00')], tags: [], ...over });
+
+test('test-hour credit: $50 on an 8h day after a 1h rental from Nov 24 on', () => {
+    assert.equal(credit(), 50);
+    // Test hour booked but still upcoming (confirmed) still counts.
+    assert.equal(credit({ appointments: [testHour('2026-11-28 10:00:00', { appointmentStatus: 'confirmed' })] }), 50);
+});
+
+test('test-hour credit: not for other lengths, after Jan 1, or once used', () => {
+    for (const hours of [1, 2, 4, 7, 9, 10]) assert.equal(credit({ hours }), 0, `${hours}h`);
+    assert.equal(credit({ rentalDay: '2027-01-01' }), 0);
+    assert.equal(credit({ rentalDay: '2026-12-31' }), 50);
+    assert.equal(credit({ tags: ['from contact form', TEST_HOUR_CREDIT_TAG] }), 0);
+    assert.equal(credit({ tags: ['Test-Hour Credit Used'] }), 0);
+});
+
+test('test-hour credit: the 1h rental must be real, on/after Nov 24, and not after the full day', () => {
+    assert.equal(credit({ appointments: [] }), 0);
+    // Regular 1h renter from before the offer: no credit.
+    assert.equal(credit({ appointments: [testHour('2026-11-17 17:00:00')] }), 0);
+    for (const appointmentStatus of ['cancelled', 'invalid', 'noshow'])
+        assert.equal(credit({ appointments: [testHour('2026-11-27 15:00:00', { appointmentStatus })] }), 0, appointmentStatus);
+    assert.equal(credit({ appointments: [testHour('2026-11-27 15:00:00', { deleted: true })] }), 0);
+    // A 2h rental isn't the test hour.
+    assert.equal(credit({ appointments: [testHour('2026-11-27 15:00:00', { calendarId: TWO_HOUR })] }), 0);
+    // 1h booked for after the full day: "test" doesn't come first.
+    assert.equal(credit({ appointments: [testHour('2026-12-15 15:00:00')] }), 0);
+});
+
+test('test-hour credit on the invoice: $350 + HST on $350, deposit taken off', () => {
+    // Online: 30% of $400 = $120 paid on the calendar -> remainder $230, HST 13% of 350.
+    const online = planRentalInvoice({ hours: 8, startTime: '2026-12-10T10:00:00-05:00', today: '2026-12-03', depositPaid: 120, credit: 50 });
+    assert.equal(online.items[0].amount, 230);
+    assert.match(online.items[0].description, /\$400 less \$50 test-hour credit/);
+    assert.equal(online.items.at(-1).amount, 45.5);
+    assert.equal(online.total, 275.5);
+    // By hand: deposit is 30% of the credited price.
+    const hand = planRentalInvoice({ hours: 8, startTime: '2026-12-20T10:00:00-05:00', today: '2026-12-01', depositPaid: 0, credit: 50 });
+    assert.equal(hand.items[0].amount, 350);
+    assert.equal(hand.total, 395.5);
+    assert.deepEqual(hand.schedule.map((s) => s.value), [105, 290.5]);
+    // No credit: unchanged.
+    assert.equal(planRentalInvoice({ hours: 8, startTime: '2026-12-20T10:00:00-05:00', today: '2026-12-01', depositPaid: 0 }).total, 452);
 });

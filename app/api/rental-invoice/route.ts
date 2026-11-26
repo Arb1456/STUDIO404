@@ -7,7 +7,11 @@ import {
     parseAttendees,
     planRentalInvoice,
     scheduleNote,
+    testHourCredit,
     torontoDate,
+    TEST_HOUR_CREDIT_HOURS,
+    TEST_HOUR_CREDIT_TAG,
+    type ContactAppointment,
     type RentalInvoicePlan,
 } from '@/lib/rental-invoice';
 
@@ -198,7 +202,19 @@ export async function POST(req: Request) {
         const attendees = online
             ? parseAttendees((contact.customFields ?? []).find((f: any) => f.id === ATTENDEES_FIELD_ID)?.value)
             : { people: null };
-        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid, pet, people: attendees.people });
+        // Test-hour credit: $50 off a full day after a 1h test rental (same contact = same email/phone in GHL).
+        let credit = 0;
+        if (hours === TEST_HOUR_CREDIT_HOURS) {
+            const { events } = await ghl<{ events?: ContactAppointment[] }>(`/contacts/${contactId}/appointments`);
+            credit = testHourCredit({
+                hours,
+                rentalDay: torontoDate(new Date(appt.startTime)),
+                appointmentId,
+                appointments: events ?? [],
+                tags: contact.tags ?? [],
+            });
+        }
+        const plan: RentalInvoicePlan = planRentalInvoice({ hours, startTime: appt.startTime, today, depositPaid, pet, people: attendees.people, credit });
         const dayLabel = plan.items[0].description.split(' rental')[0];
         const name = `${dayLabel} ${hours}h Rental – ${first || fullName || 'Client'}`;
 
@@ -235,6 +251,10 @@ export async function POST(req: Request) {
             method: 'PUT',
             body: JSON.stringify({ customFields: [{ id: LEDGER_FIELD_ID, field_value: ledgerAdd(ledger, appointmentId) }] }),
         });
+        // One credit per photographer: mark it used.
+        if (credit > 0) {
+            await ghl(`/contacts/${contactId}/tags`, { method: 'POST', body: JSON.stringify({ tags: [TEST_HOUR_CREDIT_TAG] }) });
+        }
 
         const parts = plan.schedule
             ? plan.schedule.map((s) => `$${s.value.toFixed(2)} due ${s.dueDate}`).join(', then ')
@@ -256,10 +276,10 @@ export async function POST(req: Request) {
                 }),
             });
         } else {
-            await textAndre(`Rental invoice ${problem ? 'NEEDS A CHECK' : 'READY TO REVIEW'} (draft, not sent): ${name}, ${parts}.${problem} Open GHL > Payments > Invoices, check it and click Send.`);
+            await textAndre(`Rental invoice ${problem ? 'NEEDS A CHECK' : 'READY TO REVIEW'} (draft, not sent): ${name}, ${parts}.${credit ? ` Includes the \$${credit} test-hour credit.` : ''}${problem} Open GHL > Payments > Invoices, check it and click Send.`);
         }
 
-        return NextResponse.json({ ok: true, mode, invoiceId: created._id, invoiceNumber: created.invoiceNumber, name, kind: plan.kind, parts });
+        return NextResponse.json({ ok: true, mode, invoiceId: created._id, invoiceNumber: created.invoiceNumber, name, kind: plan.kind, parts, credit });
     } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.error('rental-invoice failed', who, msg);

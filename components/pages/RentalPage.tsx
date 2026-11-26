@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import { Holly, Snowflake, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import { isHolidaySeason, CHRISTMAS_SET } from '@/lib/holiday';
+import { RENTAL_BASE_PRICE, TEST_HOUR_CREDIT } from '@/lib/rental-invoice';
 import {
     Box,
     Lightbulb,
@@ -20,6 +21,9 @@ import {
     Sofa,
     Shirt
 } from 'lucide-react';
+
+/** Meta ad R4 offer (Nov 24): 1-hour test, then $50 off a full day. Applied by /api/rental-invoice. */
+const TEST_HOUR = { price: RENTAL_BASE_PRICE[1], credit: TEST_HOUR_CREDIT };
 
 interface RentalPageProps {
     onBook: (duration?: number) => void;
@@ -271,7 +275,8 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                             <Reveal delay={0.1}>
                                 <ul className="border-t border-cream/20 mb-10 text-left max-w-md mx-auto md:mx-0">
                                     {[
-                                        `Full Day — ${CHRISTMAS_SET.fullDay.hours} hours · $${CHRISTMAS_SET.fullDay.price}`,
+                                        `Full Day · ${CHRISTMAS_SET.fullDay.hours} hours · $${CHRISTMAS_SET.fullDay.price}`,
+                                        `Test the set first: 1 hour $${TEST_HOUR.price}, then your full day is $${CHRISTMAS_SET.fullDay.price - TEST_HOUR.credit}`,
                                         'Christmas set + full lighting grid included',
                                         'Enough time for a full day of back-to-back minis',
                                         'Change room & free parking in lot C for your clients',
@@ -287,6 +292,15 @@ const RentalPage: React.FC<RentalPageProps> = ({ onBook }) => {
                                 >
                                     Reserve a Full Day
                                 </button>
+                                <button
+                                    onClick={() => onBook(1)}
+                                    className="mt-3 sm:mt-0 sm:ml-3 w-full sm:w-auto border border-cream/50 text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-cream hover:text-evergreen transition-colors"
+                                >
+                                    Book a Test Hour · ${TEST_HOUR.price}
+                                </button>
+                                <p className="mt-4 text-xs text-cream/60 max-w-md mx-auto md:mx-0">
+                                    Booked a 1-hour rental since Nov 24? Your full day is ${CHRISTMAS_SET.fullDay.price - TEST_HOUR.credit} instead of ${CHRISTMAS_SET.fullDay.price}. The ${TEST_HOUR.credit} comes off your invoice automatically when you book with the same email or phone. One full day per photographer, before January 1, 2027.
+                                </p>
                             </Reveal>
                         </div>
                     </div>

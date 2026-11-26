@@ -301,7 +301,7 @@ export const CHRISTMAS_SET = {
         src: cloudinaryUrl(id, { width: 400, height: 400, crop: 'fill', gravity: 'center' }),
         alt: CAROUSEL_PHOTOS.find((p) => p.id === id)?.alt ?? 'Christmas set detail',
     })),
-    blurb: 'A fully styled Christmas set — four snow-white trees glowing with warm lights, a cozy cream couch on fluffy carpet, wrapped presents and holiday décor — ready to shoot the moment you walk in.',
+    blurb: 'A fully styled Christmas set: four snow-white trees glowing with warm lights, a cozy cream couch on fluffy carpet, wrapped presents and holiday décor, ready to shoot the moment you walk in.',
     /** Full-day rental pitch for photographers running their own minis. */
     fullDay: { hours: 8, price: 400 },
 };

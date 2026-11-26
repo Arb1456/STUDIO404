@@ -97,10 +97,14 @@ export function planRentalInvoice(input: {
     pet?: boolean;
     /** "Number of Attendees" from the booking form (online bookings only). */
     people?: number | null;
+    /** Test-hour credit in $ (testHourCredit), taken off the rental price before HST. */
+    credit?: number;
 }): RentalInvoicePlan {
-    const { hours, startTime, today, depositPaid, pet = false, people = null } = input;
-    const base = RENTAL_BASE_PRICE[hours];
-    if (!base) throw new Error(`No price for a ${hours}h rental`);
+    const { hours, startTime, today, depositPaid, pet = false, people = null, credit = 0 } = input;
+    const listPrice = RENTAL_BASE_PRICE[hours];
+    if (!listPrice) throw new Error(`No price for a ${hours}h rental`);
+    const base = listPrice - credit;
+    const creditNote = credit > 0 ? `, $${listPrice} less $${credit} test-hour credit` : '';
 
     const extraPeople = people ? Math.max(0, people - GROUP_INCLUDED) : 0;
     const petItems: InvoiceItem[] = [
@@ -121,14 +125,14 @@ export function planRentalInvoice(input: {
         const remainder = round2(base - depositPaid);
         return {
             kind: 'remainder',
-            items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid)`, amount: remainder }, ...petItems, hstItem],
+            items: [{ name: `${hours}h Rental – Remainder`, description: `${label} rental (deposit already paid${creditNote})`, amount: remainder }, ...petItems, hstItem],
             total: round2(remainder + extrasTotal + hst),
             dueDate,
             schedule: null,
         };
     }
 
-    const items = [{ name: `${hours}h Studio Rental`, description: `${label} rental`, amount: base }, ...petItems, hstItem];
+    const items = [{ name: `${hours}h Studio Rental`, description: `${label} rental${creditNote ? ` (${creditNote.slice(2)})` : ''}`, amount: base }, ...petItems, hstItem];
     const total = round2(taxable + hst);
     if (dueDate <= today) {
         return { kind: 'full', items, total, dueDate: today, schedule: null };
@@ -164,4 +168,49 @@ export function ledgerAdd(ledger: string, id: string): string {
     const ids = ledger.split(/\s+/).filter(Boolean);
     if (!ids.includes(id)) ids.push(id);
     return ids.join(' ');
+}
+
+/**
+ * Test-hour credit (André, Nov 24 2026; Meta ad R4 "Test The Set Before You Sell A Slot"):
+ * a photographer who booked the $70 one-hour rental gets $50 off a full day ($400 -> $350).
+ * Automatic, with André fixing any miss by hand on the draft invoice.
+ */
+export const TEST_HOUR_CREDIT = 50;
+/** Only the 8-hour full day ("full day", André). */
+export const TEST_HOUR_CREDIT_HOURS = 8;
+/** The 1-hour rental must be on/after the offer launch, so regular 1-hour renters aren't all credited. */
+export const TEST_HOUR_OFFER_START = '2026-11-24';
+/** The full day must be before this date (this Christmas season only). */
+export const TEST_HOUR_CREDIT_UNTIL = '2027-01-01';
+/** Contact tag set once the credit is used: one credit per photographer. */
+export const TEST_HOUR_CREDIT_TAG = 'test-hour credit used';
+
+export interface ContactAppointment {
+    calendarId: string;
+    appointmentStatus?: string;
+    /** GHL contact-appointments format: "2026-11-26 15:45:00" (Toronto wall clock). */
+    startTime: string;
+    deleted?: boolean;
+}
+
+/** $ credit for this rental (0 when it doesn't qualify). rentalDay is 'YYYY-MM-DD' in Toronto. */
+export function testHourCredit(input: {
+    hours: number;
+    rentalDay: string;
+    appointmentId: string;
+    appointments: (ContactAppointment & { id?: string })[];
+    tags: string[];
+}): number {
+    const { hours, rentalDay, appointmentId, appointments, tags } = input;
+    if (hours !== TEST_HOUR_CREDIT_HOURS) return 0;
+    if (rentalDay >= TEST_HOUR_CREDIT_UNTIL) return 0;
+    if (tags.some((t) => t.trim().toLowerCase() === TEST_HOUR_CREDIT_TAG)) return 0;
+    const hadTestHour = appointments.some((a) => {
+        if (a.id === appointmentId || a.deleted) return false;
+        if (RENTAL_CALENDAR_HOURS[a.calendarId] !== 1) return false;
+        if (['cancelled', 'invalid', 'noshow'].includes(a.appointmentStatus ?? '')) return false;
+        const day = String(a.startTime).slice(0, 10);
+        return day >= TEST_HOUR_OFFER_START && day <= rentalDay;
+    });
+    return hadTestHour ? TEST_HOUR_CREDIT : 0;
 }
