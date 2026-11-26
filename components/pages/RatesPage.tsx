@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Check, Calendar, Clock, Lock, Sparkles, Wifi, Car, Zap, Camera, Aperture, Armchair, Layers, ExternalLink } from 'lucide-react';
+import { Check, Calendar, Clock, Lock, Sparkles, Wifi, Car, Zap, Camera, Aperture, Armchair, Layers, ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import { trackBookingClick } from '@/lib/tracking';
-import { openCalendarTab } from '@/lib/attribution';
+import { openCalendar } from '@/lib/attribution';
 
 interface RatesPageProps {
     onBook: (duration?: number) => void;
@@ -278,7 +278,7 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                         <button
                             onClick={() => {
                                 trackBookingClick('2 Hour Studio Rental', 120);
-                                openCalendarTab('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour');
+                                openCalendar('https://api.leadconnectorhq.com/widget/bookings/studio-rental-2-hour');
                             }}
                             className="
                                 inline-flex items-center justify-center gap-3
@@ -289,10 +289,10 @@ const RatesPage: React.FC<RatesPageProps> = ({ onBook }) => {
                             "
                         >
                             <span>Check Availability</span>
-                            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                         <p className="text-charcoal/40 text-xs mt-4">
-                            Opens booking calendar in a new tab
+                            Opens our secure booking calendar
                         </p>
                         <p className="text-charcoal/50 text-xs mt-2">
                             Need a different duration? <button onClick={() => onBook()} className="underline hover:text-charcoal transition-colors">Open full booking options</button>

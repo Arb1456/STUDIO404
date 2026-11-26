@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { trackMiniIntent, scrollToMiniBooking, openMiniCalendar } from '@/lib/holiday-tracking';
-import { Clock, Camera, Users, PawPrint, Gift, ExternalLink, ArrowDown, ChevronDown } from 'lucide-react';
+import { Clock, Camera, Users, PawPrint, Gift, ArrowRight, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
@@ -117,9 +117,9 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                                 onClick={() => openMiniCalendar(`day-${day.date}`)}
                                 className="inline-flex items-center gap-2 bg-evergreen text-cream px-5 py-3 text-xs uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
                             >
-                                Book {day.label} <ExternalLink size={14} aria-hidden="true" />
+                                Book {day.label} <ArrowRight size={14} aria-hidden="true" />
                             </button>
-                            <p className="mt-2 text-xs text-charcoal/50">Opens the booking calendar in a new tab. Pick {day.label.split(', ')[1]} there to choose your time.</p>
+                            <p className="mt-2 text-xs text-charcoal/50">Opens the booking calendar. Pick {day.label.split(', ')[1]} there to choose your time.</p>
                         </>
                     )}
                 </div>
@@ -281,12 +281,12 @@ const HolidayMinisPage: React.FC = () => {
                             onClick={() => openMiniCalendar('hero')}
                             className="relative w-full md:w-auto md:self-start inline-flex items-center justify-center gap-3 bg-cream text-evergreen px-8 py-4 text-sm uppercase tracking-widest hover:bg-white transition-colors"
                         >
-                            See All Times &amp; Book <ExternalLink size={16} aria-hidden="true" />
+                            See All Times &amp; Book <ArrowRight size={16} aria-hidden="true" />
                         </button>
                     )}
                     {!allSoldOut && nextDays[0] && (
                         <p className="relative mt-2 text-xs text-cream/60">
-                            Opens our booking calendar in a new tab. Tap your day there to see its times. ${MINI_POLICY.deposit} deposit to book.
+                            Opens our booking calendar. Tap your day there to see its times. ${MINI_POLICY.deposit} deposit to book.
                         </p>
                     )}
                     <button

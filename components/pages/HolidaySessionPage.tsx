@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Clock, Camera, Shirt, CalendarDays, Users, Star, ExternalLink, ArrowDown, Check } from 'lucide-react';
+import { Clock, Camera, Shirt, CalendarDays, Users, Star, ArrowRight, ArrowDown, Check } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';

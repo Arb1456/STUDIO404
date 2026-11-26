@@ -4,12 +4,12 @@
  * Content lives in lib/holiday.ts; these components only lay it out.
  */
 import React, { useRef, useState } from 'react';
-import { Star, Phone, Mail, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, Phone, Mail, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HOLIDAY_SET_CAROUSEL, STUDIO_CONTACT, type HolidayPhotoEra } from '@/lib/holiday';
 import { newEventId, trackLead } from '@/lib/tracking';
-import { openCalendarTab } from '@/lib/attribution';
+import { openCalendar } from '@/lib/attribution';
 
 // ─── Reviews ─────────────────────────────────────────────────────────────
 
@@ -257,10 +257,8 @@ export const ChristmasContact: React.FC<{ source: string }> = ({ source }) => (
  * visitors can book right after reading what's included. The iframe only mounts
  * once opened, so visitors who never tap it don't load the GHL widget twice.
  */
-/** Open a GHL booking calendar in its own tab.
- *  Not embedded: inside an iframe, Stripe Link's saved-card code prompt hangs the
- *  payment step and Apple Pay is unavailable (tested Nov 15, 2026). */
-export const openBookingCalendar = (calendarUrl: string) => openCalendarTab(calendarUrl);
+/** Go to a GHL booking calendar (same tab, see lib/attribution.ts openCalendar for why not embedded). */
+export const openBookingCalendar = (calendarUrl: string) => openCalendar(calendarUrl);
 
 /** Centered "book now" button used under the offer details. */
 export const BookCalendarButton: React.FC<{
@@ -277,9 +275,9 @@ export const BookCalendarButton: React.FC<{
             }}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
         >
-            {label} <ExternalLink size={16} aria-hidden="true" />
+            {label} <ArrowRight size={16} aria-hidden="true" />
         </button>
-        <p className="mt-3 text-xs text-charcoal/50">Opens our secure booking calendar in a new tab</p>
+        <p className="mt-3 text-xs text-charcoal/50">Opens our secure booking calendar</p>
     </div>
 );
 
@@ -322,9 +320,9 @@ export const BookingPanel: React.FC<{
                 }}
                 className="w-full inline-flex items-center justify-center gap-3 bg-evergreen text-cream px-8 py-5 text-sm uppercase tracking-widest hover:bg-evergreen/90 transition-colors"
             >
-                Open Booking Calendar <ExternalLink size={16} aria-hidden="true" />
+                Open Booking Calendar <ArrowRight size={16} aria-hidden="true" />
             </button>
-            <p className="mt-3 text-center text-xs text-charcoal/50">Opens in a new tab. Your confirmation shows there once you&apos;re booked.</p>
+            <p className="mt-3 text-center text-xs text-charcoal/50">Your confirmation shows there once you&apos;re booked.</p>
         </div>
     </div>
 );

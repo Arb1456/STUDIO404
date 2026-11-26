@@ -1,6 +1,6 @@
 import { HOLIDAY_OFFERS, MINI_DAYS } from '@/lib/holiday';
 import { trackBookingClick } from '@/lib/tracking';
-import { openCalendarTab } from '@/lib/attribution';
+import { openCalendar } from '@/lib/attribution';
 
 /**
  * GA4 begin_checkout + Meta InitiateCheckout for a holiday calendar opening.
@@ -26,9 +26,9 @@ export function scrollToMiniBooking() {
     document.getElementById('book')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/** Open the GHL Holiday Mini calendar in a new tab (falls back to the booking section if sold out). */
+/** Go to the GHL Holiday Mini calendar (falls back to the booking section if sold out). */
 export function openMiniCalendar(cta: string) {
     if (miniDaysSoldOut()) return scrollToMiniBooking();
     trackMiniIntent(cta);
-    openCalendarTab(HOLIDAY_OFFERS.mini.calendarUrl);
+    openCalendar(HOLIDAY_OFFERS.mini.calendarUrl);
 }

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, ExternalLink, Clock, DollarSign } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Camera, Star, ArrowDown, X, Clock, DollarSign } from 'lucide-react';
 import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackBookingClick, trackLead } from '@/lib/tracking';
-import { openCalendarTab } from '@/lib/attribution';
+import { openCalendar } from '@/lib/attribution';
 import { isHolidaySeason, HOLIDAY_OFFERS, HOLIDAY_HERO_IMAGE, HOLIDAY_ROUTES } from '@/lib/holiday';
 
 interface SessionType {
@@ -208,7 +208,7 @@ const SessionCalendarModal: React.FC<{
 
     const handleContinueToBooking = () => {
         trackBookingClick(`${session.title} Session`, session.price);
-        openCalendarTab(session.calendarUrl);
+        openCalendar(session.calendarUrl);
     };
 
     return (
@@ -303,11 +303,11 @@ const SessionCalendarModal: React.FC<{
                                     "
                                 >
                                     <span>Reserve Your Date</span>
-                                    <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
 
                                 <p className="text-xs text-center text-charcoal/40 mt-3">
-                                    Opens booking calendar in a new tab
+                                    Opens our secure booking calendar
                                 </p>
                             </div>
                         </div>
@@ -649,7 +649,7 @@ const PhotoshootPage: React.FC = () => {
                                             <button
                                                 onClick={() => {
                                                     trackBookingClick(`${selectedSession.title} Session`, selectedSession.price);
-                                                    openCalendarTab(selectedSession.calendarUrl);
+                                                    openCalendar(selectedSession.calendarUrl);
                                                 }}
                                                 className="
                                                     w-full flex items-center justify-center gap-3
@@ -660,10 +660,10 @@ const PhotoshootPage: React.FC = () => {
                                                 "
                                             >
                                                 <span>Check Availability</span>
-                                                <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                             </button>
                                             <p className="text-xs text-center text-charcoal/40 mt-3">
-                                                Opens booking calendar in a new tab
+                                                Opens our secure booking calendar
                                             </p>
                                         </div>
                                     </Reveal>

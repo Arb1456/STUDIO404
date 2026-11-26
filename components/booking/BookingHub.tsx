@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Camera, ExternalLink, Clock, DollarSign } from 'lucide-react';
+import { X, Camera, ArrowRight, Clock, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { sendGAEvent } from '@next/third-parties/google';
 import { trackBookingClick } from '@/lib/tracking';
-import { openCalendarTab } from '@/lib/attribution';
+import { openCalendar } from '@/lib/attribution';
 
 // ============================================
 // RENTAL CALENDAR URLs
@@ -70,7 +70,7 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
         });
         // begin_checkout + InitiateCheckout only now, as the calendar opens (not when this sheet opens)
         trackBookingClick(`${selectedDuration} Hour Studio Rental`, calendar.price);
-        openCalendarTab(calendar.url);
+        openCalendar(calendar.url);
     };
 
     const currentCalendar = RENTAL_CALENDARS[selectedDuration];
@@ -200,11 +200,11 @@ const BookingHub: React.FC<BookingHubProps> = ({ isOpen, onClose, initialDuratio
                                     "
                                 >
                                     <span>Reserve Your Date</span>
-                                    <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
 
                                 <p className="text-xs text-center text-charcoal/40 mt-3">
-                                    Opens booking calendar in a new tab
+                                    Opens our secure booking calendar
                                 </p>
                             </div>
                         </div>

@@ -1,11 +1,10 @@
 /**
- * Ad attribution that survives the GHL booking calendar opening in a new tab.
+ * Ad attribution carried into the GHL booking calendar.
  *
  * On landing we store the visit's utm_* / fbclid / gclid (30 days, last non-empty
  * campaign wins). Every calendar link then gets them appended, so GHL records the
  * real source on the contact instead of "Direct traffic".
- * The calendar must keep opening in a new tab (André, Nov 26: Stripe Link and
- * Apple Pay break inside an iframe), so this is how the source carries over.
+ * GHL reads them from its own URL, since our cookies don't reach its domain.
  */
 
 const KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'] as const;
@@ -62,7 +61,13 @@ export function withAttribution(url: string): string {
     }
 }
 
-/** Open a GHL booking calendar in its own tab, carrying the visit's ad attribution. */
-export function openCalendarTab(url: string) {
-    window.open(withAttribution(url), '_blank', 'noopener,noreferrer');
+/**
+ * Go to a GHL booking calendar in the SAME tab, carrying the visit's ad attribution.
+ * André, Nov 26: no second window. Not embedded either: in an iframe Apple Pay is missing
+ * and Stripe Link's code prompt hangs (tested Nov 15). The short delay lets the
+ * InitiateCheckout / begin_checkout hits leave before the page unloads.
+ */
+export function openCalendar(url: string) {
+    const target = withAttribution(url);
+    window.setTimeout(() => window.location.assign(target), 300);
 }
