@@ -74,7 +74,7 @@ export interface HolidayCarouselPhoto {
 // then the rest of the details, ending on a full set shot.
 const CAROUSEL_PHOTOS: HolidayCarouselPhoto[] = [
     // Full set (Set2026-10)
-    { id: 'HOLIDAY-SET-2026-FADE', era: '2026-set', ratio: '4/5', alt: 'The full 2026 Christmas set: cream couch, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
+    { id: 'HOLIDAY-SET-2026-FULL', era: '2026-set', ratio: '5/4', alt: 'The full 2026 Christmas set: cream couch with red velvet pillows, red fluffy carpet, flocked white trees and a wreath on the black diamond' },
     // This year's clients: Mini Day 1 best-of (source: ~/Desktop/STU CHRISTMAS /EDITED MINIS DAY 1/BEST OF)
     { id: 'HOLIDAY-2026-MINI1-5', era: '2026-client', ratio: '5/4', alt: 'Family of five dressed up on the cream couch in front of the 2026 Christmas set' },
     { id: 'HOLIDAY-2026-MINI1-1', era: '2026-client', ratio: '3/2', alt: 'Parents and baby in matching Santa hats on the couch, with red ornaments behind them' },
