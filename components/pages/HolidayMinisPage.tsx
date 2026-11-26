@@ -224,10 +224,14 @@ const HolidayMinisPage: React.FC = () => {
                 Ad visitors left in ~5 s when this was a title + scroll button, so everything
                 they need to book sits above the fold on a phone. Same version for all sources. */}
             <section className="relative bg-evergreen text-cream overflow-hidden md:grid md:grid-cols-[1.1fr_1fr] md:min-h-[640px]">
-                <div className="relative aspect-[1.9] md:aspect-auto md:order-2">
-                    <Image src={MINI_HERO_IMAGE.mobile} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover md:hidden" sizes="100vw" />
-                    <Image src={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover hidden md:block" sizes="50vw" />
-                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-evergreen to-transparent md:hidden" />
+                {/* Green band on top (room for the logo + chat button), fading into the photo so it sits lower. */}
+                <div className="relative pt-14 md:pt-0 md:order-2">
+                    <div className="relative aspect-[2.1] md:aspect-auto md:absolute md:inset-0">
+                        <Image src={MINI_HERO_IMAGE.mobile} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover md:hidden" sizes="100vw" />
+                        <Image src={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover hidden md:block" sizes="50vw" />
+                        <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-evergreen to-transparent md:h-1/5" />
+                        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-evergreen to-transparent md:hidden" />
+                    </div>
                 </div>
 
                 <div className="relative px-5 pt-3 pb-28 md:px-12 md:py-16 md:flex md:flex-col md:justify-center md:order-1">
