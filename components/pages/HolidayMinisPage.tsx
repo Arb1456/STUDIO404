@@ -231,17 +231,19 @@ const HolidayMinisPage: React.FC = () => {
                 Ad visitors left in ~5 s when this was a title + scroll button, so everything
                 they need to book sits above the fold on a phone. Same version for all sources. */}
             <section className="relative bg-evergreen text-cream overflow-hidden md:grid md:grid-cols-[1.1fr_1fr] md:min-h-[640px]">
-                {/* Green band on top (room for the logo + chat button), fading into the photo so it sits lower. */}
-                <div className="relative pt-14 md:pt-0 md:order-2">
-                    <div className="relative aspect-[2.1] md:aspect-auto md:absolute md:inset-0">
+                {/* Snowy white band on top (room for the logo + chat button) fading into the photo.
+                    Mobile photo is nearly the full frame (only the carpet below their feet is trimmed),
+                    and the title block below overlaps its bottom over a green fade. */}
+                <div className="relative pt-12 bg-[#FAF8F3] md:pt-0 md:bg-transparent md:order-2">
+                    <div className="relative aspect-[1.36] md:aspect-auto md:absolute md:inset-0">
                         <Image src={MINI_HERO_IMAGE.mobile} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover md:hidden" sizes="100vw" />
                         <Image src={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover hidden md:block" sizes="50vw" />
-                        <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-evergreen to-transparent md:h-1/5" />
-                        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-evergreen to-transparent md:hidden" />
+                        <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#FAF8F3] to-transparent md:h-1/6" />
+                        <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-evergreen via-evergreen/60 to-transparent md:hidden" />
                     </div>
                 </div>
 
-                <div className="relative px-5 pt-3 pb-28 md:px-12 md:py-16 md:flex md:flex-col md:justify-center md:order-1">
+                <div className="relative -mt-[72px] px-5 pt-0 pb-28 md:mt-0 md:px-12 md:py-16 md:flex md:flex-col md:justify-center md:order-1">
                     <Snowfall count={8} />
                     <span className="relative flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-gold mb-1">
                         <Holly className="w-5 h-5 shrink-0" />

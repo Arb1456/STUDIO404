@@ -48,7 +48,7 @@ export const HOLIDAY_HERO_IMAGE = {
  * Mobile is a short wide band so the open days + Book button still fit above the fold.
  */
 export const MINI_HERO_IMAGE = {
-    mobile: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 828, aspectRatio: '2.1', crop: 'fill', gravity: 'auto' }),
+    mobile: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 1000, aspectRatio: '1.36', crop: 'fill', gravity: 'north' }),
     desktop: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 1400, aspectRatio: '1.25', crop: 'fill', gravity: 'auto' }),
     alt: 'A family of five on the cream couch in front of the 2026 Studio 404 Christmas set',
 };
