@@ -37,7 +37,9 @@ const Availability: React.FC = () => {
                         className="group block relative w-full h-full bg-charcoal-light overflow-hidden cursor-pointer shadow-xl"
                     >
                         <img
-                            src={cloudinaryUrl('RENTAL-BUTTON_xou09n')}
+                            src={cloudinaryUrl('RENTAL-BUTTON_xou09n', { width: 1200 })}
+                            loading="lazy"
+                            decoding="async"
                             alt="Studio Rental"
                             className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
                         />
@@ -70,6 +72,8 @@ const Availability: React.FC = () => {
                         {/* Creative Photoshoots background */}
                         <img
                             src={cloudinaryUrl('CREATIVE-SESSION-01', { width: 1200, height: 800, crop: 'fill', quality: 'auto', format: 'auto' })}
+                            loading="lazy"
+                            decoding="async"
                             alt="Creative Photoshoots"
                             className="absolute inset-0 w-full h-full object-cover"
                         />

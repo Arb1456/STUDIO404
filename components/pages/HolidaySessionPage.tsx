@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, Camera, Shirt, CalendarDays, Users, Star, ArrowRight, ArrowDown, Check } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } from '@/components/ui/Christmas';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
+import { ArtDirectedImage } from '@/components/ui/ArtDirectedImage';
 import Footer from '@/components/layout/Footer';
 import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
 
@@ -32,12 +32,7 @@ const HolidaySessionPage: React.FC = () => {
             {/* ── 1. Hero ─────────────────────────────────────────── */}
             <section className="relative bg-evergreen text-cream overflow-hidden">
                 <div className="absolute inset-0">
-                    <div className="block md:hidden absolute inset-0">
-                        <Image src={HOLIDAY_HERO_IMAGE.mobile} alt="" fill priority className="object-cover opacity-35" sizes="100vw" />
-                    </div>
-                    <div className="hidden md:block absolute inset-0">
-                        <Image src={HOLIDAY_HERO_IMAGE.desktop} alt="" fill priority className="object-cover opacity-35" sizes="100vw" />
-                    </div>
+                    <ArtDirectedImage mobile={HOLIDAY_HERO_IMAGE.mobile} desktop={HOLIDAY_HERO_IMAGE.desktop} alt="" className="object-cover opacity-35" />
                     <div className="absolute inset-0 bg-gradient-to-t from-evergreen via-evergreen/70 to-evergreen/20" />
                     <EmblemScatter />
                     <Snowfall />
@@ -121,7 +116,11 @@ const HolidaySessionPage: React.FC = () => {
             {/* ── 4. Full vs Mini ─────────────────────────────────── */}
             <section className="px-6 pb-20 md:pb-28 max-w-3xl mx-auto">
                 <Reveal width="100%">
-                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-10">Full session or mini?</h2>
+                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-4">Full session or mini?</h2>
+                    <p className="text-center text-charcoal/70 max-w-xl mx-auto mb-10">
+                        Want a few great photos for your Christmas card? A ${mini.price} mini is enough. Want outfit
+                        changes, more people or a bigger gallery, or can&apos;t make a mini day? Book the Full Holiday Session.
+                    </p>
                 </Reveal>
                 <div className="border border-charcoal/15 bg-white/60">
                     <div className="grid grid-cols-[1.1fr_1fr_1fr] text-xs uppercase tracking-widest border-b border-charcoal/15">

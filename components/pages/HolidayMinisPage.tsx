@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { trackMiniIntent, scrollToMiniBooking, openMiniCalendar } from '@/lib/holiday-tracking';
 import { Clock, Camera, Users, PawPrint, Gift, ArrowRight, ArrowDown, ChevronDown } from 'lucide-react';
@@ -8,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
 import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
+import { ArtDirectedImage } from '@/components/ui/ArtDirectedImage';
 import Footer from '@/components/layout/Footer';
 import { getArrivalMessage } from '@/lib/arrival';
 import { newEventId, trackLead } from '@/lib/tracking';
@@ -236,8 +236,7 @@ const HolidayMinisPage: React.FC = () => {
                     and the title block below overlaps its bottom over a green fade. */}
                 <div className="relative pt-12 md:pt-0 md:order-2">
                     <div className="relative aspect-[1.36] md:aspect-auto md:absolute md:inset-0">
-                        <Image src={MINI_HERO_IMAGE.mobile} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover md:hidden" sizes="100vw" />
-                        <Image src={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} fill priority className="object-cover hidden md:block" sizes="50vw" />
+                        <ArtDirectedImage mobile={MINI_HERO_IMAGE.mobile} desktop={MINI_HERO_IMAGE.desktop} alt={MINI_HERO_IMAGE.alt} desktopSizes="50vw" />
                         <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-evergreen to-transparent md:h-1/6" />
                         <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-evergreen via-evergreen/60 to-transparent md:hidden" />
                     </div>
@@ -441,7 +440,7 @@ const HolidayMinisPage: React.FC = () => {
             <section className="px-6 py-20 md:py-28">
                 <OrnamentDivider className="mb-6" />
                 <Reveal>
-                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-12">Good to know</h2>
+                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-12">Christmas Mini Questions</h2>
                 </Reveal>
                 <FAQAccordion items={MINI_FAQ} />
                 <div className="text-center mt-14">

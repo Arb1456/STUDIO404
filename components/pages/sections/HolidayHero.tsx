@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
+import { ArtDirectedImage } from '@/components/ui/ArtDirectedImage';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import { ArrowRight } from 'lucide-react';
@@ -24,12 +24,7 @@ const HolidayHero: React.FC = () => {
         <section className="relative h-screen-safe w-full snap-start overflow-hidden bg-evergreen text-cream flex flex-col justify-end pb-nav-safe">
             {/* Background — placeholder until Christmas set photos exist */}
             <div className="absolute inset-0 z-0">
-                <div className="block md:hidden absolute inset-0">
-                    <Image src={HOLIDAY_HERO_IMAGE.mobile} alt="" fill priority className="object-cover opacity-35" sizes="100vw" />
-                </div>
-                <div className="hidden md:block absolute inset-0">
-                    <Image src={HOLIDAY_HERO_IMAGE.desktop} alt="" fill priority className="object-cover opacity-35" sizes="100vw" />
-                </div>
+                <ArtDirectedImage mobile={HOLIDAY_HERO_IMAGE.mobile} desktop={HOLIDAY_HERO_IMAGE.desktop} alt="" className="object-cover opacity-35" />
                 <div className="absolute inset-0 bg-gradient-to-t from-evergreen via-evergreen/70 to-evergreen/20" />
                 <EmblemScatter />
                 <Snowfall />

@@ -236,6 +236,15 @@ export const MINI_DAYS: MiniDay[] = [
 ];
 
 export const MINI_FAQ = [
+    // Answer-first questions people search (Nov 27 SEO): the number goes in the first sentence.
+    {
+        question: 'How much is a Christmas mini session in Ottawa?',
+        answer: `A Studio 404 Christmas mini is $${HOLIDAY_OFFERS.mini.price} for 30 minutes on our 2026 Christmas set in Ottawa, with ${HOLIDAY_OFFERS.mini.photoCount} edited photos for up to ${MINI_POLICY.includedPeople} people. A $${MINI_POLICY.deposit} deposit holds your time, and the balance plus applicable HST is invoiced after you book.`,
+    },
+    {
+        question: 'Will our photos be ready for Christmas cards?',
+        answer: 'Yes. Edits are delivered within 3 days of your mini. If you are mailing printed cards across Canada, pick a mini day on or before Sunday, Dec 13 so your photos arrive by Dec 16 with time to print and mail. Our last days (Dec 18 to 21) still have photos back before Christmas, which is perfect for digital cards, frames and gifts.',
+    },
     {
         question: 'Who can come?',
         answer: `Your mini includes up to ${MINI_POLICY.includedPeople} people — kids absolutely welcome. Bigger group? Add more people when you book.`,
