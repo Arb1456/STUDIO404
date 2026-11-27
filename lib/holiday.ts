@@ -48,6 +48,26 @@ export const HOLIDAY_HERO_IMAGE = {
 };
 
 /**
+ * Link-preview pictures (og:image, 1200x630) for shared links: group chats, Facebook, iMessage.
+ * Next.js replaces the layout's openGraph object when a page sets its own, so every page
+ * with openGraph must list its image itself.
+ */
+export const HOLIDAY_OG_IMAGES = {
+    set: {
+        url: cloudinaryUrl(SET_PHOTOS.wide, { width: 1200, height: 630, crop: 'fill', gravity: 'center' }),
+        width: 1200,
+        height: 630,
+        alt: 'The 2026 Studio 404 Christmas set in Ottawa: cream couch, white trees and wreath',
+    },
+    mini: {
+        url: cloudinaryUrl('HOLIDAY-2026-MINI1-5', { width: 1200, height: 630, crop: 'fill', gravity: 'auto' }),
+        width: 1200,
+        height: 630,
+        alt: 'A family on the Studio 404 Christmas set during a holiday mini session in Ottawa',
+    },
+};
+
+/**
  * /holiday-minis first screen (Nov 26): a real 2026 family on this year's set, like the ads show.
  * Mobile is a short wide band so the open days + Book button still fit above the fold.
  */

@@ -249,7 +249,8 @@ const HolidayMinisPage: React.FC = () => {
                         <Holly className="w-5 h-5 shrink-0" />
                         {arrival ?? 'Ottawa · Christmas 2026'}
                     </span>
-                    <h1 className="relative font-serif text-[2rem] md:text-6xl leading-none mt-1 mb-1 md:mb-3">Holiday Minis</h1>
+                    {/* SEO (Nov 27): "Christmas Mini Sessions" is what people search; slightly smaller on phones so it stays one line. */}
+                    <h1 className="relative font-serif text-[1.75rem] md:text-6xl leading-none mt-1 mb-1 md:mb-3">Christmas Mini Sessions</h1>
                     <p className="relative text-sm md:text-base text-cream/85 mb-3">
                         ${mini.price} · 30 min · {mini.photoCount} edited photos · up to {MINI_POLICY.includedPeople} people
                     </p>

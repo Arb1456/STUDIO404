@@ -59,6 +59,7 @@ const nextConfig = {
 
             // About
             { source: '/pages/about-us', destination: '/about', permanent: true },
+            { source: '/pages/about', destination: '/about', permanent: true },
 
             // Contact
             { source: '/pages/contact', destination: '/contact', permanent: true },

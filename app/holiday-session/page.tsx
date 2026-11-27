@@ -3,14 +3,19 @@ import BookingProvider from '@/components/layout/BookingProvider';
 import TrackViewContent from '@/components/layout/TrackViewContent';
 import HolidaySessionPage from '@/components/pages/HolidaySessionPage';
 import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from '@/lib/structured-data';
-import { FULL_SESSION_FAQ, HOLIDAY_OFFERS } from '@/lib/holiday';
+import { FULL_SESSION_FAQ, HOLIDAY_OFFERS, HOLIDAY_OG_IMAGES } from '@/lib/holiday';
 
 export const metadata: Metadata = {
     title: 'Christmas Photoshoot in Ottawa | Full Holiday Session — Studio 404',
     description: '1.5-hour Christmas photoshoot on our holiday set in Ottawa. Outfit changes, 12 edited photos, any available day — from $250.',
     openGraph: {
-        title: 'Full Holiday Session | Studio 404',
-        description: '1.5 hours on our Christmas set, outfit changes, 12 edited photos. From $250.',
+        title: 'Christmas Photoshoot in Ottawa | Full Holiday Session | Studio 404',
+        description: `1.5 hours on our Christmas set, outfit changes, ${HOLIDAY_OFFERS.full.photoCount} edited photos. From $${HOLIDAY_OFFERS.full.price}.`,
+        url: '/holiday-session',
+        siteName: 'Studio 404',
+        type: 'website',
+        locale: 'en_CA',
+        images: [HOLIDAY_OG_IMAGES.set],
     },
     alternates: { canonical: '/holiday-session' },
 };

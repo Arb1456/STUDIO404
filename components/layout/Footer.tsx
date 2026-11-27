@@ -3,11 +3,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
+import { HOLIDAY_ROUTES, isHolidaySeason } from '@/lib/holiday';
 
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
+    // Holiday pages first while the season is on: crawlable links from every page help Google find them.
+    const holidayLinks = isHolidaySeason()
+        ? [
+              { label: 'Christmas Mini Sessions', href: HOLIDAY_ROUTES.minis },
+              { label: 'Full Holiday Session', href: HOLIDAY_ROUTES.fullSession },
+          ]
+        : [];
+
     const navLinks = [
+        ...holidayLinks,
         { label: 'Contact', href: '/contact' },
         { label: 'About Us', href: '/about' },
         { label: 'Rates', href: '/rates' },

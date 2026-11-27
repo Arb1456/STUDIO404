@@ -64,7 +64,9 @@ const REVIEWS: Review[] = [
 
 // Marquee needs 2 copies for seamless -50% translate loop
 
-const REVIEWS_URL = 'https://www.google.com/maps/place/Studio+404/@45.3479994,-75.7564316,17z/data=!4m8!3m7!1s0x4cce05b77b63e6df:0x6f786e8f50a65c14!8m2!3d45.3479994!4d-75.7538567!9m1!1b1';
+// The Business Profile Studio 404 manages (same place as the review QR link g.page/r/CVxRplCBj3hvEBM/review).
+// The old link pointed to a different Maps place (CID 0x6f786e8f50a65c14), not this listing.
+const REVIEWS_URL = 'https://g.page/r/CVxRplCBj3hvEBM';
 
 const StarRating = () => (
     <div className="flex gap-0.5 mb-4" aria-label="5 stars">

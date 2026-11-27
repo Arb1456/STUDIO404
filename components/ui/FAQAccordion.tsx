@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 
@@ -27,6 +26,7 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({ items }) => {
                     <div className="border-b border-charcoal/20">
                         <button
                             onClick={() => toggle(index)}
+                            aria-expanded={openIndex === index}
                             className="w-full flex justify-between items-center py-6 text-left group"
                         >
                             <span className="font-serif text-xl md:text-2xl text-charcoal group-hover:opacity-70 transition-opacity">
@@ -36,21 +36,19 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({ items }) => {
                                 {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                             </span>
                         </button>
-                        <AnimatePresence>
-                            {openIndex === index && (
-                                <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: "auto", opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="overflow-hidden"
-                                >
-                                    <div className="pb-8 pr-8 font-sans text-charcoal/80 leading-relaxed">
-                                        {item.answer}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {/* Answers always stay in the HTML (closed ones collapse to 0 height) so Google and
+                            AI answers can read them and they match the FAQPage structured data. */}
+                        <div
+                            className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                                openIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                            }`}
+                        >
+                            <div className="overflow-hidden" aria-hidden={openIndex !== index}>
+                                <div className="pb-8 pr-8 font-sans text-charcoal/80 leading-relaxed">
+                                    {item.answer}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </Reveal>
             ))}

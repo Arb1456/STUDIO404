@@ -7,6 +7,8 @@ import CaptureAttribution from '@/components/layout/CaptureAttribution';
 import LenisProvider from '@/components/layout/LenisProvider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { SITE_URL } from '@/lib/site';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 const outfit = Outfit({
     subsets: ['latin'],
@@ -26,7 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://thestudio404.ca'),
+    metadataBase: new URL(SITE_URL),
     title: {
         default: 'Studio 404 | Premium Photography Studio in Ottawa',
         template: '%s',
@@ -39,10 +41,10 @@ export const metadata: Metadata = {
         type: 'website',
         siteName: 'Studio 404',
         locale: 'en_CA',
-        url: 'https://thestudio404.ca',
+        url: SITE_URL,
         images: [
             {
-                url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'demo'}/image/upload/c_fill,w_1200,h_630,g_auto,q_auto,f_auto/The_Cyc_Wall_aohgwv`,
+                url: cloudinaryUrl('The_Cyc_Wall_aohgwv', { width: 1200, height: 630, crop: 'fill', gravity: 'auto' }),
                 width: 1200,
                 height: 630,
                 alt: 'Studio 404 — Premium Photography Studio in Ottawa',

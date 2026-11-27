@@ -1,4 +1,4 @@
-const BASE_URL = 'https://thestudio404.ca';
+import { SITE_URL as BASE_URL } from '@/lib/site';
 
 export function breadcrumbJsonLd(pageName: string, pagePath: string) {
     return {

@@ -6,7 +6,6 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackBookingClick, trackLead } from '@/lib/tracking';
 import { openCalendar } from '@/lib/attribution';
@@ -400,14 +399,11 @@ const PhotoshootPage: React.FC = () => {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const detailRef = useRef<HTMLDivElement>(null);
 
-    const router = useRouter();
 
     const handleSessionClick = (session: SessionType) => {
         // Holiday cards go to their own landing pages (dates, set photos, FAQ, booking).
-        if (session.landingUrl) {
-            router.push(session.landingUrl);
-            return;
-        }
+        // The card's own <Link> navigates; nothing to do here.
+        if (session.landingUrl) return;
         setSelectedSession(session);
         setTimeout(() => {
             detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -490,6 +486,10 @@ const PhotoshootPage: React.FC = () => {
                                     >
                                         <Reveal delay={index * 0.05} width="100%">
                                             <div className="group relative aspect-square overflow-hidden cursor-pointer bg-charcoal/5">
+                                                {/* Holiday cards: a real <a href> so Google can follow it (navigation itself is handled by Link). */}
+                                                {session.landingUrl && (
+                                                    <Link href={session.landingUrl} className="absolute inset-0 z-10" aria-label={session.cardTitle ?? session.title} />
+                                                )}
                                                 <img
                                                     src={session.image}
                                                     alt={session.title}
