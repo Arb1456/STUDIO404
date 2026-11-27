@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
-import { VoiceAgentBlock } from '@/components/ui/VoiceAgentBlock';
 import { MapPin, Instagram, Mail, ArrowRight } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
 import { newEventId, trackLead } from '@/lib/tracking';
@@ -124,8 +123,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBook: _onBook }) => {
                 </Reveal>
             </section>
 
-            {/* Voice Agent CTA Block */}
-            <VoiceAgentBlock />
+            {/* Voice Agent CTA Block removed with the ElevenLabs widget (Nov 27 2026); component kept in components/ui/VoiceAgentBlock.tsx */}
 
             {/* S2: Inquiry Templates */}
             <section className="mb-24 sm:mb-32">

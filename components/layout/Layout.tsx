@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Home } from 'lucide-react';
 import Navigation from './Navigation';
-import VoiceWidget from './VoiceWidget';
 import BookingHub from '@/components/booking/BookingHub';
 
 interface LayoutProps {
@@ -23,12 +23,19 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
     return (
         <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-charcoal selection:text-cream">
-            {/* Top-Left Logo */}
+            {/* Top-Left Home button: home icon + the 404 logo (line above and below, like app/icon.png) */}
             <Link
                 href="/"
-                className="fixed top-5 left-5 z-50 font-serif italic font-bold text-lg text-charcoal hover:opacity-60 transition-opacity duration-200 select-none px-3 py-1.5 rounded-xl backdrop-blur-md bg-white/40 border border-white/30 shadow-sm"
+                aria-label="Studio 404 home"
+                className="fixed top-5 left-5 z-50 flex items-center gap-2.5 text-white select-none pl-2.5 pr-3 py-1.5 rounded-tl-xl rounded-br-xl bg-gradient-to-br from-black/80 via-black/60 to-black/30 backdrop-blur-sm hover:from-black/90 hover:via-black/75 hover:to-black/50 transition-colors duration-200"
             >
-                Studio 404
+                <Home size={20} strokeWidth={2} aria-hidden="true" />
+                <span
+                    aria-hidden="true"
+                    className="font-sans font-semibold text-[17px] leading-none tracking-[0.12em] border-y-2 border-white py-[3px] pl-[0.12em]"
+                >
+                    404
+                </span>
             </Link>
 
             {/* Main Content */}
@@ -46,8 +53,9 @@ const Layout: React.FC<LayoutProps> = ({
                 initialDuration={bookingDuration}
             />
 
-            {/* Global ElevenLabs Voice Widget */}
-            <VoiceWidget />
+            {/* ElevenLabs chat widget is OFF (subscription cancelled, Nov 27 2026). Possibly replaced
+                later by the GHL chat agent. To restore: render <VoiceWidget /> here and re-add the
+                convai-widget-embed <Script> in app/layout.tsx. */}
         </div>
     );
 };
