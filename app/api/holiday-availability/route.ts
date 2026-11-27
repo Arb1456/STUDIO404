@@ -3,7 +3,11 @@ import { HOLIDAY_OFFERS, MINI_DAYS } from '@/lib/holiday';
 
 /**
  * Live Holiday Mini availability from GHL, for the clickable day list on /holiday-minis.
- * Returns { days: { 'YYYY-MM-DD': ['2:00 pm', ...] } }. Only open (unbooked, future) slots.
+ * Returns { days: { 'YYYY-MM-DD': ['2:00 pm', ...] }, taken: { 'YYYY-MM-DD': [...] } }.
+ * `days` = open (unbooked, future) slots. `taken` = the rest of that day's future grid
+ * (MINI_DAYS firstStart..lastStart, every 30 min): real bookings, "Mini hold" block slots
+ * and the Dec 13 rental all look the same here, so the page can cross them out without
+ * saying which. Holds are managed with docs/plans/ghl-scripts/mini_holds.py.
  *
  * Fixed to the mini calendar on purpose: the token stays server-side and this route
  * can't be used to read any other calendar. GHL caps one request at 31 days; the
@@ -23,6 +27,16 @@ function formatSlot(iso: string): string {
     const [h, m] = iso.slice(11, 16).split(':').map(Number);
     const hour12 = h % 12 === 0 ? 12 : h % 12;
     return `${hour12}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+}
+
+/** Every 30-min start from first to last ("HH:MM", 24 h). */
+function grid(first: string, last: string): string[] {
+    const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
+    const out: string[] = [];
+    for (let m = toMin(first); m <= toMin(last); m += 30) {
+        out.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+    }
+    return out;
 }
 
 type GhlFreeSlots = Record<string, { slots?: string[] } | string>;
@@ -47,14 +61,22 @@ export async function GET() {
         if (!res.ok) throw new Error(`GHL ${res.status}`);
         const data: GhlFreeSlots = await res.json();
 
+        const now = Date.now();
         const days: Record<string, string[]> = {};
-        for (const { date } of MINI_DAYS) {
+        const taken: Record<string, string[]> = {};
+        for (const { date, firstStart, lastStart } of MINI_DAYS) {
             const entry = data[date];
-            days[date] = typeof entry === 'object' && entry.slots ? entry.slots.map(formatSlot) : [];
+            const free = typeof entry === 'object' && entry.slots ? entry.slots : [];
+            days[date] = free.map(formatSlot);
+            const freeHm = new Set(free.map((iso) => iso.slice(11, 16)));
+            // Past times aren't "taken", they're just over, so they're left out.
+            taken[date] = grid(firstStart, lastStart)
+                .filter((hm) => !freeHm.has(hm) && torontoMs(date, `${hm}:00`) > now)
+                .map((hm) => formatSlot(`${date}T${hm}`));
         }
 
         return NextResponse.json(
-            { days },
+            { days, taken },
             { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } },
         );
     } catch (err) {

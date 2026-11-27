@@ -30,6 +30,12 @@ const scrollToBooking = scrollToMiniBooking;
 /** Live open times per ISO date from /api/holiday-availability; null until loaded (or if it fails). */
 type LiveSlots = Record<string, string[]> | null;
 
+/** "2:30 pm" → minutes after midnight, to merge open and taken times in day order. */
+const slotMinutes = (t: string) => {
+    const [, h, m, ap] = t.match(/(\d+):(\d+) (am|pm)/) ?? [];
+    return ((Number(h) % 12) + (ap === 'pm' ? 12 : 0)) * 60 + Number(m);
+};
+
 /** Today's date in Toronto as YYYY-MM-DD, so finished mini days drop off the list. */
 const torontoToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
 
@@ -37,8 +43,9 @@ const torontoToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'A
  * Live open times as buttons. GHL can't open on a given date or time (URL params ignored,
  * tested Nov 26), so a tap opens the calendar and the caller says which day to tap there.
  */
-const TimeChips: React.FC<{ times: string[]; dayLabel: string; cta: string; max?: number; dark?: boolean; compact?: boolean; className?: string }> = ({
+const TimeChips: React.FC<{ times: string[]; taken?: string[]; dayLabel: string; cta: string; max?: number; dark?: boolean; compact?: boolean; className?: string }> = ({
     times,
+    taken = [],
     dayLabel,
     cta,
     max,
@@ -48,12 +55,20 @@ const TimeChips: React.FC<{ times: string[]; dayLabel: string; cta: string; max?
 }) => {
     const shown = max ? times.slice(0, max) : times;
     const more = times.length - shown.length;
+    // Taken times (booked or otherwise unavailable) sit in day order, crossed out. Only with
+    // the full list (no max), so the compact hero row keeps its room for open times.
+    const all = [
+        ...shown.map((t) => ({ t, open: true })),
+        ...(max ? [] : taken.map((t) => ({ t, open: false }))),
+    ].sort((a, b) => slotMinutes(a.t) - slotMinutes(b.t));
     const chip = dark
         ? 'border-cream/30 bg-cream/10 text-cream hover:bg-cream hover:text-evergreen'
         : 'border-charcoal/15 bg-white hover:border-evergreen hover:text-evergreen';
+    const takenChip = dark ? 'border-cream/10 text-cream/35' : 'border-charcoal/10 text-charcoal/30';
     return (
-        <ul className={`flex ${compact ? "flex-nowrap gap-1.5" : "flex-wrap gap-2"} ${className}`} aria-label={`Open times on ${dayLabel}`}>
-            {shown.map((t) => (
+        <ul className={`flex ${compact ? "flex-nowrap gap-1.5" : "flex-wrap gap-2"} ${className}`} aria-label={`Times on ${dayLabel}`}>
+            {all.map(({ t, open }) =>
+                open ? (
                 <li key={t}>
                     <button
                         type="button"
@@ -64,7 +79,17 @@ const TimeChips: React.FC<{ times: string[]; dayLabel: string; cta: string; max?
                         {t}
                     </button>
                 </li>
-            ))}
+                ) : (
+                <li key={t}>
+                    <span
+                        className={`${compact ? "px-2.5 py-1.5 text-[13px]" : "px-3 py-1.5 text-sm"} inline-block whitespace-nowrap border rounded-full line-through ${takenChip}`}
+                    >
+                        <span className="sr-only">Not available: </span>
+                        {t}
+                    </span>
+                </li>
+                ),
+            )}
             {more > 0 && (
                 <li>
                     <button
@@ -80,7 +105,9 @@ const TimeChips: React.FC<{ times: string[]; dayLabel: string; cta: string; max?
     );
 };
 
-const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }> = ({ day, times, spots }) => {
+const DayChip: React.FC<{ day: MiniDay; times: string[] | null; taken: string[]; spots: number }> = ({ day, times, taken, spots }) => {
+    // "5 of 16 left" once the live feed has loaded; plain count on the fallback numbers.
+    const total = times ? times.length + taken.length : 0;
     const [open, setOpen] = useState(false);
     const soldOut = spots === 0;
     const low = !soldOut && spots <= 3;
@@ -98,7 +125,7 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                 </span>
                 <span className="flex items-center gap-2 shrink-0">
                     <span className={`text-xs uppercase tracking-widest ${low ? 'text-red-800 font-medium' : 'text-charcoal/60'}`}>
-                        {soldOut ? 'Sold out' : `${spots} time${spots === 1 ? '' : 's'} left`}
+                        {soldOut ? 'Sold out' : total > spots ? `${spots} of ${total} left` : `${spots} time${spots === 1 ? '' : 's'} left`}
                     </span>
                     <ChevronDown size={14} className={`text-charcoal/40 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
                 </span>
@@ -110,7 +137,7 @@ const DayChip: React.FC<{ day: MiniDay; times: string[] | null; spots: number }>
                     ) : (
                         <>
                             {times && (
-                                <TimeChips times={times} dayLabel={day.label} cta={`time-${day.date}`} className="mb-4" />
+                                <TimeChips times={times} taken={taken} dayLabel={day.label} cta={`time-${day.date}`} className="mb-4" />
                             )}
                             <button
                                 type="button"
@@ -200,12 +227,17 @@ const HolidayMinisPage: React.FC = () => {
 
     // Live open times from GHL. On failure, stays null and the hand-entered spotsLeft numbers are shown.
     const [live, setLive] = useState<LiveSlots>(null);
+    const [taken, setTaken] = useState<Record<string, string[]>>({});
     const [today, setToday] = useState<string | null>(null);
     useEffect(() => {
         setToday(torontoToday());
         fetch('/api/holiday-availability')
             .then((r) => (r.ok ? r.json() : null))
-            .then((data) => data?.days && setLive(data.days))
+            .then((data) => {
+                if (!data?.days) return;
+                setLive(data.days);
+                setTaken(data.taken ?? {});
+            })
             .catch(() => {});
     }, []);
 
@@ -261,11 +293,12 @@ const HolidayMinisPage: React.FC = () => {
                             {nextDays.map((d) => {
                                 const times = live?.[d.date] ?? null;
                                 const left = spotsFor(d);
+                                const dayTotal = times ? left + (taken[d.date]?.length ?? 0) : 0;
                                 return (
                                     <div key={d.date}>
                                         <p className="text-sm mb-1">
                                             <span className="font-serif text-lg">{d.label}</span>
-                                            <span className="ml-2 text-cream/70">{left} time{left === 1 ? '' : 's'} left</span>
+                                            <span className="ml-2 text-cream/70">{dayTotal > left ? `${left} of ${dayTotal} times left` : `${left} time${left === 1 ? '' : 's'} left`}</span>
                                         </p>
                                         {times ? (
                                             <TimeChips times={times} dayLabel={d.label} cta={`hero-time-${d.date}`} max={3} dark compact />
@@ -335,7 +368,7 @@ const HolidayMinisPage: React.FC = () => {
                 {daysOpen && (
                     <ul id="mini-days" className="border-t border-charcoal/15 mt-4">
                         {upcomingDays.map((d) => (
-                            <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} spots={spotsFor(d)} />
+                            <DayChip key={d.date} day={d} times={live ? live[d.date] ?? [] : null} taken={taken[d.date] ?? []} spots={spotsFor(d)} />
                         ))}
                     </ul>
                 )}

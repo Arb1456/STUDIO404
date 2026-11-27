@@ -208,6 +208,13 @@ export interface MiniDay {
     /** ISO date (America/Toronto), matched against GHL's live free slots. */
     date: string;
     /**
+     * First and last mini start times ("HH:MM", 24 h). Every 30-min start in between is the
+     * day's full grid; grid times GHL doesn't list as free show crossed out on the page
+     * (booked, held, or blocked for a rental — the page never says which).
+     */
+    firstStart: string;
+    lastStart: string;
+    /**
      * Fallback only: the page shows live counts from GHL (/api/holiday-availability).
      * This number is used if that request fails, and by the bottom-bar sold-out check.
      * 0 = sold out → waitlist.
@@ -219,20 +226,21 @@ export interface MiniDay {
  * Dedicated mini-session days. Spot counts on the page come live from GHL; spotsLeft is the fallback.
  * Slots: 30-min blocks back-to-back (20-min shoot + 5 min hello/goodbye each side),
  * so 2 starts per hour; the last session ends by close. Starting spotsLeft = slot count (docs/plans/2026-11-10-holiday-mini-slot-plan.md).
+ * Nov 27: fallbacks set to live open counts after the "Mini hold" blocks (docs/plans/ghl-scripts/mini_holds.py).
  */
 export const MINI_DAYS: MiniDay[] = [
-    { date: '2026-11-22', label: 'Sun, Nov 22', hours: '2–6 pm', spotsLeft: 8 },
-    { date: '2026-11-29', label: 'Sun, Nov 29', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-05', label: 'Sat, Dec 5', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-06', label: 'Sun, Dec 6', hours: '12–4 pm', spotsLeft: 8 },
-    { date: '2026-12-11', label: 'Fri, Dec 11', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-12', label: 'Sat, Dec 12', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-13', label: 'Sun, Dec 13', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-14', label: 'Mon, Dec 14', hours: '2–6 pm', spotsLeft: 8 },
-    { date: '2026-12-18', label: 'Fri, Dec 18', hours: '12–8 pm', spotsLeft: 16 },
-    { date: '2026-12-19', label: 'Sat, Dec 19', hours: '2:30–8 pm', spotsLeft: 11 },
-    { date: '2026-12-20', label: 'Sun, Dec 20', hours: '10 am–8 pm', spotsLeft: 20 },
-    { date: '2026-12-21', label: 'Mon, Dec 21', hours: '2–8 pm', spotsLeft: 12 },
+    { date: '2026-11-22', label: 'Sun, Nov 22', hours: '2–6 pm', firstStart: '14:00', lastStart: '17:30', spotsLeft: 8 },
+    { date: '2026-11-29', label: 'Sun, Nov 29', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 16 },
+    { date: '2026-12-05', label: 'Sat, Dec 5', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 15 },
+    { date: '2026-12-06', label: 'Sun, Dec 6', hours: '12–4 pm', firstStart: '12:00', lastStart: '15:30', spotsLeft: 5 },
+    { date: '2026-12-11', label: 'Fri, Dec 11', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 6 },
+    { date: '2026-12-12', label: 'Sat, Dec 12', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 4 },
+    { date: '2026-12-13', label: 'Sun, Dec 13', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 6 },
+    { date: '2026-12-14', label: 'Mon, Dec 14', hours: '2–6 pm', firstStart: '14:00', lastStart: '17:30', spotsLeft: 6 },
+    { date: '2026-12-18', label: 'Fri, Dec 18', hours: '12–8 pm', firstStart: '12:00', lastStart: '19:30', spotsLeft: 10 },
+    { date: '2026-12-19', label: 'Sat, Dec 19', hours: '2:30–8 pm', firstStart: '14:30', lastStart: '19:30', spotsLeft: 7 },
+    { date: '2026-12-20', label: 'Sun, Dec 20', hours: '10 am–8 pm', firstStart: '10:00', lastStart: '19:30', spotsLeft: 13 },
+    { date: '2026-12-21', label: 'Mon, Dec 21', hours: '2–8 pm', firstStart: '14:00', lastStart: '19:30', spotsLeft: 9 },
 ];
 
 export const MINI_FAQ = [
