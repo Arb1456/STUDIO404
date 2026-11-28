@@ -185,14 +185,28 @@ export const FULL_SESSION_POLICY = {
 /** Holiday balance invoices are due this many days before the session (both offers). */
 export const HOLIDAY_BALANCE_DUE_DAYS = 3;
 
+export interface HolidayAddon {
+    id: string;
+    label: string;
+    note: string;
+    price: number;
+}
+
 /**
- * Optional mini upgrades. Picked on the GHL booking form (Holiday Mini only) and
- * added to the balance invoice by hand. Keep labels in sync with that form question.
+ * Optional upgrades, picked on the GHL booking form (or the day-after form) and added to the
+ * balance invoice automatically (lib/session-invoice.ts HOLIDAY_ADDON_PRICES). Same two add-ons
+ * and prices for minis and the Full Holiday Session (André, Nov 27); only the edit count differs.
+ * Keep labels in sync with the GHL form checkboxes.
  */
-export const MINI_ADDONS = [
+export const MINI_ADDONS: readonly HolidayAddon[] = [
     { id: 'extra-edits', label: '4 More Edited Photos', note: '8 edits total', price: 40 },
     { id: 'proof-album', label: 'Full Proof Album', note: 'Every photo from your session', price: 35 },
-] as const;
+];
+
+export const FULL_SESSION_ADDONS: readonly HolidayAddon[] = [
+    { id: 'extra-edits', label: '4 More Edited Photos', note: '16 edits total', price: 40 },
+    { id: 'proof-album', label: 'Full Proof Album', note: 'Every photo from your session', price: 35 },
+];
 
 export const STUDIO_CONTACT = {
     phoneDisplay: '343-314-4140',
@@ -301,6 +315,10 @@ export const FULL_SESSION_FAQ = [
     {
         question: 'Where are you and is there parking?',
         answer: '2285 St. Laurent Blvd, Unit B8b, Ottawa. Park for free in lot C.',
+    },
+    {
+        question: 'Want more photos?',
+        answer: 'Add 4 more edited photos (+$40, 16 in total) or the full proof album with every photo from your session (+$35) when you book. Add-ons go on your final invoice.',
     },
 ];
 

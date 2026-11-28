@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import {
     SESSION_CALENDARS,
+    formFieldsFor,
     ledgerAdd,
     ledgerHas,
     parseExtras,
@@ -48,14 +49,6 @@ const ANDRE_USER_ID = '4Y0acd57977BsswSio0T';
 const ALERT_CONTACT_ID = 'wJCLuu5zR30XT3Ncx25K';
 /** Contact field "Session Invoices Sent". */
 const LEDGER_FIELD_ID = 'boUbHwR8gTnBoUe1t1Qe';
-/** Booking-form answers stored on the contact. */
-const FORM_FIELDS: Record<string, 'people' | 'pet' | 'petOld' | 'addons' | 'lateAddons'> = {
-    diRt7iG4C3bqFRd21VKv: 'people', // How many people will be in the photos?
-    '53fz0Jt5VX6lwM3zqlHt': 'pet', // Pet Coming? (radio, current)
-    b2BCedUgFCqxbhmpYiA9: 'petOld', // Bringing a Pet? (checkbox, older bookings)
-    '0VQtPeEuZX2SmZSlPZBQ': 'addons', // Mini Add-Ons
-    SBRcfng8zpzBlRtbr0M8: 'lateAddons', // Mini Late Add-Ons (day-after form)
-};
 const BUSINESS_DETAILS = {
     name: 'Studio 404',
     phoneNo: '+13433144140',
@@ -171,9 +164,10 @@ export async function POST(req: Request) {
         who = `${fullName || 'a client'} (${offer.name})`;
         const fields: Record<string, unknown> = {};
         let ledger = '';
+        const formFields = formFieldsFor(offer.kind);
         for (const f of contact.customFields ?? []) {
             if (f.id === LEDGER_FIELD_ID) ledger = String(f.value ?? '');
-            else if (FORM_FIELDS[f.id]) fields[FORM_FIELDS[f.id]] = f.value;
+            else if (formFields[f.id]) fields[formFields[f.id]] = f.value;
         }
         if (ledgerHas(ledger, appointmentId)) return NextResponse.json({ skipped: 'already invoiced' });
 

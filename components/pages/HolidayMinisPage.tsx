@@ -5,7 +5,7 @@ import { trackMiniIntent, scrollToMiniBooking, openMiniCalendar } from '@/lib/ho
 import { Clock, Camera, Users, PawPrint, Gift, ArrowRight, ArrowDown, ChevronDown } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, Ornament, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
-import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, AddOnsBlock } from '@/components/pages/holiday/HolidayShared';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import { ArtDirectedImage } from '@/components/ui/ArtDirectedImage';
 import Footer from '@/components/layout/Footer';
@@ -408,20 +408,7 @@ const HolidayMinisPage: React.FC = () => {
                         </li>
                     ))}
                 </ul>
-                {/* Optional upgrades: picked on the booking form, added to the balance invoice. */}
-                <div className="mt-8 text-center">
-                    <span className="block text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">Optional Add-Ons</span>
-                    <ul className="flex flex-col sm:flex-row justify-center gap-3">
-                        {MINI_ADDONS.map((a) => (
-                            <li key={a.id} className="flex-1 sm:max-w-xs border border-charcoal/15 bg-white/60 rounded-xl px-5 py-4">
-                                <span className="font-serif text-lg">{a.label}</span>
-                                <span className="ml-2 text-evergreen font-medium">+${a.price}</span>
-                                <span className="block text-xs text-charcoal/50 mt-1">{a.note}</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <p className="text-xs text-charcoal/50 mt-3">Choose add-ons when you book. They&apos;re added to your final invoice.</p>
-                </div>
+                <AddOnsBlock addons={MINI_ADDONS} />
                 {!allSoldOut && (
                     <BookCalendarButton
                         calendarUrl={mini.calendarUrl}

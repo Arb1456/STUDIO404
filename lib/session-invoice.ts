@@ -9,7 +9,7 @@
  * - Booked by hand (no deposit): full price in two parts (the calendar deposit due today,
  *   the rest 3 days before); under 3 days away, one payment due today.
  * - Holiday Mini: 5 people included, +$15/person, +$25 pet, optional add-ons ($40 / $35).
- * - Full Holiday Session: 6 people included, +$15/person, +$25 pet.
+ * - Full Holiday Session: 6 people included, +$15/person, +$25 pet, same add-ons (André, Nov 27).
  * - Photo sessions: "starting at" prices, final price set after consultation, so the
  *   invoice is ALWAYS a draft at the starting price for André to adjust and send.
  */
@@ -50,11 +50,40 @@ export const SESSION_CALENDARS: Record<string, SessionOffer> = {
     aImgtWNXqNxYWZS1rUtj: photo('Product Session', 275),
 };
 
-/** Mini add-ons, matched on the start of the booking-form checkbox label. */
-export const MINI_ADDON_PRICES: { match: string; name: string; price: number }[] = [
+/** Holiday add-ons (minis + Full Holiday), matched on the start of the booking-form checkbox label. */
+export const HOLIDAY_ADDON_PRICES: { match: string; name: string; price: number }[] = [
     { match: '4 More Edited Photos', name: 'Add-on: 4 More Edited Photos', price: 40 },
     { match: 'Full Proof Album', name: 'Add-on: Full Proof Album', price: 35 },
 ];
+
+export type FormFieldKey = 'people' | 'pet' | 'petOld' | 'addons' | 'lateAddons';
+
+/** GHL contact fields shared by every session type. */
+const SHARED_FIELDS: Record<string, FormFieldKey> = {
+    diRt7iG4C3bqFRd21VKv: 'people', // How many people will be in the photos?
+    '53fz0Jt5VX6lwM3zqlHt': 'pet', // Pet Coming? (radio, current)
+    b2BCedUgFCqxbhmpYiA9: 'petOld', // Bringing a Pet? (checkbox, older bookings)
+};
+
+/**
+ * Add-on fields, separate per offer. GHL stores form answers on the contact, so a client who
+ * books a mini and later a Full Holiday must not have the mini add-ons billed again.
+ */
+const ADDON_FIELDS: Partial<Record<SessionKind, Record<string, FormFieldKey>>> = {
+    mini: {
+        '0VQtPeEuZX2SmZSlPZBQ': 'addons', // Mini Add-Ons (Holiday Mini Form)
+        SBRcfng8zpzBlRtbr0M8: 'lateAddons', // Mini Late Add-Ons (mini day-after form)
+    },
+    holiday: {
+        NNn7tQ79uFoB8wfC06NX: 'addons', // Full Holiday Add-Ons (Holiday Form)
+        oZ7azVtdIMvXoqClEAAC: 'lateAddons', // Full Holiday Late Add-Ons (Full Holiday day-after form)
+    },
+};
+
+/** Contact field id -> answer key, for one session type. */
+export function formFieldsFor(kind: SessionKind): Record<string, FormFieldKey> {
+    return { ...SHARED_FIELDS, ...(ADDON_FIELDS[kind] ?? {}) };
+}
 
 export const HST_RATE = 0.13;
 export const DUE_DAYS_BEFORE = 3;
@@ -92,7 +121,7 @@ export interface SessionExtras {
 /**
  * Raw contact field values -> extras. Keys: people (how_many_people_will_be_in_the_photos),
  * pet (pet_coming radio, current), petOld (bringing_a_pet checkbox, older bookings), addons (booking form),
- * lateAddons (day-after mini form; own field so it can't overwrite the booking answers).
+ * lateAddons (day-after form; own field so it can't overwrite the booking answers). See formFieldsFor.
  */
 export function parseExtras(raw: { people?: unknown; pet?: unknown; petOld?: unknown; addons?: unknown; lateAddons?: unknown }): SessionExtras {
     const n = raw.people === '' || raw.people == null ? NaN : Number(raw.people);
@@ -147,8 +176,8 @@ export function planSessionInvoice(input: {
             extraItems.push({ name: `Additional people (${extraPeople} × $${offer.extraPersonFee})`, description: `${extras.people} people, ${offer.includedPeople} included`, amount: extraPeople * offer.extraPersonFee });
         if (extras.pet) extraItems.push({ name: 'Pet cleaning fee', description: '', amount: offer.petFee });
     }
-    if (offer.kind === 'mini') {
-        for (const a of MINI_ADDON_PRICES)
+    if (offer.kind !== 'photo') {
+        for (const a of HOLIDAY_ADDON_PRICES)
             if (extras.addons.some((x) => x.trim().startsWith(a.match))) extraItems.push({ name: a.name, description: '', amount: a.price });
     }
 

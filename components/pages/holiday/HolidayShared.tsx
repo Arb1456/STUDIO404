@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Star, Phone, Mail, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { Holly, Snowflake, OrnamentDivider, Snowfall } from '@/components/ui/Christmas';
-import { HOLIDAY_SET_CAROUSEL, STUDIO_CONTACT, type HolidayPhotoEra } from '@/lib/holiday';
+import { HOLIDAY_SET_CAROUSEL, STUDIO_CONTACT, type HolidayAddon, type HolidayPhotoEra } from '@/lib/holiday';
 import { newEventId, trackLead } from '@/lib/tracking';
 import { openCalendar } from '@/lib/attribution';
 
@@ -395,5 +395,22 @@ export const BookingPanel: React.FC<{
             </button>
             <p className="mt-3 text-center text-xs text-charcoal/50">Your confirmation shows there once you&apos;re booked.</p>
         </div>
+    </div>
+);
+
+/** Optional upgrades: picked on the booking form, added to the balance invoice. */
+export const AddOnsBlock: React.FC<{ addons: readonly HolidayAddon[] }> = ({ addons }) => (
+    <div className="mt-8 text-center">
+        <span className="block text-xs tracking-[0.2em] uppercase text-charcoal/50 mb-3">Optional Add-Ons</span>
+        <ul className="flex flex-col sm:flex-row justify-center gap-3">
+            {addons.map((a) => (
+                <li key={a.id} className="flex-1 sm:max-w-xs border border-charcoal/15 bg-white/60 rounded-xl px-5 py-4">
+                    <span className="font-serif text-lg">{a.label}</span>
+                    <span className="ml-2 text-evergreen font-medium">+${a.price}</span>
+                    <span className="block text-xs text-charcoal/50 mt-1">{a.note}</span>
+                </li>
+            ))}
+        </ul>
+        <p className="text-xs text-charcoal/50 mt-3">Choose add-ons when you book. They&apos;re added to your final invoice.</p>
     </div>
 );

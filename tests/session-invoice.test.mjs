@@ -7,6 +7,7 @@ import {
     MAX_PEOPLE,
     planSessionInvoice,
     sessionNote,
+    formFieldsFor,
 } from '../lib/session-invoice.ts';
 
 const MINI = SESSION_CALENDARS.qMWxfnMOJQ1KA6zGsHCB;
@@ -62,9 +63,30 @@ test('full holiday, 8 people + pet: 175 + 30 + 25 + 13% of 305', () => {
     assert.equal(p.items.at(-1).description, '13% of 305$');
 });
 
-test('full holiday ignores mini add-ons; 6 people are included', () => {
-    const p = planSessionInvoice({ offer: FULL, extras: { people: 6, pet: false, addons: ['Full Proof Album (+$35)'] }, startTime: '2026-12-12T13:00:00-05:00', today: TODAY, depositPaid: 75 });
-    assert.deepEqual(pick(p), [['Full Holiday Session – Balance', 175], ['HST - Manual entry', 32.5]]);
+test('full holiday adds the same add-ons as minis; 6 people are included', () => {
+    const p = planSessionInvoice({ offer: FULL, extras: { people: 6, pet: false, addons: ['4 More Edited Photos (+$40)', 'Full Proof Album, every photo from your session (+$35)'] }, startTime: '2026-12-12T13:00:00-05:00', today: TODAY, depositPaid: 75 });
+    assert.deepEqual(pick(p), [['Full Holiday Session – Balance', 175], ['Add-on: 4 More Edited Photos', 40], ['Add-on: Full Proof Album', 35], ['HST - Manual entry', 42.25]]);
+});
+
+test('photo sessions never add holiday add-ons', () => {
+    const p = planSessionInvoice({ offer: PORTRAIT, extras: { people: 1, pet: false, addons: ['4 More Edited Photos (+$40)'] }, startTime: '2026-12-10T15:00:00-05:00', today: TODAY, depositPaid: 50 });
+    assert.ok(!p.items.some((i) => i.name.startsWith('Add-on')));
+});
+
+test('each holiday offer reads only its own add-on fields', () => {
+    const mini = formFieldsFor('mini');
+    const full = formFieldsFor('holiday');
+    assert.equal(mini['0VQtPeEuZX2SmZSlPZBQ'], 'addons');
+    assert.equal(mini.SBRcfng8zpzBlRtbr0M8, 'lateAddons');
+    assert.equal(full.NNn7tQ79uFoB8wfC06NX, 'addons');
+    assert.equal(full.oZ7azVtdIMvXoqClEAAC, 'lateAddons');
+    // A contact who booked a mini with add-ons, then a Full Holiday: the mini answers must not carry over.
+    assert.equal(full['0VQtPeEuZX2SmZSlPZBQ'], undefined);
+    assert.equal(full.SBRcfng8zpzBlRtbr0M8, undefined);
+    assert.equal(mini.NNn7tQ79uFoB8wfC06NX, undefined);
+    // Group size and pet are shared by every offer.
+    for (const k of ['mini', 'holiday', 'photo']) assert.equal(formFieldsFor(k).diRt7iG4C3bqFRd21VKv, 'people');
+    assert.equal(formFieldsFor('photo').NNn7tQ79uFoB8wfC06NX, undefined);
 });
 
 test('portrait, deposit paid: matches #677 = $204.25, and is draft-only', () => {

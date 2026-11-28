@@ -7,12 +7,12 @@ import { Holly, Snowflake, Ornament, OrnamentDivider, EmblemScatter, Snowfall } 
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import { ArtDirectedImage } from '@/components/ui/ArtDirectedImage';
 import Footer from '@/components/layout/Footer';
-import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel } from '@/components/pages/holiday/HolidayShared';
+import { HolidayReviews, SetGallery, ChristmasContact, BookCalendarButton, BookingPanel, AddOnsBlock } from '@/components/pages/holiday/HolidayShared';
 
 /** Deposit the GHL Full Holiday Session calendar charges at booking. Keep in sync with GHL. */
 const FULL_HOLIDAY_DEPOSIT = 75;
 import { trackFullSessionIntent, scrollToFullSessionBooking } from '@/lib/holiday-tracking';
-import { HOLIDAY_HERO_IMAGE, HOLIDAY_OFFERS, HOLIDAY_ROUTES, FULL_SESSION_FAQ, CHRISTMAS_SET } from '@/lib/holiday';
+import { HOLIDAY_HERO_IMAGE, HOLIDAY_OFFERS, HOLIDAY_ROUTES, FULL_SESSION_FAQ, CHRISTMAS_SET, FULL_SESSION_ADDONS } from '@/lib/holiday';
 
 const HolidaySessionPage: React.FC = () => {
     const full = HOLIDAY_OFFERS.full;
@@ -103,6 +103,7 @@ const HolidaySessionPage: React.FC = () => {
                         </li>
                     ))}
                 </ul>
+                <AddOnsBlock addons={FULL_SESSION_ADDONS} />
                 <BookCalendarButton
                     calendarUrl={full.calendarUrl}
                     label="See Times & Book"
